@@ -230,7 +230,7 @@ $commands = @(
     @{Name="Routing Table"; Command="Get-NetRoute | Select-Object DestinationPrefix, NextHop, RouteMetric, Protocol"; Type="PowerShell"; FeatureName="RemoteAccess"; Category="RemoteAccess"},
     
     # === WINDOWS INTERNAL DATABASE ===
-    @{Name="Windows Internal Database Instances"; Command="Get-CimInstance -ClassName Win32_Service | Where-Object {`$_.Name -like '*MSSQL*MICROSOFT*'} | Select-Object Name, State, StartMode"; Type="PowerShell"; FeatureName="Windows-Internal-Database"; Category="InternalDB"},
+    @{Name="Windows Internal Database Instanzen"; Command="Get-CimInstance -ClassName Win32_Service | Where-Object {`$_.Name -like '*MSSQL*MICROSOFT*'} | Select-Object Name, State, StartMode"; Type="PowerShell"; FeatureName="Windows-Internal-Database"; Category="InternalDB"},
     @{Name="SQL Server Express Instanzen"; Command="Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Microsoft SQL Server\\Instance Names\\SQL' -ErrorAction SilentlyContinue"; Type="PowerShell"; FeatureName="Windows-Internal-Database"; Category="InternalDB"},
     
     # === WINDOWS DEFENDER FEATURES ===
@@ -282,6 +282,353 @@ $commands = @(
     # === WINDOWS IDENTITY FOUNDATION ===
     @{Name="Windows Identity Foundation"; Command="Get-WindowsFeature Windows-Identity-Foundation | Select-Object Name, InstallState, FeatureType"; Type="PowerShell"; FeatureName="Windows-Identity-Foundation"; Category="Identity"}
 )
+
+# Erweiterte Verbindungsaudit-Befehle fuer umfassende Netzwerkanalyse
+$connectionAuditCommands = @(
+    # === NETZWERK-VERBINDUNGSBAUM ===
+    @{Name="Verbindungsbaum (Aktive TCP)"; Command="Get-NetTCPConnection | Where-Object { `$_.State -eq 'Established' } | ForEach-Object { `$proc = Get-Process -Id `$_.OwningProcess -ErrorAction SilentlyContinue; [PSCustomObject]@{ LocalIP=`$_.LocalAddress; LocalPort=`$_.LocalPort; RemoteIP=`$_.RemoteAddress; RemotePort=`$_.RemotePort; Process=if(`$proc){`$proc.ProcessName}else{'N/A'}; PID=`$_.OwningProcess; User=if(`$proc){try{`$proc.StartInfo.UserName}catch{'System'}}else{'N/A'} } } | Sort-Object Process, RemoteIP"; Type="PowerShell"; Category="Verbindungsbaum"},
+    @{Name="Netzwerk-Topologie-Map"; Command="`$adapters = Get-NetAdapter | Where-Object Status -eq 'Up'; `$routes = Get-NetRoute | Where-Object RouteMetric -lt 500; `$topology = @(); foreach(`$adapter in `$adapters) { `$ip = Get-NetIPAddress -InterfaceIndex `$adapter.InterfaceIndex -AddressFamily IPv4 -ErrorAction SilentlyContinue | Select-Object -First 1; if(`$ip) { `$gateway = `$routes | Where-Object { `$_.InterfaceIndex -eq `$adapter.InterfaceIndex -and `$_.DestinationPrefix -eq '0.0.0.0/0' } | Select-Object -First 1; `$topology += [PSCustomObject]@{ Interface=`$adapter.Name; MAC=`$adapter.MacAddress; IP=`$ip.IPAddress; Subnet=`$ip.PrefixLength; Gateway=if(`$gateway){`$gateway.NextHop}else{'N/A'}; Speed=`$adapter.LinkSpeed } } } `$topology | Format-Table -AutoSize"; Type="PowerShell"; Category="Verbindungsbaum"},
+    @{Name="Prozess-Netzwerk-Zuordnung (Erweitert)"; Command="Get-NetTCPConnection | Group-Object OwningProcess | ForEach-Object { `$proc = Get-Process -Id `$_.Name -ErrorAction SilentlyContinue; `$connections = `$_.Group; [PSCustomObject]@{ PID=`$_.Name; ProcessName=if(`$proc){`$proc.ProcessName}else{'Unknown'}; ProcessPath=if(`$proc){try{`$proc.MainModule.FileName}catch{'N/A'}}else{'N/A'}; AnzahlVerbindungen=`$connections.Count; AktiveVerbindungen=(`$connections | Where-Object State -eq 'Established').Count; LauschtPorts=(`$connections | Where-Object State -eq 'Listen').Count; ExterneIPs=(`$connections | Where-Object { `$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::' } | Select-Object -ExpandProperty RemoteAddress -Unique | Measure-Object).Count; StartZeit=if(`$proc){`$proc.StartTime}else{'N/A'} } } | Sort-Object AnzahlVerbindungen -Descending"; Type="PowerShell"; Category="Verbindungsbaum"},
+
+    # === AKTIVE NETZWERKVERBINDUNGEN (Erweitert) ===
+    @{Name="Alle TCP-Verbindungen (Performance)"; Command="Get-NetTCPConnection | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, OwningProcess, CreationTime | Sort-Object State, LocalPort"; Type="PowerShell"; Category="TCP-Connections"},
+    @{Name="Etablierte TCP-Verbindungen"; Command="Get-NetTCPConnection -State Established | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, OwningProcess, CreationTime"; Type="PowerShell"; Category="TCP-Connections"},
+    @{Name="Lauschende Ports (Listen)"; Command="Get-NetTCPConnection -State Listen | Select-Object LocalAddress, LocalPort, OwningProcess | Sort-Object LocalPort"; Type="PowerShell"; Category="TCP-Connections"},
+    @{Name="UDP-Endpunkte"; Command="Get-NetUDPEndpoint | Select-Object LocalAddress, LocalPort, OwningProcess | Sort-Object LocalPort"; Type="PowerShell"; Category="UDP-Connections"},
+    @{Name="Externe Verbindungen (Internet)"; Command="Get-NetTCPConnection | Where-Object {`$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::'} | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, OwningProcess"; Type="PowerShell"; Category="External-Connections"},
+    
+    # === ERWEITERTE PROZESS-NETZWERK ANALYSE ===
+    @{Name="Top-Prozesse nach Verbindungen"; Command="Get-NetTCPConnection | Group-Object OwningProcess | Sort-Object Count -Descending | Select-Object -First 10 | ForEach-Object { `$proc = Get-Process -Id `$_.Name -ErrorAction SilentlyContinue; [PSCustomObject]@{ PID=`$_.Name; Process=if(`$proc){`$proc.ProcessName}else{'Unknown'}; Verbindungen=`$_.Count; Established=(`$_.Group | Where-Object State -eq 'Established').Count; Listen=(`$_.Group | Where-Object State -eq 'Listen').Count } }"; Type="PowerShell"; Category="Process-Network"},
+    @{Name="Verdächtige Prozess-Verbindungen"; Command="Get-NetTCPConnection | Where-Object { `$_.State -eq 'Established' -and `$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.' } | ForEach-Object { `$proc = Get-Process -Id `$_.OwningProcess -ErrorAction SilentlyContinue; if(`$proc -and `$proc.Path -notmatch 'Windows|Program Files') { [PSCustomObject]@{ Process=`$proc.ProcessName; PID=`$_.OwningProcess; Path=try{`$proc.MainModule.FileName}catch{'N/A'}; RemoteIP=`$_.RemoteAddress; RemotePort=`$_.RemotePort; Company=try{`$proc.Company}catch{'N/A'} } } } | Sort-Object Process"; Type="PowerShell"; Category="Process-Network"},
+    @{Name="Netzwerk-Statistiken pro Prozess"; Command="Get-Process | Where-Object { `$_.Id -ne 0 } | ForEach-Object { `$pid = `$_.Id; `$tcpConns = @(Get-NetTCPConnection | Where-Object OwningProcess -eq `$pid); `$udpConns = @(Get-NetUDPEndpoint | Where-Object OwningProcess -eq `$pid); if(`$tcpConns.Count -gt 0 -or `$udpConns.Count -gt 0) { [PSCustomObject]@{ ProcessName=`$_.ProcessName; PID=`$pid; TCP_Verbindungen=`$tcpConns.Count; UDP_Verbindungen=`$udpConns.Count; CPU_Percent=0; RAM_MB=[math]::Round(`$_.WorkingSet64/1MB,2) } } } | Sort-Object TCP_Verbindungen -Descending"; Type="PowerShell"; Category="Process-Network"},
+
+    # === LOKALE GERÄTE UND NETZWERK-ERKENNUNG ===
+    @{Name="ARP-Cache (Lokale Geräte)"; Command="Get-NetNeighbor | Where-Object State -ne 'Unreachable' | Select-Object IPAddress, MacAddress, State, InterfaceAlias | Sort-Object IPAddress"; Type="PowerShell"; Category="Local-Devices"},
+    @{Name="MAC-Adressen-Analyse"; Command="Get-NetNeighbor | Where-Object { `$_.MacAddress -ne '00-00-00-00-00-00' -and `$_.State -ne 'Unreachable' } | ForEach-Object { `$vendor = switch -Regex (`$_.MacAddress.Substring(0,8)) { '^00-50-56' {'VMware'}; '^00-0C-29' {'VMware'}; '^08-00-27' {'VirtualBox'}; '^00-15-5D' {'Microsoft Hyper-V'}; '^00-1B-21' {'Dell'}; '^00-25-90' {'Dell'}; '^D4-BE-D9' {'Dell'}; '^B8-2A-72' {'Dell'}; '^70-B3-D5' {'HP'}; '^3C-D9-2B' {'HP'}; '^94-57-A5' {'HP'}; default {'Unknown'} }; [PSCustomObject]@{ IP=`$_.IPAddress; MAC=`$_.MacAddress; Vendor=`$vendor; State=`$_.State; Interface=`$_.InterfaceAlias } } | Sort-Object Vendor, IP"; Type="PowerShell"; Category="Local-Devices"},
+    @{Name="DHCP-Lease-Informationen"; Command="try { Get-DhcpServerv4Lease -ComputerName localhost | Select-Object IPAddress, ClientId, HostName, AddressState, LeaseExpiryTime | Sort-Object IPAddress } catch { 'DHCP-Server nicht verfügbar oder keine Berechtigung' }"; Type="PowerShell"; Category="Local-Devices"},
+    @{Name="Wireless-Netzwerke (Falls verfügbar)"; Command="try { netsh wlan show profiles } catch { 'Wireless-Adapter nicht verfügbar' }"; Type="CMD"; Category="Local-Devices"},
+
+    # === DNS UND NETZWERK-AUFLÖSUNG ===
+    @{Name="DNS-Cache-Analyse"; Command="Get-DnsClientCache | Where-Object { `$_.Type -eq 'A' } | Select-Object Name, Data, TTL, Section | Sort-Object Name"; Type="PowerShell"; Category="DNS-Info"},
+    @{Name="DNS-Server-Konfiguration"; Command="Get-DnsClientServerAddress | Where-Object { `$_.ServerAddresses.Count -gt 0 } | Select-Object InterfaceAlias, @{Name='DNS_Server';Expression={`$_.ServerAddresses -join ', '}} | Sort-Object InterfaceAlias"; Type="PowerShell"; Category="DNS-Info"},
+    @{Name="Reverse-DNS-Lookup (Top-IPs)"; Command="`$topIPs = Get-NetTCPConnection | Where-Object { `$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::' } | Group-Object RemoteAddress | Sort-Object Count -Descending | Select-Object -First 10; `$topIPs | ForEach-Object { `$ip = `$_.Name; try { `$hostname = [System.Net.Dns]::GetHostEntry(`$ip).HostName } catch { `$hostname = 'N/A' }; [PSCustomObject]@{ IP=`$ip; Hostname=`$hostname; Verbindungen=`$_.Count } } | Sort-Object Verbindungen -Descending"; Type="PowerShell"; Category="DNS-Info"},
+    @{Name="Domänen-DNS-Informationen"; Command="nslookup `$env:USERDNSDOMAIN 2>null | Select-String -Pattern 'Address|Server'"; Type="CMD"; Category="DNS-Info"},
+
+    # === GEO-IP UND EXTERNE ANALYSE ===
+    @{Name="Geo-IP-Analyse (Externe IPs)"; Command="`$externalIPs = Get-NetTCPConnection | Where-Object { `$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::' } | Select-Object -ExpandProperty RemoteAddress -Unique | Select-Object -First 5; `$externalIPs | ForEach-Object { `$ip = `$_; [PSCustomObject]@{ IP=`$ip; Land='Online-Analyse erforderlich'; Region='API-Limit'; Stadt='Verfügbar'; ISP='ipinfo.io'; Hostname='Manual-Check' } }"; Type="PowerShell"; Category="Geo-IP"},
+    @{Name="Bedrohungsanalyse (Blacklist-Check)"; Command="`$suspiciousIPs = Get-NetTCPConnection | Where-Object { `$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::' } | Select-Object -ExpandProperty RemoteAddress -Unique; `$suspiciousIPs | ForEach-Object { `$ip = `$_; `$isPrivate = `$ip -match '^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.'; `$isSuspicious = `$ip -match '^(185\.243\.|91\.234\.|77\.83\.)' -or `$ip -match '^(193\.0\.14\.|208\.67\.222\.)'; [PSCustomObject]@{ IP=`$ip; Type=if(`$isPrivate){'Privat'}elseif(`$isSuspicious){'⚠️ Verdächtig'}else{'Public'}; Port_Count=(Get-NetTCPConnection | Where-Object RemoteAddress -eq `$ip).Count } } | Sort-Object Type, IP"; Type="PowerShell"; Category="Geo-IP"},
+
+    # === FIREWALL UND SICHERHEIT ===
+    @{Name="Windows-Firewall-Status"; Command="Get-NetFirewallProfile | Select-Object Name, Enabled, DefaultInboundAction, DefaultOutboundAction, LogFileName"; Type="PowerShell"; Category="Firewall-Logs"},
+    @{Name="Firewall-Regeln (Aktiv)"; Command="Get-NetFirewallRule | Where-Object { `$_.Enabled -eq 'True' -and `$_.Direction -eq 'Inbound' } | Select-Object DisplayName, Direction, Action, Protocol, LocalPort | Sort-Object Protocol, LocalPort | Select-Object -First 50"; Type="PowerShell"; Category="Firewall-Logs"},
+    @{Name="Firewall-Verbindungslogs"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Windows Firewall With Advanced Security/Firewall'} -MaxEvents 50 | Select-Object TimeCreated, Id, LevelDisplayName, Message | Sort-Object TimeCreated -Descending } catch { 'Firewall-Logs nicht verfügbar' }"; Type="PowerShell"; Category="Firewall-Logs"},
+    @{Name="Blockierte Verbindungen"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Security'; ID=5157} -MaxEvents 20 | ForEach-Object { `$xml = [xml]`$_.ToXml(); [PSCustomObject]@{ Zeit=`$_.TimeCreated; Prozess=`$xml.Event.EventData.Data | Where-Object Name -eq 'Application' | Select-Object -ExpandProperty '#text'; Quelle=`$xml.Event.EventData.Data | Where-Object Name -eq 'SourceAddress' | Select-Object -ExpandProperty '#text'; Ziel=`$xml.Event.EventData.Data | Where-Object Name -eq 'DestAddress' | Select-Object -ExpandProperty '#text'; Port=`$xml.Event.EventData.Data | Where-Object Name -eq 'DestPort' | Select-Object -ExpandProperty '#text' } } | Sort-Object Zeit -Descending } catch { 'Sicherheitslogs nicht verfügbar oder keine Berechtigung' }"; Type="PowerShell"; Category="Firewall-Logs"},
+
+    # === NETZWERK-EVENTS UND MONITORING ===
+    @{Name="Netzwerk-Sicherheitsereignisse"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Security'; ID=5156} -MaxEvents 30 | Select-Object TimeCreated, Id, LevelDisplayName, Message | Sort-Object TimeCreated -Descending } catch { 'Sicherheitslogs nicht verfügbar' }"; Type="PowerShell"; Category="Network-Events"},
+    @{Name="Netzwerk-Adapter-Events"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Kernel-Network/Analytic'} -MaxEvents 20 | Select-Object TimeCreated, Id, LevelDisplayName, Message | Sort-Object TimeCreated -Descending } catch { 'Kernel-Network-Logs nicht verfügbar' }"; Type="PowerShell"; Category="Network-Events"},
+    @{Name="Prozess-Netzwerk-Events"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Kernel-Process/Analytic'} -MaxEvents 25 | Where-Object { `$_.Message -like '*network*' -or `$_.Message -like '*socket*' } | Select-Object TimeCreated, Id, ProcessId, Message | Sort-Object TimeCreated -Descending } catch { 'Process-Events nicht verfügbar' }"; Type="PowerShell"; Category="Network-Events"},
+
+    # === ACTIVE DIRECTORY UND DOMÄNEN-INFORMATIONEN ===
+    @{Name="Domänen-Controller-Informationen"; Command="try { Get-ADDomainController -Discover -Service ADWS,KDC,TimeService | Select-Object Name, IPv4Address, Site, OperatingSystem, Domain } catch { try { nltest /dclist:`$env:USERDNSDOMAIN } catch { 'AD-Modul nicht verfügbar' } }"; Type="PowerShell"; Category="Domain-Users"},
+    @{Name="Privilegierte AD-Gruppen"; Command="try { @('Domain Admins', 'Enterprise Admins', 'Schema Admins', 'Administrators') | ForEach-Object { `$group = `$_; try { Get-ADGroupMember -Identity `$group | Select-Object @{Name='Group';Expression={`$group}}, Name, SamAccountName, objectClass } catch { [PSCustomObject]@{Group=`$group; Name='Gruppe nicht gefunden'; SamAccountName='N/A'; objectClass='N/A'} } } } catch { 'AD-PowerShell-Modul nicht verfügbar' }"; Type="PowerShell"; Category="Domain-Users"},
+    @{Name="Kürzliche AD-Anmeldungen"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624} -MaxEvents 50 | Where-Object { `$_.Message -notlike '*ANONYMOUS*' } | ForEach-Object { `$msg = `$_.Message; `$user = if(`$msg -match 'Account Name:\\s+([^\\r\\n]+)') { `$matches[1] } else { 'Unknown' }; `$workstation = if(`$msg -match 'Workstation Name:\\s+([^\\r\\n]+)') { `$matches[1] } else { 'Unknown' }; [PSCustomObject]@{ Zeit=`$_.TimeCreated; Benutzer=`$user; Workstation=`$workstation; LogonType=if(`$msg -match 'Logon Type:\\s+(\\d+)') { `$matches[1] } else { 'Unknown' } } } } | Where-Object { `$_.Benutzer -ne '-' -and `$_.Benutzer -ne 'ANONYMOUS LOGON' } | Sort-Object Zeit -Descending | Select-Object -First 20 } catch { 'Sicherheitslogs nicht verfügbar' }"; Type="PowerShell"; Category="Domain-Users"},
+    @{Name="LDAP-Verbindungstests"; Command="try { `$domain = `$env:USERDNSDOMAIN; if(`$domain) { `$dcIP = (nslookup `$domain 2>null | Select-String -Pattern '\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}' | Select-Object -First 1).Matches.Value; if(`$dcIP) { Test-NetConnection -ComputerName `$dcIP -Port 389; Test-NetConnection -ComputerName `$dcIP -Port 636 } else { 'Domain-Controller-IP nicht ermittelbar' } } else { 'Nicht in einer Domäne' } } catch { 'LDAP-Test fehlgeschlagen' }"; Type="PowerShell"; Category="Domain-Users"},
+
+    # === REMOTE-SESSIONS UND RDP ===
+    @{Name="Remote-Desktop-Verbindungen"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-TerminalServices-LocalSessionManager/Operational'} -MaxEvents 30 | Select-Object TimeCreated, Id, LevelDisplayName, Message | Sort-Object TimeCreated -Descending } catch { 'RDP-Logs nicht verfügbar' }"; Type="PowerShell"; Category="Remote-Sessions"},
+    @{Name="SMB-Verbindungen"; Command="try { Get-SmbConnection | Select-Object ServerName, ShareName, UserName, Dialect } catch { 'SMB-Informationen nicht verfügbar' }"; Type="PowerShell"; Category="Remote-Sessions"},
+    @{Name="SMB-Freigaben-Zugriffe"; Command="try { Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-SmbServer/Security'} -MaxEvents 50 | Select-Object TimeCreated, Id, Message | Sort-Object TimeCreated -Descending } catch { 'SMB-Security-Logs nicht verfügbar' }"; Type="PowerShell"; Category="Remote-Sessions"},
+    @{Name="Aktive Terminal-Sessions"; Command="try { quser 2>null } catch { try { query session } catch { 'Terminal-Session-Abfrage nicht verfügbar' } }"; Type="CMD"; Category="Remote-Sessions"},
+
+    # === ERWEITERTE NETZWERK-TOPOLOGIE ===
+    @{Name="Routing-Tabelle (Detailliert)"; Command="Get-NetRoute | Select-Object DestinationPrefix, NextHop, InterfaceAlias, RouteMetric, Protocol, @{Name='NetworkCategory';Expression={if(`$_.DestinationPrefix -eq '0.0.0.0/0'){'Default Gateway'}elseif(`$_.DestinationPrefix -like '169.254.*'){'APIPA'}elseif(`$_.DestinationPrefix -like '224.*'){'Multicast'}else{'Network Route'}}} | Sort-Object RouteMetric, DestinationPrefix"; Type="PowerShell"; Category="Network-Topology"},
+    @{Name="Netzwerk-Interface-Statistiken"; Command="Get-NetAdapterStatistics | Select-Object Name, @{Name='Empfangen_GB';Expression={[math]::Round(`$_.BytesReceived/1GB,3)}}, @{Name='Gesendet_GB';Expression={[math]::Round(`$_.BytesSent/1GB,3)}}, @{Name='Pakete_Empfangen';Expression={`$_.PacketsReceived}}, @{Name='Pakete_Gesendet';Expression={`$_.PacketsSent}}, @{Name='Fehler_Eingehend';Expression={`$_.InboundErrors}}, @{Name='Fehler_Ausgehend';Expression={`$_.OutboundErrors}} | Sort-Object Empfangen_GB -Descending"; Type="PowerShell"; Category="Network-Topology"},
+    @{Name="Gateway- und DNS-Konfiguration"; Command="Get-NetIPConfiguration | Where-Object {`$_.IPv4DefaultGateway -or `$_.IPv6DefaultGateway} | Select-Object InterfaceAlias, @{Name='IPv4_Adresse';Expression={(`$_.IPv4Address | Select-Object -First 1).IPAddress}}, @{Name='IPv4_Gateway';Expression={(`$_.IPv4DefaultGateway | Select-Object -First 1).NextHop}}, @{Name='DNS_Server';Expression={`$_.DNSServer.ServerAddresses -join '; '}}, @{Name='DHCP_Aktiviert';Expression={`$_.NetProfile.NetworkCategory}} | Sort-Object InterfaceAlias"; Type="PowerShell"; Category="Network-Topology"},
+    @{Name="Netzwerk-Troubleshooting-Infos"; Command="`$networkInfo = @(); Get-NetAdapter | Where-Object Status -eq 'Up' | ForEach-Object { `$adapter = `$_; `$tcpStats = Get-NetTCPConnection | Where-Object { try { (Get-NetAdapter -InterfaceIndex `$_.LocalAddress -ErrorAction SilentlyContinue).InterfaceIndex -eq `$adapter.InterfaceIndex } catch { `$false } }; `$networkInfo += [PSCustomObject]@{ Interface=`$adapter.Name; MAC=`$adapter.MacAddress; Status=`$adapter.Status; LinkSpeed=`$adapter.LinkSpeed; MediaType=`$adapter.MediaType; TCP_Verbindungen=(`$tcpStats | Measure-Object).Count; Typ=if(`$adapter.Virtual){'Virtual'}else{'Physical'} } }; `$networkInfo | Sort-Object Interface"; Type="PowerShell"; Category="Network-Topology"}
+)
+
+# Variable fuer die Verbindungsaudit-Ergebnisse
+$global:connectionAuditResults = @{}
+
+# Erweiterte Netzwerk-Verbindungsbaum-Analyse-Funktionen
+function Get-NetworkConnectionTree {
+    Write-DebugLog "Erstelle erweiterten Netzwerk-Verbindungsbaum" "ConnectionAudit"
+    
+    try {
+        # Sammle alle aktiven Verbindungen
+        $tcpConnections = Get-NetTCPConnection | Where-Object { $_.State -eq 'Established' }
+        $udpConnections = Get-NetUDPEndpoint # Diese Variable wird aktuell nicht weiter verwendet, könnte für zukünftige Erweiterungen sein
+        $processes = Get-Process
+        
+        # Erstelle Verbindungsbaum-Struktur
+        $connectionTree = @{
+            Timestamp = Get-Date
+            ServerInfo = @{
+                ComputerName = $env:COMPUTERNAME
+                Domain = $env:USERDNSDOMAIN
+                User = $env:USERNAME
+                OS = (Get-CimInstance Win32_OperatingSystem).Caption
+            }
+            NetworkTopology = @{}
+            ActiveConnections = @()
+            ProcessMapping = @{} # Diese Struktur wird gefüllt, aber nicht explizit im Rückgabewert verwendet, könnte implizit durch $processInfo sein
+            ExternalConnections = @()
+            SecurityAnalysis = @{} # Diese Struktur wird initialisiert, aber nicht gefüllt
+        }
+        
+        # Netzwerk-Topologie analysieren
+        $adapters = Get-NetAdapter | Where-Object Status -eq 'Up'
+        foreach ($adapter in $adapters) {
+            $ipConfig = Get-NetIPConfiguration -InterfaceIndex $adapter.InterfaceIndex -ErrorAction SilentlyContinue
+            if ($ipConfig) {
+                $connectionTree.NetworkTopology[$adapter.Name] = @{
+                    MAC = $adapter.MacAddress
+                    IP = ($ipConfig.IPv4Address | Select-Object -First 1).IPAddress
+                    Gateway = ($ipConfig.IPv4DefaultGateway | Select-Object -First 1).NextHop
+                    DNS = $ipConfig.DNSServer.ServerAddresses -join ', '
+                    Speed = $adapter.LinkSpeed
+                    Type = if ($adapter.Virtual) { "Virtual" } else { "Physical" }
+                }
+            }
+        }
+        
+        # Prozess-Mapping erstellen
+        foreach ($connection in $tcpConnections) {
+            $process = $processes | Where-Object Id -eq $connection.OwningProcess | Select-Object -First 1
+            $processInfo = if ($process) {
+                @{
+                    Name = $process.ProcessName
+                    Path = $(try { $process.MainModule.FileName } catch { "N/A" })
+                    StartTime = $process.StartTime
+                    Company = $(try { $process.Company } catch { "N/A" })
+                }
+            } else {
+                @{ Name = "Unknown"; Path = "N/A"; StartTime = "N/A"; Company = "N/A" }
+            }
+            
+            $connectionInfo = @{
+                LocalAddress = $connection.LocalAddress
+                LocalPort = $connection.LocalPort
+                RemoteAddress = $connection.RemoteAddress
+                RemotePort = $connection.RemotePort
+                State = $connection.State
+                ProcessInfo = $processInfo
+                IsExternal = $connection.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:'
+            }
+            
+            $connectionTree.ActiveConnections += $connectionInfo
+            
+            # Externe Verbindungen separat sammeln
+            if ($connectionInfo.IsExternal -and $connection.RemoteAddress -ne '0.0.0.0' -and $connection.RemoteAddress -ne '::') { # Zusätzliche Prüfung für IPv6 unspecified
+                $connectionTree.ExternalConnections += $connectionInfo
+            }
+        }
+        
+        return $connectionTree
+    }
+    catch {
+        Write-DebugLog "FEHLER beim Erstellen des Verbindungsbaums: $($_.Exception.Message) $($_.ScriptStackTrace)" "ConnectionAudit"
+        return $null
+    }
+}
+
+function Format-ConnectionTreeHTML {
+    param(
+        [hashtable]$ConnectionTree,
+        [hashtable]$Results
+    )
+    
+    if (-not $ConnectionTree) {
+        return "<p>Verbindungsbaum konnte nicht erstellt werden.</p>"
+    }
+    
+    $html = @"
+<div class="connection-tree-container">
+    <h2>🌐 Netzwerk-Verbindungsbaum - $(Get-Date -Format 'dd.MM.yyyy HH:mm:ss')</h2>
+    
+    <div class="server-summary">
+        <h3>📊 Server-Übersicht</h3>
+        <div class="info-grid">
+            <div class="info-item"><strong>Server:</strong> $($ConnectionTree.ServerInfo.ComputerName)</div>
+            <div class="info-item"><strong>Domäne:</strong> $($ConnectionTree.ServerInfo.Domain)</div>
+            <div class="info-item"><strong>Benutzer:</strong> $($ConnectionTree.ServerInfo.User)</div>
+            <div class="info-item"><strong>OS:</strong> $($ConnectionTree.ServerInfo.OS)</div>
+        </div>
+    </div>
+    
+    <div class="network-topology">
+        <h3>🔗 Netzwerk-Topologie</h3>
+        <table class="styled-table">
+            <thead>
+                <tr><th>Interface</th><th>IP-Adresse</th><th>Gateway</th><th>DNS</th><th>Typ</th><th>Geschwindigkeit</th></tr>
+            </thead>
+            <tbody>
+"@
+    
+    foreach ($interface in $ConnectionTree.NetworkTopology.Keys) {
+        $topo = $ConnectionTree.NetworkTopology[$interface]
+        $html += @"
+                <tr>
+                    <td>$interface</td>
+                    <td>$($topo.IP)</td>
+                    <td>$($topo.Gateway)</td>
+                    <td>$($topo.DNS)</td>
+                    <td>$($topo.Type)</td>
+                    <td>$($topo.Speed)</td>
+                </tr>
+"@
+    }
+    
+    $html += @"
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="active-connections">
+        <h3>⚡ Aktive Verbindungen ($(($ConnectionTree.ActiveConnections | Measure-Object).Count))</h3>
+        <table class="styled-table">
+            <thead>
+                <tr><th>Prozess</th><th>Lokal</th><th>Remote</th><th>Status</th><th>Typ</th><th>Firma</th></tr>
+            </thead>
+            <tbody>
+"@
+    
+    foreach ($conn in ($ConnectionTree.ActiveConnections | Sort-Object { $_.ProcessInfo.Name })) {
+        $connectionType = if ($conn.IsExternal) { "🌍 Extern" } else { "🏠 Lokal" }
+        $html += @"
+                <tr class="$(if ($conn.IsExternal) { 'external-connection' } else { 'local-connection' })">
+                    <td><strong>$($conn.ProcessInfo.Name)</strong></td>
+                    <td>$($conn.LocalAddress):$($conn.LocalPort)</td>
+                    <td>$($conn.RemoteAddress):$($conn.RemotePort)</td>
+                    <td>$($conn.State)</td>
+                    <td>$connectionType</td>
+                    <td>$($conn.ProcessInfo.Company)</td>
+                </tr>
+"@
+    }
+    
+    $html += @"
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="external-analysis">
+        <h3>🌍 Externe Verbindungen - Sicherheitsanalyse</h3>
+        <p><strong>Anzahl externer Verbindungen:</strong> $(($ConnectionTree.ExternalConnections | Measure-Object).Count)</p>
+        <table class="styled-table">
+            <thead>
+                <tr><th>Remote-IP</th><th>Port</th><th>Prozess</th><th>Pfad</th><th>Bewertung</th></tr>
+            </thead>
+            <tbody>
+"@
+    
+    foreach ($extConn in ($ConnectionTree.ExternalConnections | Sort-Object RemoteAddress)) {
+        $risk = "✅ Normal"
+        if ($extConn.ProcessInfo.Path -notmatch "Windows|Program Files") {
+            $risk = "⚠️ Prüfen"
+        }
+        if ($extConn.RemoteAddress -match "^(185\.243\.|91\.234\.|77\.83\.)") {
+            $risk = "🚨 Verdächtig"
+        }
+        
+        $html += @"
+                <tr class="$(if ($risk -eq '🚨 Verdächtig') { 'suspicious-connection' } elseif ($risk -eq '⚠️ Prüfen') { 'warning-connection' } else { 'normal-connection' })">
+                    <td>$($extConn.RemoteAddress)</td>
+                    <td>$($extConn.RemotePort)</td>
+                    <td>$($extConn.ProcessInfo.Name)</td>
+                    <td>$($extConn.ProcessInfo.Path)</td>
+                    <td>$risk</td>
+                </tr>
+"@
+    }
+    
+    $html += @"
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.connection-tree-container { margin: 20px 0; }
+.server-summary { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+.info-item { padding: 8px; background: white; border-radius: 4px; border-left: 4px solid #FD7E14; }
+.network-topology, .active-connections, .external-analysis { margin: 20px 0; }
+.styled-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.styled-table th { background: #FD7E14; color: white; padding: 12px; text-align: left; }
+.styled-table td { padding: 10px; border-bottom: 1px solid #ddd; }
+.external-connection { background-color: #fff3cd; }
+.local-connection { background-color: #f8f9fa; }
+.suspicious-connection { background-color: #f8d7da; }
+.warning-connection { background-color: #fff3cd; }
+.normal-connection { background-color: #d1f7d1; }
+.styled-table tr:hover { background-color: #f5f5f5; }
+</style>
+"@
+    
+    return $html
+}
+
+# === VERBINDUNGSAUDIT SPEZIFISCHE KOMMANDOS ===
+$connectionAuditCommands = @(
+    # === AKTIVE NETZWERKVERBINDUNGEN ===
+    @{Name="Alle TCP Verbindungen"; Command="Get-NetTCPConnection | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, OwningProcess, CreationTime | Sort-Object State, LocalPort"; Type="PowerShell"; Category="TCP-Connections"},
+    @{Name="Etablierte TCP Verbindungen"; Command="Get-NetTCPConnection -State Established | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, OwningProcess, CreationTime"; Type="PowerShell"; Category="TCP-Connections"},
+    @{Name="Lauschende Ports (Listen)"; Command="Get-NetTCPConnection -State Listen | Select-Object LocalAddress, LocalPort, OwningProcess | Sort-Object LocalPort"; Type="PowerShell"; Category="TCP-Connections"},
+    @{Name="UDP Endpunkte"; Command="Get-NetUDPEndpoint | Select-Object LocalAddress, LocalPort, OwningProcess | Sort-Object LocalPort"; Type="PowerShell"; Category="UDP-Connections"},
+    @{Name="Externe Verbindungen (nicht lokal)"; Command="Get-NetTCPConnection | Where-Object {`$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::'} | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, OwningProcess"; Type="PowerShell"; Category="External-Connections"},
+    
+    # === PROZESS-NETZWERK ZUORDNUNG ===
+    @{Name="Prozesse mit Netzwerkverbindungen"; Command="Get-NetTCPConnection | Where-Object {`$_.State -eq 'Established'} | ForEach-Object { `$conn = `$_; try { `$process = Get-Process -Id `$conn.OwningProcess -ErrorAction Stop; [PSCustomObject]@{ ProcessName = `$process.ProcessName; PID = `$process.Id; LocalAddress = `$conn.LocalAddress; LocalPort = `$conn.LocalPort; RemoteAddress = `$conn.RemoteAddress; RemotePort = `$conn.RemotePort; ProcessPath = `$process.Path } } catch { [PSCustomObject]@{ ProcessName = 'Unknown'; PID = `$conn.OwningProcess; LocalAddress = `$conn.LocalAddress; LocalPort = `$conn.LocalPort; RemoteAddress = `$conn.RemoteAddress; RemotePort = `$conn.RemotePort; ProcessPath = 'N/A' } } } | Sort-Object ProcessName"; Type="PowerShell"; Category="Process-Network"},
+    @{Name="Top Prozesse nach Verbindungen"; Command="`$connections = Get-NetTCPConnection | Group-Object OwningProcess; `$connections | ForEach-Object { try { `$process = Get-Process -Id `$_.Name -ErrorAction Stop; [PSCustomObject]@{ ProcessName = `$process.ProcessName; PID = `$_.Name; ConnectionCount = `$_.Count; ProcessPath = `$process.Path } } catch { [PSCustomObject]@{ ProcessName = 'Unknown'; PID = `$_.Name; ConnectionCount = `$_.Count; ProcessPath = 'N/A' } } } | Sort-Object ConnectionCount -Descending | Select-Object -First 20"; Type="PowerShell"; Category="Process-Network"},
+    @{Name="System-Prozesse mit Netzwerkzugriff"; Command="Get-NetTCPConnection | Where-Object {`$_.OwningProcess -lt 1000} | ForEach-Object { `$conn = `$_; try { `$process = Get-Process -Id `$conn.OwningProcess -ErrorAction Stop; [PSCustomObject]@{ ProcessName = `$process.ProcessName; PID = `$process.Id; LocalPort = `$conn.LocalPort; RemoteAddress = `$conn.RemoteAddress; State = `$conn.State } } catch { [PSCustomObject]@{ ProcessName = 'System/Unknown'; PID = `$conn.OwningProcess; LocalPort = `$conn.LocalPort; RemoteAddress = `$conn.RemoteAddress; State = `$conn.State } } } | Sort-Object PID"; Type="PowerShell"; Category="Process-Network"},
+    
+    # === LOKALE GERAETE (ARP-CACHE) ===
+    @{Name="ARP Cache (alle Geraete)"; Command="Get-NetNeighbor | Select-Object IPAddress, MacAddress, State, InterfaceAlias | Sort-Object IPAddress"; Type="PowerShell"; Category="Local-Devices"},
+    @{Name="ARP Cache (nur erreichbare)"; Command="Get-NetNeighbor -State Reachable | Select-Object IPAddress, MacAddress, InterfaceAlias"; Type="PowerShell"; Category="Local-Devices"},
+    @{Name="MAC-Adressen im lokalen Netz"; Command="arp -a"; Type="CMD"; Category="Local-Devices"},
+    @{Name="Netzwerk-Interfaces"; Command="Get-NetAdapter | Select-Object Name, InterfaceDescription, LinkSpeed, MacAddress, Status | Sort-Object Name"; Type="PowerShell"; Category="Local-Devices"},
+    @{Name="DHCP-Leases (falls DHCP-Server)"; Command="if (Get-WindowsFeature -Name DHCP | Where-Object {`$_.Installed}) { Get-DhcpServerv4Lease -AllLeases | Select-Object IPAddress, ClientId, HostName, LeaseExpiryTime | Sort-Object IPAddress } else { 'DHCP-Server nicht installiert' }"; Type="PowerShell"; Category="Local-Devices"},
+    
+    # === DNS INFORMATIONEN ===
+    @{Name="DNS Cache"; Command="Get-DnsClientCache | Select-Object Entry, Name, Data, TimeToLive | Sort-Object Name"; Type="PowerShell"; Category="DNS-Info"},
+    @{Name="DNS Server Konfiguration"; Command="Get-DnsClientServerAddress | Select-Object InterfaceAlias, ServerAddresses"; Type="PowerShell"; Category="DNS-Info"},
+    @{Name="Reverse DNS fuer externe IPs"; Command="`$extIPs = Get-NetTCPConnection | Where-Object {`$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::'} | Select-Object -ExpandProperty RemoteAddress -Unique; `$extIPs | ForEach-Object { try { `$hostname = [System.Net.Dns]::GetHostEntry(`$_).HostName; [PSCustomObject]@{ IPAddress = `$_; Hostname = `$hostname } } catch { [PSCustomObject]@{ IPAddress = `$_; Hostname = 'Aufloesung fehlgeschlagen' } } } | Sort-Object IPAddress"; Type="PowerShell"; Category="DNS-Info"},
+    
+    # === GEO-IP INFORMATIONEN ===
+    @{Name="Geo-IP Analyse externer Verbindungen"; Command="`$extIPs = Get-NetTCPConnection | Where-Object {`$_.RemoteAddress -notmatch '^127\.|^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^::1|^fe80:' -and `$_.RemoteAddress -ne '0.0.0.0' -and `$_.RemoteAddress -ne '::'} | Select-Object -ExpandProperty RemoteAddress -Unique | Select-Object -First 10; `$extIPs | ForEach-Object { try { `$geoInfo = Invoke-RestMethod `"http://ipinfo.io/`$_/json`" -TimeoutSec 5; [PSCustomObject]@{ IPAddress = `$_; Country = `$geoInfo.country; Region = `$geoInfo.region; City = `$geoInfo.city; Organization = `$geoInfo.org; ISP = `$geoInfo.isp } } catch { [PSCustomObject]@{ IPAddress = `$_; Country = 'N/A'; Region = 'N/A'; City = 'N/A'; Organization = 'Abfrage fehlgeschlagen'; ISP = 'N/A' } } }"; Type="PowerShell"; Category="Geo-IP"},
+    
+    # === FIREWALL UND LOGGING ===
+    @{Name="Firewall Verbindungs-Logs"; Command="if (Test-Path `$env:SystemRoot\\system32\\LogFiles\\Firewall\\pfirewall.log) { Get-Content `$env:SystemRoot\\system32\\LogFiles\\Firewall\\pfirewall.log -Tail 50 | Where-Object {`$_ -match 'ALLOW|DROP'} } else { 'Firewall-Logging nicht aktiviert oder Log-Datei nicht gefunden' }"; Type="PowerShell"; Category="Firewall-Logs"},
+    @{Name="Firewall Logging Status"; Command="Get-NetFirewallProfile | Select-Object Name, LogAllowed, LogBlocked, LogFileName, LogMaxSizeKilobytes"; Type="PowerShell"; Category="Firewall-Logs"},
+    @{Name="Aktive Firewall Regeln"; Command="Get-NetFirewallRule | Where-Object {`$_.Enabled -eq 'True' -and `$_.Action -eq 'Allow'} | Select-Object DisplayName, Direction, Protocol, LocalPort, RemoteAddress | Sort-Object Direction, Protocol"; Type="PowerShell"; Category="Firewall-Logs"},
+    
+    # === EVENT LOGS FUER VERBINDUNGEN ===
+    @{Name="Netzwerk-Events (Security Log)"; Command="Get-WinEvent -FilterHashtable @{LogName='Security'; ID=5156,5157,5158} -MaxEvents 50 | Select-Object TimeCreated, Id, LevelDisplayName, Message"; Type="PowerShell"; Category="Network-Events"},
+    @{Name="Prozessstart-Events"; Command="Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4688} -MaxEvents 30 | Select-Object TimeCreated, Message"; Type="PowerShell"; Category="Network-Events"},
+    @{Name="Windows Firewall Events"; Command="Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Windows Firewall With Advanced Security/Firewall'} -MaxEvents 30 | Select-Object TimeCreated, Id, LevelDisplayName, Message"; Type="PowerShell"; Category="Network-Events"},
+    
+    # === DOMAENEN-USER AUDIT (DE/EN) ===
+    @{Name="AD-User (aktuelle Domaene)"; Command="if (Get-Module -ListAvailable -Name ActiveDirectory) { Import-Module ActiveDirectory; Get-ADUser -Filter * -Properties LastLogonDate, PasswordLastSet, Enabled | Select-Object Name, SamAccountName, Enabled, LastLogonDate, PasswordLastSet, DistinguishedName | Sort-Object Name } else { 'ActiveDirectory PowerShell-Modul nicht verfuegbar' }"; Type="PowerShell"; FeatureName="AD-Domain-Services"; Category="Domain-Users"},
+    @{Name="Aktuell angemeldete Domaenen-User"; Command="if (Get-Module -ListAvailable -Name ActiveDirectory) { Import-Module ActiveDirectory; Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624} -MaxEvents 100 | Where-Object {`$_.Message -match 'Logon Type:\\s*[23]' -and `$_.Message -notmatch 'ANONYMOUS|`$'} | ForEach-Object { if (`$_.Message -match 'Account Name:\\s*([^\\r\\n]+)' -and `$_.Message -match 'Account Domain:\\s*([^\\r\\n]+)') { [PSCustomObject]@{ TimeCreated = `$_.TimeCreated; AccountName = `$matches[1].Trim(); AccountDomain = `$matches[2].Trim(); LogonType = if (`$_.Message -match 'Logon Type:\\s*(\\d+)') { `$matches[1] } else { 'Unknown' } } } } | Where-Object {`$_.AccountName -ne '-' -and `$_.AccountName -ne 'ANONYMOUS LOGON'} | Sort-Object TimeCreated -Descending | Select-Object -First 20 } else { 'ActiveDirectory PowerShell-Modul nicht verfuegbar' }"; Type="PowerShell"; Category="Domain-Users"},
+    @{Name="Privilegierte AD-Gruppen Mitglieder"; Command="if (Get-Module -ListAvailable -Name ActiveDirectory) { Import-Module ActiveDirectory; `$privGroups = @('Domain Admins', 'Enterprise Admins', 'Schema Admins', 'Administrators', 'Domänen-Admins', 'Organisations-Admins', 'Schema-Admins'); `$results = @(); foreach (`$group in `$privGroups) { try { `$members = Get-ADGroupMember -Identity `$group -ErrorAction SilentlyContinue | Get-ADUser -Properties LastLogonDate -ErrorAction SilentlyContinue; foreach (`$member in `$members) { `$results += [PSCustomObject]@{ GroupName = `$group; UserName = `$member.Name; SamAccountName = `$member.SamAccountName; Enabled = `$member.Enabled; LastLogonDate = `$member.LastLogonDate } } } catch { } }; `$results | Sort-Object GroupName, UserName } else { 'ActiveDirectory PowerShell-Modul nicht verfuegbar' }"; Type="PowerShell"; FeatureName="AD-Domain-Services"; Category="Domain-Users"},
+    @{Name="Letzten Anmeldungen (Domaene)"; Command="if (Get-Module -ListAvailable -Name ActiveDirectory) { Import-Module ActiveDirectory; Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624,4625} -MaxEvents 100 | Where-Object {`$_.Message -notmatch 'ANONYMOUS|`$' -and `$_.Message -match '@|\\\\'} | ForEach-Object { if (`$_.Message -match 'Account Name:\\s*([^\\r\\n]+)' -and `$_.Message -match 'Account Domain:\\s*([^\\r\\n]+)') { [PSCustomObject]@{ TimeCreated = `$_.TimeCreated; EventID = `$_.Id; AccountName = `$matches[1].Trim(); AccountDomain = `$matches[2].Trim(); Status = if (`$_.Id -eq 4624) { 'Erfolg' } else { 'Fehlgeschlagen' } } } } | Where-Object {`$_.AccountName -ne '-'} | Sort-Object TimeCreated -Descending | Select-Object -First 30 } else { 'ActiveDirectory PowerShell-Modul nicht verfuegbar' }"; Type="PowerShell"; Category="Domain-Users"},
+    
+    # === REMOTE VERBINDUNGEN ===
+    @{Name="RDP-Sitzungen"; Command="qwinsta"; Type="CMD"; Category="Remote-Sessions"},
+    @{Name="Remote Desktop Events"; Command="Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-TerminalServices-LocalSessionManager/Operational'} -MaxEvents 30 | Select-Object TimeCreated, Id, LevelDisplayName, Message"; Type="PowerShell"; Category="Remote-Sessions"},
+    @{Name="SMB-Verbindungen"; Command="Get-SmbConnection | Select-Object ServerName, ShareName, UserName, Dialect"; Type="PowerShell"; Category="Remote-Sessions"},
+    @{Name="SMB-Freigaben Zugriffe"; Command="Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-SmbServer/Security'} -MaxEvents 50 | Select-Object TimeCreated, Id, Message"; Type="PowerShell"; Category="Remote-Sessions"},
+    
+    # === ROUTING UND NETZWERK-TOPOLOGIE ===
+    @{Name="Routing Tabelle"; Command="Get-NetRoute | Select-Object DestinationPrefix, NextHop, InterfaceAlias, RouteMetric, Protocol | Sort-Object DestinationPrefix"; Type="PowerShell"; Category="Network-Topology"},
+    @{Name="Netzwerk-Statistiken"; Command="Get-NetAdapterStatistics | Select-Object Name, BytesReceived, BytesSent, PacketsReceived, PacketsSent"; Type="PowerShell"; Category="Network-Topology"},
+    @{Name="Gateway-Informationen"; Command="Get-NetIPConfiguration | Where-Object {`$_.IPv4DefaultGateway} | Select-Object InterfaceAlias, IPv4Address, IPv4DefaultGateway, DNSServer"; Type="PowerShell"; Category="Network-Topology"}
+)
+
+# Variable fuer die Verbindungsaudit-Ergebnisse
+$global:connectionAuditResults = @{}
 
 # Funktion zum Ausfuehren von PowerShell-Befehlen
 function Invoke-PSCommand {
@@ -346,6 +693,846 @@ function Test-ServerRole {
         Write-DebugLog "FEHLER beim Pruefen der Serverrolle $FeatureName - $($_.Exception.Message)" "RoleCheck"
         return $false
     }
+}
+# VERBINDUNGSAUDIT FUNKTIONEN
+
+# Hauptfunktion fuer die Verbindungsaudit-Durchfuehrung
+function Start-ConnectionAuditProcess {
+    # UI vorbereiten
+    $btnRunConnectionAudit.IsEnabled = $false
+    $btnExportConnectionHTML.IsEnabled = $false
+    $btnCopyConnectionToClipboard.IsEnabled = $false
+    $cmbConnectionCategories.IsEnabled = $false
+    
+    $rtbConnectionResults.Document = New-Object System.Windows.Documents.FlowDocument
+    $progressBarConnection.Value = 0
+    $txtStatus.Text = "Status: Verbindungsaudit laeuft..."
+    
+    # UI initial aktualisieren
+    $window.Dispatcher.Invoke([Action]{
+        $txtProgressConnection.Text = "Initialisiere Verbindungsaudit..."
+        $progressBarConnection.Value = 0
+    }, "Normal")
+    
+    # UI refresh erzwingen
+    $window.Dispatcher.Invoke([Action]{}, "ApplicationIdle")
+    Start-Sleep -Milliseconds 300
+    
+    # Sammle ausgewaehlte Befehle
+    $selectedCommands = @()
+    foreach ($cmd in $connectionAuditCommands) {
+        if ($connectionCheckboxes[$cmd.Name].IsChecked) {
+            $selectedCommands += $cmd
+        }
+    }
+    
+    Write-DebugLog "Starte Verbindungsaudit mit $($selectedCommands.Count) ausgewaehlten Befehlen" "ConnectionAudit"
+    
+    $global:connectionAuditResults = @{}
+    $progressStep = 100.0 / $selectedCommands.Count
+    $currentProgress = 0
+    
+    # UI Update mit Anzahl der Befehle
+    $window.Dispatcher.Invoke([Action]{
+        $txtProgressConnection.Text = "Bereite $($selectedCommands.Count) Verbindungsaudit-Befehle vor..."
+    }, "Normal")
+    
+    # UI refresh erzwingen
+    $window.Dispatcher.Invoke([Action]{}, "ApplicationIdle")
+    Start-Sleep -Milliseconds 500
+    
+    for ($i = 0; $i -lt $selectedCommands.Count; $i++) {
+        $cmd = $selectedCommands[$i]
+        
+        # UI aktualisieren - BEGINN des Befehls
+        $window.Dispatcher.Invoke([Action]{
+            $txtProgressConnection.Text = "Verarbeite: $($cmd.Name) ($($i+1)/$($selectedCommands.Count))"
+            $progressBarConnection.Value = $currentProgress
+        }, "Normal")
+        
+        # UI refresh erzwingen
+        $window.Dispatcher.Invoke([Action]{}, "ApplicationIdle")
+        [System.Windows.Forms.Application]::DoEvents()
+        Start-Sleep -Milliseconds 200
+        
+        Write-DebugLog "Fuehre Verbindungsaudit aus ($($i+1)/$($selectedCommands.Count)): $($cmd.Name)" "ConnectionAudit"
+        
+        try {
+            if ($cmd.Type -eq "PowerShell") {
+                $result = Invoke-PSCommand -Command $cmd.Command
+            } else {
+                $result = Invoke-CMDCommand -Command $cmd.Command
+            }
+            
+            $global:connectionAuditResults[$cmd.Name] = $result
+            
+            # Erfolg und Fortschrittsbalken aktualisieren
+            $currentProgress += $progressStep
+            $window.Dispatcher.Invoke([Action]{
+                $progressBarConnection.Value = $currentProgress
+                $txtProgressConnection.Text = "Abgeschlossen: $($cmd.Name) ($($i+1)/$($selectedCommands.Count))"
+            }, "Normal")
+            
+        } catch {
+            $errorMsg = "Fehler: $($_.Exception.Message)"
+            $global:connectionAuditResults[$cmd.Name] = $errorMsg
+            
+            # Fehler und Fortschrittsbalken trotzdem aktualisieren
+            $currentProgress += $progressStep
+            $window.Dispatcher.Invoke([Action]{
+                $progressBarConnection.Value = $currentProgress
+                $txtProgressConnection.Text = "Fehler bei: $($cmd.Name) ($($i+1)/$($selectedCommands.Count))"
+            }, "Normal")
+            
+            Write-DebugLog "FEHLER bei Verbindungsaudit $($cmd.Name): $($_.Exception.Message)" "ConnectionAudit"
+        }
+        
+        # UI refresh nach jedem Befehl erzwingen
+        $window.Dispatcher.Invoke([Action]{}, "ApplicationIdle")
+        [System.Windows.Forms.Application]::DoEvents()
+        Start-Sleep -Milliseconds 300
+        
+        # Zwischenstand der Ergebnisse aktualisieren
+        if (($i + 1) % 3 -eq 0 -or $i -eq ($selectedCommands.Count - 1)) {
+            $window.Dispatcher.Invoke([Action]{
+                try {
+                    Update-ConnectionResultsCategories
+                    if ($cmbConnectionCategories.SelectedItem) {
+                        $selectedCategory = $cmbConnectionCategories.SelectedItem.Tag
+                        Show-ConnectionCategoryResults -Category $selectedCategory
+                    } else {
+                        Show-ConnectionCategoryResults -Category "Alle"
+                    }
+                }
+                catch {
+                    Write-DebugLog "FEHLER beim Zwischenupdate der Verbindungsaudit-Ergebnisanzeige: $($_.Exception.Message)" "ConnectionAudit"
+                }
+            }, "Normal")
+            $window.Dispatcher.Invoke([Action]{}, "ApplicationIdle")
+            [System.Windows.Forms.Application]::DoEvents()
+        }
+    }
+    
+    # Verbindungsaudit abgeschlossen - Finale Updates
+    $window.Dispatcher.Invoke([Action]{
+        $progressBarConnection.Value = 100
+        $txtProgressConnection.Text = "Verbindungsaudit vollstaendig abgeschlossen! $($selectedCommands.Count) Befehle ausgefuehrt."
+        
+        try {
+            # Aktualisiere die Kategorien-Anzeige
+            Update-ConnectionResultsCategories
+            Show-ConnectionCategoryResults -Category "Alle"
+        }
+        catch {
+            Write-DebugLog "FEHLER beim finalen Update der Verbindungsaudit-Ergebnisanzeige: $($_.Exception.Message)" "ConnectionAudit"
+            try {
+                Show-SimpleConnectionResults -Category "Alle"
+            }
+            catch {
+                Write-DebugLog "FEHLER auch bei einfacher Verbindungsaudit-Anzeige: $($_.Exception.Message)" "ConnectionAudit"
+            }
+        }
+        
+        $txtStatus.Text = "Status: Verbindungsaudit abgeschlossen - $($global:connectionAuditResults.Count) Ergebnisse"
+        
+        # Buttons wieder aktivieren
+        $btnRunConnectionAudit.IsEnabled = $true
+        $btnExportConnectionHTML.IsEnabled = $true
+        $btnCopyConnectionToClipboard.IsEnabled = $true
+        $cmbConnectionCategories.IsEnabled = $true
+    }, "Normal")
+    
+    # Finaler UI refresh
+    $window.Dispatcher.Invoke([Action]{}, "ApplicationIdle")
+    [System.Windows.Forms.Application]::DoEvents()
+    
+    Write-DebugLog "Verbindungsaudit abgeschlossen mit $($global:connectionAuditResults.Count) Ergebnissen" "ConnectionAudit"
+}
+
+# Funktion zum Aktualisieren der Verbindungsaudit-Kategorien-ComboBox
+function Update-ConnectionResultsCategories {
+    Write-DebugLog "Aktualisiere Verbindungsaudit-Kategorien-ComboBox" "UI"
+    
+    $cmbConnectionCategories.Items.Clear()
+    
+    # "Alle" Option hinzufügen
+    $allItem = New-Object System.Windows.Controls.ComboBoxItem
+    $allItem.Content = "Alle Kategorien"
+    $allItem.Tag = "Alle"
+    $cmbConnectionCategories.Items.Add($allItem)
+    
+    # Einzelne Kategorien hinzufügen
+    $categories = @{}
+    if ($null -ne $connectionAuditCommands) {
+        foreach ($cmd in $connectionAuditCommands) {
+            $category = if ($cmd.Category) { $cmd.Category } else { "Allgemein" }
+            if (-not $categories.ContainsKey($category)) {
+                $categories[$category] = 0
+            }
+            if ($global:connectionAuditResults.ContainsKey($cmd.Name)) {
+                $categories[$category]++
+            }
+        }
+    }
+    
+    foreach ($category in $categories.Keys | Sort-Object) {
+        if ($categories[$category] -gt 0) {
+            $categoryItem = New-Object System.Windows.Controls.ComboBoxItem
+            $categoryItem.Content = "$category ($($categories[$category]))"
+            $categoryItem.Tag = $category
+            $cmbConnectionCategories.Items.Add($categoryItem)
+        }
+    }
+    
+    # Ersten Eintrag auswählen
+    if ($cmbConnectionCategories.Items.Count -gt 0) {
+        $cmbConnectionCategories.SelectedIndex = 0
+    }
+}
+
+# Funktion zum Anzeigen der Verbindungsaudit-Ergebnisse
+function Show-ConnectionCategoryResults {
+    param([string]$Category = "Alle")
+    
+    Write-DebugLog "Zeige Verbindungsaudit-Ergebnisse fuer Kategorie: $Category" "UI"
+    
+    if ($global:connectionAuditResults.Count -eq 0) {
+        $rtbConnectionResults.Document = New-Object System.Windows.Documents.FlowDocument
+        $emptyParagraph = New-Object System.Windows.Documents.Paragraph
+        $emptyRun = New-Object System.Windows.Documents.Run("Keine Verbindungsaudit-Ergebnisse verfügbar. Führen Sie zuerst ein Verbindungsaudit durch.")
+        $emptyRun.FontStyle = "Italic"
+        $emptyRun.Foreground = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(108, 117, 125))
+        $emptyParagraph.Inlines.Add($emptyRun)
+        $rtbConnectionResults.Document.Blocks.Add($emptyParagraph)
+        return
+    }
+    
+    try {
+        # Versuche die formatierte Anzeige
+        $document = Format-ConnectionRichTextResults -Results $global:connectionAuditResults -CategoryFilter $Category
+        $rtbConnectionResults.Document = $document
+        
+        # Erzwinge Layout-Update
+        $rtbConnectionResults.UpdateLayout()
+        
+        Write-DebugLog "Verbindungsaudit-Ergebnisse erfolgreich formatiert und angezeigt" "UI"
+    }
+    catch {
+        Write-DebugLog "FEHLER bei der formatierten Verbindungsaudit-Anzeige: $($_.Exception.Message) - Verwende Fallback" "UI"
+        
+        # Fallback: Verwende einfache Textanzeige
+        Show-SimpleConnectionResults -Category $Category
+    }
+}
+
+# Funktion zum Formatieren der Verbindungsaudit-RichTextBox
+function Format-ConnectionRichTextResults {
+    param(
+        [hashtable]$Results,
+        [string]$CategoryFilter = "Alle"
+    )
+    
+    Write-DebugLog "Formatiere Verbindungsaudit-Ergebnisse fuer Kategorie: $CategoryFilter" "UI"
+    
+    # Erstelle ein neues FlowDocument
+    $document = New-Object System.Windows.Documents.FlowDocument
+    $document.FontFamily = New-Object System.Windows.Media.FontFamily("Segoe UI")
+    $document.FontSize = 12
+    $document.LineHeight = 18
+    
+    # Optimierte Layout-Einstellungen
+    $document.PageWidth = [Double]::NaN
+    $document.PageHeight = [Double]::NaN
+    $document.ColumnWidth = [Double]::PositiveInfinity
+    $document.TextAlignment = "Left"
+    $document.PagePadding = New-Object System.Windows.Thickness(0)
+    $document.IsOptimalParagraphEnabled = $true
+    $document.IsHyphenationEnabled = $false
+    
+    # Gruppiere Ergebnisse nach Kategorien
+    $categorizedResults = @{}
+    foreach ($cmd in $connectionAuditCommands) {
+        $category = if ($cmd.Category) { $cmd.Category } else { "Allgemein" }
+        if (-not $categorizedResults.ContainsKey($category)) {
+            $categorizedResults[$category] = @()
+        }
+        if ($Results.ContainsKey($cmd.Name)) {
+            $categorizedResults[$category] += @{
+                Name = $cmd.Name
+                Result = $Results[$cmd.Name]
+                Command = $cmd
+            }
+        }
+    }
+    
+    # Bestimme welche Kategorien angezeigt werden sollen
+    $categoriesToShow = if ($CategoryFilter -eq "Alle") { 
+        $categorizedResults.Keys | Sort-Object 
+    } else { 
+        @($CategoryFilter) 
+    }
+    
+    $totalItems = 0
+    foreach ($category in $categoriesToShow) {
+        if ($categorizedResults.ContainsKey($category)) {
+            $categoryData = $categorizedResults[$category]
+            $totalItems += $categoryData.Count
+            
+            # Kategorie-Header
+            $categoryParagraph = New-Object System.Windows.Documents.Paragraph
+            $categoryRun = New-Object System.Windows.Documents.Run("Kategorie: $category")
+            $categoryRun.FontWeight = "Bold"
+            $categoryRun.FontSize = 16
+            $categoryRun.Foreground = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(253, 126, 20)) # Orange für Verbindungsaudit
+            $categoryParagraph.Inlines.Add($categoryRun)
+            $categoryParagraph.Margin = New-Object System.Windows.Thickness(0, 15, 0, 10)
+            $categoryParagraph.TextAlignment = "Left"
+            $categoryParagraph.KeepTogether = $true
+            $document.Blocks.Add($categoryParagraph)
+            
+            # Items in dieser Kategorie
+            foreach ($item in $categoryData) {
+                # Item-Header
+                $itemParagraph = New-Object System.Windows.Documents.Paragraph
+                $itemRun = New-Object System.Windows.Documents.Run("Eintrag: $($item.Name)")
+                $itemRun.FontWeight = "SemiBold"
+                $itemRun.FontSize = 13
+                $itemRun.Foreground = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(44, 62, 80))
+                $itemParagraph.Inlines.Add($itemRun)
+                $itemParagraph.Margin = New-Object System.Windows.Thickness(0, 10, 0, 5)
+                $itemParagraph.TextAlignment = "Left"
+                $itemParagraph.KeepTogether = $true
+                $document.Blocks.Add($itemParagraph)
+                
+                # Kommando-Info (optional)
+                if ($item.Command.Command) {
+                    $cmdParagraph = New-Object System.Windows.Documents.Paragraph
+                    $cmdRun = New-Object System.Windows.Documents.Run("Befehl: $($item.Command.Command)")
+                    $cmdRun.FontStyle = "Italic"
+                    $cmdRun.FontSize = 10
+                    $cmdRun.Foreground = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(108, 117, 125))
+                    $cmdParagraph.Inlines.Add($cmdRun)
+                    $cmdParagraph.Margin = New-Object System.Windows.Thickness(20, 0, 0, 5)
+                    $cmdParagraph.TextAlignment = "Left"
+                    $document.Blocks.Add($cmdParagraph)
+                }
+                
+                # Ergebnis in einem optimierten Paragraph
+                $resultParagraph = New-Object System.Windows.Documents.Paragraph
+                $resultParagraph.Margin = New-Object System.Windows.Thickness(0, 0, 0, 15)
+                $resultParagraph.Padding = New-Object System.Windows.Thickness(15)
+                $resultParagraph.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(255, 248, 220)) # Heller Orange-Hintergrund
+                $resultParagraph.BorderBrush = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(253, 126, 20))
+                $resultParagraph.BorderThickness = New-Object System.Windows.Thickness(1)
+                $resultParagraph.TextAlignment = "Left"
+                
+                # Textbehandlung
+                $resultText = $item.Result
+                if ([string]::IsNullOrWhiteSpace($resultText)) {
+                    $resultText = "Keine Daten verfügbar"
+                }
+                
+                $resultRun = New-Object System.Windows.Documents.Run($resultText)
+                $resultRun.FontFamily = New-Object System.Windows.Media.FontFamily("Consolas")
+                $resultRun.FontSize = 11
+                $resultParagraph.Inlines.Add($resultRun)
+                
+                $document.Blocks.Add($resultParagraph)
+            }
+        }
+    }
+    
+    return $document
+}
+
+# Fallback-Funktion für einfache Verbindungsaudit-Textanzeige
+function Show-SimpleConnectionResults {
+    param([string]$Category = "Alle")
+    
+    Write-DebugLog "Verwende einfache Textanzeige für Verbindungsaudit-Kategorie: $Category" "UI"
+    
+    # Erstelle einfaches FlowDocument
+    $document = New-Object System.Windows.Documents.FlowDocument
+    $document.FontFamily = New-Object System.Windows.Media.FontFamily("Consolas")
+    $document.FontSize = 11
+    $document.PageWidth = [Double]::NaN
+    $document.PageHeight = [Double]::NaN
+    $document.ColumnWidth = [Double]::PositiveInfinity
+    
+    # Sammle alle relevanten Ergebnisse als einfachen Text
+    $resultText = ""
+    
+    # Gruppiere nach Kategorien
+    $categorizedResults = @{}
+    foreach ($cmd in $connectionAuditCommands) {
+        $cmdCategory = if ($cmd.Category) { $cmd.Category } else { "Allgemein" }
+        if (-not $categorizedResults.ContainsKey($cmdCategory)) {
+            $categorizedResults[$cmdCategory] = @()
+        }
+        if ($global:connectionAuditResults.ContainsKey($cmd.Name)) {
+            $categorizedResults[$cmdCategory] += @{
+                Name = $cmd.Name
+                Result = $global:connectionAuditResults[$cmd.Name]
+            }
+        }
+    }
+    
+    # Bestimme anzuzeigende Kategorien
+    $categoriesToShow = if ($Category -eq "Alle") { 
+        $categorizedResults.Keys | Sort-Object 
+    } else { 
+        @($Category) 
+    }
+    
+    $totalItems = 0
+    foreach ($cat in $categoriesToShow) {
+        if ($categorizedResults.ContainsKey($cat)) {
+            $categoryData = $categorizedResults[$cat]
+            $totalItems += $categoryData.Count
+            
+            $resultText += "`n" + "="*60 + "`n"
+            $resultText += "VERBINDUNGSAUDIT KATEGORIE: $cat`n"
+            $resultText += "="*60 + "`n`n"
+            
+            foreach ($item in $categoryData) {
+                $resultText += "-"*40 + "`n"
+                $resultText += "EINTRAG: $($item.Name)`n"
+                $resultText += "-"*40 + "`n"
+                $resultText += "$($item.Result)`n`n"
+            }
+        }
+    }
+    
+    # Erstelle einfachen Paragraph mit dem gesamten Text
+    $paragraph = New-Object System.Windows.Documents.Paragraph
+    $run = New-Object System.Windows.Documents.Run($resultText)
+    $paragraph.Inlines.Add($run)
+    $document.Blocks.Add($paragraph)
+    
+    $rtbConnectionResults.Document = $document
+}
+# Funktion zum HTML-Export der Verbindungsaudit-Ergebnisse
+function Export-ConnectionAuditToHTML {
+    param(
+        [hashtable]$Results,
+        [string]$FilePath
+    )
+    
+    Write-DebugLog "Starte Verbindungsaudit HTML-Export nach: $FilePath" "Export"
+
+    # Helper to replace Umlaute and escape HTML
+    function Convert-ToDisplayString {
+        param([string]$Text)
+        if ([string]::IsNullOrEmpty($Text)) { return "" }
+        $processedText = $Text -replace 'ä', 'ae' -replace 'ö', 'oe' -replace 'ü', 'ue' -replace 'Ä', 'Ae' -replace 'Ö', 'Oe' -replace 'Ü', 'Ue' -replace 'ß', 'ss'
+        return [System.Security.SecurityElement]::Escape($processedText)
+    }
+    
+    # Erweiterte Serverinformationen sammeln
+    $osInfo = Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue
+    $cpuInfoObj = Get-CimInstance Win32_Processor -ErrorAction SilentlyContinue | Select-Object -First 1
+    $totalRamBytes = (Get-CimInstance Win32_PhysicalMemory -ErrorAction SilentlyContinue | Measure-Object -Property Capacity -Sum).Sum
+    
+    $serverInfo = @{
+        ServerName = $env:COMPUTERNAME
+        ReportDate = Get-Date -Format "dd.MM.yyyy | HH:mm:ss"
+        Domain = $env:USERDOMAIN
+        User = $env:USERNAME
+        OS = if ($osInfo) { "$($osInfo.Caption) $($osInfo.OSArchitecture)" } else { "N/A" }
+        CPU = if ($cpuInfoObj) { $cpuInfoObj.Name } else { "N/A" }
+        RAM = if ($totalRamBytes) { "{0:N2} GB" -f ($totalRamBytes / 1GB) } else { "N/A" }
+    }
+
+    # Gruppiere Ergebnisse nach Kategorien
+    $groupedResults = @{}
+    
+    if ($null -ne $connectionAuditCommands) {
+        foreach ($cmdDef in $connectionAuditCommands) {
+            $categoryName = if ($cmdDef.Category) { $cmdDef.Category } else { "Allgemein" }
+            
+            if ($Results.ContainsKey($cmdDef.Name)) {
+                if (-not $groupedResults.ContainsKey($categoryName)) {
+                    $groupedResults[$categoryName] = @()
+                }
+                
+                $groupedResults[$categoryName] += @{
+                    Name = $cmdDef.Name
+                    Result = $Results[$cmdDef.Name]
+                    Command = $cmdDef
+                }
+            }
+        }
+    }
+
+    # Navigationselemente und Tab-Inhalte generieren
+    $sidebarNavLinks = ""
+    $mainContentTabs = ""
+    $firstTabId = $null
+    
+    # Erstelle eine sortierte Liste der Kategorien
+    $sortedCategories = $groupedResults.Keys | Sort-Object
+    
+    foreach ($categoryKey in $sortedCategories) {
+        $items = $groupedResults[$categoryKey]
+        $displayCategory = Convert-ToDisplayString $categoryKey
+        
+        # Spezielle Anzeigenamen für Verbindungsaudit-Kategorien
+        $displayCategoryName = switch ($categoryKey) {
+            "TCP-Connections" { "TCP-Verbindungen" }
+            "UDP-Connections" { "UDP-Verbindungen" }
+            "External-Connections" { "Externe Verbindungen" }
+            "Process-Network" { "Prozess-Netzwerk-Zuordnung" }
+            "Local-Devices" { "Lokale Geraete" }
+            "DNS-Info" { "DNS-Informationen" }
+            "Geo-IP" { "Geo-IP Informationen" }
+            "Firewall-Logs" { "Firewall-Protokolle" }
+            "Network-Events" { "Netzwerk-Ereignisse" }
+            "Domain-Users" { "Domaenen-Benutzer" }
+            "Remote-Sessions" { "Remote-Sitzungen" }
+            "Network-Topology" { "Netzwerk-Topologie" }
+            default { $displayCategory }
+        }
+        
+        $categoryIdPart = $categoryKey -replace '[^a-zA-Z0-9_]', ''
+        if ($categoryIdPart.Length -eq 0) { 
+            $categoryIdPart = "conncat" + ($categoryKey.GetHashCode() | ForEach-Object ToString X) 
+        }
+        $tabId = "tab_$categoryIdPart"
+
+        if ($null -eq $firstTabId) { $firstTabId = $tabId }
+
+        $sidebarNavLinks += @"
+<li class="nav-item category-nav">
+    <a href="#" class="nav-link" onclick="showTab('$tabId', this)">
+        $displayCategoryName ($($items.Count))
+    </a>
+</li>
+"@
+        
+        $tabContent = "<div id='$tabId' class='tab-content'>"
+        $tabContent += "<h2 class='content-category-title'>$displayCategoryName</h2>"
+
+        foreach ($item in $items) {
+            $displayItemName = Convert-ToDisplayString $item.Name
+            $displayItemResult = Convert-ToDisplayString $item.Result
+            
+            # Füge Kommando-Information hinzu
+            $commandInfo = ""
+            if ($item.Command -and $item.Command.Command) {
+                $commandInfo = "<p class='command-info'><strong>Befehl:</strong> <code>$(Convert-ToDisplayString $item.Command.Command)</code></p>"
+            }
+            
+            $tabContent += @"
+<div class="section">
+    <div class="section-header">
+        <h3 class="section-title">$displayItemName</h3>
+    </div>
+    <div class="section-content">
+        $commandInfo
+        <pre>$displayItemResult</pre>
+    </div>
+</div>
+"@
+        }
+        $tabContent += "</div>"
+        $mainContentTabs += $tabContent
+    }
+
+    # HTML-Gesamtstruktur (angepasst für Verbindungsaudit mit orangem Design)
+    $htmlOutput = @"
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>$(Convert-ToDisplayString "Verbindungsaudit Bericht - $($serverInfo.ServerName)")</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background-color: #fff8e7;
+            color: #333;
+            line-height: 1.6;
+        }
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #FD7E14, #E85D04);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header-top-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .header-logo {
+            width: 125px;
+            height: 75px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+            margin-right: 20px;
+            flex-shrink: 0;
+            border-radius: 4px;
+        }
+        .header-title { 
+            margin: 0; 
+            font-size: 2em; 
+            font-weight: 500;
+        }
+        
+        .header-info-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 10px 0;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 0.85em;
+            color: white;
+            min-width: 150px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .info-card strong {
+            display: block;
+            font-size: 0.9em;
+            color: #ffe0b3;
+            margin-bottom: 3px;
+        }
+
+        .main-content-wrapper {
+            display: flex;
+            flex: 1;
+            background-color: #fff8e7;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff; 
+            padding: 20px;
+            border-right: 1px solid #FD7E14;
+            overflow-y: auto; 
+            box-shadow: 2px 0 5px rgba(253,126,20,0.1);
+            flex-shrink: 0;
+        }
+        .sidebar .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar .nav-item {
+            margin-bottom: 6px;
+        }
+        .sidebar .category-nav .nav-link {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #33475b; 
+            border-radius: 6px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 0.95em;
+            font-weight: 500;
+            word-break: break-word;
+            border-left: 3px solid transparent;
+        }
+        .sidebar .category-nav .nav-link:hover {
+            background-color: #ffe0b3;
+            color: #FD7E14;
+            border-left-color: #FD7E14;
+        }
+        .sidebar .category-nav .nav-link.active {
+            background-color: #FD7E14;
+            color: white;
+            font-weight: 600;
+            border-left-color: #ffffff;
+        }
+
+        .content-area {
+            flex: 1; 
+            padding: 25px 35px; 
+            overflow-y: auto;
+            background-color: #ffffff; 
+        }
+        .content-category-title {
+            font-size: 1.6em;
+            color: #FD7E14;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffe0b3;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: #ffffff; 
+            border-radius: 5px;
+            border: 1px solid #FFC107; 
+            box-shadow: 0 1px 5px rgba(253,126,20,0.1); 
+            overflow: hidden;
+        }
+        .section-header {
+            background: #fff3cd; 
+            padding: 12px 18px;
+            border-bottom: 1px solid #FFC107;
+        }
+        .section-title {
+            font-size: 1.15em; 
+            font-weight: 600;
+            color: #856404; 
+            margin: 0;
+        }
+        .section-content {
+            padding: 18px;
+        }
+        .command-info {
+            background-color: #fff3cd;
+            border-left: 4px solid #FFC107;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        .command-info code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #495057;
+        }
+        pre { 
+            background-color: #fffdf5; 
+            padding: 12px; 
+            border: 1px solid #FFC107; 
+            border-radius: 4px;
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.85em; 
+            line-height: 1.5;
+            overflow-x: auto;
+            color: #333;
+        }
+
+        .footer-timestamp { 
+            color: #505050;
+            font-size: 0.8em;
+            text-align: center;
+            padding: 15px 40px;
+            background-color: #ffe0b3;
+            border-top: 1px solid #FD7E14;
+        }
+        .footer-timestamp a {
+            color: #FD7E14;
+            text-decoration: none;
+        }
+        .footer-timestamp a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function showTab(tabId, clickedElement) {
+            var i, contents, navLinks;
+            contents = document.querySelectorAll('.tab-content');
+            for (i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            
+            navLinks = document.querySelectorAll('.sidebar .category-nav .nav-link');
+            for (i = 0; i < navLinks.length; i++) {
+                navLinks[i].classList.remove('active');
+            }
+            
+            var selectedTabContent = document.getElementById(tabId);
+            if (selectedTabContent) {
+                selectedTabContent.classList.add('active');
+            }
+            
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+            }
+        }
+        
+        window.onload = function() {
+            var firstNavLink = document.querySelector('.sidebar .nav-list .category-nav .nav-link');
+            if (firstNavLink) {
+                firstNavLink.click(); 
+            } else {
+                var firstContent = document.querySelector('.tab-content');
+                if (firstContent) {
+                    firstContent.classList.add('active');
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <div class="header-top-row">
+                <div class="header-logo">LOGO</div>
+                <h1 class="header-title">$(Convert-ToDisplayString "Verbindungsaudit Bericht")</h1>
+            </div>
+            <div class="header-info-cards-container">
+                <div class="info-card"><strong>Hostname:</strong> $(Convert-ToDisplayString $serverInfo.ServerName)</div>
+                <div class="info-card"><strong>$(Convert-ToDisplayString "Domäne"):</strong> $(Convert-ToDisplayString $serverInfo.Domain)</div>
+                <div class="info-card"><strong>$(Convert-ToDisplayString "Betriebssystem"):</strong> $(Convert-ToDisplayString $serverInfo.OS)</div>
+                <div class="info-card"><strong>CPU:</strong> $(Convert-ToDisplayString $serverInfo.CPU)</div>
+                <div class="info-card"><strong>RAM:</strong> $(Convert-ToDisplayString $serverInfo.RAM)</div>
+                <div class="info-card"><strong>$(Convert-ToDisplayString "Berichtsdatum"):</strong> $($serverInfo.ReportDate)</div>
+                <div class="info-card"><strong>$(Convert-ToDisplayString "Benutzer"):</strong> $(Convert-ToDisplayString $serverInfo.User)</div>
+            </div>
+        </header>
+        
+        <div class="main-content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    $sidebarNavLinks
+                </ul>
+            </nav>
+            <main class="content-area">
+                $mainContentTabs
+            </main>
+        </div>
+        
+        <footer class="footer-timestamp">
+            $(Convert-ToDisplayString "Verbindungsaudit Bericht erstellt von easyWSAudit am $($serverInfo.ReportDate)") | <a href="https://psscripts.de" target="_blank">PSscripts.de</a> | Andreas Hepp
+        </footer>
+    </div>
+</body>
+</html>
+"@
+
+    $htmlOutput | Out-File -FilePath $FilePath -Encoding utf8
+    Write-DebugLog "Verbindungsaudit HTML-Export abgeschlossen" "Export"
 }
 
 # Funktion zum Generieren des HTML-Exports
@@ -1060,6 +2247,79 @@ $global:auditResults = @{}
                 </Grid>
             </TabItem>
             
+            <TabItem Header="Verbindungsaudit" FontSize="14">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Linke Seite - Verbindungsaudit Optionen -->
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Text="Verbindungsaudit-Kategorien" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Analyse aktiver Netzwerkverbindungen, Geraete und Benutzer" FontSize="12" Foreground="#6C757D" TextWrapping="Wrap" Margin="0,0,0,15"/>
+                            </StackPanel>
+                            
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,15">
+                                <StackPanel x:Name="spConnectionOptions"/>
+                            </ScrollViewer>
+                            
+                            <StackPanel Grid.Row="2">
+                                <Button Content="Alle auswaehlen" x:Name="btnSelectAllConnection" Style="{StaticResource ModernButton}" Background="#28A745" Margin="0,0,0,5"/>
+                                <Button Content="Alle abwaehlen" x:Name="btnSelectNoneConnection" Style="{StaticResource ModernButton}" Background="#DC3545" Margin="0,0,0,25"/>
+                                <Button Content="Verbindungsaudit starten" x:Name="btnRunConnectionAudit" Style="{StaticResource ModernButton}" Background="#FD7E14" Foreground="White" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Rechte Seite - Verbindungsaudit Ergebnisse -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="20" Margin="10,0,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="Verbindungsaudit-Ergebnisse" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15"/>
+                            
+                            <!-- Fortschritt fuer Verbindungsaudit -->
+                            <StackPanel Grid.Row="1" Margin="0,0,0,15">
+                                <ProgressBar x:Name="progressBarConnection" Height="20" Margin="0,0,0,10"/>
+                                <TextBlock x:Name="txtProgressConnection" Text="Bereit fuer Verbindungsaudit" HorizontalAlignment="Center" FontSize="12" Foreground="#666"/>
+                            </StackPanel>
+                            
+                            <!-- Toolbar fuer Verbindungsaudit -->
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,15">
+                                <Button Content="Export HTML" x:Name="btnExportConnectionHTML" Style="{StaticResource ModernButton}" Background="#17A2B8" IsEnabled="False"/>
+                                <Button Content="Export DRAW.IO" x:Name="btnExportConnectionDrawIO" Style="{StaticResource ModernButton}" Background="#28A745" IsEnabled="False" Margin="10,0,0,0"/>
+                                <Button Content="In Zwischenablage" x:Name="btnCopyConnectionToClipboard" Style="{StaticResource ModernButton}" Background="#6C757D" IsEnabled="False" Margin="10,0,0,0"/>
+                                <ComboBox x:Name="cmbConnectionCategories" Width="200" Height="30" VerticalAlignment="Center" Margin="20,0,0,0" IsEnabled="False"/>
+                            </StackPanel>
+                            
+                            <!-- Ergebnisse-Anzeige fuer Verbindungsaudit -->
+                            <Border Grid.Row="3" Background="#F8F9FA" CornerRadius="4" BorderThickness="1" BorderBrush="#DEE2E6">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" 
+                                             Padding="0" Margin="0">
+                                    <RichTextBox x:Name="rtbConnectionResults" Background="Transparent" BorderThickness="0" 
+                                                IsReadOnly="True" Padding="20" FontFamily="Segoe UI" FontSize="12"
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            
             <TabItem Header="Debug" FontSize="14">
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
@@ -1145,6 +2405,19 @@ $btnCopyToClipboard = $window.FindName("btnCopyToClipboard")
 $btnRefreshResults = $window.FindName("btnRefreshResults")
 $txtStatus = $window.FindName("txtStatus")
 
+# Verbindungsaudit-Elemente
+$spConnectionOptions = $window.FindName("spConnectionOptions")
+$btnSelectAllConnection = $window.FindName("btnSelectAllConnection")
+$btnSelectNoneConnection = $window.FindName("btnSelectNoneConnection")
+$btnRunConnectionAudit = $window.FindName("btnRunConnectionAudit")
+$progressBarConnection = $window.FindName("progressBarConnection")
+$txtProgressConnection = $window.FindName("txtProgressConnection")
+$btnExportConnectionHTML = $window.FindName("btnExportConnectionHTML")
+$btnExportConnectionDrawIO = $window.FindName("btnExportConnectionDrawIO")
+$btnCopyConnectionToClipboard = $window.FindName("btnCopyConnectionToClipboard")
+$cmbConnectionCategories = $window.FindName("cmbConnectionCategories")
+$rtbConnectionResults = $window.FindName("rtbConnectionResults")
+
 # Debug-Elemente
 $script:txtDebugOutput = $window.FindName("txtDebugOutput")
 $btnOpenLog = $window.FindName("btnOpenLog")
@@ -1155,11 +2428,79 @@ Write-DebugLog "Überprüfe UI-Elemente..." "UI"
 if ($null -eq $window) { Write-DebugLog "FEHLER: window ist NULL!" "UI"; return }
 if ($null -eq $spOptions) { Write-DebugLog "FEHLER: spOptions ist NULL!" "UI"; return }
 if ($null -eq $txtServerName) { Write-DebugLog "FEHLER: txtServerName ist NULL!" "UI"; return }
+if ($null -eq $spConnectionOptions) { Write-DebugLog "FEHLER: spConnectionOptions ist NULL!" "UI"; return }
 
 Write-DebugLog "UI-Elemente erfolgreich initialisiert" "UI"
 
 # Servername anzeigen
 $txtServerName.Text = "Server: $env:COMPUTERNAME"
+
+# Dictionary fuer Checkboxen (beide Audits)
+$checkboxes = @{}
+$connectionCheckboxes = @{}
+
+# Erstelle die Checkboxen fuer die Verbindungsaudit-Optionen
+Write-DebugLog "Erstelle Checkboxen fuer Verbindungsaudit-Optionen..." "UI"
+
+$connectionCategories = @{}
+foreach ($cmd in $connectionAuditCommands) {
+    $categoryName = if ($cmd.Category) { $cmd.Category } else { "Allgemein" }
+    if (-not $connectionCategories.ContainsKey($categoryName)) {
+        $connectionCategories[$categoryName] = @()
+    }
+    $connectionCategories[$categoryName] += $cmd
+}
+
+# Iteriere über die Verbindungsaudit-Kategorien in alphabetischer Reihenfolge
+foreach ($categoryKey in ($connectionCategories.Keys | Sort-Object)) {
+    # Kategorie-Header
+    $categoryHeader = New-Object System.Windows.Controls.TextBlock
+    $categoryHeader.Text = "$categoryKey"
+    
+    # Setze Style direkt
+    $categoryHeader.FontSize = 16
+    $categoryHeader.FontWeight = "Bold"
+    $categoryHeader.Foreground = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(253, 126, 20)) # Orange für Verbindungsaudit
+    $categoryHeader.Margin = New-Object System.Windows.Thickness(0, 15, 0, 5)
+    
+    try {
+        $spConnectionOptions.Children.Add($categoryHeader)
+        Write-DebugLog "Verbindungsaudit Kategorie-Header '$categoryKey' hinzugefügt" "UI"
+    } catch {
+        Write-DebugLog "FEHLER beim Hinzufügen des Verbindungsaudit Kategorie-Headers '$categoryKey': $($_.Exception.Message)" "UI"
+        continue
+    }
+    
+    # Checkboxen fuer diese Kategorie
+    foreach ($cmd in $connectionCategories[$categoryKey]) {
+        $checkbox = New-Object System.Windows.Controls.CheckBox
+        $checkbox.Content = $cmd.Name
+        $checkbox.IsChecked = $true # Standardmäßig aktiviert
+        
+        # Setze Style direkt
+        $checkbox.Margin = New-Object System.Windows.Thickness(20, 3, 5, 3)
+        $checkbox.Padding = New-Object System.Windows.Thickness(5, 0, 0, 0)
+        
+        # Ueberpruefe, ob diese Option mit einer Serverrolle verbunden ist
+        if ($cmd.ContainsKey("FeatureName")) {
+            $isRoleInstalled = Test-ServerRole -FeatureName $cmd.FeatureName
+            if (-not $isRoleInstalled) {
+                $checkbox.IsEnabled = $false
+                $checkbox.Content = "$($cmd.Name) (Nicht installiert)"
+                $checkbox.IsChecked = $false
+            }
+        }
+        
+        try {
+            $spConnectionOptions.Children.Add($checkbox)
+            $connectionCheckboxes[$cmd.Name] = $checkbox
+            Write-DebugLog "Verbindungsaudit Checkbox '$($cmd.Name)' hinzugefügt (Kategorie: $categoryKey)" "UI"
+        } catch {
+            Write-DebugLog "FEHLER beim Hinzufügen der Verbindungsaudit Checkbox '$($cmd.Name)' (Kategorie: $categoryKey): $($_.Exception.Message)" "UI"
+        }
+    }
+}
+Write-DebugLog "Verbindungsaudit Checkboxen erstellt für $($connectionCheckboxes.Count) Optionen" "UI"
 
 # Dictionary fuer Checkboxen
 $checkboxes = @{}
@@ -1258,6 +2599,32 @@ $btnSelectNone.Add_Click({
     foreach ($key in $checkboxes.Keys) {
         $checkboxes[$key].IsChecked = $false
     }
+})
+
+# Verbindungsaudit Button-Event-Handler
+
+# "Alle auswaehlen" Button (Verbindungsaudit)
+$btnSelectAllConnection.Add_Click({
+    Write-DebugLog "Alle Verbindungsaudit-Optionen auswaehlen" "UI"
+    foreach ($key in $connectionCheckboxes.Keys) {
+        if ($connectionCheckboxes[$key].IsEnabled) {
+            $connectionCheckboxes[$key].IsChecked = $true
+        }
+    }
+})
+
+# "Alle abwaehlen" Button (Verbindungsaudit)
+$btnSelectNoneConnection.Add_Click({
+    Write-DebugLog "Alle Verbindungsaudit-Optionen abwaehlen" "UI"
+    foreach ($key in $connectionCheckboxes.Keys) {
+        $connectionCheckboxes[$key].IsChecked = $false
+    }
+})
+
+# "Verbindungsaudit starten" Button
+$btnRunConnectionAudit.Add_Click({
+    Write-DebugLog "Verbindungsaudit gestartet" "ConnectionAudit"
+    Start-ConnectionAuditProcess
 })
 
 # ComboBox Selection Changed Event
@@ -1903,3 +3270,335 @@ $txtStatus.Text = "Status: Bereit fuer Audit"
 Write-DebugLog "Zeige Hauptfenster" "UI"
 $null = $window.ShowDialog()
 Write-DebugLog "Anwendung geschlossen" "Shutdown"
+
+# Initialisiere die Ergebnisse-Anzeige
+Show-CategoryResults -Category "Alle"
+
+# Verbindungsaudit Export-Button-Funktionalitaet
+$btnExportConnectionHTML.Add_Click({
+    Write-DebugLog "Verbindungsaudit HTML-Export gestartet" "Export"
+    
+    $saveFileDialog = New-Object System.Windows.Forms.SaveFileDialog
+    $saveFileDialog.Filter = "HTML Files (*.html)|*.html"
+    $saveFileDialog.Title = "Speichern Sie den Verbindungsaudit-Bericht"
+    $saveFileDialog.FileName = "ConnectionAudit_$($env:COMPUTERNAME)_$(Get-Date -Format 'yyyyMMdd_HHmmss').html"
+    
+    if ($saveFileDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+        $txtStatus.Text = "Status: Exportiere Verbindungsaudit-HTML..."
+        
+        try {
+            Export-ConnectionAuditToHTML -Results $global:connectionAuditResults -FilePath $saveFileDialog.FileName
+            $txtStatus.Text = "Status: Verbindungsaudit-Export erfolgreich abgeschlossen"
+            [System.Windows.MessageBox]::Show("Verbindungsaudit-Bericht wurde erfolgreich exportiert:`r`n$($saveFileDialog.FileName)", "Export erfolgreich", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
+        } catch {
+            $txtStatus.Text = "Status: Fehler beim Verbindungsaudit-Export"
+            [System.Windows.MessageBox]::Show("Fehler beim Export:`r`n$($_.Exception.Message)", "Export Fehler", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
+        }
+    }
+})
+
+# Verbindungsaudit Zwischenablage-Button
+$btnCopyConnectionToClipboard.Add_Click({
+    Write-DebugLog "Kopiere Verbindungsaudit-Ergebnisse in Zwischenablage" "UI"
+    try {
+        # Extrahiere Text aus der RichTextBox
+        $textRange = New-Object System.Windows.Documents.TextRange($rtbConnectionResults.Document.ContentStart, $rtbConnectionResults.Document.ContentEnd)
+        $plainText = $textRange.Text
+        
+        if ([string]::IsNullOrWhiteSpace($plainText)) {
+            # Fallback: Erstelle Text aus den Rohdaten
+            $allResults = ""
+            foreach ($key in $global:connectionAuditResults.Keys | Sort-Object) {
+                $allResults += "`r`n=== $key ===`r`n$($global:connectionAuditResults[$key])`r`n"
+            }
+            $plainText = $allResults
+        }
+        
+        $plainText | Set-Clipboard
+        $txtStatus.Text = "Status: Verbindungsaudit-Ergebnisse in Zwischenablage kopiert"
+        [System.Windows.MessageBox]::Show("Verbindungsaudit-Ergebnisse wurden in die Zwischenablage kopiert.", "Kopiert", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
+    } catch {
+        [System.Windows.MessageBox]::Show("Fehler beim Kopieren in die Zwischenablage: $($_.Exception.Message)", "Fehler", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
+    }
+})
+
+# Verbindungsaudit ComboBox Selection Changed Event
+$cmbConnectionCategories.Add_SelectionChanged({
+    if ($cmbConnectionCategories.SelectedItem) {
+        $selectedCategory = $cmbConnectionCategories.SelectedItem.Tag
+        Show-ConnectionCategoryResults -Category $selectedCategory
+    }
+})
+
+# Initialisiere die Verbindungsaudit-Ergebnisse-Anzeige
+Show-ConnectionCategoryResults -Category "Alle"
+
+# Initialisiere die Ergebnisse-Anzeige
+Show-CategoryResults -Category "Alle"
+
+# Funktion zum Bereinigen von Sonderzeichen, Umlauten und Symbolen
+function Clean-StringForDiagram {
+    param(
+        [string]$InputString
+    )
+    
+    if ([string]::IsNullOrWhiteSpace($InputString)) {
+        return "Unbekannt"
+    }
+    
+    # Umlaute und Sonderzeichen ersetzen
+    $cleanString = $InputString -replace 'ä', 'ae' -replace 'ö', 'oe' -replace 'ü', 'ue' -replace 'Ä', 'Ae' -replace 'Ö', 'Oe' -replace 'Ü', 'Ue' -replace 'ß', 'ss'
+    
+    # Sonderzeichen und Symbole entfernen oder ersetzen
+    $cleanString = $cleanString -replace '[^\w\s\.\-_:]', '' -replace '\s+', ' '
+    $cleanString = $cleanString.Trim()
+    
+    # XML-sichere Zeichen
+    $cleanString = $cleanString -replace '&', '&amp;' -replace '<', '&lt;' -replace '>', '&gt;' -replace '"', '&quot;' -replace "'", '&apos;'
+    
+    if ([string]::IsNullOrWhiteSpace($cleanString)) {
+        return "Bereinigt"
+    }
+    
+    return $cleanString
+}
+
+# Funktion zum Erstellen eines DRAW.IO XML Exports der Netzwerk-Topologie
+function Export-NetworkTopologyToDrawIO {
+    param(
+        [hashtable]$Results,
+        [string]$FilePath,
+        [string]$ServerName = $env:COMPUTERNAME
+    )
+    
+    Write-DebugLog "Starte DRAW.IO Netzwerk-Topologie Export nach: $FilePath" "DrawIO-Export"
+    
+    try {
+        # Server als Zentrum der Mind Map
+        $cleanServerName = Clean-StringForDiagram -InputString $ServerName
+        
+        # XML Header für DRAW.IO
+        $xmlContent = @"
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="$(Get-Date -Format 'yyyy-MM-ddTHH:mm:ss.fffZ')" agent="easyWSAudit PowerShell Script" etag="$(Get-Random)" version="@DRAWIO-VERSION@" type="device">
+  <diagram name="Netzwerk-Topologie" id="$(New-Guid)">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Zentraler Server -->
+        <mxCell id="server-central" value="$cleanServerName&#xa;(Zentral-Server)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="350" y="300" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+"@
+
+        $cellId = 100
+        $yOffset = 0
+        $connectionCount = 0
+        
+        # Analyse der verschiedenen Verbindungstypen
+        $processedData = @{
+            TCPConnections = @()
+            UDPConnections = @()
+            NetworkAdapters = @()
+            ListeningPorts = @()
+            ExternalConnections = @()
+            ProcessConnections = @()
+        }
+        
+        # TCP Verbindungen verarbeiten
+        if ($Results.ContainsKey("Alle TCP-Verbindungen (Performance)") -or $Results.ContainsKey("Etablierte TCP-Verbindungen")) {
+            $tcpData = $Results["Alle TCP-Verbindungen (Performance)"]
+            if (-not $tcpData) { $tcpData = $Results["Etablierte TCP-Verbindungen"] }
+            
+            if ($tcpData) {
+                $tcpLines = $tcpData -split "`n" | Where-Object { $_ -match '\d+\.\d+\.\d+\.\d+' }
+                foreach ($line in $tcpLines) {
+                    if ($line -match '(\d+\.\d+\.\d+\.\d+)\s+(\d+)\s+(\d+\.\d+\.\d+\.\d+)\s+(\d+)\s+(\w+)') {
+                        $processedData.TCPConnections += @{
+                            LocalIP = $matches[1]
+                            LocalPort = $matches[2]
+                            RemoteIP = $matches[3]
+                            RemotePort = $matches[4]
+                            State = $matches[5]
+                        }
+                    }
+                }
+            }
+        }
+        
+        # Netzwerkadapter verarbeiten
+        if ($Results.ContainsKey("Netzwerkadapter") -or $Results.ContainsKey("Erweiterte Netzwerk-Adapter-Infos")) {
+            $adapterData = $Results["Netzwerkadapter"]
+            if (-not $adapterData) { $adapterData = $Results["Erweiterte Netzwerk-Adapter-Infos"] }
+            
+            if ($adapterData) {
+                $adapterLines = $adapterData -split "`n" | Where-Object { $_ -notmatch '^(\s*$|Name|---|InterfaceDescription)' }
+                foreach ($line in $adapterLines) {
+                    if ($line.Trim()) {
+                        $parts = $line -split '\s+', 3
+                        if ($parts.Count -ge 2) {
+                            $processedData.NetworkAdapters += @{
+                                Name = Clean-StringForDiagram $parts[0]
+                                Status = if($parts[1]) { Clean-StringForDiagram $parts[1] } else { "Unknown" }
+                                Description = if($parts[2]) { Clean-StringForDiagram $parts[2] } else { "N/A" }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        # Lauschende Ports verarbeiten
+        if ($Results.ContainsKey("Lauschende Ports (Listen)")) {
+            $listenData = $Results["Lauschende Ports (Listen)"]
+            if ($listenData) {
+                $listenLines = $listenData -split "`n" | Where-Object { $_ -match '\d+\.\d+\.\d+\.\d+.*\d+' }
+                foreach ($line in $listenLines) {
+                    if ($line -match '(\d+\.\d+\.\d+\.\d+)\s+(\d+)') {
+                        $processedData.ListeningPorts += @{
+                            IP = $matches[1]
+                            Port = $matches[2]
+                        }
+                    }
+                }
+            }
+        }
+        
+        # Externe Verbindungen verarbeiten
+        if ($Results.ContainsKey("Externe Verbindungen (Internet)")) {
+            $externalData = $Results["Externe Verbindungen (Internet)"]
+            if ($externalData) {
+                $externalLines = $externalData -split "`n" | Where-Object { $_ -match '\d+\.\d+\.\d+\.\d+' }
+                foreach ($line in $externalLines) {
+                    if ($line -match '(\d+\.\d+\.\d+\.\d+)\s+(\d+)\s+(\d+\.\d+\.\d+\.\d+)\s+(\d+)') {
+                        $processedData.ExternalConnections += @{
+                            LocalIP = $matches[1]
+                            LocalPort = $matches[2]
+                            RemoteIP = $matches[3]
+                            RemotePort = $matches[4]
+                        }
+                    }
+                }
+            }
+        }
+        
+        # Netzwerkadapter hinzufügen
+        $xPos = 100
+        foreach ($adapter in ($processedData.NetworkAdapters | Select-Object -First 5)) {
+            $cellId++
+            $adapterLabel = "$($adapter.Name)&#xa;Status: $($adapter.Status)"
+            $fillColor = if ($adapter.Status -eq "Up") { "#fff2cc" } else { "#f8cecc" }
+            $strokeColor = if ($adapter.Status -eq "Up") { "#d6b656" } else { "#b85450" }
+            
+            $xmlContent += @"
+        <!-- Netzwerkadapter: $($adapter.Name) -->
+        <mxCell id="adapter-$cellId" value="$adapterLabel" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=$fillColor;strokeColor=$strokeColor;" vertex="1" parent="1">
+          <mxGeometry x="$xPos" y="150" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-adapter-$cellId" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="adapter-$cellId" target="server-central">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+"@
+            $xPos += 120
+            $connectionCount++
+        }
+        
+        # Lauschende Ports hinzufügen
+        $xPos = 100
+        $yPos = 450
+        $portGroups = $processedData.ListeningPorts | Group-Object IP | Select-Object -First 4
+        foreach ($portGroup in $portGroups) {
+            $cellId++
+            $portList = ($portGroup.Group | Select-Object -First 8 | ForEach-Object { $_.Port }) -join ', '
+            $cleanIP = Clean-StringForDiagram $portGroup.Name
+            $portLabel = "$cleanIP&#xa;Ports: $portList"
+            
+            $xmlContent += @"
+        <!-- Lauschende Ports: $cleanIP -->
+        <mxCell id="ports-$cellId" value="$portLabel" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="$xPos" y="$yPos" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-ports-$cellId" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1;" edge="1" parent="1" source="ports-$cellId" target="server-central">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+"@
+            $xPos += 140
+            $connectionCount++
+        }
+        
+        # Externe Verbindungen hinzufügen
+        $xPos = 550
+        $yPos = 150
+        $externalGroups = $processedData.ExternalConnections | Group-Object RemoteIP | Select-Object -First 6
+        foreach ($extGroup in $externalGroups) {
+            $cellId++
+            $cleanRemoteIP = Clean-StringForDiagram $extGroup.Name
+            $portList = ($extGroup.Group | Select-Object -First 5 | ForEach-Object { $_.RemotePort }) -join ', '
+            $extLabel = "$cleanRemoteIP&#xa;Ports: $portList"
+            
+            $xmlContent += @"
+        <!-- Externe Verbindung: $cleanRemoteIP -->
+        <mxCell id="external-$cellId" value="$extLabel" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fad7ac;strokeColor=#b46504;" vertex="1" parent="1">
+          <mxGeometry x="$xPos" y="$yPos" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-external-$cellId" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b46504;strokeWidth=2;dashed=1;" edge="1" parent="1" source="server-central" target="external-$cellId">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+"@
+            $yPos += 70
+            $connectionCount++
+        }
+        
+        # Statistiken hinzufügen
+        $cellId++
+        $statsLabel = "Netzwerk-Statistiken&#xa;Verbindungen: $connectionCount&#xa;TCP: $($processedData.TCPConnections.Count)&#xa;Externe: $($processedData.ExternalConnections.Count)&#xa;Ports: $($processedData.ListeningPorts.Count)"
+        
+        $xmlContent += @"
+        <!-- Statistiken -->
+        <mxCell id="stats-$cellId" value="$statsLabel" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Legende -->
+        <mxCell id="legend-title" value="Legende" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="300" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-adapters" value="Netzwerkadapter" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="700" y="330" width="90" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ports" value="Lauschende Ports" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="700" y="365" width="90" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-external" value="Externe Verbindungen" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fad7ac;strokeColor=#b46504;" vertex="1" parent="1">
+          <mxGeometry x="700" y="400" width="90" height="25" as="geometry" />
+        </mxCell>
+        
+"@
+        
+        # XML Footer
+        $xmlContent += @"
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+"@
+        
+        # Datei schreiben
+        $xmlContent | Out-File -FilePath $FilePath -Encoding UTF8 -Force
+        
+        Write-DebugLog "DRAW.IO Netzwerk-Topologie Export erfolgreich abgeschlossen" "DrawIO-Export"
+        Write-DebugLog "Verarbeitete Verbindungen: $connectionCount" "DrawIO-Export"
+        
+        return $true
+    }
+    catch {
+        Write-DebugLog "FEHLER beim DRAW.IO Export: $($_.Exception.Message)" "DrawIO-Export"
+        throw $_.Exception
+    }
+}
