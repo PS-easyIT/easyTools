@@ -1,4 +1,4 @@
-## 🚀 easyWSAudit v0.0.2 - Umfassende Erweiterung der Server-Rollen-Audits!
+## 🚀 easyWSAudit v0.0.3 - Umfassende Erweiterung der Server-Rollen-Audits!
 Das Audit-Tool wurde signifikant erweitert und bietet nun eine noch tiefere Analyse Ihrer Windows Server Umgebung.
 
 ### ✅ Über 120 Audit-Befehle
