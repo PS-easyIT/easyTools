@@ -1,0 +1,58 @@
+[2025-04-08 12:45:30] [INFO] Active Directory Module erfolgreich geladen
+[2025-04-08 12:45:30] [INFO] GUI erfolgreich geladen
+[2025-04-08 12:45:30] [INFO] Starte GUI-Anwendung
+[2025-04-08 12:45:31] [INFO] Ansicht gewechselt zu: Home
+[2025-04-08 12:45:32] [INFO] Ansicht gewechselt zu: Discovery
+[2025-04-08 12:45:33] [INFO] Starte Analyse der Active Directory-Umgebung
+[2025-04-08 12:45:33] [INFO] Ermittle Dom nencontroller
+[2025-04-08 12:45:33] [INFO]  Dom nencontroller gefunden
+[2025-04-08 12:45:33] [INFO] Ermittle FSMO-Rolleninhaber
+[2025-04-08 12:45:33] [INFO] FSMO-Rolleninhaber erfolgreich ermittelt
+[2025-04-08 12:45:33] [INFO] Ermittle Server mit DNS/DHCP-Diensten
+[2025-04-08 12:45:33] [INFO] Pr fe Dienste auf Server WS2025TESTAD1
+[2025-04-08 12:45:33] [WARNING] Fehler beim Pr fen der Dienste auf WS2025TESTAD1 - A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 12:45:33] [INFO] DNS/DHCP-Dienste auf 1 Servern gepr ft
+[2025-04-08 12:45:33] [INFO] Analysiere Active Directory-Struktur
+[2025-04-08 12:45:33] [INFO] Active Directory-Strukturanalyse abgeschlossen
+[2025-04-08 12:45:33] [SUCCESS] Umgebungsanalyse abgeschlossen
+[2025-04-08 12:45:34] [SUCCESS] Analyseergebnisse erfolgreich angezeigt
+[2025-04-08 12:45:34] [SUCCESS] Umgebungsanalyse erfolgreich durchgef hrt
+[2025-04-08 13:29:24] [INFO] Active Directory Module erfolgreich geladen
+[2025-04-08 13:29:24] [INFO] GUI erfolgreich geladen
+[2025-04-08 13:29:25] [INFO] Starte GUI-Anwendung
+[2025-04-08 13:29:26] [INFO] Ansicht gewechselt zu: Discovery
+[2025-04-08 13:29:27] [INFO] Ansicht gewechselt zu: Installation
+[2025-04-08 13:29:28] [INFO] Ansicht gewechselt zu: Migration
+[2025-04-08 13:29:28] [INFO] Ansicht gewechselt zu: Validation
+[2025-04-08 13:29:29] [INFO] Validierungs-UI erfolgreich initialisiert mit 1 Servern
+[2025-04-08 13:29:30] [INFO] Ansicht gewechselt zu: Validation
+[2025-04-08 13:29:30] [INFO] Validierungs-UI erfolgreich initialisiert mit 1 Servern
+[2025-04-08 13:29:43] [INFO] Ansicht gewechselt zu: Validation
+[2025-04-08 13:29:43] [INFO] Validierungs-UI erfolgreich initialisiert mit 1 Servern
+[2025-04-08 16:50:43] [INFO] Active Directory Module erfolgreich geladen
+[2025-04-08 16:50:43] [INFO] GUI erfolgreich geladen
+[2025-04-08 16:50:43] [INFO] Starte GUI-Anwendung
+[2025-04-08 16:50:45] [INFO] GUI-Anwendung wurde beendet mit Ergebnis: False
+[2025-04-08 16:55:10] [INFO] Active Directory Module erfolgreich geladen
+[2025-04-08 16:55:11] [INFO] GUI erfolgreich geladen
+[2025-04-08 16:55:11] [INFO] Starte GUI-Anwendung
+[2025-04-08 16:55:14] [INFO] Ansicht gewechselt zu: Installation
+[2025-04-08 16:55:16] [INFO] Ansicht gewechselt zu: Home
+[2025-04-08 16:57:07] [INFO] Ansicht gewechselt zu: Installation
+[2025-04-08 16:57:07] [INFO] Ansicht gewechselt zu: Migration
+[2025-04-08 16:57:08] [INFO] Ansicht gewechselt zu: Validation
+[2025-04-08 16:57:08] [INFO] Validierungs-UI erfolgreich f r lokalen Server WS2025TESTAD1 initialisiert
+[2025-04-08 16:57:11] [INFO] Starte Validierung f r Server: WS2025TESTAD1
+[2025-04-08 16:57:14] [ERROR] Fehler bei DNS-Dienst-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 16:57:14] [ERROR] Fehler bei DNS-Zonen-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 16:57:14] [ERROR] Fehler bei DNS-Aufl sungs-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 16:57:14] [ERROR] Fehler bei DHCP-Dienst-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 16:57:14] [ERROR] Fehler bei DHCP-Bereiche-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 16:57:14] [ERROR] Fehler bei DHCP-Failover-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-08 16:57:14] [ERROR] Fehler bei kritischen Dienste-Checks f r WS2025TESTAD1: A parameter cannot be found that matches parameter name 'ComputerName'.
+[2025-04-10 18:29:54] [INFO] Active Directory Module erfolgreich geladen
+[2025-04-10 18:29:54] [INFO] XAML-Datei erfolgreich geladen: C:\Users\PhinITAndreasHepp\OneDrive - PhinIT\05-Administratives\10-Scripte\PowerShell\# EASYit\easyWS2012\GUI\MainWindow.xaml
+[2025-04-10 18:29:55] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der unbekannte Typ "{http://schemas.microsoft.com/winfx/2006/xaml/presentation}ThemeColor" kann nicht erstellt werden."
+[2025-04-10 18:40:13] [INFO] Active Directory Module erfolgreich geladen
+[2025-04-10 18:40:13] [INFO] XAML-Datei erfolgreich geladen: C:\Users\PhinITAndreasHepp\OneDrive - PhinIT\05-Administratives\10-Scripte\PowerShell\# EASYit\easyWS2012\GUI\MainWindow.xaml
+[2025-04-10 18:40:14] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "EasyWSUS.MainWindow" entspricht nicht dem tats chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz  ber XamlObjectWriterSettings.RootObjectInstance an."

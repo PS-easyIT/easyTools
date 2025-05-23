@@ -1,0 +1,13 @@
+easyWSAudit Version 0.0.2 gestartet - 2025-04-11 14:18:34
+[2025-04-11 14:18:34] [Information] easyWSAudit wird gestartet...
+[2025-04-11 14:18:35] [Information] System erkannt: Microsoft Windows 11 Business - Windows Desktop
+[2025-04-11 14:18:37] [Information] Audit-Optionen wurden geladen und Verfügbarkeit geprüft
+[2025-04-11 14:18:37] [Information] Migrations-Optionen wurden geladen und Verfügbarkeit geprüft
+[2025-04-11 14:18:37] [Information] GUI erfolgreich geladen
+[2025-04-11 14:18:48] [Information] Starte Migrations-Analyse für Server: MP-BOOK360
+[2025-04-11 14:18:48] [Warning] Keine Migrations-Analyseergebnisse wurden gesammelt. Bitte überprüfen Sie die Berechtigungen.
+[2025-04-11 14:18:48] [Information] Migrations-Analyse für Server MP-BOOK360 abgeschlossen.
+[2025-04-11 14:18:51] [Information] Starte Audit für lokalen Server: MP-BOOK360
+[2025-04-11 14:18:51] [Information] Audit für Server MP-BOOK360 abgeschlossen.
+[2025-04-11 14:18:58] [Warning] Keine Audit-Ergebnisse zum Exportieren vorhanden.
+[2025-04-11 14:19:12] [Information] Anwendung beendet.

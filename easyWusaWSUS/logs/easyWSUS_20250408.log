@@ -1,0 +1,173 @@
+[2025-04-08 16:28:46] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 16:28:46] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: False
+[2025-04-08 16:28:46] [WARNING] Der Assets-Ordner wurde nicht gefunden. Erstelle Ordner...
+[2025-04-08 16:28:46] [WARNING] Icon fehlt: info.png
+[2025-04-08 16:28:46] [WARNING] Icon fehlt: settings.png
+[2025-04-08 16:28:46] [WARNING] Icon fehlt: close.png
+[2025-04-08 16:28:46] [WARNING] Windows Update-Dienst Status: Stopped
+[2025-04-08 16:28:46] [WARNING] Windows Update-Einstellungen erfolgreich abgerufen.
+[2025-04-08 16:28:46] [WARNING] Kein WSUS-Server konfiguriert.
+[2025-04-08 16:28:46] [INFO] XAML aus externer Datei geladen
+[2025-04-08 16:28:46] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 16:28:49] [ERROR] Fehler bei der GUI-Initialisierung: Cannot index into a null array.
+[2025-04-08 16:28:50] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 16:28:50] [ERROR] Fehler beim Anzeigen des Fensters: Method invocation failed because [System.Windows.MessageBoxResult] does not contain a method named 'ShowDialog'.
+[2025-04-08 16:28:50] [ERROR] Inner Exception: Keine
+[2025-04-08 16:28:50] [ERROR] Stack Trace:    at System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)??   at System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)
+[2025-04-08 16:29:58] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 16:29:58] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: False
+[2025-04-08 16:29:58] [WARNING] Icon fehlt: info.png
+[2025-04-08 16:29:58] [WARNING] Icon fehlt: settings.png
+[2025-04-08 16:29:58] [WARNING] Icon fehlt: close.png
+[2025-04-08 16:29:58] [WARNING] Anwendung l?uft nicht mit administrativen Rechten. Einige Funktionen k?nnten eingeschr?nkt sein.
+[2025-04-08 16:29:58] [WARNING] Windows Update-Dienst Status: Stopped
+[2025-04-08 16:29:58] [WARNING] Windows Update-Einstellungen erfolgreich abgerufen.
+[2025-04-08 16:29:58] [WARNING] Kein WSUS-Server konfiguriert.
+[2025-04-08 16:29:58] [INFO] XAML aus externer Datei geladen
+[2025-04-08 16:29:58] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 16:35:40] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 16:35:40] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: False
+[2025-04-08 16:35:40] [WARNING] Icon fehlt: info.png
+[2025-04-08 16:35:40] [WARNING] Icon fehlt: settings.png
+[2025-04-08 16:35:40] [WARNING] Icon fehlt: close.png
+[2025-04-08 16:35:40] [WARNING] Windows Update-Dienst Status: Running
+[2025-04-08 16:35:40] [WARNING] Windows Update-Einstellungen erfolgreich abgerufen.
+[2025-04-08 16:35:40] [WARNING] Kein WSUS-Server konfiguriert.
+[2025-04-08 16:35:40] [INFO] XAML aus externer Datei geladen
+[2025-04-08 16:35:40] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 16:35:43] [ERROR] Fehler bei der GUI-Initialisierung: Cannot index into a null array.
+[2025-04-08 16:35:43] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 16:35:43] [ERROR] Fehler beim Anzeigen des Fensters: Method invocation failed because [System.Windows.MessageBoxResult] does not contain a method named 'ShowDialog'.
+[2025-04-08 16:35:43] [ERROR] Inner Exception: Keine
+[2025-04-08 16:35:43] [ERROR] Stack Trace:    at System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)??   at System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)
+[2025-04-08 16:48:46] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 16:48:46] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: False
+[2025-04-08 16:48:46] [WARNING] Icon fehlt: info.png
+[2025-04-08 16:48:46] [WARNING] Icon fehlt: settings.png
+[2025-04-08 16:48:46] [WARNING] Icon fehlt: close.png
+[2025-04-08 16:48:46] [WARNING] Windows Update-Dienst Status: Stopped
+[2025-04-08 16:48:46] [WARNING] Windows Update-Einstellungen erfolgreich abgerufen.
+[2025-04-08 16:48:46] [WARNING] Kein WSUS-Server konfiguriert.
+[2025-04-08 16:48:46] [INFO] XAML aus externer Datei geladen
+[2025-04-08 16:48:46] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 16:48:50] [ERROR] Fehler bei der GUI-Initialisierung: Cannot index into a null array.
+[2025-04-08 16:48:50] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 16:48:50] [ERROR] Fehler beim Anzeigen des Fensters: Method invocation failed because [System.Windows.MessageBoxResult] does not contain a method named 'ShowDialog'.
+[2025-04-08 16:48:50] [ERROR] Inner Exception: Keine
+[2025-04-08 16:48:50] [ERROR] Stack Trace:    at System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)??   at System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)
+[2025-04-08 16:50:55] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 16:50:55] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: False
+[2025-04-08 16:50:55] [WARNING] Icon fehlt: info.png
+[2025-04-08 16:50:55] [WARNING] Icon fehlt: settings.png
+[2025-04-08 16:50:55] [WARNING] Icon fehlt: close.png
+[2025-04-08 16:50:55] [WARNING] Windows Update-Dienst Status: Running
+[2025-04-08 16:50:56] [WARNING] Windows Update-Einstellungen erfolgreich abgerufen.
+[2025-04-08 16:50:56] [WARNING] Kein WSUS-Server konfiguriert.
+[2025-04-08 16:50:56] [INFO] XAML aus externer Datei geladen
+[2025-04-08 16:50:56] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 16:50:58] [ERROR] Fehler bei der GUI-Initialisierung: Cannot index into a null array.
+[2025-04-08 16:50:58] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 16:50:58] [ERROR] Fehler beim Anzeigen des Fensters: Method invocation failed because [System.Windows.MessageBoxResult] does not contain a method named 'ShowDialog'.
+[2025-04-08 16:50:58] [ERROR] Inner Exception: Keine
+[2025-04-08 16:50:58] [ERROR] Stack Trace:    at System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)??   at System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)??   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)
+[2025-04-08 17:07:49] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:07:49] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: False
+[2025-04-08 17:07:49] [WARNING] Icon fehlt: info.png
+[2025-04-08 17:07:49] [WARNING] Icon fehlt: settings.png
+[2025-04-08 17:07:49] [WARNING] Icon fehlt: close.png
+[2025-04-08 17:07:49] [WARNING] Windows Update-Dienst Status: Running
+[2025-04-08 17:07:49] [WARNING] Windows Update-Einstellungen erfolgreich abgerufen.
+[2025-04-08 17:07:49] [WARNING] Kein WSUS-Server konfiguriert.
+[2025-04-08 17:07:49] [INFO] XAML aus externer Datei geladen
+[2025-04-08 17:07:49] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 17:07:51] [ERROR] Fehler bei der GUI-Initialisierung: GUI konnte nicht geladen werden
+[2025-04-08 17:07:51] [ERROR] Kritischer Fehler - GUI-Initialisierung fehlgeschlagen
+[2025-04-08 17:08:38] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:08:38] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:08:38] [INFO] XAML aus externer Datei geladen
+[2025-04-08 17:08:38] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tats?chlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz ?ber XamlObjectWriterSettings.RootObjectInstance an."
+[2025-04-08 17:08:39] [ERROR] Fehler bei der GUI-Initialisierung: GUI konnte nicht geladen werden
+[2025-04-08 17:08:40] [ERROR] Kritischer Fehler - GUI-Initialisierung fehlgeschlagen
+[2025-04-08 17:45:51] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:45:51] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:45:51] [INFO] XAML aus externer Datei geladen
+[2025-04-08 17:45:51] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Der unbekannte Typ "{http://schemas.microsoft.com/winfx/2006/xaml/presentation}AppName" kann nicht erstellt werden."
+[2025-04-08 17:45:54] [ERROR] Fehler bei der GUI-Initialisierung: GUI konnte nicht geladen werden
+[2025-04-08 17:45:54] [ERROR] Kritischer Fehler - GUI-Initialisierung fehlgeschlagen
+[2025-04-08 17:51:26] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:51:26] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:51:27] [INFO] GUI erfolgreich geladen
+[2025-04-08 17:51:27] [INFO] Tab gewechselt zu: Dashboard
+[2025-04-08 17:51:27] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:51:28] [INFO] Update-Historie abgerufen: 50 Eintr?ge von insgesamt 50
+[2025-04-08 17:51:28] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:51:28] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 17:51:48] [INFO] Tab gewechselt zu: Settings
+[2025-04-08 17:51:50] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:51:50] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:51:52] [INFO] Debug-Modus aktiviert
+[2025-04-08 17:51:53] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:51:53] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:51:55] [INFO] Dark Mode aktiviert
+[2025-04-08 17:51:56] [INFO] Dark Mode deaktiviert
+[2025-04-08 17:51:56] [INFO] Debug-Modus deaktiviert
+[2025-04-08 17:51:57] [ERROR] Fehler beim Laden der Historie: Exception calling "RaiseEvent" with "1" argument(s): "Allen "RoutedEventArgs" muss ein Nicht-Null-"RoutedEvent" zugeordnet werden."
+[2025-04-08 17:51:57] [INFO] Tab gewechselt zu: History
+[2025-04-08 17:51:58] [INFO] Update-Historie abgerufen: 50 Eintr?ge von insgesamt 50
+[2025-04-08 17:51:58] [INFO] Update-Historie geladen: 50 Eintr?ge
+[2025-04-08 17:52:03] [INFO] Tab gewechselt zu: WSUSConfig
+[2025-04-08 17:52:05] [INFO] Tab gewechselt zu: Troubleshooting
+[2025-04-08 17:52:07] [INFO] Windows Update Dienst erfolgreich gestoppt
+[2025-04-08 17:52:07] [INFO] Windows Update Troubleshooting gestartet
+[2025-04-08 17:58:24] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:58:24] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:58:24] [INFO] GUI erfolgreich geladen
+[2025-04-08 17:58:24] [INFO] Tab gewechselt zu: Dashboard
+[2025-04-08 17:58:24] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:58:26] [INFO] Update-Historie abgerufen: 50 Eintr?ge von insgesamt 50
+[2025-04-08 17:58:26] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:58:26] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 17:58:32] [INFO] easyWSUS Manager wurde ordnungsgem?? beendet
+[2025-04-08 17:58:43] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:58:43] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 17:58:44] [INFO] GUI erfolgreich geladen
+[2025-04-08 17:58:44] [INFO] Tab gewechselt zu: Dashboard
+[2025-04-08 17:58:44] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:58:45] [INFO] Update-Historie abgerufen: 50 Eintr?ge von insgesamt 50
+[2025-04-08 17:58:45] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 17:58:45] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 17:58:49] [INFO] easyWSUS Manager wurde ordnungsgem?? beendet
+[2025-04-08 18:02:07] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:02:07] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 18:02:08] [INFO] GUI erfolgreich geladen
+[2025-04-08 18:02:08] [INFO] Tab gewechselt zu: Dashboard
+[2025-04-08 18:02:08] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:02:09] [INFO] Update-Historie abgerufen: 50 Eintr?ge von insgesamt 50
+[2025-04-08 18:02:09] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:02:09] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 18:02:12] [INFO] easyWSUS Manager wurde ordnungsgem?? beendet
+[2025-04-08 18:03:43] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:03:43] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 18:03:43] [INFO] GUI erfolgreich geladen
+[2025-04-08 18:03:43] [INFO] Tab gewechselt zu: Dashboard
+[2025-04-08 18:03:43] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:03:44] [INFO] Update-Historie abgerufen: 50 Eintr?ge von insgesamt 50
+[2025-04-08 18:03:44] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:03:44] [INFO] easyWSUS Manager wurde gestartet
+[2025-04-08 18:03:54] [INFO] Tab gewechselt zu: Settings
+[2025-04-08 18:03:55] [ERROR] Fehler beim Laden der Historie: Exception calling "RaiseEvent" with "1" argument(s): "Allen "RoutedEventArgs" muss ein Nicht-Null-"RoutedEvent" zugeordnet werden."
+[2025-04-08 18:03:55] [INFO] Tab gewechselt zu: History
+[2025-04-08 18:03:56] [INFO] Tab gewechselt zu: WSUSConfig
+[2025-04-08 18:03:57] [INFO] Tab gewechselt zu: Troubleshooting
+[2025-04-08 18:56:07] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 18:56:07] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 18:56:07] [INFO] XAML aus externer Datei geladen
+[2025-04-08 18:56:08] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Die Child-Eigenschaft wurde bereits f?r "Border" festgelegt."
+[2025-04-08 18:56:10] [ERROR] Fehler bei der GUI-Initialisierung: Cannot index into a null array.
+[2025-04-08 18:56:11] [ERROR] Kritischer Fehler - GUI-Initialisierung fehlgeschlagen
+[2025-04-08 19:20:59] [INFO] Windows Update-Einstellungen erfolgreich abgerufen
+[2025-04-08 19:20:59] [INFO] Selbstdiagnose durchgef?hrt. Erfolg: True
+[2025-04-08 19:20:59] [INFO] XAML aus externer Datei geladen
+[2025-04-08 19:20:59] [ERROR] Fehler beim Laden der GUI: Exception calling "Load" with "1" argument(s): "Die Child-Eigenschaft wurde bereits f?r "Border" festgelegt."
+[2025-04-08 19:21:00] [ERROR] Fehler bei der GUI-Initialisierung: Cannot index into a null array.
+[2025-04-08 19:21:01] [ERROR] Kritischer Fehler - GUI-Initialisierung fehlgeschlagen

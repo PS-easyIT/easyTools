@@ -1,0 +1,1292 @@
+<Window x:Class="SimpleGUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="easyWSUS - Windows Update Management" Height="850" Width="1250" 
+        WindowStartupLocation="CenterScreen" Background="#F0F0F0">
+    <Window.Resources>
+        <DrawingImage x:Key="WinUpdateManagerLogo">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <!-- Kreisbogensegment (Refresh-Pfeil) -->
+                    <GeometryDrawing Brush="Transparent">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF88BBFF" Thickness="20"/>
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry>
+                                <!-- Startpunkt: Rechts (90,50); 
+               ArcSegment von 0° bis ca. 300° (Endpunkt ca. bei (70,15)) -->
+                                <PathFigure StartPoint="90,50" IsClosed="False">
+                                    <ArcSegment Point="70,15"
+                        Size="40,40"
+                        IsLargeArc="True"
+                        SweepDirection="Counterclockwise" />
+                                </PathFigure>
+                            </PathGeometry>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <!-- Pfeilkopf -->
+                    <GeometryDrawing Brush="#FF88BBFF">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry>
+                                <!-- Der Pfeilkopf als kleines Dreieck, ausgehend vom Endpunkt der ArcSegment -->
+                                <PathFigure StartPoint="70,15" IsClosed="True">
+                                    <LineSegment Point="66,22" />
+                                    <LineSegment Point="74,22" />
+                                </PathFigure>
+                            </PathGeometry>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <!-- Stile für die Anwendung -->
+        <Style TargetType="Button" x:Key="MenuButton">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Padding" Value="10,5,10,5"/>
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="ActionButton">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5,10,5"/>
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Border" BorderThickness="1,1,1,1" BorderBrush="Transparent" 
+                                Background="{TemplateBinding Background}" Margin="0,0,0,0">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                              ContentSource="Header" Margin="12,2,12,2" RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#007ACC"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#1C97EA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="#D0D0D0"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="2,0,2,0"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Fortschrittsbalken-Stil für Ressourcenauslastung -->
+        <Style x:Key="ResourceProgressBar" TargetType="ProgressBar">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="Foreground" Value="#007ACC"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Value, RelativeSource={RelativeSource Self}}" Value="80">
+                    <Setter Property="Foreground" Value="#FFA500"/>
+                </DataTrigger>
+                <Trigger Property="Value" Value="90">
+                    <Setter Property="Foreground" Value="#FF3333"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Linke Menüleiste -->
+        <Border Grid.Column="0" Background="#2D2D30">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,-36,0">
+                <StackPanel Margin="0,20,0,0">
+                    <Image Source="{StaticResource WinUpdateManagerLogo}" 
+                       Width="45" Height="50" 
+                       Margin="95,0,0,0" HorizontalAlignment="Left"/>
+
+                    <!-- Übersicht -->
+                    <TextBlock Foreground="#AAAAAA" Margin="10,10,0,5" FontSize="11"/>
+                    <Button x:Name="btnDashboard" Content="Dashboard" Style="{StaticResource MenuButton}"/>
+
+                    <!-- Update-Verwaltung -->
+                    <TextBlock Text="VERWALTUNG / SETTINGS" Foreground="#AAAAAA" Margin="10,15,0,5" FontSize="11"/>
+                    <Button x:Name="btnUpdateHistory" Content="Update-Verlauf" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="btnWUSASettings" Content="WUSA Einstellungen" Style="{StaticResource MenuButton}"/>
+
+                    <!-- System & Dienste -->
+                    <TextBlock Text="SYSTEM / DIENSTE" Foreground="#AAAAAA" Margin="10,15,0,5" FontSize="11"/>
+                    <Button x:Name="btnServiceMonitor" Content="Dienst-Monitor" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="btnSystemStats" Content="Systeminformationen" Style="{StaticResource MenuButton}"/>
+
+                    <!-- Tools & Diagnose -->
+                    <TextBlock Text="TOOLS / DIAGNOSE" Foreground="#AAAAAA" Margin="10,15,0,5" FontSize="11"/>
+                    <Button x:Name="btnLogViewer" Content="Log-Betrachter" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="btnToolbox" Content="Toolbox" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="btnSystemReport" Content="Systembericht" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="btnTroubleshooting" Content="Troubleshooting" Style="{StaticResource MenuButton}"/>
+
+                    <!-- Schließen-Button am Ende -->
+                    <Button x:Name="btnClose" Content="Schließen" Style="{StaticResource MenuButton}" Margin="5,80,5,10" Background="#CC0000" Width="215" Height="30"/>
+                    <TextBlock Text="© 2025 - Andreas Hepp | PSscripts.de" Foreground="#9c9c9c" Margin="10,10,0,10" FontSize="10"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Hauptinhalt -->
+        <Grid Grid.Column="1">
+            <!-- Dashboard -->
+            <Grid x:Name="Dashboard" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Systemübersicht" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <TextBox x:Name="txtSystemInfo" IsReadOnly="True" TextWrapping="Wrap" Height="150" BorderThickness="0" Background="#F5F5F5"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Windows Update Status" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock x:Name="txtWsusStatus" Text="WSUS-Konfiguration wird geladen..." TextWrapping="Wrap"/>
+                                <TextBlock x:Name="txtLastCheck" Text="Letzte Prüfung: Wird geladen..." Margin="0,10,0,0"/>
+                                <TextBlock x:Name="txtLastInstall" Text="Letzte Installation: Wird geladen..." Margin="0,5,0,0"/>
+
+                                <TextBlock Text="Nächste geplante Updates" FontSize="16" FontWeight="Bold" Margin="0,50,0,10"/>
+                                <TextBlock x:Name="txtNextScheduled" Text="Keine geplanten Updates vorhanden." TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Hinweise" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock x:Name="txtTips" Text="Hier erscheinen Tipps und Empfehlungen für Windows Update." TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Update-Manager -->
+            <Grid x:Name="UpdateManager" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Update-Manager" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Update Controls -->
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <Button x:Name="btnCheckUpdates" Content="Nach Updates suchen" Style="{StaticResource ActionButton}" Margin="0,0,0,5"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <Button x:Name="btnInstallUpdates" Content="Updates installieren" Style="{StaticResource ActionButton}" Margin="100,0,0,5"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                <CheckBox x:Name="chkIncludeDrivers" Content="Treiber einschließen" Margin="5,5,0,0"/>
+                                <CheckBox x:Name="chkAutoReboot" Content="Automatisch neu starten" Margin="5,5,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Available Updates List -->
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Verfügbare Updates" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                            <DataGrid Grid.Row="1" x:Name="gridAvailableUpdates" AutoGenerateColumns="False" IsReadOnly="False" AlternatingRowBackground="#F5F5F5" HeadersVisibility="Column" SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Header="Auswählen" Binding="{Binding IsSelected}" Width="80"/>
+                                    <DataGridTextColumn Header="Titel" Binding="{Binding Title}" Width="*"/>
+                                    <DataGridTextColumn Header="Größe" Binding="{Binding Size}" Width="100"/>
+                                    <DataGridTextColumn Header="Kategorie" Binding="{Binding Category}" Width="120"/>
+                                    <DataGridTextColumn Header="Wichtigkeit" Binding="{Binding Importance}" Width="100"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Status Information -->
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Status" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock x:Name="txtUpdateStatus" Text="Bereit zum Suchen nach Updates." TextWrapping="Wrap"/>
+                            <TextBlock x:Name="txtLastSearchTime" Text="" FontStyle="Italic" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+            <!-- Update-Verlauf -->
+            <Grid x:Name="UpdateHistory" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Windows Update-Verlauf" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Verlauf der Windows Updates" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Hier sehen Sie die letzten Windows Updates, die auf diesem Computer installiert wurden." TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="Anzahl: " VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="cmbHistoryCount" Width="80" SelectedIndex="1">
+                                        <ComboBoxItem Content="20"/>
+                                        <ComboBoxItem Content="50"/>
+                                        <ComboBoxItem Content="100"/>
+                                        <ComboBoxItem Content="200"/>
+                                    </ComboBox>
+                                </StackPanel>
+                                <Button x:Name="btnRefreshHistory" Content="Aktualisieren" Style="{StaticResource ActionButton}" Margin="5"/>
+                                <Button x:Name="btnExportHistory" Content="Exportieren" Style="{StaticResource ActionButton}" Margin="5"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <DataGrid x:Name="gridUpdateHistory" AutoGenerateColumns="False" IsReadOnly="True" 
+                                  HeadersVisibility="Column" GridLinesVisibility="Horizontal" 
+                                  AlternatingRowBackground="#F5F5F5" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Datum" Binding="{Binding Datum}" Width="135"/>
+                                <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" Width="*"/>
+                                <DataGridTextColumn Header="Operation" Binding="{Binding Operation}" Width="100"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="125"/>
+                                <DataGridTextColumn Header="Fehler" Binding="{Binding HResult}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Zeitplanung -->
+            <Grid x:Name="Scheduler" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Update-Zeitplanung" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Task für automatische Updates erstellen" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <TextBlock Text="Hier können Sie eine geplante Aufgabe erstellen, die Windows Updates automatisch zu einem bestimmten Zeitpunkt installiert." TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Aufgabenname" Margin="0,5,0,5"/>
+                                <TextBox x:Name="txtTaskName" Text="Automatische Windows Updates" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="Wochentag" Margin="0,5,0,5"/>
+                                <ComboBox x:Name="cmbWeekday" SelectedIndex="0" Margin="0,0,0,10">
+                                    <ComboBoxItem Content="Sonntag"/>
+                                    <ComboBoxItem Content="Montag"/>
+                                    <ComboBoxItem Content="Dienstag"/>
+                                    <ComboBoxItem Content="Mittwoch"/>
+                                    <ComboBoxItem Content="Donnerstag"/>
+                                    <ComboBoxItem Content="Freitag"/>
+                                    <ComboBoxItem Content="Samstag"/>
+                                </ComboBox>
+
+                                <TextBlock Text="Uhrzeit" Margin="0,5,0,5"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="txtHour" Text="03" Width="50"/>
+                                    <TextBlock Text=":" Margin="5,0,5,0" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="txtMinute" Text="00" Width="50"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="Optionen" FontWeight="Bold" Margin="0,5,0,10"/>
+                                <CheckBox x:Name="chkScheduleAcceptAll" Content="Alle Updates automatisch akzeptieren" IsChecked="True"/>
+                                <CheckBox x:Name="chkScheduleAutoReboot" Content="Automatischer Neustart nach Installation" IsChecked="True" Margin="0,10,0,0"/>
+                                <CheckBox x:Name="chkScheduleInstallDrivers" Content="Treiber-Updates einbeziehen" IsChecked="False" Margin="0,10,0,0"/>
+
+                                <Button x:Name="btnCreateTask" Content="Aufgabe erstellen" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                <Button x:Name="btnViewTasks" Content="Geplante Aufgaben anzeigen" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Vorhandene Update-Aufgaben" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                            <ListView x:Name="listScheduledTasks" Height="150">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding TaskName}" Width="200"/>
+                                        <GridViewColumn Header="Zeitplan" DisplayMemberBinding="{Binding Schedule}" Width="150"/>
+                                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="100"/>
+                                        <GridViewColumn Header="Letzte Ausführung" DisplayMemberBinding="{Binding LastRun}" Width="150"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="3" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Hinweis" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Text="Die Erstellung von geplanten Aufgaben erfordert Administrator-Rechte. Die geplanten Aufgaben werden unter dem SYSTEM-Konto ausgeführt, damit die Updates auch ohne angemeldeten Benutzer installiert werden können." TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Dienste-Monitor -->
+            <Grid x:Name="ServiceMonitor" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Windows Update Dienste-Monitor" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Verwaltung der wichtigsten Windows Update-relevanten Dienste. Hier können Sie den Status einsehen und die Dienste starten, stoppen oder neustarten." TextWrapping="Wrap"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="btnRefreshServices" Content="Aktualisieren" Style="{StaticResource ActionButton}" Margin="5,0,5,0"/>
+                                <Button x:Name="btnRestartAllServices" Content="Alle Dienste neustarten" Style="{StaticResource ActionButton}" Margin="5,0,5,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <!-- Windows Update Service -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Windows Update Dienst" FontWeight="Bold"/>
+                                            <TextBlock Text="wuauserv" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusWUAU" Text="Läuft" Foreground="Green"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeWUAU" Text="Automatisch"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartWUAU" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopWUAU" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartWUAU" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- BITS Service -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Hintergrundintelligente Übertragung" FontWeight="Bold"/>
+                                            <TextBlock Text="BITS" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusBITS" Text="Läuft" Foreground="Green"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeBITS" Text="Automatisch"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartBITS" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopBITS" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartBITS" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Cryptographic Service -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Kryptografiedienst" FontWeight="Bold"/>
+                                            <TextBlock Text="cryptsvc" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusCRYPT" Text="Läuft" Foreground="Green"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeCRYPT" Text="Automatisch"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartCRYPT" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopCRYPT" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartCRYPT" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- TrustedInstaller Service -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Windows Module Installer" FontWeight="Bold"/>
+                                            <TextBlock Text="TrustedInstaller" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusTRUST" Text="Gestoppt" Foreground="Red"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeTRUST" Text="Manuell"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartTRUST" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopTRUST" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartTRUST" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Delivery Optimization Service -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Übermittlungsoptimierung" FontWeight="Bold"/>
+                                            <TextBlock Text="DoSvc" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusDOSVC" Text="Läuft" Foreground="Green"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeDOSVC" Text="Automatisch"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartDOSVC" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopDOSVC" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartDOSVC" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Update Orchestrator Service -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Update Orchestrator Service" FontWeight="Bold"/>
+                                            <TextBlock Text="UsoSvc" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusUSO" Text="Läuft" Foreground="Green"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeUSO" Text="Automatisch"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartUSO" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopUSO" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartUSO" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Windows Update Medic Service -->
+                                <Border BorderThickness="0,0,0,0" BorderBrush="#CCCCCC" Padding="0,0,0,10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Windows Update Medic Service" FontWeight="Bold"/>
+                                            <TextBlock Text="WaaSMedicSvc" Foreground="#666666" FontSize="12"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <TextBlock Text="Status:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStatusMEDIC" Text="Läuft" Foreground="Green"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="Starttyp:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtStartTypeMEDIC" Text="Automatisch"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnStartMEDIC" Content="Starten" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnStopMEDIC" Content="Stoppen" Style="{StaticResource ActionButton}" Width="90"/>
+                                            <Button x:Name="btnRestartMEDIC" Content="Neustarten" Style="{StaticResource ActionButton}" Width="90"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="txtServiceInfo" Grid.Column="0" Text="Status: 0 Dienste laufen, 0 Dienste gestoppt. Letzte Aktualisierung: 00:00:00" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Neu: Systemressourcen -->
+            <Grid x:Name="SystemStats" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Grid.Row="0" Text="Systemressourcen-Überwachung" FontSize="24" FontWeight="Bold" Margin="20,0,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="btnRefreshResources" Content="Aktualisieren" Style="{StaticResource ActionButton}" Margin="5"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left column with two separate boxes -->
+                            <Grid Grid.Column="0" Margin="0,0,5,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Letzte Updates Box -->
+                                <Border Grid.Row="0" BorderThickness="1" BorderBrush="#EEEEEE" Margin="0,0,0,10">
+                                    <StackPanel Margin="10">
+                                        <TextBlock Text="Letzte Updates" FontWeight="Bold" Margin="0,0,0,5"/>
+                                        <TextBox x:Name="txtUpdateInfo" Text="Wird geladen..." IsReadOnly="True" 
+                                                 TextWrapping="Wrap" Height="100" Background="#FAFAFA"
+                                                 BorderThickness="0" VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Statistiken Box -->
+                                <Border Grid.Row="1" BorderThickness="1" BorderBrush="#EEEEEE" Margin="0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="Update-Statistik" FontWeight="Bold" Margin="10,10,5,5"/>
+                                        <Canvas Grid.Row="1" x:Name="chartUpdateStats" Background="WhiteSmoke" Margin="10"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- Allgemeine Systeminfos -->
+                            <Border Grid.Column="1" BorderThickness="1" BorderBrush="#EEEEEE" Margin="5,0,0,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Text="Systeminformationen" FontWeight="Bold" Margin="5"/>
+
+                                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="5">
+                                        <StackPanel>
+                                            <TextBlock Text="Prozessor:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtProcessorInfo" Text="Wird geladen..." Margin="0,0,0,10"/>
+
+                                            <TextBlock Text="Arbeitsspeicher:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtMemoryInfo" Text="Wird geladen..." Margin="0,0,0,10"/>
+
+                                            <TextBlock Text="Betriebssystem:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtOSInfo" Text="Wird geladen..." Margin="0,0,0,10"/>
+
+                                            <TextBlock Text="Festplatten:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtDiskInfo" Text="Wird geladen..." Margin="0,0,0,10"/>
+
+                                            <TextBlock Text="Netzwerk:" FontWeight="Bold"/>
+                                            <TextBlock x:Name="txtNetworkInfo" Text="Wird geladen..." Margin="0,0,0,10"/>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="3" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" x:Name="txtLastRefresh" Text="Letzte Aktualisierung: -" TextWrapping="Wrap"/>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Neu: Log-Datei-Betrachter -->
+            <Grid x:Name="LogViewer" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Log-Datei-Betrachter" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Log-Datei:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <ComboBox x:Name="cmbLogType" Width="150" SelectedIndex="0">
+                                    <ComboBoxItem Content="Windows Update"/>
+                                    <ComboBoxItem Content="CBS"/>
+                                    <ComboBoxItem Content="DISM"/>
+                                    <ComboBoxItem Content="SetupAPI"/>
+                                </ComboBox>
+                                <TextBlock Text="Zeilen:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                                <ComboBox x:Name="cmbLogLines" Width="80" SelectedIndex="1">
+                                    <ComboBoxItem Content="100"/>
+                                    <ComboBoxItem Content="500"/>
+                                    <ComboBoxItem Content="1000"/>
+                                    <ComboBoxItem Content="Alle"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <Grid Grid.Column="1" Margin="10,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="Suche:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBox Grid.Column="1" x:Name="txtLogSearch" Margin="0,0,0,0"/>
+                            </Grid>
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <Button x:Name="btnSearchLog" Content="Suchen" Style="{StaticResource ActionButton}" Margin="5,0,0,0" Width="80"/>
+                                <Button x:Name="btnLoadLog" Content="Log laden" Style="{StaticResource ActionButton}" Margin="5,0,0,0"/>
+                                <Button x:Name="btnExportLog" Content="Exportieren" Style="{StaticResource ActionButton}" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <TextBox x:Name="txtLogContent" IsReadOnly="True" TextWrapping="NoWrap" 
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                     FontFamily="Consolas" FontSize="12" Background="#FAFAFA"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" x:Name="txtLogStatus" Text="Kein Log geladen." TextWrapping="Wrap"/>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="btnClearLogSearch" Content="Suche zurücksetzen" Style="{StaticResource ActionButton}" Margin="0,0,5,0"/>
+                                <Button x:Name="btnOpenLogFolder" Content="Log-Ordner öffnen" Style="{StaticResource ActionButton}" Margin="0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Toolbox -->
+            <Grid x:Name="Toolbox" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Update-Toolbox" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <TextBlock Text="Zusätzliche Werkzeuge zur Verwaltung und Fehlerbehebung von Windows Updates" TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Windows-Tools" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <Button x:Name="btnEventViewer" Content="Ereignisanzeige öffnen" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnResourceMonitor" Content="Ressourcenmonitor" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="5,10,5,5"/>
+                                <Button x:Name="btnReliabilityMonitor" Content="Zuverlässigkeitsüberwachung" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnDeviceManager" Content="Geräte-Manager" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="5,10,5,5"/>
+                                <Button x:Name="btnServices" Content="Dienste" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnDiskManagement" Content="Datenträgerverwaltung" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="5,10,5,5"/>
+                                <Button x:Name="btnRegistryEditor" Content="Registrierungs-Editor" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="Update-Wartung" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <Button x:Name="btnUpdateTroubleshooter" Content="Update-Problembehandlung" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnResetComponents" Content="Update-Komponenten zurücksetzen" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="5,10,5,5"/>
+                                <Button x:Name="btnClearUpdateCache" Content="Update-Cache leeren" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnBackupRegistry" Content="Registry-Backup erstellen" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="5,10,5,5"/>
+                                <Button x:Name="btnDISMHealth" Content="DISM Systemreparatur" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnSFCScan" Content="SFC Systemdateien prüfen" Style="{StaticResource ActionButton}" HorizontalAlignment="Left" Margin="5,10,5,5"/>
+
+                                <TextBlock Text="Microsoft Dokumentation" FontSize="16" FontWeight="Bold" Margin="0,20,0,10"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="txtSearchDocs" Grid.Column="0" Margin="0,0,5,0"/>
+                                    <Button x:Name="btnSearchDocs" Grid.Column="1" Content="Suchen" Style="{StaticResource ActionButton}" Width="80"/>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Ausgabe" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtToolOutput" IsReadOnly="True" TextWrapping="Wrap" Height="100" Background="#F5F5F5"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- WUSA Settings -->
+            <Grid x:Name="WUSASettings" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Windows Update Einstellungen" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Header-Bereich mit Beschriftung und Aktionsbuttons -->
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Registry-Einstellungen für Windows Update – Diese Einstellungen bestimmen das Verhalten von Windows Update auf diesem System." 
+                            TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="btnRefreshWuSettings" Content="Aktualisieren" Style="{StaticResource ActionButton}" Margin="5" 
+                            TabIndex="1" ToolTip="Aktualisiert die Anzeige der Windows Update-Registry-Einstellungen" Click="btnRefreshWuSettings_Click"/>
+                                <Button x:Name="btnResetWuSettings" Content="Zurücksetzen" Style="{StaticResource ActionButton}" Margin="5" 
+                            TabIndex="2" ToolTip="Setzt alle Windows Update-Einstellungen auf die Standardwerte zurück" Background="#CC4444" Click="btnResetWuSettings_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- TabControl zur Darstellung der verschiedenen Registry-Pfade -->
+                    <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="0,0,0,10" TabIndex="3">
+                        <TabItem Header="Windows Update" ToolTip="Zeigt Einstellungen aus HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate">
+                            <Border BorderThickness="1" BorderBrush="#CCCCCC" Background="White" Padding="10">
+                                <Grid>
+                                    <DataGrid x:Name="gridWUSettings" AutoGenerateColumns="False" IsReadOnly="True" 
+                                HeadersVisibility="Column" GridLinesVisibility="Horizontal" 
+                                AlternatingRowBackground="#F5F5F5" CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Schlüssel" Binding="{Binding Key}" Width="200"/>
+                                            <DataGridTextColumn Header="Wert" Binding="{Binding Value}" Width="100"/>
+                                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}" Width="*"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock x:Name="txtNoWUSettings" Text="Keine Einstellungen gefunden. Dieser Registry-Pfad existiert möglicherweise nicht." 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="Windows Update / AU" ToolTip="Zeigt Einstellungen aus HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU">
+                            <Border BorderThickness="1" BorderBrush="#CCCCCC" Background="White" Padding="10">
+                                <Grid>
+                                    <DataGrid x:Name="gridWUAUSettings" AutoGenerateColumns="False" IsReadOnly="True" 
+                                HeadersVisibility="Column" GridLinesVisibility="Horizontal" 
+                                AlternatingRowBackground="#F5F5F5" CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Schlüssel" Binding="{Binding Key}" Width="200"/>
+                                            <DataGridTextColumn Header="Wert" Binding="{Binding Value}" Width="100"/>
+                                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}" Width="*"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock x:Name="txtNoWUAUSettings" Text="Keine Einstellungen gefunden. Dieser Registry-Pfad existiert möglicherweise nicht." 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="Aktuelle Werte" ToolTip="Zeigt Einstellungen aus HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate">
+                            <Border BorderThickness="1" BorderBrush="#CCCCCC" Background="White" Padding="10">
+                                <Grid>
+                                    <DataGrid x:Name="gridCurrentWUSettings" AutoGenerateColumns="False" IsReadOnly="True" 
+                                HeadersVisibility="Column" GridLinesVisibility="Horizontal" 
+                                AlternatingRowBackground="#F5F5F5" CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Schlüssel" Binding="{Binding Key}" Width="200"/>
+                                            <DataGridTextColumn Header="Wert" Binding="{Binding Value}" Width="100"/>
+                                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}" Width="*"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock x:Name="txtNoCurrentSettings" Text="Keine Einstellungen gefunden. Dieser Registry-Pfad existiert möglicherweise nicht." 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+                    </TabControl>
+
+                    <!-- Hinweis zu den Einstellungen -->
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="Hinweis zu Windows Update-Einstellungen" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="0,0,0,10">
+                    Windows Update-Einstellungen werden in der Registry gespeichert. Die Einstellungen unter "Windows Update" und "Windows Update / AU" 
+                    werden von WSUS oder Gruppenrichtlinien konfiguriert. Die Einstellungen unter "Aktuelle Werte" zeigen die tatsächlich verwendeten Werte 
+                    aus dem Registry-Pfad HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate.
+                            </TextBlock>
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <TextBlock FontWeight="SemiBold" Foreground="#CC4444" TextWrapping="Wrap">
+                        Das Zurücksetzen der Einstellungen entfernt alle WSUS-spezifischen Konfigurationen und stellt die Standardwerte wieder her.
+                        Diese Aktion erfordert Administratorrechte und kann das Update-Verhalten Ihres Systems ändern.
+                                </TextBlock>
+                                <TextBlock x:Name="txtSettingsStatus" Margin="0,10,0,0" FontStyle="Italic" Text="Bereit" Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Systembericht -->
+            <Grid x:Name="SystemReport" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Systemstatusbericht" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Systembericht generieren" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Hier können Sie einen detaillierten Bericht über den Windows Update-Status und die Systemkonfiguration erstellen." TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="btnGenerateReport" Content="Bericht erstellen" Style="{StaticResource ActionButton}" Margin="5"/>
+                                <Button x:Name="btnExportReport" Content="Bericht exportieren" Style="{StaticResource ActionButton}" Margin="5"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Berichtsabschnitte" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <CheckBox x:Name="chkReportSystemInfo" Content="Systeminformationen" IsChecked="True"/>
+                                <CheckBox x:Name="chkReportUpdateConfig" Content="Update-Konfiguration" IsChecked="True" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkReportUpdateHistory" Content="Update-Verlauf" IsChecked="True" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkReportServices" Content="Dienste-Status" IsChecked="True" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkReportDiskSpace" Content="Speicherplatz" IsChecked="True" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkReportEventLogs" Content="Ereignisprotokolle" IsChecked="False" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkReportNetworkConfig" Content="Netzwerkkonfiguration" IsChecked="False" Margin="0,5,0,0"/>
+
+                                <TextBlock Text="Ausgabeformat" FontSize="16" FontWeight="Bold" Margin="0,20,0,10"/>
+                                <RadioButton x:Name="radFormatTxt" Content="Textdatei (.txt)" IsChecked="True" GroupName="ReportFormat"/>
+                                <RadioButton x:Name="radFormatHtml" Content="HTML-Datei (.html)" GroupName="ReportFormat" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="radFormatCsv" Content="CSV-Datei (.csv)" GroupName="ReportFormat" Margin="0,5,0,0"/>
+                            </StackPanel>
+
+                            <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Background="Transparent"/>
+
+                            <TextBox Grid.Column="1" x:Name="txtReportPreview" IsReadOnly="True" TextWrapping="Wrap" 
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
+                                     Background="#FAFAFA" FontFamily="Consolas" FontSize="12" Padding="10"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock x:Name="txtReportStatus" Text="Bereit zur Berichtsgenerierung" FontStyle="Italic"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Troubleshooting -->
+            <Grid x:Name="Troubleshooting" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Windows Update Troubleshooting" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Windows Update Fehlercodes und Lösungen" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Hier finden Sie häufige Windows Update-Fehlercodes, deren Bedeutung und mögliche Lösungsansätze." TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+                                    <TextBox x:Name="txtErrorSearch" Margin="5" Width="200" VerticalContentAlignment="Center"/>
+                                    <TextBlock x:Name="txtErrorSearchPlaceholder" Text="Fehlercode suchen..." Margin="10,0,0,0" 
+                                               Foreground="Gray" VerticalAlignment="Center" 
+                                               IsHitTestVisible="False"/>
+                                </Grid>
+
+                                <Button Grid.Column="1" x:Name="btnSearchError" Content="Suchen" Style="{StaticResource ActionButton}" Margin="0,5,5,5" Width="80"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <DataGrid x:Name="errorCodesDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
+                                  HeadersVisibility="Column" GridLinesVisibility="Horizontal" 
+                                  AlternatingRowBackground="#F5F5F5" CanUserAddRows="False"
+                                  SelectionMode="Single" SelectionUnit="FullRow">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Fehlercode" Binding="{Binding Fehlercode}" Width="120"/>
+                                <DataGridTextColumn Header="Beschreibung" Binding="{Binding Beschreibung}" Width="*"/>
+                                <DataGridTextColumn Header="Befehl" Binding="{Binding Befehl}" Width="200"/>
+                                <DataGridTextColumn Header="Dokumentation" Binding="{Binding Dokumentation}" Width="200"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Aktionen" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnExecuteCommand" Content="Befehl ausführen" Style="{StaticResource ActionButton}" Margin="0,0,10,0"/>
+                                <Button x:Name="btnShowDocs" Content="Dokumentation anzeigen" Style="{StaticResource ActionButton}"/>
+                                <Button x:Name="btnRunDiagnostics" Content="Diagnose starten" Style="{StaticResource ActionButton}" Margin="10,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Systemeinstellungen -->
+            <Grid x:Name="Settings" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Systemeinstellungen" FontSize="24" FontWeight="Bold" Margin="20,20,0,10"/>
+
+                <Grid Grid.Row="1" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <TextBlock Text="Hier können Sie die Anwendungseinstellungen anpassen." TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="#CCCCCC" Background="White" CornerRadius="5" Margin="0,0,0,10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Allgemeine Einstellungen" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <CheckBox x:Name="chkStartupCheck" Content="Beim Start nach Updates suchen" IsChecked="True"/>
+                                <CheckBox x:Name="chkAutoRefresh" Content="Automatische Aktualisierung" IsChecked="True" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkSaveHistory" Content="Suchverlauf speichern" IsChecked="True" Margin="0,5,0,0"/>
+                                <CheckBox x:Name="chkSaveReports" Content="Berichte lokal speichern" IsChecked="True" Margin="0,5,0,0"/>
+
+                                <TextBlock Text="Protokollierung" FontSize="16" FontWeight="Bold" Margin="0,20,0,10"/>
+                                <CheckBox x:Name="chkEnableLogging" Content="Protokollierung aktivieren" IsChecked="True"/>
+                                <CheckBox x:Name="chkDetailedLogs" Content="Ausführliche Protokollierung" IsChecked="False" Margin="0,5,0,0"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="Protokollpfad:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="txtLogPath" Text="%TEMP%\easyWSUS\logs" Width="200" Margin="5,0,0,0"/>
+                                    <Button x:Name="btnBrowseLogPath" Content="..." Width="30" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="Update-Konfiguration" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <CheckBox x:Name="chkIncludeDriverUpdates" Content="Treiber-Updates einbeziehen" IsChecked="False"/>
+                                <CheckBox x:Name="chkIncludeOptionalUpdates" Content="Optionale Updates einbeziehen" IsChecked="False" Margin="0,5,0,0"/>
+
+                                <TextBlock Text="Remote-Computer" FontSize="16" FontWeight="Bold" Margin="0,20,0,10"/>
+                                <CheckBox x:Name="chkEnableRemote" Content="Remote-Computer-Verwaltung aktivieren" IsChecked="False"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="Computer-Liste:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="txtComputerList" Text="" Width="200" Margin="5,0,0,0"/>
+                                    <Button x:Name="btnBrowseComputerList" Content="..." Width="30" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

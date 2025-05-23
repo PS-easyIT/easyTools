@@ -1,0 +1,17 @@
+easyWSAudit Version 0.0.2 gestartet - 2025-04-11 13:00:29
+[2025-04-11 13:00:29] [Information] easyWSAudit wird gestartet...
+[2025-04-11 13:00:29] [Information] GUI erfolgreich geladen
+[2025-04-11 13:00:34] [Information] Starte Audit für lokalen Server: MP-BOOK360
+[2025-04-11 13:00:34] [Information] Audit für Server MP-BOOK360 abgeschlossen.
+[2025-04-11 13:00:38] [Information] Starte Migrations-Analyse für Server: MP-BOOK360
+[2025-04-11 13:00:38] [Information] 
+
+===== MIGRATIONS-EMPFEHLUNGEN ZUSAMMENFASSUNG =====
+[2025-04-11 13:00:38] [Information] MIGRATIONS-EMPFEHLUNGEN ZUSAMMENFASSUNG
+====================================
+
+► HARDWARE: Die Server-Hardware scheint den grundlegenden Anforderungen zu entsprechen.
+
+ALLGEMEINE HANDLUNGSEMPFEHLUNG:
+Der Server erfüllt grundlegende Anforderungen. Regelmäßige Updates und Überwachung werden empfohlen, um die Systemleistung zu erhalten.
+[2025-04-11 13:00:38] [Information] Migrations-Analyse für Server MP-BOOK360 abgeschlossen.

@@ -1,0 +1,15 @@
+easyWSAudit Version 0.0.2 gestartet - 2025-04-11 15:33:09
+[2025-04-11 15:33:09] [Information] easyWSAudit wird gestartet...
+[2025-04-11 15:33:09] [Information] System erkannt: Microsoft Windows 11 Business - Windows Desktop
+[2025-04-11 15:33:11] [Information] Audit-Optionen wurden geladen und Verfügbarkeit geprüft
+[2025-04-11 15:33:11] [Information] Migrations-Optionen wurden geladen und Verfügbarkeit geprüft
+[2025-04-11 15:33:11] [Information] GUI erfolgreich geladen
+[2025-04-11 15:33:17] [Warning] Audit-Funktionalität wurde deaktiviert.
+[2025-04-11 15:33:28] [Warning] Audit-Funktionalität wurde deaktiviert.
+[2025-04-11 15:33:33] [Information] [MIGRATION] Starte Migrations-Analyse für: MP-BOOK360
+[2025-04-11 15:33:33] [Error] [MIGRATION] Kritischer Fehler bei der Analyse: The term 'Get-MigrationSummary' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-04-11 15:33:33] [Error] [MIGRATION] Stack-Trace: at <ScriptBlock>, C:\Users\PhinITAndreasHepp\OneDrive - PhinIT\05-Administratives\10-Scripte\PowerShell\# EASYit\easyWS\easyWSAudit_V0.0.2.ps1: line 1037
+at Start-Application, C:\Users\PhinITAndreasHepp\OneDrive - PhinIT\05-Administratives\10-Scripte\PowerShell\# EASYit\easyWS\easyWSAudit_V0.0.2.ps1: line 1274
+at <ScriptBlock>, C:\Users\PhinITAndreasHepp\OneDrive - PhinIT\05-Administratives\10-Scripte\PowerShell\# EASYit\easyWS\easyWSAudit_V0.0.2.ps1: line 1286
+at <ScriptBlock>, <No file>: line 1

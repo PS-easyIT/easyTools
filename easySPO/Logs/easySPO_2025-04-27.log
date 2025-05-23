@@ -1,0 +1,116 @@
+[2025-04-27 13:24:46] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 13:24:46] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:24:53] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 13:24:53] [INFO] GUI wird angezeigt.
+[2025-04-27 13:25:12] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 13:25:13] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:25:19] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 13:25:19] [INFO] GUI wird angezeigt.
+[2025-04-27 13:35:55] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 13:35:56] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:36:03] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 13:36:03] [INFO] GUI wird angezeigt.
+[2025-04-27 13:37:12] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 13:37:12] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:37:18] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 13:37:18] [INFO] GUI wird angezeigt.
+[2025-04-27 13:40:52] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 13:40:53] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:40:59] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 13:40:59] [INFO] GUI wird angezeigt.
+[2025-04-27 13:41:06] [INFO] Starte Installation/Update der erforderlichen Module...
+[2025-04-27 13:41:06] [INFO] Prüfe Modul Microsoft.Online.SharePoint.PowerShell...
+[2025-04-27 13:41:06] [WARNING] Modul Microsoft.Online.SharePoint.PowerShell nicht gefunden. Installation wird gestartet...
+[2025-04-27 13:41:10] [SUCCESS] Modul Microsoft.Online.SharePoint.PowerShell erfolgreich installiert.
+[2025-04-27 13:41:10] [INFO] Prüfe Modul PnP.PowerShell...
+[2025-04-27 13:41:10] [INFO] Modul PnP.PowerShell bereits installiert.
+[2025-04-27 13:41:13] [WARNING] Update für PnP.PowerShell verfügbar (Installiert: 2.12.0, Verfügbar: 3.1.0)
+[2025-04-27 13:41:13] [SUCCESS] Module erfolgreich installiert/aktualisiert.
+[2025-04-27 13:41:13] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:41:18] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 13:41:25] [INFO] Starte Installation/Update der erforderlichen Module...
+[2025-04-27 13:41:25] [INFO] Prüfe Modul Microsoft.Online.SharePoint.PowerShell...
+[2025-04-27 13:41:25] [INFO] Modul Microsoft.Online.SharePoint.PowerShell bereits installiert.
+[2025-04-27 13:41:26] [INFO] Prüfe Modul PnP.PowerShell...
+[2025-04-27 13:41:26] [INFO] Modul PnP.PowerShell bereits installiert.
+[2025-04-27 13:41:30] [WARNING] Update für PnP.PowerShell verfügbar (Installiert: 2.12.0, Verfügbar: 3.1.0)
+[2025-04-27 13:41:30] [SUCCESS] Module erfolgreich installiert/aktualisiert.
+[2025-04-27 13:41:30] [INFO] Prüfe erforderliche Module...
+[2025-04-27 13:41:35] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 14:05:15] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 14:05:16] [INFO] Prüfe erforderliche Module...
+[2025-04-27 14:05:24] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 14:05:24] [INFO] GUI wird angezeigt.
+[2025-04-27 14:06:11] [INFO] Prüfe erforderliche Module...
+[2025-04-27 14:06:15] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 14:06:15] [INFO] Starte Installation/Update der erforderlichen Module...
+[2025-04-27 14:06:15] [INFO] Prüfe Modul Microsoft.Online.SharePoint.PowerShell...
+[2025-04-27 14:06:15] [INFO] Modul Microsoft.Online.SharePoint.PowerShell bereits installiert.
+[2025-04-27 14:06:16] [INFO] Prüfe Modul PnP.PowerShell...
+[2025-04-27 14:06:16] [INFO] Modul PnP.PowerShell bereits installiert.
+[2025-04-27 14:06:18] [WARNING] Update für PnP.PowerShell verfügbar (Installiert: 2.12.0, Verfügbar: 3.1.0)
+[2025-04-27 14:06:23] [INFO] Aktualisiere Modul PnP.PowerShell von Version 2.12.0 auf 3.1.0...
+[2025-04-27 14:06:23] [ERROR] Fehler beim Aktualisieren von Modul PnP.PowerShell: Module 'PnP.PowerShell' was not installed by using Install-Module, so it cannot be updated.
+[2025-04-27 14:06:23] [ERROR] Fehler bei der Installation oder Aktualisierung der Module.
+[2025-04-27 14:06:23] [INFO] Prüfe erforderliche Module...
+[2025-04-27 14:06:27] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 14:22:24] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 14:22:25] [INFO] Prüfe erforderliche Module...
+[2025-04-27 14:22:33] [INFO] PnP.PowerShell-Modul Version 2.12.0 verfügbar.
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Dokumentenmanagement
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Site Scripts & Designs
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Listenansichten
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Microsoft 365 & EntraID
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Gruppenverwaltung
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Information Rights Management
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Navigation
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Berechtigungen
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Custom Actions
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: WebParts
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Feldverwaltung
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Ordnerverwaltung
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Taxonomie (Erweitert)
+[2025-04-27 14:22:33] [INFO]   - Erweiterte Funktion verfügbar: Planner-Integration
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Content Types
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Hub Sites
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Client-Side Extensions
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Teams-Integration
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Export & Backup
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Tenant-Management
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Listeneinträge
+[2025-04-27 14:22:34] [INFO]   - Erweiterte Funktion verfügbar: Verbindung & Authentifizierung
+[2025-04-27 14:22:34] [INFO] Modulprüfung abgeschlossen.
+[2025-04-27 14:22:34] [INFO] GUI wird angezeigt.
+[2025-04-27 14:22:39] [ERROR] Kritischer Fehler im Hauptteil des Skripts: Exception calling "ShowDialog" with "0" argument(s): "The term 'Update-LogDisplay' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+[2025-04-27 14:22:41] [INFO] Programm beendet.
+[2025-04-27 14:28:01] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 14:28:01] [INFO] Programm beendet.
+[2025-04-27 15:01:10] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 15:01:10] [ERROR] Fehler bei der GUI-Initialisierung: The term 'Check-RequiredModules' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-04-27 15:01:10] [ERROR] Fehler beim Initialisieren der GUI. Beende Programm.
+[2025-04-27 15:01:10] [INFO] Programm beendet.
+[2025-04-27 16:13:43] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 16:13:44] [INFO] Prüfe erforderliche Module...
+[2025-04-27 16:13:50] [INFO] GUI wird angezeigt.
+[2025-04-27 16:13:50] [ERROR] Kritischer Fehler im Hauptteil des Skripts: Method invocation failed because [System.Boolean] does not contain a method named 'ShowDialog'.
+[2025-04-27 16:13:54] [INFO] Programm beendet.
+[2025-04-27 16:32:53] [INFO] Starte SharePoint Online Management Tool...
+[2025-04-27 16:32:53] [WARNING] Warnung: Element mit Name 'PART_ContentHost' wurde nicht gefunden.
+[2025-04-27 16:32:53] [WARNING] Warnung: Element mit Name 'PART_ContentHost' wurde nicht gefunden.
+[2025-04-27 16:32:53] [WARNING] Warnung: Element mit Name 'ToggleButton' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Border' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Arrow' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Border' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Border' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Border' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'PART_VerticalScrollBar' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'PART_HorizontalScrollBar' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Bg' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'PART_Track' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Thumb' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Thumb' wurde nicht gefunden.
+[2025-04-27 16:32:54] [WARNING] Warnung: Element mit Name 'Thumb' wurde nicht gefunden.
+[2025-04-27 16:32:54] [INFO] Prüfe erforderliche Module...
+[2025-04-27 16:33:02] [INFO] Programm beendet.

@@ -1,0 +1,328 @@
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="easyWSAudit - Windows Server Audit Tool"
+    Width="1000"
+    Height="750"
+    Background="#F9F9F9"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!--  Farben als Ressourcen definieren für einfache Anpassbarkeit  -->
+        <Color x:Key="PrimaryColor">#0078D4</Color>
+        <Color x:Key="PrimaryHoverColor">#106EBE</Color>
+        <Color x:Key="PrimaryPressedColor">#005A9E</Color>
+        <Color x:Key="BackgroundColor">#F9F9F9</Color>
+        <Color x:Key="BorderColor">#E1E1E1</Color>
+        <Color x:Key="TextColor">#323130</Color>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{StaticResource PrimaryHoverColor}" />
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="{StaticResource PrimaryPressedColor}" />
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+        <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+        <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}" />
+
+        <!--  Button Style verbessern  -->
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
+                                <Setter TargetName="ButtonBorder" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect
+                                            BlurRadius="3"
+                                            Opacity="0.2"
+                                            ShadowDepth="1"
+                                            Color="#000000" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PrimaryPressedBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#CCCCCC" />
+                                <Setter Property="Foreground" Value="#666666" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  TextBox Style verbessern  -->
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="1" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#AAAAAA" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  GroupBox Style verbessern  -->
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Effect="{DynamicResource LightShadowEffect}" />
+                            <Border Grid.Row="0" Padding="8,4,0,4">
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Foreground="{StaticResource TextBrush}"
+                                    Text="{TemplateBinding Header}" />
+                            </Border>
+                            <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  CheckBox Style verbessern  -->
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+
+        <!--  Schatten-Effekt als Ressource  -->
+        <DropShadowEffect
+            x:Key="LightShadowEffect"
+            BlurRadius="4"
+            Opacity="0.15"
+            ShadowDepth="1"
+            Color="#000000" />
+    </Window.Resources>
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Zusammengeführte Server Analyse -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <!-- Analyse-Optionen -->
+            <GroupBox Grid.Row="0" Margin="0,10,0,10" Header="Server-Analyse Optionen">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Grid.Row="0"
+                        Width="920"
+                        Margin="0,0,0,12"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <Button
+                            Name="SelectAllButton"
+                            Width="120"
+                            Content="Alle auswählen" />
+                        <Button
+                            Name="DeselectAllButton"
+                            Width="120"
+                            Content="Keine auswählen" />
+                        <Button
+                            Name="StartMigrationAnalysisButton"
+                            Width="180"
+                            Height="36"
+                            Margin="275,5,10,5"
+                            Content="Analyse starten" />
+                        <Button
+                            Name="ExportMigrationReportButton"
+                            Width="180"
+                            Height="36"
+                            Margin="10,5"
+                            Content="Bericht exportieren" />
+                    </StackPanel>
+
+                    <ScrollViewer
+                        Grid.Row="1"
+                        MaxHeight="220"
+                        VerticalScrollBarVisibility="Auto">
+                        <Border
+                            Padding="5"
+                            Background="White"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                            <ItemsControl Name="MigrationsListBox" Margin="2">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="3" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox
+                                            Margin="8"
+                                            VerticalAlignment="Center"
+                                            Content="{Binding Content}"
+                                            IsChecked="{Binding IsChecked}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+            </GroupBox>
+
+            <!-- Analyse-Ausgaben -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Log-Ausgabebereich -->
+                <GroupBox Grid.Column="0" Margin="0,0,5,10" Header="Log-Ausgabe">
+                    <TextBox
+                        Name="MigrationOutputTextBox"
+                        Padding="15"
+                        AcceptsReturn="True"
+                        Background="White"
+                        BorderThickness="0"
+                        FontFamily="Consolas"
+                        FontSize="13"
+                        Foreground="#333333"
+                        IsReadOnly="True"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto" />
+                </GroupBox>
+                
+                <!-- Ergebnisbereich -->
+                <GroupBox Grid.Column="1" Margin="5,0,0,10" Header="Analyse-Ergebnisse">
+                    <TextBox
+                        Name="MigrationResultsTextBox"
+                        Padding="15"
+                        AcceptsReturn="True"
+                        Background="White"
+                        BorderThickness="0"
+                        FontFamily="Consolas"
+                        FontSize="13"
+                        Foreground="#333333"
+                        IsReadOnly="True"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto" />
+                </GroupBox>
+            </Grid>
+            
+            <!-- Fortschrittsanzeige -->
+            <StackPanel Grid.Row="2" Margin="0,0,0,5" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Name="MigrationStatusLabel"
+                        HorizontalAlignment="Left"
+                        Content="Bereit"
+                        FontFamily="Segoe UI"
+                        Foreground="{StaticResource TextBrush}" />
+                    <TextBlock
+                        Name="MigrationProgressText"
+                        Grid.Column="1"
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="0%" />
+                </Grid>
+                <ProgressBar
+                    Name="MigrationProgressBar"
+                    Height="8"
+                    Background="#F0F0F0"
+                    Foreground="{StaticResource PrimaryBrush}"
+                    Maximum="100"
+                    Minimum="0"
+                    Value="0" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Fußzeile -->
+        <DockPanel Grid.Row="2" LastChildFill="False" Margin="0,10,0,0">
+            <Button
+                Width="80"
+                Background="Transparent"
+                BorderThickness="1"
+                Content="Hilfe"
+                DockPanel.Dock="Left"
+                Foreground="{StaticResource TextBrush}" />
+            <TextBlock
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                FontStyle="Italic"
+                Foreground="#666666"
+                Text="easyWSAudit - Windows Server Audit Tool - v0.0.2" />
+        </DockPanel>
+    </Grid>
+</Window>

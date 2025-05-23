@@ -1,0 +1,8 @@
+easyWSAudit Version 0.0.2 gestartet - 2025-04-11 13:59:08
+[2025-04-11 13:59:08] [Information] easyWSAudit wird gestartet...
+[2025-04-11 13:59:08] [Information] GUI erfolgreich geladen
+[2025-04-11 13:59:11] [Information] Starte Audit für lokalen Server: MP-BOOK360
+[2025-04-11 13:59:11] [Information] Audit für Server MP-BOOK360 abgeschlossen.
+[2025-04-11 13:59:15] [Information] Starte Migrations-Analyse für Server: MP-BOOK360
+[2025-04-11 13:59:15] [Warning] Keine Migrations-Analyseergebnisse wurden gesammelt. Bitte überprüfen Sie die Berechtigungen.
+[2025-04-11 13:59:15] [Information] Migrations-Analyse für Server MP-BOOK360 abgeschlossen.

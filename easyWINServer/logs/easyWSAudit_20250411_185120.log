@@ -1,0 +1,3 @@
+[2025-04-11 18:51:20] [Information] easyWSAudit wird gestartet...
+[2025-04-11 18:51:21] [Error] Fehler beim Laden der GUI: You cannot call a method on a null-valued expression.
+[2025-04-11 18:51:21] [Error] GUI konnte nicht geladen werden. Beende Anwendung.
