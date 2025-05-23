@@ -1,2 +1,0 @@
-[2025-04-13 17:43:13] [INFO] UI-Module erfolgreich geladen
-[2025-04-13 17:43:13] [INFO] GUI erfolgreich geladen

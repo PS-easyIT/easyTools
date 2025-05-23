@@ -1,4 +1,0 @@
-[2025-04-11 12:43:20] [Information] easyWSAudit wird gestartet...
-[2025-04-11 12:43:20] [Information] GUI erfolgreich geladen
-[2025-04-11 12:43:28] [Information] Starte Migrations-Analyse für Server: MP-BOOK360
-[2025-04-11 12:43:28] [Error] Fehler beim Starten der Migrations-Analyse: The property 'Text' cannot be found on this object. Verify that the property exists and can be set.

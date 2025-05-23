@@ -1,3 +1,0 @@
-[2025-04-11 10:28:35] [INFO] easyWSUS Manager starting...
-[2025-04-11 10:28:35] [INFO] XAML aus externer Datei geladen
-[2025-04-11 10:28:35] [ERROR] Kritischer Fehler: Exception calling "Load" with "1" argument(s): "Zeilennummer "4" und Zeilenposition "5" von "Der angegebene Klassenname "easyWSUS.MainWindow" entspricht nicht dem tatsächlichen Stamminstanztyp "System.Windows.Window". Entfernen Sie die Klassendirektive, oder geben Sie eine Instanz über XamlObjectWriterSettings.RootObjectInstance an."."

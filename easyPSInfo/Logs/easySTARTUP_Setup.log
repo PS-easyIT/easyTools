@@ -1,0 +1,16 @@
+﻿[2025-05-23 19:04:58] [Info] Starting easyIT PowerShell Setup Tool...
+[2025-05-23 19:04:59] [Info] Checking modules...
+[2025-05-23 19:04:59] [Info] Modules loaded in ListView.
+[2025-05-23 19:05:00] [Info] Execution policies updated.
+[2025-05-23 19:05:00] [Info] Loading available PowerShell scripts...
+[2025-05-23 19:05:00] [Info] Adding base path for script search: \\192.168.100.15\Daten1\06-Scripts\!PS-easyIT\#GitHub-Repos\easyTools\easyPowerShell
+[2025-05-23 19:05:00] [Info] Added 1 subfolders to script search (after filtering path segments).
+[2025-05-23 19:05:00] [Info] Searching for scripts in 2 locations.
+[2025-05-23 19:05:00] [Info] Registering GUI event handlers...
+[2025-05-23 19:05:00] [Info] Script list refresh button event registered.
+[2025-05-23 19:05:00] [Info] Execution policy refresh button event registered.
+[2025-05-23 19:05:00] [Info] Exit button event registered.
+[2025-05-23 19:05:00] [Info] Module ListView button events registered.
+[2025-05-23 19:05:00] [Info] ExecutionPolicy ListView button events registered.
+[2025-05-23 19:05:00] [Success] All event handlers successfully registered.
+[2025-05-23 19:05:00] [Success] GUI erfolgreich initialisiert und Event-Handler registriert.
