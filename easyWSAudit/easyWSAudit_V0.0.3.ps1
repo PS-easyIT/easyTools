@@ -701,6 +701,7 @@ function Start-ConnectionAuditProcess {
     # UI vorbereiten
     $btnRunConnectionAudit.IsEnabled = $false
     $btnExportConnectionHTML.IsEnabled = $false
+    $btnExportConnectionDrawIO.IsEnabled = $false
     $btnCopyConnectionToClipboard.IsEnabled = $false
     $cmbConnectionCategories.IsEnabled = $false
     
@@ -838,6 +839,7 @@ function Start-ConnectionAuditProcess {
         # Buttons wieder aktivieren
         $btnRunConnectionAudit.IsEnabled = $true
         $btnExportConnectionHTML.IsEnabled = $true
+        $btnExportConnectionDrawIO.IsEnabled = $true
         $btnCopyConnectionToClipboard.IsEnabled = $true
         $cmbConnectionCategories.IsEnabled = $true
     }, "Normal")
