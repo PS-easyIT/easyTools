@@ -1,5 +1,5 @@
 # easyWSAudit - Windows Server Audit Tool
-# Version: 0.0.3 - Vereinfacht ohne asynchrone Ausfuehrung
+# Version: 0.0.3
 
 # Debug-Modus - Auf $true setzen fuer ausfuehrliche Logging-Informationen
 $DEBUG = $false
