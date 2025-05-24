@@ -1276,6 +1276,78 @@ function Show-ConnectionResults {
     Write-DebugLog "Anzeige der Verbindungsergebnisse für Kategorie '$Category' abgeschlossen." "UI"
 }
 
+# Funktion zum sicheren Ausführen von Get-WinEvent Befehlen
+function Invoke-SafeWinEvent {
+    param(
+        [hashtable]$FilterHashtable,
+        [int]$MaxEvents = 50,
+        [string]$Description = "Events"
+    )
+    
+    try {
+        Write-DebugLog "Versuche Get-WinEvent mit Filter: $($FilterHashtable | ConvertTo-Json -Compress)" "SafeWinEvent"
+        
+        # Versuche Event-Abfrage mit ErrorAction Stop. 2>$null unterdrückt die Standard-Fehlerausgabe in der Konsole.
+        $events = Get-WinEvent -FilterHashtable $FilterHashtable -MaxEvents $MaxEvents -ErrorAction Stop 2>$null
+        
+        # Wenn $events nicht $null ist und Elemente enthält (und keine Exception ausgelöst wurde),
+        # werden die Events zurückgegeben.
+        if ($null -ne $events -and $events.Count -gt 0) {
+            Write-DebugLog "Erfolgreich $($events.Count) Events gefunden" "SafeWinEvent"
+            return $events
+        } else {
+            # Dieser Block wird erreicht, wenn Get-WinEvent $null oder ein leeres Array zurückgibt, 
+            # ohne einen Fehler auszulösen, der von ErrorAction Stop abgefangen würde.
+            Write-DebugLog "Get-WinEvent lieferte keine Events oder ein leeres Ergebnis (ohne Exception). Filter: $($FilterHashtable | ConvertTo-Json -Compress). Gebe leeres Array zurück." "SafeWinEvent"
+            return @() 
+        }
+    }
+    catch { # Fängt alle terminierenden Fehler von Get-WinEvent ab
+        $ErrorRecord = $PSItem # $PSItem ist der ErrorRecord im Catch-Block (in PSv3+).
+        
+        Write-DebugLog "Get-WinEvent Fehler aufgetreten. Message: '$($ErrorRecord.Exception.Message)'. FullyQualifiedErrorId: '$($ErrorRecord.FullyQualifiedErrorId)'." "SafeWinEvent"
+        
+        # Spezifische Behandlung für häufige Fehler
+        # Prüfung auf 'NoMatchingEventsFound' anhand der FullyQualifiedErrorId (bevorzugt)
+        if ($ErrorRecord.FullyQualifiedErrorId -eq "NoMatchingEventsFound,Microsoft.PowerShell.Commands.GetWinEventCommand") {
+            Write-DebugLog "Fehler 'NoMatchingEventsFound' (basierend auf FQID) abgefangen. Gebe leeres Array zurück." "SafeWinEvent"
+            return @()
+        }
+        # Fallback: Prüfung auf 'NoMatchingEventsFound' oder deutschsprachige Entsprechung anhand der Fehlermeldung
+        elseif ($ErrorRecord.Exception.Message -like "*NoMatchingEventsFound*" -or $ErrorRecord.Exception.Message -like "*Es wurden keine Ereignisse gefunden*") {
+            Write-DebugLog "Fehler '$($ErrorRecord.Exception.Message)' (Nachricht ähnlich 'Keine Events gefunden') abgefangen. Gebe leeres Array zurück." "SafeWinEvent"
+            return @()
+        }
+        # Zugriff verweigert (Access Denied)
+        elseif ($ErrorRecord.Exception.Message -like "*Access is denied*" -or $ErrorRecord.Exception.Message -like "*Zugriff verweigert*") {
+            Write-DebugLog "Fehler '$($ErrorRecord.Exception.Message)' (Zugriff verweigert) abgefangen." "SafeWinEvent"
+            return "$Description nicht verfügbar - Keine Berechtigung für Event-Log-Zugriff"
+        }
+        # Kanal/Log nicht gefunden (Channel/Log not found)
+        elseif (
+            $ErrorRecord.Exception.Message -like "*The specified channel could not be found*" -or 
+            $ErrorRecord.Exception.Message -like "*Der angegebene Kanal wurde nicht gefunden*" -or
+            $ErrorRecord.Exception.Message -like "*log does not exist*" -or # Allgemeinere Prüfung auf Nichtexistenz des Logs
+            $ErrorRecord.Exception.Message -like "*existiert nicht*" # Deutsche Variante für "existiert nicht"
+        ) {
+            Write-DebugLog "Fehler '$($ErrorRecord.Exception.Message)' (Kanal/Log existiert nicht) abgefangen." "SafeWinEvent"
+            return "$Description nicht verfügbar - Event-Log-Kanal existiert nicht"
+        }
+        # Andere Fehler
+        else {
+            # Versuche, eine kurze, prägnante Fehlermeldung zu extrahieren (erster Satz oder erste Zeile)
+            $shortErrorMessage = "Unbekannter Fehler" # Standardwert
+            if ($ErrorRecord.Exception.Message) {
+                $splitMessages = $ErrorRecord.Exception.Message -split '\r?\n|\. '
+                if ($splitMessages.Count -gt 0 -and -not [string]::IsNullOrWhiteSpace($splitMessages[0])) {
+                    $shortErrorMessage = $splitMessages[0]
+                }
+            }
+            Write-DebugLog "Allgemeiner Get-WinEvent Fehler: '$shortErrorMessage'. Vollständige Exception: $($ErrorRecord.Exception)" "SafeWinEvent"
+            return "$Description nicht verfügbar - Event-Log-Fehler: $shortErrorMessage"
+        }
+    }
+}
 
 # Funktion zum HTML-Export der Verbindungsaudit-Ergebnisse
 function Export-ConnectionAuditToHTML {
@@ -3563,7 +3635,7 @@ function Export-NetworkTopologyToDrawIO {
         # XML Header
         $xmlContent = @"
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="$(Get-Date -Format 'yyyy-MM-ddTHH:mm:ss.fffZ')" agent="easyWSAudit PowerShell Script" etag="$(Get-Random)" version="24.4.0" type="device">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.5 Chrome/134.0.6998.205 Electron/35.3.0 Safari/537.36" version="27.0.5">
   <diagram name="Netzwerk-Topologie $(Clean-StringForDiagram $ServerName)" id="$(New-Guid)">
     <mxGraphModel dx="1700" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -3650,7 +3722,7 @@ function Export-NetworkTopologyToDrawIO {
         # Lauschende Ports (als kleine verbundene Elemente)
         $listenPortXStart = 1050
         $listenPortYStart = 400
-        $listenPortMax = 5 # Max Ports anzeigen
+        $listenPortMax = 25
         $listenPortCurrent = 0
         $uniqueListeningPorts = $processedData.ListeningPorts | Sort-Object Port -Unique | Select-Object -First $listenPortMax
         
@@ -3783,116 +3855,6 @@ $btnExportConnectionDrawIO.Add_Click({
     }
 })
 
-# Funktion zum sicheren Ausführen von Get-WinEvent Befehlen
-function Invoke-SafeWinEvent {
-    param(
-        [hashtable]$FilterHashtable,
-        [int]$MaxEvents = 50,
-        [string]$Description = "Events"
-    )
-    
-    try {
-        Write-DebugLog "Versuche Get-WinEvent mit Filter: $($FilterHashtable | ConvertTo-Json -Compress)" "SafeWinEvent"
-        
-        # Versuche Event-Abfrage mit ErrorAction Stop
-        $events = Get-WinEvent -FilterHashtable $FilterHashtable -MaxEvents $MaxEvents -ErrorAction Stop 2>$null
-        
-        if ($events -and $events.Count -gt 0) {
-            Write-DebugLog "Erfolgreich $($events.Count) Events gefunden" "SafeWinEvent"
-            return $events
-        } else {
-            Write-DebugLog "Keine Events gefunden für Filter: $($FilterHashtable | ConvertTo-Json -Compress)" "SafeWinEvent"
-            return "Keine $Description gefunden - Event-Log möglicherweise leer"
-        }
-    }
-    catch [System.Exception] {
-        $errorMessage = $_.Exception.Message
-        Write-DebugLog "Get-WinEvent Fehler: $errorMessage" "SafeWinEvent"
-        
-        # Spezifische Behandlung für häufige Fehler
-        if ($errorMessage -like "*NoMatchingEventsFound*" -or $errorMessage -like "*Es wurden keine Ereignisse gefunden*") {
-            return "Keine $Description gefunden - Event-Log ist leer oder Events nicht aktiviert"
-        }
-        elseif ($errorMessage -like "*Access*" -or $errorMessage -like "*Zugriff*") {
-            return "$Description nicht verfügbar - Keine Berechtigung für Event-Log-Zugriff"
-        }
-        elseif ($errorMessage -like "*does not exist*" -or $errorMessage -like "*existiert nicht*") {
-            return "$Description nicht verfügbar - Event-Log-Kanal existiert nicht"
-        }
-        else {
-            return "$Description nicht verfügbar - Event-Log-Fehler: " + $errorMessage.Split('.')[0]
-        }
-    }
-}
-
-# Verbindungsaudit Kategorien-ComboBox Event Handler
-$cmbConnectionCategories.Add_SelectionChanged({
-    if ($cmbConnectionCategories.SelectedItem) {
-        $selectedCategory = $cmbConnectionCategories.SelectedItem.Tag
-        Write-DebugLog "Verbindungsaudit-Kategorie geaendert zu: $selectedCategory" "UI"
-        Show-ConnectionResults -Category $selectedCategory
-    }
-})
-
-# Verbindungsaudit HTML-Export Button
-$btnExportConnectionHTML.Add_Click({
-    Write-DebugLog "Verbindungsaudit HTML-Export gestartet" "Export"
-    
-    if ($global:connectionAuditResults.Count -eq 0) {
-        [System.Windows.MessageBox]::Show("Keine Verbindungsaudit-Ergebnisse zum Exportieren vorhanden.", "Keine Daten", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
-        return
-    }
-    
-    $saveFileDialog = New-Object System.Windows.Forms.SaveFileDialog
-    $saveFileDialog.Filter = "HTML Files (*.html)|*.html"
-    $saveFileDialog.Title = "Speichern Sie den Verbindungsaudit-Bericht"
-    $saveFileDialog.FileName = "ConnectionAudit_$($env:COMPUTERNAME)_$(Get-Date -Format 'yyyyMMdd_HHmmss').html"
-    
-    if ($saveFileDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
-        $txtProgressConnection.Text = "Exportiere Verbindungsaudit-HTML..."
-        
-        try {
-            Export-ConnectionAuditToHTML -Results $global:connectionAuditResults -FilePath $saveFileDialog.FileName
-            $txtProgressConnection.Text = "HTML-Export erfolgreich abgeschlossen"
-            [System.Windows.MessageBox]::Show("Verbindungsaudit-Bericht wurde erfolgreich exportiert:`r`n$($saveFileDialog.FileName)", "Export erfolgreich", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
-        } catch {
-            $txtProgressConnection.Text = "Fehler beim HTML-Export"
-            [System.Windows.MessageBox]::Show("Fehler beim HTML-Export:`r`n$($_.Exception.Message)", "Export Fehler", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
-        }
-    }
-})
-
-# Verbindungsaudit Zwischenablage-Button
-$btnCopyConnectionToClipboard.Add_Click({
-    Write-DebugLog "Kopiere Verbindungsaudit-Ergebnisse in Zwischenablage" "UI"
-    
-    if ($global:connectionAuditResults.Count -eq 0) {
-        [System.Windows.MessageBox]::Show("Keine Verbindungsaudit-Ergebnisse zum Kopieren vorhanden.", "Keine Daten", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
-        return
-    }
-    
-    try {
-        # Extrahiere Text aus der RichTextBox
-        $textRange = New-Object System.Windows.Documents.TextRange($rtbConnectionResults.Document.ContentStart, $rtbConnectionResults.Document.ContentEnd)
-        $plainText = $textRange.Text
-        
-        if ([string]::IsNullOrWhiteSpace($plainText)) {
-            # Fallback: Erstelle Text direkt aus den Ergebnissen
-            $plainText = "=== VERBINDUNGSAUDIT ERGEBNISSE ===`r`n`r`n"
-            foreach ($key in $global:connectionAuditResults.Keys | Sort-Object) {
-                $plainText += "=== $key ===`r`n"
-                $plainText += "$($global:connectionAuditResults[$key])`r`n`r`n"
-            }
-        }
-        
-        [System.Windows.Clipboard]::SetText($plainText)
-        [System.Windows.MessageBox]::Show("Verbindungsaudit-Ergebnisse wurden in die Zwischenablage kopiert.", "Erfolgreich kopiert", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
-        
-    } catch {
-        Write-DebugLog "FEHLER beim Kopieren in Zwischenablage: $($_.Exception.Message)" "UI"
-        [System.Windows.MessageBox]::Show("Fehler beim Kopieren in die Zwischenablage:`r`n$($_.Exception.Message)", "Fehler", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
-    }
-})
 # Initialisiere die Ergebnisse-Anzeige
 Show-CategoryResults -Category "Alle"
 Write-DebugLog "GUI initialisiert, warte auf Benutzerinteraktion" "Startup"
