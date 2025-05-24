@@ -1,8 +1,8 @@
-## 🚀 easyWSAudit v0.0.3 - Windows Server Audit
+## 🚀 easyWSAudit v0.2.3 - Windows Server Audit
 
 ### ✅ Über 120 Audit-Befehle
 
-#### 🌐 Verbindungsaudit (NEU in v0.0.3)
+#### 🌐 Verbindungsaudit (v0.2.3)
 *   **50+ spezialisierte Netzwerk-Audit-Befehle** für erweiterte Verbindungsanalysen
 *   **Echtzeitanalyse aktiver TCP/UDP-Verbindungen** mit Prozess-Zuordnung
 *   **Netzwerk-Topologie-Mapping** mit automatischer Geräte-Erkennung
@@ -11,7 +11,7 @@
 *   **ARP-Cache und MAC-Adressen-Analyse** für lokale Netzwerk-Discovery
 
 
-#### 📊 System-Audits
+#### 📊 System-Audits (v0.0.12)
 *   Lokale Administratoren & Guest Accounts
 *   Shared Folders & User Profiles
 *   Windows Firewall & Power Management
@@ -19,33 +19,33 @@
 *   Group Policy Results & Environment Variables
 *   Installierte Software (Registry-basiert)
 
-#### 🔐 Active Directory 
+#### 🔐 Active Directory (v0.0.12)
 *   **ADFS (5 Audits):** Relying Party Trusts, Claims Provider, Certificates, Endpoints
 *   **ADLDS (2 Audits):** Instances & Configuration
 *   **ADRMS (3 Audits):** Cluster Info, Server Info, Templates
 
-#### 🩺 AD Health Check
+#### 🩺 AD Health Check (v0.1.9)
 *   AD DHCP Server Discovery in Active Directory
 *   AD Service Dependencies Health (DNS, DFS, Kerberos, etc.)
 *   AD DC Diagnostics (dcdiag)
 *   AD Time Sync Status & Sysvol Replication
 
-#### 🛡️ Sicherheit & Compliance
+#### 🛡️ Sicherheit & Compliance (v0.0.12)
 *   **Device Health Attestation (1 Audit):** Encryption/Signing Certificates
 *   **Volume Activation (2 Audits):** KMS Server/Client Status
 *   **Windows Defender (3 Audits):** Status, Preferences, Threat Detection
 *   **Host Guardian Service (2 Audits):** HGS Info & Attestation Policies
 
-#### 💾 Backup & Storage
+#### 💾 Backup & Storage (v0.1.9)
 *   **Windows Server Backup (3 Audits):** Policies, Jobs, Disks
 *   **Storage Management (4 Audits):** Storage Pools, Virtual Disks, Storage Spaces
 *   **Windows Internal Database (2 Audits):** SQL Express Instances
 
-#### 🌐 Netzwerk & Zugriff
+#### 🌐 Netzwerk & Zugriff (v0.1.9)
 *   **NPAS/NPS (4 Audits):** Network Policies, RADIUS Clients, Connection Policies
 *   **Remote Access (3 Audits):** DirectAccess, VPN, Routing Table
 
-#### ⚙️ System Services
+#### ⚙️ System Services (v0.0.12)
 *   **Windows Process Activation Service (2 Audits):** WAS Status & App Pools
 *   **Windows Search Service (2 Audits):** Search Status & Indexer
 *   **Windows Server Essentials (2 Audits):** Dashboard & Backup
@@ -115,13 +115,12 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 **Release Datum:** [Vorherige Version]
 
 #### ✨ Neue Features:
-- Über 120 verschiedene Audit-Befehle
-- Verbindungsaudit mit Netzwerk-Topologie-Export
-- HTML-Export mit responsivem Design
-- DRAW.IO-Integration für Netzwerk-Diagramme
+- Über 120 verschiedene Audit-Befehle (v0.1.9)
+- Verbindungsaudit mit Netzwerk-Topologie-Export (v0.2.3)
+- HTML-Export mit responsivem Design (v0.1.9)
+- DRAW.IO-Integration für Netzwerk-Diagramme  (v0.2.3)
 
-### 🏁 Version 0.0.1 - Erste Version
-**Release Datum:** [Initial Release]
+### 🏁 Version 0.0.12 - Erste Version
 
 #### 🎯 Grundfunktionen:
 - Basis Server-Audit-Funktionalität
