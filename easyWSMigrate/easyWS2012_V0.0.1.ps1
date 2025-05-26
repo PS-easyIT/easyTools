@@ -786,7 +786,9 @@ $XAML = @"
                     <Border x:Name="roleAuditResultsCard" Style="{StaticResource CardStyle}" Visibility="Collapsed" Margin="0,10,0,0">
                         <StackPanel>
                             <TextBlock Text="Role Audit Results" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                            <DataGrid x:Name="dgRoleAuditResults" MaxHeight="300" VerticalScrollBarVisibility="Auto"/>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300">
+                                <DataGrid x:Name="dgRoleAuditResults"/>
+                            </ScrollViewer>
                              <TextBlock Text="Detailed findings will be presented here, specific to each audited role." FontStyle="Italic" Margin="0,10,0,0"/>
                         </StackPanel>
                     </Border>
