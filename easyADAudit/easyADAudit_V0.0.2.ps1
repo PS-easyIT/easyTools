@@ -258,7 +258,7 @@ function Export-Data {
 $xamlContent = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="EasyADAudit - Active Directory Audit Tool" Height="840" Width="1900"
+    Title="EasyADAudit - Active Directory Audit Tool" Height="750" Width="1440"
     WindowStartupLocation="CenterScreen" ResizeMode="CanResize"
     Background="#F3F3F3" FontFamily="Segoe UI" FontSize="12">
     
@@ -363,190 +363,180 @@ $xamlContent = @'
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Padding="16">
         <StackPanel>
         
-        <!-- Audit Type Selection Card -->
-        <Border Style="{StaticResource CardStyle}">
-            <StackPanel>
-            <TextBlock Text="Select Audit Type" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <RadioButton x:Name="RadioUsers" Content="User Audit" IsChecked="True" Margin="8" FontWeight="SemiBold"/>
-                <RadioButton x:Name="RadioGroups" Content="Group Audit" Grid.Column="1" Margin="8" FontWeight="SemiBold"/>
-                <RadioButton x:Name="RadioMemberships" Content="Membership Audit" Grid.Column="2" Margin="8" FontWeight="SemiBold"/>
-            </Grid>
-            </StackPanel>
-        </Border>
-        
-        <!-- Configuration Sections in a Row -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Filter Configuration Card -->
-            <Border Grid.Column="0" Style="{StaticResource CardStyle}" VerticalAlignment="Stretch">
-                <StackPanel>
-                <TextBlock Text="Filter Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
-                
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBlock Text="Filter Type:" VerticalAlignment="Center" Margin="0,0,12,0" FontWeight="SemiBold"/>
-                    <ComboBox x:Name="ComboBoxFilterType" Grid.Column="1" Style="{StaticResource ModernComboBoxStyle}" Margin="0,4"/>
-                    <Button x:Name="ButtonPopulateFilterValues" Content="Load Values" Grid.Column="2" Style="{StaticResource SecondaryButtonStyle}" Margin="8,4,0,4"/>
-                    
-                    <TextBlock Text="Available Values:" Grid.Row="1" VerticalAlignment="Top" Margin="0,12,12,0" FontWeight="SemiBold"/>
-                    <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="0,8,0,0" Height="120">
-                    <ListBox x:Name="ListBoxFilterValues" Background="White" BorderThickness="0">
-                        <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox Content="{Binding DisplayName}" IsChecked="{Binding IsSelected}" Margin="2"/>
-                        </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    </Border>
-                    
-                    <TextBlock x:Name="TextBlockSelectedFilterValues" Text="Selected Values: (None)" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,8,0,0" FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}"/>
-                </Grid>
-                
-                <WrapPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <CheckBox x:Name="CheckBoxIncludeDisabled" Content="Include Disabled Objects" Margin="0,0,16,4"/>
-                    <CheckBox x:Name="CheckBoxIncludeNested" Content="Include Nested Groups" Margin="0,0,16,4"/>
-                    <CheckBox x:Name="CheckBoxShowEmptyGroups" Content="Show Empty Groups" Margin="0,0,0,4"/>
-                </WrapPanel>
-                </StackPanel>
-            </Border>
-            
-            <!-- Export Configuration Card -->
-            <Border Grid.Column="1" Style="{StaticResource CardStyle}" VerticalAlignment="Stretch">
-                <StackPanel>
-                <TextBlock Text="Export Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
-                
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <StackPanel Grid.ColumnSpan="2" Margin="0,0,0,12">
-                    <TextBlock Text="Export Format:" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                    <ComboBox x:Name="ComboBoxOutputType" Style="{StaticResource ModernComboBoxStyle}"/>
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
-                    <TextBlock Text="Export Path:" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="TextBoxOutputPath" Style="{StaticResource ModernTextBoxStyle}"/>
-                        <Button x:Name="ButtonBrowseOutputPath" Content="Browse" Grid.Column="1" Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,0" Width="Auto"/>
-                    </Grid>
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Row="2" Margin="0,0,8,0">
-                    <TextBlock Text="Select Attributes:" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                    <Button x:Name="ButtonSelectExportAttributes" Content="Select Attributes..." Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Stretch"/>
-                    <TextBlock x:Name="TextBlockSelectedAttributesCount" Text="Selected Attributes: (Please select)" Margin="0,4,0,0" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="8,0,0,0">
-                    <TextBlock Text="Advanced Options:" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                    <TextBox x:Name="TextBoxRequiredAttribute" Style="{StaticResource ModernTextBoxStyle}" Text="" Margin="0,2"/>
-                    <TextBlock Text="Required Attribute" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,1,0,4"/>
-                    <TextBox x:Name="TextBoxSortBy" Style="{StaticResource ModernTextBoxStyle}" Text="Name" Margin="0,2"/>
-                    <TextBlock Text="Sort By" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,1,0,4"/>
-                    <TextBox x:Name="TextBoxExcludePattern" Style="{StaticResource ModernTextBoxStyle}" Text="" Margin="0,2"/>
-                    <TextBlock Text="Exclude Pattern" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,1,0,0"/>
-                    </StackPanel>
-                </Grid>
-                </StackPanel>
-            </Border>
-            
-            <!-- Analysis & Preview Card -->
-            <Border Grid.Column="2" Style="{StaticResource CardStyle}" VerticalAlignment="Stretch">
-                <StackPanel>
-                <TextBlock Text="Analysis &amp; Preview" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
-                
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Border Background="#E3F2FD" CornerRadius="4" Padding="12" Margin="0,0,4,0">
-                    <StackPanel>
-                        <TextBlock Text="Object Count" FontWeight="SemiBold" Foreground="#1976D2"/>
-                        <TextBlock x:Name="TextBlockUserCountPreview" Text="Users: -" FontSize="14" Margin="0,4,0,0"/>
-                        <TextBlock x:Name="TextBlockGroupCountPreview" Text="Groups: -" FontSize="14"/>
-                    </StackPanel>
-                    </Border>
-                    
-                    <Border Background="#F3E5F5" CornerRadius="4" Padding="12" Margin="4,0" Grid.Column="1">
-                    <StackPanel>
-                        <TextBlock Text="Status" FontWeight="SemiBold" Foreground="#7B1FA2"/>
-                        <TextBlock x:Name="TextBlockActiveCount" Text="Active: -" FontSize="14" Margin="0,4,0,0"/>
-                        <TextBlock x:Name="TextBlockInactiveCount" Text="Inactive: -" FontSize="14"/>
-                    </StackPanel>
-                    </Border>
-                    
-                    <Border Background="#E8F5E8" CornerRadius="4" Padding="12" Margin="4,0,0,0" Grid.Column="2">
-                    <StackPanel>
-                        <TextBlock Text="Memberships" FontWeight="SemiBold" Foreground="#388E3C"/>
-                        <TextBlock x:Name="TextBlockMembershipCount" Text="Assignments: -" FontSize="14" Margin="0,4,0,0"/>
-                        <TextBlock x:Name="TextBlockOrphanedCount" Text="Orphaned: -" FontSize="14"/>
-                    </StackPanel>
-                    </Border>
-                </Grid>
-                
-                <Button x:Name="ButtonUpdatePreview" Content="Update Preview" Style="{StaticResource SecondaryButtonStyle}" Margin="0,12,0,0" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Border>
-        </Grid>
-        
         <!-- Quick Reports Card -->
         <Border Style="{StaticResource CardStyle}">
             <StackPanel>
             <TextBlock Text="Quick Reports" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
             
-            <UniformGrid Columns="3" Margin="0,0,0,12">
+            <UniformGrid Columns="4" Margin="0,0,0,12">
                 <Button x:Name="ButtonQuickReportInactiveUsers" Content="Inactive Users" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,4,4"/>
                 <Button x:Name="ButtonQuickReportEmptyGroups" Content="Empty Groups" Style="{StaticResource SecondaryButtonStyle}" Margin="4,0,4,4"/>
-                <Button x:Name="ButtonQuickReportAdmins" Content="Admin Groups" Style="{StaticResource SecondaryButtonStyle}" Margin="4,0,0,4"/>
-                <Button x:Name="ButtonQuickReportNoLogin" Content="Never Logged In" Style="{StaticResource SecondaryButtonStyle}" Margin="0,4,4,0"/>
-                <Button x:Name="ButtonQuickReportPasswordExpiry" Content="Password Expiry" Style="{StaticResource SecondaryButtonStyle}" Margin="4,4,4,0"/>
-                <Button x:Name="ButtonQuickReportLargeGroups" Content="Large Groups" Style="{StaticResource SecondaryButtonStyle}" Margin="4,4,0,0"/>
+                <Button x:Name="ButtonQuickReportAdmins" Content="Admin Groups" Style="{StaticResource SecondaryButtonStyle}" Margin="4,0,4,4"/>
+                <Button x:Name="ButtonQuickReportNoLogin" Content="Never Logged In" Style="{StaticResource SecondaryButtonStyle}" Margin="4,0,0,4"/>
+                <Button x:Name="ButtonQuickReportPasswordExpiry" Content="Password Expiry" Style="{StaticResource SecondaryButtonStyle}" Margin="0,4,4,0"/>
+                <Button x:Name="ButtonQuickReportLargeGroups" Content="Large Groups" Style="{StaticResource SecondaryButtonStyle}" Margin="4,4,4,0"/>
             </UniformGrid>
             </StackPanel>
         </Border>
+
+        <!-- Container for the 4 configuration boxes -->
+        <Grid HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Audit Type Selection Card -->
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}" MaxWidth="200">
+            <StackPanel>
+            <TextBlock Text="Select Audit Type" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
+            <!-- RadioButtons werden nun vertikal angeordnet -->
+            <RadioButton x:Name="RadioUsers" Content="User Audit" IsChecked="True" Margin="8,4,8,4" FontWeight="SemiBold"/>
+            <RadioButton x:Name="RadioGroups" Content="Group Audit" Margin="8,4,8,4" FontWeight="SemiBold"/>
+            <RadioButton x:Name="RadioMemberships" Content="Membership Audit" Margin="8,4,8,4" FontWeight="SemiBold"/>
+            </StackPanel>
+            </Border>
+            
+            <!-- Filter Configuration Card -->
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}" MaxWidth="550">
+            <StackPanel>
+            <TextBlock Text="Filter Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
+            
+            <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="Filter Type:" VerticalAlignment="Center" Margin="0,0,12,0" FontWeight="SemiBold"/>
+            <ComboBox x:Name="ComboBoxFilterType" Grid.Column="1" Style="{StaticResource ModernComboBoxStyle}" Margin="0,4"/>
+            <Button x:Name="ButtonPopulateFilterValues" Content="Load Values" Grid.Column="2" Style="{StaticResource SecondaryButtonStyle}" Margin="8,4,0,4"/>
+            
+            <TextBlock Text="Available Values:" Grid.Row="1" VerticalAlignment="Top" Margin="0,12,12,0" FontWeight="SemiBold"/>
+            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="0,8,0,0" Height="120">
+            <ListBox x:Name="ListBoxFilterValues" Background="White" BorderThickness="0">
+            <ListBox.ItemTemplate>
+            <DataTemplate>
+                <CheckBox Content="{Binding DisplayName}" IsChecked="{Binding IsSelected}" Margin="2"/>
+            </DataTemplate>
+            </ListBox.ItemTemplate>
+            </ListBox>
+            </Border>
+            
+            <TextBlock x:Name="TextBlockSelectedFilterValues" Text="Selected Values: (None)" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,8,0,0" FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}"/>
+            </Grid>
+            
+            <WrapPanel Orientation="Horizontal" Margin="0,12,0,0">
+            <CheckBox x:Name="CheckBoxIncludeDisabled" Content="Include Disabled Objects" Margin="0,0,16,4"/>
+            <CheckBox x:Name="CheckBoxIncludeNested" Content="Include Nested Groups" Margin="0,0,16,4"/>
+            <CheckBox x:Name="CheckBoxShowEmptyGroups" Content="Show Empty Groups" Margin="0,0,0,4"/>
+            </WrapPanel>
+            </StackPanel>
+            </Border>
+            
+            <!-- Export Configuration Card -->
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}" MaxWidth="500">
+            <StackPanel>
+            <TextBlock Text="Export Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
+            
+            <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.ColumnSpan="2" Margin="0,0,0,12">
+            <TextBlock Text="Export Format:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <ComboBox x:Name="ComboBoxOutputType" Style="{StaticResource ModernComboBoxStyle}"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
+            <TextBlock Text="Export Path:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="TextBoxOutputPath" Style="{StaticResource ModernTextBoxStyle}"/>
+            <Button x:Name="ButtonBrowseOutputPath" Content="Browse" Grid.Column="1" Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,0" Width="Auto"/>
+            </Grid>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="2" Margin="0,0,8,0">
+            <TextBlock Text="Select Attributes:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <Button x:Name="ButtonSelectExportAttributes" Content="Select Attributes..." Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Stretch"/>
+            <TextBlock x:Name="TextBlockSelectedAttributesCount" Text="Selected Attributes: (Please select)" Margin="0,4,0,0" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="2" Grid.Column="1" Margin="8,0,0,0">
+            <TextBlock Text="Advanced Options:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <TextBox x:Name="TextBoxRequiredAttribute" Style="{StaticResource ModernTextBoxStyle}" Text="" Margin="0,2"/>
+            <TextBlock Text="Required Attribute" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,1,0,4"/>
+            <TextBox x:Name="TextBoxSortBy" Style="{StaticResource ModernTextBoxStyle}" Text="Name" Margin="0,2"/>
+            <TextBlock Text="Sort By" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,1,0,4"/>
+            <TextBox x:Name="TextBoxExcludePattern" Style="{StaticResource ModernTextBoxStyle}" Text="" Margin="0,2"/>
+            <TextBlock Text="Exclude Pattern" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,1,0,0"/>
+            </StackPanel>
+            </Grid>
+            </StackPanel>
+            </Border>
+            
+            <!-- Analysis & Preview Card -->
+            <Border Grid.Column="3" Style="{StaticResource CardStyle}" MaxWidth="250">
+            <StackPanel>
+            <TextBlock Text="Analysis &amp; Preview" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
+            
+            <StackPanel> <!-- Changed from Grid to StackPanel for vertical layout -->
+            
+            <Border Background="#E3F2FD" CornerRadius="4" Padding="12" Margin="0,0,0,8"> <!-- Adjusted Margin for vertical spacing -->
+            <StackPanel>
+            <TextBlock Text="Object Count" FontWeight="SemiBold" Foreground="#1976D2"/>
+            <TextBlock x:Name="TextBlockUserCountPreview" Text="Users: -" FontSize="14" Margin="0,4,0,0"/>
+            <TextBlock x:Name="TextBlockGroupCountPreview" Text="Groups: -" FontSize="14"/>
+            </StackPanel>
+            </Border>
+            
+            <Border Background="#F3E5F5" CornerRadius="4" Padding="12" Margin="0,0,0,8"> <!-- Removed Grid.Column, Adjusted Margin -->
+            <StackPanel>
+            <TextBlock Text="Status" FontWeight="SemiBold" Foreground="#7B1FA2"/>
+            <TextBlock x:Name="TextBlockActiveCount" Text="Active: -" FontSize="14" Margin="0,4,0,0"/>
+            <TextBlock x:Name="TextBlockInactiveCount" Text="Inactive: -" FontSize="14"/>
+            </StackPanel>
+            </Border>
+            
+            <Border Background="#E8F5E8" CornerRadius="4" Padding="12" Margin="0"> <!-- Removed Grid.Column, Adjusted Margin -->
+            <StackPanel>
+            <TextBlock Text="Memberships" FontWeight="SemiBold" Foreground="#388E3C"/>
+            <TextBlock x:Name="TextBlockMembershipCount" Text="Assignments: -" FontSize="14" Margin="0,4,0,0"/>
+            <TextBlock x:Name="TextBlockOrphanedCount" Text="Orphaned: -" FontSize="14"/>
+            </StackPanel>
+            </Border>
+            </StackPanel>
+            
+            <Button x:Name="ButtonUpdatePreview" Content="Update Preview" Style="{StaticResource SecondaryButtonStyle}" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+            </Border>
+        </Grid>
+        
         </StackPanel>
     </ScrollViewer>
     
     <!-- Footer with Actions -->
-    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="16,12">
+    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="16,24.5">
         <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -566,6 +556,7 @@ $xamlContent = @'
     </Grid>
 </Window>
 '@
+
 
 # GUI-spezifische Funktionen für erweiterte AD-Audit-Funktionalität
 function Get-GroupAuditData {
