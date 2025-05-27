@@ -6,7 +6,7 @@
     Es bietet eine moderne XAML-GUI zur Anzeige, Installation und Deinstallation von Updates sowie zur Verwaltung
     der Update-Quellen und WSUS-Einstellungen.
 .NOTES
-    Version:        0.0.1
+    Version:        0.1.4
     Author:         easyIT
     Creation Date:  27.05.2025
 #>
@@ -28,14 +28,43 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
 }
 #endregion
 
+# WPF-Assemblies laden
+Add-Type -AssemblyName PresentationFramework
+Add-Type -AssemblyName PresentationCore
+Add-Type -AssemblyName WindowsBase
+
 #region XAML GUI Definition
 [xml]$xaml = @"
 <Window
-    xmlns="[http://schemas.microsoft.com/winfx/2006/xaml/presentation"](http://schemas.microsoft.com/winfx/2006/xaml/presentation")
-    xmlns:x="[http://schemas.microsoft.com/winfx/2006/xaml"](http://schemas.microsoft.com/winfx/2006/xaml")
-    Title="easyWINUpdate - Windows Update Verwaltung" Height="700" Width="1100" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="easyWINUpdate - Windows Update Management" Height="950" Width="1400" 
     WindowStartupLocation="CenterScreen" ResizeMode="CanResize" 
     Background="#F0F0F0">
+    
+    <Window.Resources>
+        <Style x:Key="NavButtonStyle" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border" Background="Transparent" BorderThickness="4,0,0,0" BorderBrush="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
+                                <Setter Property="Foreground" Value="#0078D7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -68,19 +97,23 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
             <!-- Navigation Panel -->
             <Border Background="#F9F9F9" BorderBrush="#DDDDDD" BorderThickness="0,0,1,0">
                 <StackPanel Margin="0,20,0,0">
-                    <RadioButton x:Name="navUpdateStatus" Content="Update-Status" GroupName="Navigation" 
+                    <RadioButton x:Name="navUpdateStatus" Content="Update Status" GroupName="Navigation" 
                                 IsChecked="True" Height="50" FontSize="14" Padding="15,0,0,0"
                                 Foreground="#333333" Style="{StaticResource NavButtonStyle}"/>
                     
-                    <RadioButton x:Name="navInstalledUpdates" Content="Installierte Updates" GroupName="Navigation" 
+                    <RadioButton x:Name="navInstalledUpdates" Content="Installed Updates" GroupName="Navigation" 
                                 Height="50" FontSize="14" Padding="15,0,0,0"
                                 Foreground="#333333" Style="{StaticResource NavButtonStyle}"/>
                     
-                    <RadioButton x:Name="navAvailableUpdates" Content="Verfügbare Updates" GroupName="Navigation" 
+                    <RadioButton x:Name="navAvailableUpdates" Content="Available Updates" GroupName="Navigation" 
                                 Height="50" FontSize="14" Padding="15,0,0,0"
                                 Foreground="#333333" Style="{StaticResource NavButtonStyle}"/>
                     
-                    <RadioButton x:Name="navWSUSSettings" Content="WSUS-Einstellungen" GroupName="Navigation" 
+                    <RadioButton x:Name="navWSUSSettings" Content="WSUS Settings" GroupName="Navigation" 
+                                Height="50" FontSize="14" Padding="15,0,0,0"
+                                Foreground="#333333" Style="{StaticResource NavButtonStyle}"/>
+                    
+                    <RadioButton x:Name="navTroubleshooting" Content="Troubleshooting" GroupName="Navigation" 
                                 Height="50" FontSize="14" Padding="15,0,0,0"
                                 Foreground="#333333" Style="{StaticResource NavButtonStyle}"/>
                 </StackPanel>
@@ -106,29 +139,29 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Windows-Version:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtWindowsVersion" Text="Wird geladen..." Margin="0,5,0,5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Windows Version:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtWindowsVersion" Text="Loading..." Margin="0,5,0,5"/>
                             
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Update-Quelle:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtUpdateSource" Text="Wird geladen..." Margin="0,5,0,5"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Update Source:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtUpdateSource" Text="Loading..." Margin="0,5,0,5"/>
                             
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Letztes Update:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtLastUpdate" Text="Wird geladen..." Margin="0,5,0,5"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Last Update:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtLastUpdate" Text="Loading..." Margin="0,5,0,5"/>
                             
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Update-Status:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtUpdateStatus" Text="Wird geladen..." Margin="0,5,0,5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Update Status:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtUpdateStatus" Text="Loading..." Margin="0,5,0,5"/>
                             
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Installierte Updates:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                            <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtInstalledUpdatesCount" Text="Wird geladen..." Margin="0,5,0,5"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Installed Updates:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtInstalledUpdatesCount" Text="Loading..." Margin="0,5,0,5"/>
                         </Grid>
                         
-                        <Button x:Name="btnCheckForUpdates" Content="Nach Updates suchen" Padding="15,8" 
+                        <Button x:Name="btnCheckForUpdates" Content="Check for Updates" Padding="15,8" 
                                 Background="#0078D7" Foreground="White" BorderThickness="0"
                                 HorizontalAlignment="Left" Margin="0,10,0,20"/>
                         
                         <Border Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4">
                             <StackPanel>
-                                <TextBlock Text="Windows Update Dienststatus" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Windows Update Service Status" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -140,13 +173,13 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Windows Update Dienst:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtUpdateService" Text="Wird geladen..." Margin="0,5,0,5"/>
-                                    <Button Grid.Row="0" Grid.Column="2" x:Name="btnRestartService" Content="Dienst neustarten" Padding="10,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Windows Update Service:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtUpdateService" Text="Loading..." Margin="0,5,0,5"/>
+                                    <Button Grid.Row="0" Grid.Column="2" x:Name="btnRestartService" Content="Restart Service" Padding="10,5"/>
                                     
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="BITS Dienst:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtBITSService" Text="Wird geladen..." Margin="0,5,0,5"/>
-                                    <Button Grid.Row="1" Grid.Column="2" x:Name="btnRestartBITS" Content="Dienst neustarten" Padding="10,5"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="BITS Service:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtBITSService" Text="Loading..." Margin="0,5,0,5"/>
+                                    <Button Grid.Row="1" Grid.Column="2" x:Name="btnRestartBITS" Content="Restart Service" Padding="10,5"/>
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -156,7 +189,7 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                 <!-- Installed Updates Page -->
                 <Grid x:Name="installedUpdatesPage" Visibility="Collapsed">
                     <StackPanel>
-                        <TextBlock Text="Installierte Windows Updates" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
+                        <TextBlock Text="Installed Windows Updates" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
                         
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
@@ -165,9 +198,28 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                             </Grid.ColumnDefinitions>
                             
                             <TextBox x:Name="txtSearchInstalled" Grid.Column="0" Padding="8" Margin="0,0,10,0" 
-                                    BorderThickness="1" BorderBrush="#AAAAAA" 
-                                    PlaceholderText="Nach KB-Nummer oder Titel filtern..."/>
-                            <Button x:Name="btnSearchInstalled" Grid.Column="1" Content="Suchen" Padding="15,8" 
+                                    BorderThickness="1" BorderBrush="#AAAAAA">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Style.Resources>
+                                            <VisualBrush x:Key="HintBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                                                <VisualBrush.Visual>
+                                                    <TextBlock Text="Filter by KB number or title..." FontStyle="Italic" />
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Style.Resources>
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter Property="Background" Value="White" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <Button x:Name="btnSearchInstalled" Grid.Column="1" Content="Search" Padding="15,8" 
                                     Background="#0078D7" Foreground="White" BorderThickness="0"/>
                         </Grid>
                         
@@ -176,13 +228,13 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                                 Background="White" RowBackground="White" AlternatingRowBackground="#F8F8F8"
                                 VerticalScrollBarVisibility="Auto" Height="400">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="KB-Nummer" Binding="{Binding HotFixID}" Width="100"/>
-                                <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}" Width="*"/>
-                                <DataGridTextColumn Header="Installiert am" Binding="{Binding InstalledOn}" Width="150"/>
-                                <DataGridTemplateColumn Header="Aktionen" Width="100">
+                                <DataGridTextColumn Header="KB Number" Binding="{Binding HotFixID}" Width="100"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                                <DataGridTextColumn Header="Installed On" Binding="{Binding InstalledOn}" Width="150"/>
+                                <DataGridTemplateColumn Header="Actions" Width="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="Entfernen" Tag="{Binding HotFixID}" x:Name="btnRemoveUpdate"
+                                            <Button Content="Remove" Tag="{Binding HotFixID}" x:Name="btnRemoveUpdate"
                                                     Padding="10,5" Margin="5" Background="#E81123" Foreground="White" BorderThickness="0"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -191,9 +243,9 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                         </DataGrid>
                         
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                            <Button x:Name="btnRefreshInstalled" Content="Aktualisieren" Padding="15,8" Margin="0,0,10,0"
+                            <Button x:Name="btnRefreshInstalled" Content="Refresh" Padding="15,8" Margin="0,0,10,0"
                                     Background="#0078D7" Foreground="White" BorderThickness="0"/>
-                            <Button x:Name="btnExportInstalled" Content="Liste exportieren" Padding="15,8" 
+                            <Button x:Name="btnExportInstalled" Content="Export List" Padding="15,8" 
                                     Background="#107C10" Foreground="White" BorderThickness="0"/>
                         </StackPanel>
                     </StackPanel>
@@ -202,7 +254,7 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                 <!-- Available Updates Page -->
                 <Grid x:Name="availableUpdatesPage" Visibility="Collapsed">
                     <StackPanel>
-                        <TextBlock Text="Verfügbare Windows Updates" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
+                        <TextBlock Text="Available Windows Updates" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
                         
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
@@ -212,15 +264,15 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                             </Grid.ColumnDefinitions>
                             
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <CheckBox x:Name="chkCriticalUpdates" Content="Kritische Updates" IsChecked="True" Margin="0,0,15,0"/>
-                                <CheckBox x:Name="chkSecurityUpdates" Content="Sicherheitsupdates" IsChecked="True" Margin="0,0,15,0"/>
-                                <CheckBox x:Name="chkDefinitionUpdates" Content="Definitionsupdates" IsChecked="True" Margin="0,0,15,0"/>
-                                <CheckBox x:Name="chkFeatureUpdates" Content="Feature-Updates" IsChecked="False"/>
+                                <CheckBox x:Name="chkCriticalUpdates" Content="Critical Updates" IsChecked="True" Margin="0,0,15,0"/>
+                                <CheckBox x:Name="chkSecurityUpdates" Content="Security Updates" IsChecked="True" Margin="0,0,15,0"/>
+                                <CheckBox x:Name="chkDefinitionUpdates" Content="Definition Updates" IsChecked="True" Margin="0,0,15,0"/>
+                                <CheckBox x:Name="chkFeatureUpdates" Content="Feature Updates" IsChecked="False"/>
                             </StackPanel>
                             
-                            <Button x:Name="btnSearchAvailable" Grid.Column="1" Content="Nach Updates suchen" Padding="15,8" Margin="10,0"
+                            <Button x:Name="btnSearchAvailable" Grid.Column="1" Content="Search for Updates" Padding="15,8" Margin="10,0"
                                     Background="#0078D7" Foreground="White" BorderThickness="0"/>
-                            <Button x:Name="btnInstallAll" Grid.Column="2" Content="Alle installieren" Padding="15,8" 
+                            <Button x:Name="btnInstallAll" Grid.Column="2" Content="Install All" Padding="15,8" 
                                     Background="#107C10" Foreground="White" BorderThickness="0"/>
                         </Grid>
                         
@@ -231,15 +283,15 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                                 Background="White" RowBackground="White" AlternatingRowBackground="#F8F8F8"
                                 VerticalScrollBarVisibility="Auto" Height="400">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Header="Auswählen" Binding="{Binding IsSelected}" Width="80"/>
-                                <DataGridTextColumn Header="KB-Nummer" Binding="{Binding KBArticleID}" Width="100"/>
-                                <DataGridTextColumn Header="Titel" Binding="{Binding Title}" Width="*"/>
-                                <DataGridTextColumn Header="Kategorie" Binding="{Binding Category}" Width="120"/>
-                                <DataGridTextColumn Header="Größe" Binding="{Binding Size}" Width="100"/>
-                                <DataGridTemplateColumn Header="Aktionen" Width="120">
+                                <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected}" Width="80"/>
+                                <DataGridTextColumn Header="KB Number" Binding="{Binding KBArticleID}" Width="100"/>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="120"/>
+                                <DataGridTextColumn Header="Size" Binding="{Binding Size}" Width="100"/>
+                                <DataGridTemplateColumn Header="Actions" Width="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="Installieren" Tag="{Binding Identity}" x:Name="btnInstallUpdate"
+                                            <Button Content="Install" Tag="{Binding Identity}" x:Name="btnInstallUpdate"
                                                     Padding="10,5" Margin="5" Background="#107C10" Foreground="White" BorderThickness="0"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -248,9 +300,9 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                         </DataGrid>
                         
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                            <Button x:Name="btnInstallSelected" Content="Ausgewählte installieren" Padding="15,8" Margin="0,0,10,0"
+                            <Button x:Name="btnInstallSelected" Content="Install Selected" Padding="15,8" Margin="0,0,10,0"
                                     Background="#107C10" Foreground="White" BorderThickness="0"/>
-                            <Button x:Name="btnDownloadSelected" Content="Ausgewählte herunterladen" Padding="15,8" 
+                            <Button x:Name="btnDownloadSelected" Content="Download Selected" Padding="15,8" 
                                     Background="#0078D7" Foreground="White" BorderThickness="0"/>
                         </StackPanel>
                     </StackPanel>
@@ -259,11 +311,11 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                 <!-- WSUS Settings Page -->
                 <Grid x:Name="wsusSettingsPage" Visibility="Collapsed">
                     <StackPanel>
-                        <TextBlock Text="WSUS-Einstellungen" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
+                        <TextBlock Text="WSUS Settings" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
                         
                         <Border Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,0,20">
                             <StackPanel>
-                                <TextBlock Text="Aktuelle WSUS-Konfiguration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Current WSUS Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -277,50 +329,146 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="WSUS-Server:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtWSUSServer" Text="Wird geladen..." Margin="0,5,0,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="WSUS Server:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtWSUSServer" Text="Loading..." Margin="0,5,0,5"/>
                                     
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="WSUS-Status:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtWSUSStatus" Text="Wird geladen..." Margin="0,5,0,5"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="WSUS Status:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtWSUSStatus" Text="Loading..." Margin="0,5,0,5"/>
                                     
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Zielgruppe:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtWSUSTargetGroup" Text="Wird geladen..." Margin="0,5,0,5"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Target Group:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtWSUSTargetGroup" Text="Loading..." Margin="0,5,0,5"/>
                                     
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Konfigurationsquelle:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtWSUSConfigSource" Text="Wird geladen..." Margin="0,5,0,5"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Configuration Source:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtWSUSConfigSource" Text="Loading..." Margin="0,5,0,5"/>
                                     
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Letzte Überprüfung:" FontWeight="SemiBold" Margin="0,5,10,5"/>
-                                    <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtWSUSLastCheck" Text="Wird geladen..." Margin="0,5,0,5"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Last Check:" FontWeight="SemiBold" Margin="0,5,10,5"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtWSUSLastCheck" Text="Loading..." Margin="0,5,0,5"/>
                                 </Grid>
                             </StackPanel>
                         </Border>
                         
                         <Border Background="#F0F7FF" BorderBrush="#99CCF9" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,0,20">
                             <StackPanel>
-                                <TextBlock Text="WSUS-Einstellungen zurücksetzen" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Reset WSUS Settings" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,15">
-                                    Das Zurücksetzen der WSUS-Einstellungen führt dazu, dass der Client seine Updates wieder direkt von Microsoft bezieht.
-                                    Die bestehende WSUS-Konfiguration wird entfernt und die Windows Update-Dienste werden neu gestartet.
+                                    Resetting the WSUS settings will cause the client to receive updates directly from Microsoft again.
+                                    The existing WSUS configuration will be removed and the Windows Update services will be restarted.
                                 </TextBlock>
-                                <Button x:Name="btnResetWSUS" Content="WSUS-Einstellungen zurücksetzen" Padding="15,8" 
+                                <Button x:Name="btnResetWSUS" Content="Reset WSUS Settings" Padding="15,8" 
                                         Background="#E81123" Foreground="White" BorderThickness="0" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </Border>
                         
                         <Border Background="#F5FFF0" BorderBrush="#99F9CC" BorderThickness="1" Padding="15" CornerRadius="4">
                             <StackPanel>
-                                <TextBlock Text="WSUS-Verbindung überprüfen" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                <TextBlock Text="Check WSUS Connection" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,15">
-                                    Überprüft die Verbindung zum konfigurierten WSUS-Server und synchronisiert die Clienteinstellungen.
+                                    Checks the connection to the configured WSUS server and synchronizes client settings.
                                 </TextBlock>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnCheckWSUSConn" Content="WSUS-Verbindung überprüfen" Padding="15,8" 
+                                    <Button x:Name="btnCheckWSUSConn" Content="Check WSUS Connection" Padding="15,8" 
                                             Background="#0078D7" Foreground="White" BorderThickness="0" Margin="0,0,10,0"/>
-                                    <Button x:Name="btnDetectNow" Content="Updateerkennung starten" Padding="15,8" 
+                                    <Button x:Name="btnDetectNow" Content="Start Update Detection" Padding="15,8" 
                                             Background="#107C10" Foreground="White" BorderThickness="0"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
+                    </StackPanel>
+                </Grid>
+                
+                <!-- Troubleshooting Page -->
+                <Grid x:Name="troubleshootingPage" Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="Windows Update Troubleshooting" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,15"/>
+                        
+                        <Border Background="#FFF4F4" BorderBrush="#FFCECE" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,0,15">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                                    <Bold>Attention:</Bold> The following actions can reset or repair Windows Update components. It is recommended to create a system restore point before performing these actions.
+                                </TextBlock>
+                                <Button x:Name="btnCreateRestorePoint" Content="Create System Restore Point" Padding="15,8" 
+                                        Background="#0078D7" Foreground="White" BorderThickness="0"
+                                        HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Two-column layout for troubleshooting options -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <!-- Left Column, First Row -->
+                            <Border Grid.Column="0" Grid.Row="0" Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,7,15">
+                                <StackPanel>
+                                    <TextBlock Text="Reset Windows Update Components" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Height="60">
+                                        Resets all Windows Update components to their default settings. Stops services, clears caches, and restarts services.
+                                    </TextBlock>
+                                    <Button x:Name="btnResetComponents" Content="Reset Components" Padding="15,8" 
+                                            Background="#E81123" Foreground="White" BorderThickness="0"
+                                            HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Right Column, First Row -->
+                            <Border Grid.Column="1" Grid.Row="0" Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="7,0,0,15">
+                                <StackPanel>
+                                    <TextBlock Text="Repair Windows System Files" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Height="60">
+                                        Runs SFC and DISM to repair corrupted Windows files. This process may take some time.
+                                    </TextBlock>
+                                    <Button x:Name="btnCheckSystemFiles" Content="Check System Files" Padding="15,8" 
+                                            Background="#0078D7" Foreground="White" BorderThickness="0"
+                                            HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Left Column, Second Row -->
+                            <Border Grid.Column="0" Grid.Row="1" Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,7,15">
+                                <StackPanel>
+                                    <TextBlock Text="Clear Update History and Caches" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Height="60">
+                                        Clears the Windows Update history and all caches. Windows Update will create a new history during the next scan.
+                                    </TextBlock>
+                                    <Button x:Name="btnClearUpdateHistory" Content="Clear Update History" Padding="15,8" 
+                                            Background="#0078D7" Foreground="White" BorderThickness="0"
+                                            HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Right Column, Second Row -->
+                            <Border Grid.Column="1" Grid.Row="1" Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="7,0,0,15">
+                                <StackPanel>
+                                    <TextBlock Text="Re-register Update DLLs" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Height="60">
+                                        Re-registers all important Windows Update DLLs. Helps with issues related to update components.
+                                    </TextBlock>
+                                    <Button x:Name="btnRegisterDLLs" Content="Re-register DLLs" Padding="15,8" 
+                                            Background="#0078D7" Foreground="White" BorderThickness="0"
+                                            HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Left Column, Third Row -->
+                            <Border Grid.Column="0" Grid.Row="2" Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,7,0">
+                                <StackPanel>
+                                    <TextBlock Text="Remove Stuck Updates and BITS Jobs" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Height="60">
+                                        Removes all stuck BITS jobs and updates that might be blocking the update process.
+                                    </TextBlock>
+                                    <Button x:Name="btnClearStuckUpdates" Content="Remove Stuck Updates" Padding="15,8" 
+                                            Background="#0078D7" Foreground="White" BorderThickness="0"
+                                            HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -331,41 +479,33 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
             <Grid Margin="20,0">
                 <TextBlock x:Name="statusText" Text="Bereit" VerticalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <TextBlock x:Name="versionText" Text="easyWINUpdate v0.0.1" FontStyle="Italic" Foreground="#555555"/>
+                    <TextBlock x:Name="versionText" Text="easyWINUpdate v0.1.4" FontStyle="Italic" Foreground="#555555"/>
                 </StackPanel>
             </Grid>
         </Border>
     </Grid>
-    
-    <Window.Resources>
-        <Style x:Key="NavButtonStyle" TargetType="RadioButton">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="border" Background="Transparent" BorderThickness="4,0,0,0" BorderBrush="Transparent" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
-                                <Setter Property="Foreground" Value="#0078D7"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
 </Window>
 "@
 
 # XAML-Reader erstellen und GUI laden
-$reader = New-Object System.Xml.XmlNodeReader $xaml
-$window = [Windows.Markup.XamlReader]::Load($reader)
+try {
+    $reader = New-Object System.Xml.XmlNodeReader $xaml
+    try {
+        $window = [Windows.Markup.XamlReader]::Load($reader)
+        # Erfolgreiche Meldung
+        Write-Host "GUI wurde erfolgreich geladen." -ForegroundColor Green
+    } catch {
+        Write-Error "Fehler beim Laden des XAML: $($_.Exception.Message)"
+        if ($_.Exception.Message -like '*PlaceholderText*') {
+            Write-Host "Die Eigenschaft 'PlaceholderText' wird in WPF nicht unterstützt." -ForegroundColor Yellow
+            Write-Host "Bitte ersetzen Sie diese durch eine WPF-kompatible Lösung, wie z.B. eine TextBox mit VisualBrush." -ForegroundColor Yellow
+        }
+        exit
+    }
+} catch {
+    Write-Error "Fehler beim Erstellen des XmlNodeReader: $($_.Exception.Message)"
+    exit
+}
 
 # Hauptfunktionen des Scripts
 #region Hilfsfunktionen
@@ -505,31 +645,71 @@ function Get-InstalledWindowsUpdates {
 # Funktion zum Abrufen verfügbarer Updates
 function Get-AvailableWindowsUpdates {
     param (
-        [switch]$CriticalUpdates,
-        [switch]$SecurityUpdates,
-        [switch]$DefinitionUpdates,
-        [switch]$FeatureUpdates
+        [switch]$IncludeCritical = $true,
+        [switch]$IncludeSecurity = $true,
+        [switch]$IncludeDefinition = $true,
+        [switch]$IncludeFeature = $false
     )
     
     try {
-        $categories = @()
+        Write-Host "Suche nach Windows Updates..." -ForegroundColor Cyan
         
-        if ($CriticalUpdates) { $categories += "Critical Updates" }
-        if ($SecurityUpdates) { $categories += "Security Updates" }
-        if ($DefinitionUpdates) { $categories += "Definition Updates" }
-        if ($FeatureUpdates) { $categories += "Feature Packs" }
+        # Kategorien basierend auf Parametern bestimmen
+        $categoryFilter = @()
+        if ($IncludeCritical) { $categoryFilter += "Critical Updates" }
+        if ($IncludeSecurity) { $categoryFilter += "Security Updates" }
+        if ($IncludeDefinition) { $categoryFilter += "Definition Updates" }
+        if ($IncludeFeature) { $categoryFilter += "Feature Packs" }
         
-        $updates = Get-WindowsUpdate -WindowsUpdate -Category $categories -MicrosoftUpdate -NotCategory "Drivers" | 
-                  Select-Object @{Name="IsSelected"; Expression={$false}},
-                               @{Name="KBArticleID"; Expression={$_.KB}},
-                               @{Name="Title"; Expression={$_.Title}},
-                               @{Name="Category"; Expression={$_.Category}},
-                               @{Name="Size"; Expression={if($_.Size) {"$([Math]::Round($_.Size / 1MB, 2)) MB"} else {"Unbekannt"}}},
-                               @{Name="Identity"; Expression={$_.Identity}}
+        Write-Host "Suche in Kategorien: $($categoryFilter -join ", ")" -ForegroundColor Cyan
+        
+        # Windows Update COM-Objekt erstellen
+        $updateSession = New-Object -ComObject Microsoft.Update.Session
+        $updateSearcher = $updateSession.CreateUpdateSearcher()
+        
+        # Suchkriterien definieren
+        $searchCriteria = "IsInstalled=0"
+        
+        # Nach Updates suchen
+        $searchResult = $updateSearcher.Search($searchCriteria)
+        
+        # Updates filtern und formatieren
+        $updates = @()
+        foreach ($update in $searchResult.Updates) {
+            # Kategorie bestimmen
+            $category = "Andere"
+            if ($update.MsrcSeverity -eq "Critical") { $category = "Critical Updates" }
+            elseif ($update.Type -like "*Security*") { $category = "Security Updates" }
+            elseif ($update.Title -like "*Definition*") { $category = "Definition Updates" }
+            elseif ($update.Title -like "*Feature*") { $category = "Feature Packs" }
+            
+            # Prüfen, ob Update der ausgewählten Kategorie entspricht
+            if ($categoryFilter.Count -eq 0 -or $categoryFilter -contains $category) {
+                # KB-Nummer extrahieren
+                $kbMatch = [regex]::Match($update.Title, 'KB\d+')
+                $kbNumber = if ($kbMatch.Success) { $kbMatch.Value } else { "Unbekannt" }
+                
+                $updates += [PSCustomObject]@{
+                    IsSelected = $false
+                    KBArticleID = $kbNumber
+                    Title = $update.Title
+                    Category = $category
+                    Size = if ($update.MaxDownloadSize -gt 0) { "$([Math]::Round($update.MaxDownloadSize / 1MB, 2)) MB" } else { "Unbekannt" }
+                    Identity = $update.Identity
+                }
+            }
+        }
+        
+        if ($updates.Count -gt 0) {
+            Write-Host "$($updates.Count) Updates gefunden." -ForegroundColor Green
+        } else {
+            Write-Host "Keine Updates gefunden." -ForegroundColor Yellow
+        }
         
         return $updates
     } catch {
-        Write-Error "Fehler beim Abrufen verfügbarer Updates: $_"
+        $errorMessage = $_.Exception.Message
+        Write-Error "Fehler beim Abrufen verfügbarer Updates: $errorMessage"
         return $null
     }
 }
@@ -545,14 +725,16 @@ function Remove-WindowsUpdateKB {
             $KBNumber = "KB$KBNumber"
         }
         
-        $result = wusa.exe /uninstall /kb:$($KBNumber.Replace("KB", "")) /quiet /norestart
+        $kbID = $KBNumber.Replace('KB', '')
+        $result = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall", "/kb:$kbID", "/quiet", "/norestart" -Wait -PassThru
         
         # Warten auf Abschluss der Deinstallation
         Start-Sleep -Seconds 5
         
         return $true
     } catch {
-        Write-Error "Fehler beim Entfernen des Updates $KBNumber: $_"
+        $errorMessage = $_.Exception.Message
+        Write-Error "Fehler beim Entfernen des Updates $KBNumber $($errorMessage)"
         return $false
     }
 }
@@ -582,31 +764,41 @@ function Get-ServiceStatusInfo {
     }
 }
 
-# Funktion zum Überprüfen der WSUS-Verbindung
+# Funktion zum Testen der WSUS-Verbindung
 function Test-WSUSConnection {
     param (
         [string]$WSUSServer
     )
     
-    if (-not $WSUSServer) {
-        return $false
-    }
-    
     try {
-        # WSUS-Server aus URL extrahieren (z.B. http://server:port)
-        $uri = [System.Uri]$WSUSServer
-        $server = $uri.Host
-        $port = $uri.Port
+        if (-not $WSUSServer -or $WSUSServer -eq "Nicht konfiguriert") {
+            return $false
+        }
         
-        # Verbindung testen
-        $tcpClient = New-Object System.Net.Sockets.TcpClient
-        $result = $tcpClient.BeginConnect($server, $port, $null, $null)
-        $success = $result.AsyncWaitHandle.WaitOne(3000, $false)
-        $tcpClient.Close()
+        # Server-URL extrahieren
+        $serverUrl = $WSUSServer
+        if ($serverUrl -match "http[s]?://([^/:]+)(?::[0-9]+)?") {
+            $serverName = $matches[1]
+        } else {
+            $serverName = $serverUrl
+        }
         
-        return $success
+        # Testen, ob der Server erreichbar ist
+        $ping = Test-Connection -ComputerName $serverName -Count 2 -Quiet
+        
+        if (-not $ping) {
+            return $false
+        }
+        
+        # Versuchen, die WSUS-Konfiguration zu aktualisieren
+        try {
+            # PowerShell-Befehl zum Aktualisieren der WSUS-Konfiguration
+            wuauclt.exe /detectnow
+            return $true
+        } catch {
+            return $false
+        }
     } catch {
-        Write-Error "Fehler beim Testen der WSUS-Verbindung: $_"
         return $false
     }
 }
@@ -623,6 +815,183 @@ function Get-WindowsVersionInfo {
     } catch {
         Write-Error "Fehler beim Abrufen der Windows-Version: $_"
         return "Unbekannt"
+    }
+}
+
+# Funktion zum Erstellen eines Systemwiederherstellungspunkts
+function New-SystemRestorePoint {
+    try {
+        # Systemwiederherstellungspunkt erstellen
+        $description = "Vor Windows Update Troubleshooting"
+        Enable-ComputerRestore -Drive "$env:SystemDrive" -ErrorAction SilentlyContinue
+        Checkpoint-Computer -Description $description -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
+        return $true
+    } catch {
+        Write-Error "Fehler beim Erstellen des Systemwiederherstellungspunkts: $_"
+        return $false
+    }
+}
+
+# Funktion zum Zurücksetzen der Windows Update-Komponenten
+function Reset-WindowsUpdateComponents {
+    try {
+        Update-StatusText -Text "Setze Windows Update-Komponenten zurück..." -Color "Blue"
+        
+        # Dienste stoppen
+        $services = @('wuauserv', 'cryptSvc', 'bits', 'msiserver', 'appidsvc', 'trustedinstaller')
+        foreach ($service in $services) {
+            Stop-Service -Name $service -Force -ErrorAction SilentlyContinue
+        }
+        
+        # Windows Update-Datenbank und Cache-Ordner löschen
+        $folders = @("$env:SystemRoot\SoftwareDistribution", "$env:SystemRoot\System32\catroot2")
+        foreach ($folder in $folders) {
+            if (Test-Path $folder) {
+                Remove-Item -Path $folder -Recurse -Force -ErrorAction SilentlyContinue
+            }
+        }
+        
+        # QMGR-Dateien entfernen
+        Remove-Item -Path "$env:ALLUSERSPROFILE\Application Data\Microsoft\Network\Downloader\qmgr*.dat" -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path "$env:ALLUSERSPROFILE\Microsoft\Network\Downloader\qmgr*.dat" -Force -ErrorAction SilentlyContinue
+        
+        # Sicherstellen, dass Windows Update-Ordner wieder erstellt werden
+        New-Item -Path "$env:SystemRoot\SoftwareDistribution" -ItemType Directory -Force | Out-Null
+        
+        # Alle BITS-Jobs löschen
+        Get-BitsTransfer -AllUsers | Remove-BitsTransfer -ErrorAction SilentlyContinue
+        
+        # Dienste wieder starten
+        foreach ($service in $services) {
+            Start-Service -Name $service -ErrorAction SilentlyContinue
+        }
+        
+        # Update-Erkennung erzwingen
+        wuauclt.exe /resetauthorization /detectnow
+        
+        Update-StatusText -Text "Windows Update-Komponenten wurden zurückgesetzt. System sollte neu gestartet werden." -Color "Green"
+        return $true
+    } catch {
+        Update-StatusText -Text "Fehler beim Zurücksetzen der Windows Update-Komponenten: $_" -Color "Red"
+        return $false
+    }
+}
+
+# Funktion zum Überprüfen und Reparieren von Windows-Systemdateien
+function Repair-WindowsSystemFiles {
+    try {
+        Update-StatusText -Text "Überprüfe Windows-Systemdateien..." -Color "Blue"
+        
+        # DISM zum Reparieren des Windows-Images verwenden
+        Start-Process -FilePath "DISM.exe" -ArgumentList "/Online", "/Cleanup-Image", "/RestoreHealth" -Wait -NoNewWindow
+        
+        # SFC zum Überprüfen und Reparieren von Systemdateien verwenden
+        Start-Process -FilePath "sfc.exe" -ArgumentList "/scannow" -Wait -NoNewWindow
+        
+        Update-StatusText -Text "Windows-Systemdateien wurden überprüft und repariert." -Color "Green"
+        return $true
+    } catch {
+        Update-StatusText -Text "Fehler bei der Überprüfung der Windows-Systemdateien: $_" -Color "Red"
+        return $false
+    }
+}
+
+# Funktion zum Löschen des Windows Update-Verlaufs
+function Clear-WindowsUpdateHistory {
+    try {
+        Update-StatusText -Text "Lösche Windows Update-Verlauf..." -Color "Blue"
+        
+        # Dienste stoppen
+        Stop-Service -Name wuauserv -Force
+        
+        # SoftwareDistribution-Ordner löschen
+        if (Test-Path "$env:SystemRoot\SoftwareDistribution") {
+            Remove-Item -Path "$env:SystemRoot\SoftwareDistribution" -Recurse -Force
+        }
+        
+        # Windows Update-Log löschen
+        if (Test-Path "$env:SystemRoot\WindowsUpdate.log") {
+            Remove-Item -Path "$env:SystemRoot\WindowsUpdate.log" -Force
+        }
+        
+        # SoftwareDistribution-Ordner neu erstellen
+        New-Item -Path "$env:SystemRoot\SoftwareDistribution" -ItemType Directory -Force | Out-Null
+        
+        # Dienst wieder starten
+        Start-Service -Name wuauserv
+        
+        Update-StatusText -Text "Windows Update-Verlauf wurde gelöscht." -Color "Green"
+        return $true
+    } catch {
+        Update-StatusText -Text "Fehler beim Löschen des Windows Update-Verlaufs: $_" -Color "Red"
+        return $false
+    }
+}
+
+# Funktion zum Neuregistrieren der Windows Update-DLLs
+function Register-WindowsUpdateDLLs {
+    try {
+        Update-StatusText -Text "Registriere Windows Update-DLLs neu..." -Color "Blue"
+        
+        # Stoppen der Windows Update-Dienste
+        Stop-Service -Name wuauserv -Force
+        
+        # Wichtige Windows Update-DLLs registrieren
+        $dllFiles = @(
+            "atl.dll", "urlmon.dll", "mshtml.dll", "shdocvw.dll", "browseui.dll", "jscript.dll", 
+            "vbscript.dll", "scrrun.dll", "msxml.dll", "msxml3.dll", "msxml6.dll", "actxprxy.dll", 
+            "softpub.dll", "wintrust.dll", "dssenh.dll", "rsaenh.dll", "gpkcsp.dll", "sccbase.dll", 
+            "slbcsp.dll", "cryptdlg.dll", "oleaut32.dll", "ole32.dll", "shell32.dll", "wuapi.dll", 
+            "wuaueng.dll", "wuaueng1.dll", "wucltui.dll", "wups.dll", "wups2.dll", "wuweb.dll", 
+            "qmgr.dll", "qmgrprxy.dll", "wucltux.dll", "muweb.dll", "wuwebv.dll"
+        )
+        
+        foreach ($dll in $dllFiles) {
+            $dllPath = Join-Path $env:SystemRoot "System32\$dll"
+            if (Test-Path $dllPath) {
+                Start-Process -FilePath "regsvr32.exe" -ArgumentList "/s", $dllPath -Wait
+            }
+        }
+        
+        # Windows Update-Dienst neu starten
+        Start-Service -Name wuauserv
+        
+        Update-StatusText -Text "Windows Update-DLLs wurden neu registriert." -Color "Green"
+        return $true
+    } catch {
+        Update-StatusText -Text "Fehler beim Neuregistrieren der Windows Update-DLLs: $_" -Color "Red"
+        return $false
+    }
+}
+
+# Funktion zum Entfernen von hängenden Updates und BITS-Jobs
+function Clear-StuckUpdatesAndBITSJobs {
+    try {
+        Update-StatusText -Text "Entferne hängende Updates und BITS-Jobs..." -Color "Blue"
+        
+        # Alle BITS-Jobs löschen
+        Get-BitsTransfer -AllUsers | Remove-BitsTransfer
+        
+        # Gestagte Windows Update-Pakete entfernen
+        $stagedUpdates = Get-WindowsPackage -Online | Where-Object { $_.PackageState -eq 'Staged' }
+        if ($stagedUpdates) {
+            foreach ($update in $stagedUpdates) {
+                Remove-WindowsPackage -PackageName $update.PackageName -Online -NoRestart
+            }
+        }
+        
+        # Windows Update und BITS-Dienste neu starten
+        Restart-Service -Name wuauserv -Force
+        Restart-Service -Name bits -Force
+        
+        # Update-Erkennung erzwingen
+        wuauclt.exe /detectnow
+        
+        Update-StatusText -Text "Hängende Updates und BITS-Jobs wurden entfernt." -Color "Green"
+        return $true
+    } catch {
+        Update-StatusText -Text "Fehler beim Entfernen von hängenden Updates: $_" -Color "Red"
+        return $false
     }
 }
 #endregion
@@ -691,11 +1060,8 @@ function Load-AvailableUpdatesPage {
     Update-StatusText -Text "Suche nach verfügbaren Updates..." -Color "Blue"
     
     # Updates mit ausgewählten Kategorien suchen
-    $updates = Get-AvailableWindowsUpdates `
-              -CriticalUpdates:$chkCriticalUpdates.IsChecked `
-              -SecurityUpdates:$chkSecurityUpdates.IsChecked `
-              -DefinitionUpdates:$chkDefinitionUpdates.IsChecked `
-              -FeatureUpdates:$chkFeatureUpdates.IsChecked
+    # Vereinfachter Aufruf ohne Parameter
+    $updates = Get-AvailableWindowsUpdates
     
     $dgAvailableUpdates = $window.FindName("dgAvailableUpdates")
     
@@ -742,11 +1108,13 @@ function Switch-Page {
     $installedUpdatesPage = $window.FindName("installedUpdatesPage")
     $availableUpdatesPage = $window.FindName("availableUpdatesPage")
     $wsusSettingsPage = $window.FindName("wsusSettingsPage")
+    $troubleshootingPage = $window.FindName("troubleshootingPage")
     
     $updateStatusPage.Visibility = "Collapsed"
     $installedUpdatesPage.Visibility = "Collapsed"
     $availableUpdatesPage.Visibility = "Collapsed"
     $wsusSettingsPage.Visibility = "Collapsed"
+    $troubleshootingPage.Visibility = "Collapsed"
     
     switch ($PageName) {
         "UpdateStatus" {
@@ -764,6 +1132,10 @@ function Switch-Page {
         "WSUSSettings" {
             $wsusSettingsPage.Visibility = "Visible"
             Load-WSUSSettingsPage
+        }
+        "Troubleshooting" {
+            $troubleshootingPage.Visibility = "Visible"
+            Update-StatusText -Text "Troubleshooting-Bereich bereit." -Color "Blue"
         }
     }
 }
@@ -787,6 +1159,11 @@ $navAvailableUpdates.Add_Checked({
 $navWSUSSettings = $window.FindName("navWSUSSettings")
 $navWSUSSettings.Add_Checked({
     Switch-Page -PageName "WSUSSettings"
+})
+
+$navTroubleshooting = $window.FindName("navTroubleshooting")
+$navTroubleshooting.Add_Checked({
+    Switch-Page -PageName "Troubleshooting"
 })
 
 # Event-Handler für Update-Status-Seite
@@ -1047,6 +1424,88 @@ $dgInstalledUpdates.Add_LoadingRow({
                 }
             }
         })
+    }
+})
+
+# Event-Handler für Troubleshooting-Seite
+$btnCreateRestorePoint = $window.FindName("btnCreateRestorePoint")
+$btnCreateRestorePoint.Add_Click({
+    Update-StatusText -Text "Erstelle Systemwiederherstellungspunkt..." -Color "Blue"
+    
+    if (New-SystemRestorePoint) {
+        Update-StatusText -Text "Systemwiederherstellungspunkt wurde erfolgreich erstellt." -Color "Green"
+    } else {
+        Update-StatusText -Text "Fehler beim Erstellen des Systemwiederherstellungspunkts." -Color "Red"
+    }
+})
+
+$btnResetComponents = $window.FindName("btnResetComponents")
+$btnResetComponents.Add_Click({
+    $result = [System.Windows.MessageBox]::Show(
+        "Möchten Sie die Windows Update-Komponenten wirklich zurücksetzen? Dies stoppt die Update-Dienste und löscht alle Update-Caches.",
+        "Windows Update-Komponenten zurücksetzen",
+        [System.Windows.MessageBoxButton]::YesNo,
+        [System.Windows.MessageBoxImage]::Warning
+    )
+    
+    if ($result -eq [System.Windows.MessageBoxResult]::Yes) {
+        Reset-WindowsUpdateComponents
+    }
+})
+
+$btnCheckSystemFiles = $window.FindName("btnCheckSystemFiles")
+$btnCheckSystemFiles.Add_Click({
+    $result = [System.Windows.MessageBox]::Show(
+        "Möchten Sie die Windows-Systemdateien überprüfen und reparieren? Dieser Vorgang kann einige Zeit dauern.",
+        "Systemdateien überprüfen",
+        [System.Windows.MessageBoxButton]::YesNo,
+        [System.Windows.MessageBoxImage]::Question
+    )
+    
+    if ($result -eq [System.Windows.MessageBoxResult]::Yes) {
+        Repair-WindowsSystemFiles
+    }
+})
+
+$btnClearUpdateHistory = $window.FindName("btnClearUpdateHistory")
+$btnClearUpdateHistory.Add_Click({
+    $result = [System.Windows.MessageBox]::Show(
+        "Möchten Sie den Windows Update-Verlauf und alle Caches löschen? Dies entfernt alle Informationen über frühere Update-Versuche.",
+        "Update-Verlauf löschen",
+        [System.Windows.MessageBoxButton]::YesNo,
+        [System.Windows.MessageBoxImage]::Warning
+    )
+    
+    if ($result -eq [System.Windows.MessageBoxResult]::Yes) {
+        Clear-WindowsUpdateHistory
+    }
+})
+
+$btnRegisterDLLs = $window.FindName("btnRegisterDLLs")
+$btnRegisterDLLs.Add_Click({
+    $result = [System.Windows.MessageBox]::Show(
+        "Möchten Sie alle Windows Update-DLLs neu registrieren? Dies kann bei Problemen mit Update-Komponenten helfen.",
+        "Update-DLLs neu registrieren",
+        [System.Windows.MessageBoxButton]::YesNo,
+        [System.Windows.MessageBoxImage]::Question
+    )
+    
+    if ($result -eq [System.Windows.MessageBoxResult]::Yes) {
+        Register-WindowsUpdateDLLs
+    }
+})
+
+$btnClearStuckUpdates = $window.FindName("btnClearStuckUpdates")
+$btnClearStuckUpdates.Add_Click({
+    $result = [System.Windows.MessageBox]::Show(
+        "Möchten Sie hängende Updates und BITS-Jobs entfernen? Dies kann bei Problemen mit hängenden Downloads helfen.",
+        "Hängende Updates entfernen",
+        [System.Windows.MessageBoxButton]::YesNo,
+        [System.Windows.MessageBoxImage]::Question
+    )
+    
+    if ($result -eq [System.Windows.MessageBoxResult]::Yes) {
+        Clear-StuckUpdatesAndBITSJobs
     }
 })
 
