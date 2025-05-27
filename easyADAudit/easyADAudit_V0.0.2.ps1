@@ -258,7 +258,7 @@ function Export-Data {
 $xamlContent = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="EasyADAudit - Active Directory Audit Tool" Height="950" Width="1400"
+    Title="EasyADAudit - Active Directory Audit Tool" Height="840" Width="1900"
     WindowStartupLocation="CenterScreen" ResizeMode="CanResize"
     Background="#F3F3F3" FontFamily="Segoe UI" FontSize="12">
     
@@ -390,7 +390,7 @@ $xamlContent = @'
             </Grid.ColumnDefinitions>
 
             <!-- Filter Configuration Card -->
-            <Border Grid.Column="0" Style="{StaticResource CardStyle}" VerticalAlignment="Top">
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}" VerticalAlignment="Stretch">
                 <StackPanel>
                 <TextBlock Text="Filter Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
                 
@@ -424,16 +424,16 @@ $xamlContent = @'
                     <TextBlock x:Name="TextBlockSelectedFilterValues" Text="Selected Values: (None)" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,8,0,0" FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </Grid>
                 
-                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <CheckBox x:Name="CheckBoxIncludeDisabled" Content="Include Disabled Objects" Margin="0,0,16,0"/>
-                    <CheckBox x:Name="CheckBoxIncludeNested" Content="Include Nested Groups" Margin="0,0,16,0"/>
-                    <CheckBox x:Name="CheckBoxShowEmptyGroups" Content="Show Empty Groups"/>
-                </StackPanel>
+                <WrapPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <CheckBox x:Name="CheckBoxIncludeDisabled" Content="Include Disabled Objects" Margin="0,0,16,4"/>
+                    <CheckBox x:Name="CheckBoxIncludeNested" Content="Include Nested Groups" Margin="0,0,16,4"/>
+                    <CheckBox x:Name="CheckBoxShowEmptyGroups" Content="Show Empty Groups" Margin="0,0,0,4"/>
+                </WrapPanel>
                 </StackPanel>
             </Border>
             
             <!-- Export Configuration Card -->
-            <Border Grid.Column="1" Style="{StaticResource CardStyle}" VerticalAlignment="Top">
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}" VerticalAlignment="Stretch">
                 <StackPanel>
                 <TextBlock Text="Export Configuration" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
                 
@@ -486,7 +486,7 @@ $xamlContent = @'
             </Border>
             
             <!-- Analysis & Preview Card -->
-            <Border Grid.Column="2" Style="{StaticResource CardStyle}" VerticalAlignment="Top">
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}" VerticalAlignment="Stretch">
                 <StackPanel>
                 <TextBlock Text="Analysis &amp; Preview" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" Foreground="{StaticResource TextPrimaryBrush}"/>
                 
