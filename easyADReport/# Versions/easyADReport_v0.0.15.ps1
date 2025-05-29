@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="easyADReport v0.0.3" Height="950" Width="1400"
+        Title="easyADReport v0.0.3" Height="800" Width="1400"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.RowDefinitions>
@@ -83,6 +83,45 @@ Add-Type -AssemblyName PresentationCore
 Add-Type -AssemblyName WindowsBase
 Add-Type -AssemblyName System.Windows.Forms # Für SaveFileDialog
 
+# --- Log-Funktion für konsistente Fehlerausgabe ---
+Function Write-ADReportLog {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Message,
+        
+        [Parameter(Mandatory=$false)]
+        [ValidateSet('Info', 'Warning', 'Error')]
+        [string]$Type = 'Info',
+        
+        [Parameter(Mandatory=$false)]
+        [switch]$GUI,
+        
+        [Parameter(Mandatory=$false)]
+        [switch]$Terminal
+    )
+    
+    # Standardmäßig sowohl GUI als auch Terminal, wenn nicht explizit angegeben
+    if (-not $GUI -and -not $Terminal) {
+        $GUI = $true
+        $Terminal = $true
+    }
+    
+    # Ausgabe in der GUI
+    if ($GUI -and $Global:TextBlockStatus) {
+        $Global:TextBlockStatus.Text = $Message
+    }
+    
+    # Ausgabe im Terminal
+    if ($Terminal) {
+        switch ($Type) {
+            'Info'    { Write-Host $Message }
+            'Warning' { Write-Warning $Message }
+            'Error'   { Write-Error $Message }
+        }
+    }
+}
+
 # --- Funktion zum Abrufen von AD-Daten ---
 Function Get-ADReportData {
     [CmdletBinding()]
@@ -99,8 +138,7 @@ Function Get-ADReportData {
 
     # Überprüfen, ob das AD-Modul verfügbar ist
     if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
-        $Global:TextBlockStatus.Text = "Fehler: Active Directory Modul nicht gefunden."
-        Write-Error "Active Directory PowerShell Modul ist nicht installiert oder nicht importiert."
+        Write-ADReportLog -Message "Fehler: Active Directory Modul nicht gefunden." -Type Error
         return $null
     }
 
@@ -137,8 +175,38 @@ Function Get-ADReportData {
             $Filter = "DisplayName -like '$($FilterValue)*'"
         }
         
-        Write-Host "Führe Get-ADUser mit Filter '$Filter' und Eigenschaften '$($PropertiesToLoad -join ', ')' aus"
-        $Users = Get-ADUser -Filter $Filter -Properties $PropertiesToLoad -ErrorAction Stop
+        $Users = $null # Initialize Users
+
+        # Special handling for LockedOut accounts
+        if ($CustomFilter -and $CustomFilter.Trim() -eq "LockedOut -eq `$true") {
+            Write-Host "Führe Search-ADAccount -LockedOut -UsersOnly aus, um gesperrte Benutzer zu finden."
+            # Ensure AD module is loaded; this is checked at the beginning of the function.
+            $LockedOutAccounts = Search-ADAccount -LockedOut -UsersOnly -ErrorAction Stop 
+            
+            if ($LockedOutAccounts) {
+                Write-Host "$($LockedOutAccounts.Count) gesperrte(s) Konto/Konten gefunden. Rufe Details für ausgewählte Attribute ab..."
+                
+                $Users = foreach ($Account in $LockedOutAccounts) {
+                    try {
+                        Get-ADUser -Identity $Account.SamAccountName -Properties $PropertiesToLoad -ErrorAction SilentlyContinue
+                    } catch {
+                        Write-Warning "Konnte Details für Benutzer $($Account.SamAccountName) nicht abrufen: $($_.Exception.Message)"
+                        $null
+                    }
+                }
+                # Filter out any null results from failed Get-ADUser calls
+                $Users = $Users | Where-Object {$_ -ne $null}
+
+            } else {
+                Write-Host "Keine gesperrten Benutzerkonten gefunden via Search-ADAccount."
+            }
+        } else {
+            # Standard AD User Abfrage für andere Filter
+            Write-Host "Führe Get-ADUser mit Filter '$Filter' und Eigenschaften '$($PropertiesToLoad -join ', ')' aus"
+            # Sicherstellen, dass Get-ADUser immer ein Array zurückgibt, auch bei nur einem Ergebnis
+            $Users = @(Get-ADUser -Filter $Filter -Properties $PropertiesToLoad -ErrorAction Stop)
+            Write-ADReportLog -Message "Gefundene Benutzer: $($Users.Count) - Typ: $($Users.GetType().FullName)" -Type Info -Terminal
+        }
 
         if ($Users) {
             # Erstelle Array mit den bereinigten Attributnamen für Select-Object
@@ -154,15 +222,17 @@ Function Get-ADReportData {
                 } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
             )
             
+            # Verwende Select-Object, um ein Array von Objekten zu erstellen
+            # Dies stellt sicher, dass wir eine IEnumerable-Sammlung zurückgeben
             $Output = $Users | Select-Object $SelectAttributes
             return $Output
         } else {
-            $Global:TextBlockStatus.Text = "Keine Benutzer für den angegebenen Filter gefunden."
+            Write-ADReportLog -Message "Keine Benutzer für den angegebenen Filter gefunden." -Type Warning
             return $null
         }
     } catch {
-        $Global:TextBlockStatus.Text = "Fehler bei der AD-Abfrage: $($_.Exception.Message)"
-        Write-Error "Fehler bei der AD-Abfrage: $($_.Exception.Message)"
+        $ErrorMessage = "Fehler bei der AD-Abfrage: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
         return $null
     }
 }
@@ -179,13 +249,25 @@ Function Get-ADGroupReportData {
 
     # Überprüfen, ob das AD-Modul verfügbar ist
     if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
-        $Global:TextBlockStatus.Text = "Fehler: Active Directory Modul nicht gefunden."
-        Write-Error "Active Directory PowerShell Modul ist nicht installiert oder nicht importiert."
+        Write-ADReportLog -Message "Fehler: Active Directory Modul nicht gefunden." -Type Error
         return $null
     }
 
     try {
-        $PropertiesToLoad = @($SelectedAttributes | ForEach-Object { $_.ToString() })
+        # Konvertiere SelectedAttributes zu String-Array und filtere leere/null Werte
+        $PropertiesToLoad = @(
+            $SelectedAttributes | ForEach-Object {
+                if ($null -ne $_) {
+                    # Wenn es sich um ListBoxItem handelt, Content verwenden
+                    if ($_ -is [System.Windows.Controls.ListBoxItem]) {
+                        $_.Content.ToString()
+                    } else {
+                        $_.ToString()
+                    }
+                }
+            } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+        )
+
         if ($PropertiesToLoad.Count -eq 0) {
             $PropertiesToLoad = @("Name", "SamAccountName", "GroupCategory", "GroupScope") 
         }
@@ -199,15 +281,30 @@ Function Get-ADGroupReportData {
         $Groups = Get-ADGroup -Filter $FilterToUse -Properties $PropertiesToLoad -ErrorAction Stop
 
         if ($Groups) {
-            $Output = $Groups | Select-Object ($SelectedAttributes | ForEach-Object { $_.ToString() })
+            # Erstelle Array mit den bereinigten Attributnamen für Select-Object
+            $SelectAttributes = @(
+                $SelectedAttributes | ForEach-Object {
+                    if ($null -ne $_) {
+                        if ($_ -is [System.Windows.Controls.ListBoxItem]) {
+                            $_.Content.ToString()
+                        } else {
+                            $_.ToString()
+                        }
+                    }
+                } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+            )
+            
+            # Verwende Select-Object, um ein Array von Objekten zu erstellen
+            # Dies stellt sicher, dass wir eine IEnumerable-Sammlung zurückgeben
+            $Output = $Groups | Select-Object $SelectAttributes
             return $Output
         } else {
-            $Global:TextBlockStatus.Text = "Keine Gruppen für den angegebenen Filter gefunden."
+            Write-ADReportLog -Message "Keine Gruppen für den angegebenen Filter gefunden." -Type Warning
             return $null
         }
     } catch {
-        $Global:TextBlockStatus.Text = "Fehler bei der AD-Gruppenabfrage: $($_.Exception.Message)"
-        Write-Error "Fehler bei der AD-Gruppenabfrage: $($_.Exception.Message)"
+        $ErrorMessage = "Fehler bei der AD-Gruppenabfrage: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
         return $null
     }
 }
@@ -251,14 +348,14 @@ Function Initialize-ADReportForm {
 
     # --- Event Handler zuweisen --- 
     $ButtonQueryAD.add_Click({
-        $Global:TextBlockStatus.Text = "Führe Abfrage aus..."
+        Write-ADReportLog -Message "Führe Abfrage aus..." -Type Info
         try {
             $SelectedFilterAttribute = $Global:ComboBoxFilterAttribute.SelectedItem.ToString()
             $FilterValue = $Global:TextBoxFilterValue.Text
             $SelectedExportAttributes = $Global:ListBoxSelectAttributes.SelectedItems
 
             if ($SelectedExportAttributes.Count -eq 0) {
-                $Global:TextBlockStatus.Text = "Bitte wählen Sie mindestens ein Attribut für den Export aus."
+                Write-ADReportLog -Message "Bitte wählen Sie mindestens ein Attribut für den Export aus." -Type Warning
                 return
             }
 
@@ -266,57 +363,77 @@ Function Initialize-ADReportForm {
             $ReportData = Get-ADReportData -FilterAttribute $SelectedFilterAttribute -FilterValue $FilterValue -SelectedAttributes $SelectedExportAttributes
             
             if ($ReportData) {
-                $Global:DataGridResults.ItemsSource = $ReportData
-                $Global:TextBlockStatus.Text = "Abfrage abgeschlossen. $($ReportData.Count) Ergebnis(se) gefunden."
+                try {
+                    # Debug-Informationen
+                    Write-ADReportLog -Message "ReportData Typ: $($ReportData.GetType().FullName)" -Type Info -Terminal
+                    
+                    # Wir brauchen sicherzustellen, dass wir immer eine Liste/Sammlung haben, auch bei einzelnen Objekten
+                    # Verwende @() um es als Array zu erzwingen
+                    $ReportCollection = @($ReportData)
+                    
+                    # Direkte Zuweisung an DataGrid
+                    $Global:DataGridResults.ItemsSource = $ReportCollection
+                    
+                    # Zähle die Anzahl der Ergebnisse
+                    $Count = $ReportCollection.Count
+                    Write-ADReportLog -Message "Abfrage abgeschlossen. $Count Ergebnis(se) gefunden." -Type Info
+                } catch {
+                    $ErrorMessage = "Fehler beim Verarbeiten des Abfrageergebnisses: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    $Global:DataGridResults.ItemsSource = $null
+                }
             } else {
                 $Global:DataGridResults.ItemsSource = $null # DataGrid leeren
                 # Status wird in Get-ADReportData gesetzt oder bleibt auf "Keine Benutzer gefunden"
             }
         } catch {
-            $Global:TextBlockStatus.Text = "Fehler im Abfrageprozess: $($_.Exception.Message)"
+            $ErrorMessage = "Fehler im Abfrageprozess: $($_.Exception.Message)"
+            Write-ADReportLog -Message $ErrorMessage -Type Error
             $Global:DataGridResults.ItemsSource = $null
         }
     })
 
     $ButtonQuickAllUsers.add_Click({
-        $Global:TextBlockStatus.Text = "Lade alle Benutzer..."
+        Write-ADReportLog -Message "Lade alle Benutzer..." -Type Info
         try {
             $QuickReportAttributes = @("DisplayName", "SamAccountName", "Enabled", "LastLogonDate")
             $ReportData = Get-ADReportData -CustomFilter "*" -SelectedAttributes $QuickReportAttributes
             if ($ReportData) {
                 $Global:DataGridResults.ItemsSource = $ReportData
-                $Global:TextBlockStatus.Text = "Alle Benutzer geladen. $($ReportData.Count) Ergebnis(se) gefunden."
+                Write-ADReportLog -Message "Alle Benutzer geladen. $($ReportData.Count) Ergebnis(se) gefunden." -Type Info
             } else {
                 $Global:DataGridResults.ItemsSource = $null
                 # Status wird in Get-ADReportData gesetzt
             }
         } catch {
-            $Global:TextBlockStatus.Text = "Fehler beim Laden aller Benutzer: $($_.Exception.Message)"
+            $ErrorMessage = "Fehler beim Laden aller Benutzer: $($_.Exception.Message)"
+            Write-ADReportLog -Message $ErrorMessage -Type Error
             $Global:DataGridResults.ItemsSource = $null
         }
     })
 
     $ButtonQuickDisabledUsers.add_Click({
-        $Global:TextBlockStatus.Text = "Lade deaktivierte Benutzer..."
+        Write-ADReportLog -Message "Lade deaktivierte Benutzer..." -Type Info
         try {
             $QuickReportAttributes = @("DisplayName", "SamAccountName", "Enabled", "LastLogonDate")
             # Der Filter für deaktivierte Benutzer ist 'Enabled -eq $false'
             $ReportData = Get-ADReportData -CustomFilter "Enabled -eq `$false" -SelectedAttributes $QuickReportAttributes
             if ($ReportData) {
                 $Global:DataGridResults.ItemsSource = $ReportData
-                $Global:TextBlockStatus.Text = "Deaktivierte Benutzer geladen. $($ReportData.Count) Ergebnis(se) gefunden."
+                Write-ADReportLog -Message "Deaktivierte Benutzer geladen. $($ReportData.Count) Ergebnis(se) gefunden." -Type Info
             } else {
                 $Global:DataGridResults.ItemsSource = $null
                 # Status wird in Get-ADReportData gesetzt
             }
         } catch {
-            $Global:TextBlockStatus.Text = "Fehler beim Laden deaktivierter Benutzer: $($_.Exception.Message)"
+            $ErrorMessage = "Fehler beim Laden deaktivierter Benutzer: $($_.Exception.Message)"
+            Write-ADReportLog -Message $ErrorMessage -Type Error
             $Global:DataGridResults.ItemsSource = $null
         }
     })
 
     $ButtonQuickLockedUsers.add_Click({
-        $Global:TextBlockStatus.Text = "Lade gesperrte Benutzer..."
+        Write-ADReportLog -Message "Lade gesperrte Benutzer..." -Type Info
         try {
             $QuickReportAttributes = @("DisplayName", "SamAccountName", "Enabled", "LockedOut", "LastLogonDate")
             # Der Filter für gesperrte Benutzer ist 'LockedOut -eq $true'
@@ -324,39 +441,41 @@ Function Initialize-ADReportForm {
             $ReportData = Get-ADReportData -CustomFilter "LockedOut -eq `$true" -SelectedAttributes $QuickReportAttributes
             if ($ReportData) {
                 $Global:DataGridResults.ItemsSource = $ReportData
-                $Global:TextBlockStatus.Text = "Gesperrte Benutzer geladen. $($ReportData.Count) Ergebnis(se) gefunden."
+                Write-ADReportLog -Message "Gesperrte Benutzer geladen. $($ReportData.Count) Ergebnis(se) gefunden." -Type Info
             } else {
                 $Global:DataGridResults.ItemsSource = $null
                 # Status wird in Get-ADReportData gesetzt
             }
         } catch {
-            $Global:TextBlockStatus.Text = "Fehler beim Laden gesperrter Benutzer: $($_.Exception.Message)"
+            $ErrorMessage = "Fehler beim Laden gesperrter Benutzer: $($_.Exception.Message)"
+            Write-ADReportLog -Message $ErrorMessage -Type Error
             $Global:DataGridResults.ItemsSource = $null
         }
     })
 
     $ButtonQuickGroups.add_Click({
-        $Global:TextBlockStatus.Text = "Lade alle Gruppen..."
+        Write-ADReportLog -Message "Lade alle Gruppen..." -Type Info
         try {
-            $QuickReportAttributes = @("Name", "SamAccountName", "GroupCategory", "GroupScope", "Description")
+            $QuickReportAttributes = @("Name", "SamAccountName", "GroupCategory", "GroupScope")
             $ReportData = Get-ADGroupReportData -CustomFilter "*" -SelectedAttributes $QuickReportAttributes
             if ($ReportData) {
                 $Global:DataGridResults.ItemsSource = $ReportData
-                $Global:TextBlockStatus.Text = "Alle Gruppen geladen. $($ReportData.Count) Ergebnis(se) gefunden."
+                Write-ADReportLog -Message "Alle Gruppen geladen. $($ReportData.Count) Ergebnis(se) gefunden." -Type Info
             } else {
                 $Global:DataGridResults.ItemsSource = $null
                 # Status wird in Get-ADGroupReportData gesetzt
             }
         } catch {
-            $Global:TextBlockStatus.Text = "Fehler beim Laden aller Gruppen: $($_.Exception.Message)"
+            $ErrorMessage = "Fehler beim Laden aller Gruppen: $($_.Exception.Message)"
+            Write-ADReportLog -Message $ErrorMessage -Type Error
             $Global:DataGridResults.ItemsSource = $null
         }
     })
 
     $ButtonExportCSV.add_Click({
-        $Global:TextBlockStatus.Text = "CSV Export wird vorbereitet..."
+        Write-ADReportLog -Message "CSV Export wird vorbereitet..." -Type Info
         if ($null -eq $Global:DataGridResults.ItemsSource -or $Global:DataGridResults.Items.Count -eq 0) {
-            $Global:TextBlockStatus.Text = "Keine Daten zum Exportieren vorhanden."
+            Write-ADReportLog -Message "Keine Daten zum Exportieren vorhanden." -Type Warning
             [System.Windows.Forms.MessageBox]::Show("Es sind keine Daten zum Exportieren vorhanden.", "Hinweis", "OK", "Information")
             return
         }
@@ -373,16 +492,17 @@ Function Initialize-ADReportForm {
                 $Global:TextBlockStatus.Text = "Daten erfolgreich nach $FilePath exportiert."
                 [System.Windows.Forms.MessageBox]::Show("Daten erfolgreich exportiert!", "CSV Export", "OK", "Information")
             } catch {
-                $Global:TextBlockStatus.Text = "Fehler beim CSV-Export: $($_.Exception.Message)"
+                $ErrorMessage = "Fehler beim CSV-Export: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
                 [System.Windows.Forms.MessageBox]::Show("Fehler beim Exportieren der Daten: $($_.Exception.Message)", "Export Fehler", "OK", "Error")
             }
         } else {
-            $Global:TextBlockStatus.Text = "CSV-Export vom Benutzer abgebrochen."
+            Write-ADReportLog -Message "CSV-Export vom Benutzer abgebrochen." -Type Info
         }
     })
 
     $ButtonExportHTML.add_Click({
-        $Global:TextBlockStatus.Text = "HTML Export wird vorbereitet..."
+        Write-ADReportLog -Message "HTML Export wird vorbereitet..." -Type Info
         if ($null -eq $Global:DataGridResults.ItemsSource -or $Global:DataGridResults.Items.Count -eq 0) {
             $Global:TextBlockStatus.Text = "Keine Daten zum Exportieren vorhanden."
             [System.Windows.Forms.MessageBox]::Show("Es sind keine Daten zum Exportieren vorhanden.", "Hinweis", "OK", "Information")
@@ -417,11 +537,12 @@ Function Initialize-ADReportForm {
                 $Global:TextBlockStatus.Text = "Daten erfolgreich nach $FilePath exportiert."
                 [System.Windows.Forms.MessageBox]::Show("Daten erfolgreich exportiert!", "HTML Export", "OK", "Information")
             } catch {
-                $Global:TextBlockStatus.Text = "Fehler beim HTML-Export: $($_.Exception.Message)"
+                $ErrorMessage = "Fehler beim HTML-Export: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
                 [System.Windows.Forms.MessageBox]::Show("Fehler beim Exportieren der Daten: $($_.Exception.Message)", "Export Fehler", "OK", "Error")
             }
         } else {
-            $Global:TextBlockStatus.Text = "HTML-Export vom Benutzer abgebrochen."
+            Write-ADReportLog -Message "HTML-Export vom Benutzer abgebrochen." -Type Info
         }
     })
 
