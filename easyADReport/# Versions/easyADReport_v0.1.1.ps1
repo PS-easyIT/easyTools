@@ -47,22 +47,11 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,15">
             <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,15,0" Width="620">
                 <GroupBox Header="Filter" Margin="5" BorderThickness="0">
-                    <StackPanel>
-                        <!-- Objekttyp-Auswahl -->
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Label Content="Objekttyp:" VerticalAlignment="Center" Width="80"/>
-                            <RadioButton x:Name="RadioButtonUser" Content="Benutzer" IsChecked="True" Margin="5,0" VerticalAlignment="Center" />
-                            <RadioButton x:Name="RadioButtonGroup" Content="Gruppe" Margin="15,0" VerticalAlignment="Center" />
-                            <RadioButton x:Name="RadioButtonComputer" Content="Computer" Margin="5,0" VerticalAlignment="Center" />
-                        </StackPanel>
-                        
-                        <!-- Filter-Attribute und Werte -->
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Filter Attribute:" VerticalAlignment="Center" Width="80"/>
-                            <ComboBox x:Name="ComboBoxFilterAttribute" Width="150" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
-                            <Label Content="Filter Value:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="TextBoxFilterValue" Width="200" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
-                        </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Filter Attribute:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ComboBoxFilterAttribute" Width="150" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
+                        <Label Content="Filter Value:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="TextBoxFilterValue" Width="200" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
                     </StackPanel>
                 </GroupBox>
             </Border>
@@ -480,360 +469,59 @@ Function Get-ADComputerReportData {
     }
 }
 
-# --- Security Audit Functions ---
+# --- Security Audit Funktionen ---
 Function Get-WeakPasswordPolicyUsers {
     [CmdletBinding()]
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing users with weak password policies..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analysiere Benutzer mit schwachen Passwortrichtlinien..." -Type Info -Terminal
         
-        # Properties relevant for comprehensive password policy analysis
+        # Eigenschaften, die für Passwort-Policy-Analyse relevant sind
         $Properties = @(
             "DisplayName", "SamAccountName", "Enabled", "PasswordNeverExpires", 
-            "PasswordNotRequired", "PasswordLastSet", "LastLogonDate", "AdminCount",
-            "CannotChangePassword", "SmartcardLogonRequired", "TrustedForDelegation",
-            "DoesNotRequirePreAuth", "UseDESKeyOnly", "AccountExpirationDate",
-            "LastBadPasswordAttempt", "BadLogonCount", "LogonCount", "PrimaryGroup",
-            "MemberOf", "ServicePrincipalNames", "UserAccountControl", "LockedOut",
-            "TrustedToAuthForDelegation", "AllowReversiblePasswordEncryption",
-            "whenCreated", "Description", "UserPrincipalName", "DistinguishedName"
+            "PasswordNotRequired", "PasswordLastSet", "LastLogonDate", "AdminCount"
         )
         
-        # Retrieve Domain Password Policy for comparisons
-        $DomainPasswordPolicy = Get-ADDefaultDomainPasswordPolicy
-        $MinPasswordAge = $DomainPasswordPolicy.MinPasswordAge.Days
-        $MaxPasswordAge = $DomainPasswordPolicy.MaxPasswordAge.Days
-        $MinPasswordLength = $DomainPasswordPolicy.MinPasswordLength
-        
-        Write-ADReportLog -Message "Domain Password Policy - Min Age: $MinPasswordAge days, Max Age: $MaxPasswordAge days, Min Length: $MinPasswordLength chars" -Type Info -Terminal
-        
-        # Load all users with relevant properties
+        # Alle Benutzer mit relevanten Eigenschaften abrufen
         $AllUsers = Get-ADUser -Filter * -Properties $Properties
-        Write-ADReportLog -Message "$($AllUsers.Count) users loaded for analysis..." -Type Info -Terminal
         
-        # Define high-risk service account patterns
-        $ServiceAccountPatterns = @("svc", "service", "app", "sql", "iis", "web", "backup", "sync", "admin", "sa")
-        $TestAccountPatterns = @("test", "temp", "demo", "guest", "anonymous", "trial")
+        # Schwache Passwort-Policies identifizieren
+        $WeakPasswordUsers = $AllUsers | Where-Object {
+            # Passwort läuft nie ab ODER Passwort nicht erforderlich ODER lange Zeit kein Passwort-Reset
+            $_.PasswordNeverExpires -eq $true -or 
+            $_.PasswordNotRequired -eq $true -or
+            ($_.PasswordLastSet -and $_.PasswordLastSet -lt (Get-Date).AddDays(-365)) -or
+            $_.PasswordLastSet -eq $null
+        } | Select-Object DisplayName, SamAccountName, Enabled, PasswordNeverExpires, PasswordNotRequired, PasswordLastSet, LastLogonDate,
+            @{Name='Schwachstelle'; Expression={
+                $issues = @()
+                if ($_.PasswordNeverExpires) { $issues += "Passwort läuft nie ab" }
+                if ($_.PasswordNotRequired) { $issues += "Passwort nicht erforderlich" }
+                if ($_.PasswordLastSet -and $_.PasswordLastSet -lt (Get-Date).AddDays(-365)) { $issues += "Passwort älter als 1 Jahr" }
+                if ($_.PasswordLastSet -eq $null) { $issues += "Kein Passwort gesetzt" }
+                $issues -join "; "
+            }},
+            @{Name='Risikostufe'; Expression={
+                $riskLevel = 0
+                if ($_.PasswordNeverExpires) { $riskLevel += 2 }
+                if ($_.PasswordNotRequired) { $riskLevel += 3 }
+                if ($_.PasswordLastSet -eq $null) { $riskLevel += 3 }
+                if ($_.PasswordLastSet -and $_.PasswordLastSet -lt (Get-Date).AddDays(-365)) { $riskLevel += 1 }
+                
+                switch ($riskLevel) {
+                    {$_ -ge 5} { "Kritisch" }
+                    {$_ -ge 3} { "Hoch" }
+                    {$_ -ge 2} { "Mittel" }
+                    default { "Niedrig" }
+                }
+            }}
         
-        # Enhanced analysis for weak password policies
-        $WeakPasswordUsers = foreach ($user in $AllUsers) {
-            $issues = @()
-            $riskLevel = 0
-            $recommendations = @()
-            $securityFlags = @()
-            
-            # 1. Password never expires
-            if ($user.PasswordNeverExpires -eq $true) {
-                $issues += "Password never expires"
-                $riskLevel += 3
-                $recommendations += "Enable password expiration"
-                $securityFlags += "NO_EXPIRY"
-            }
-            
-            # 2. Password not required
-            if ($user.PasswordNotRequired -eq $true) {
-                $issues += "Password not required"
-                $riskLevel += 5  # Critical risk
-                $recommendations += "Enforce password requirement"
-                $securityFlags += "NO_PASSWORD_REQ"
-            }
-            
-            # 3. No password set or extremely old password
-            if ($user.PasswordLastSet -eq $null) {
-                $issues += "No password set"
-                $riskLevel += 5
-                $recommendations += "Set password immediately"
-                $securityFlags += "NO_PASSWORD"
-            } elseif ($user.PasswordLastSet -lt (Get-Date).AddDays(-($MaxPasswordAge * 3))) {
-                $issues += "Password extremely outdated (>$($MaxPasswordAge * 3) days)"
-                $riskLevel += 4
-                $recommendations += "Force password reset immediately"
-                $securityFlags += "ANCIENT_PASSWORD"
-            } elseif ($user.PasswordLastSet -lt (Get-Date).AddDays(-($MaxPasswordAge * 2))) {
-                $issues += "Password very old (>$($MaxPasswordAge * 2) days)"
-                $riskLevel += 3
-                $recommendations += "Schedule password reset"
-                $securityFlags += "OLD_PASSWORD"
-            } elseif ($user.PasswordLastSet -lt (Get-Date).AddDays(-365)) {
-                $issues += "Password older than 1 year"
-                $riskLevel += 2
-                $recommendations += "Password reset recommended"
-                $securityFlags += "STALE_PASSWORD"
-            }
-            
-            # 4. User cannot change password
-            if ($user.CannotChangePassword -eq $true) {
-                $issues += "Cannot change password"
-                $riskLevel += 2
-                $recommendations += "Allow password changes (except for service accounts)"
-                $securityFlags += "NO_CHANGE_ALLOWED"
-            }
-            
-            # 5. Kerberos Pre-Authentication disabled (ASREPRoast attack possible)
-            if ($user.DoesNotRequirePreAuth -eq $true) {
-                $issues += "Kerberos Pre-Auth disabled (ASREPRoast vulnerability)"
-                $riskLevel += 4
-                $recommendations += "Enable Kerberos Pre-Authentication"
-                $securityFlags += "ASREP_ROASTABLE"
-            }
-            
-            # 6. Weak encryption (DES)
-            if ($user.UseDESKeyOnly -eq $true) {
-                $issues += "Uses weak DES encryption"
-                $riskLevel += 3
-                $recommendations += "Disable DES encryption"
-                $securityFlags += "WEAK_ENCRYPTION"
-            }
-            
-            # 7. Reversible password encryption
-            if ($user.AllowReversiblePasswordEncryption -eq $true) {
-                $issues += "Reversible password encryption enabled"
-                $riskLevel += 4
-                $recommendations += "Disable reversible password encryption"
-                $securityFlags += "REVERSIBLE_ENCRYPTION"
-            }
-            
-            # 8. Smartcard authentication not used for privileged accounts
-            if ($user.AdminCount -eq 1 -and $user.SmartcardLogonRequired -eq $false) {
-                $issues += "Privileged account without smartcard requirement"
-                $riskLevel += 3
-                $recommendations += "Enable smartcard authentication for admin accounts"
-                $securityFlags += "ADMIN_NO_SMARTCARD"
-            }
-            
-            # 9. Delegation for normal user accounts
-            if (($user.TrustedForDelegation -eq $true -or $user.TrustedToAuthForDelegation -eq $true) -and $user.AdminCount -ne 1) {
-                $issues += "Delegation enabled for standard user"
-                $riskLevel += 3
-                $recommendations += "Restrict delegation to service accounts only"
-                $securityFlags += "UNEXPECTED_DELEGATION"
-            }
-            
-            # 10. Excessive failed logon attempts
-            if ($user.BadLogonCount -gt 10) {
-                $issues += "Excessive failed logon attempts ($($user.BadLogonCount))"
-                $riskLevel += 2
-                $recommendations += "Investigate account for potential compromise"
-                $securityFlags += "HIGH_FAILED_LOGONS"
-            } elseif ($user.BadLogonCount -gt 5) {
-                $issues += "Multiple failed logon attempts ($($user.BadLogonCount))"
-                $riskLevel += 1
-                $recommendations += "Monitor account activity"
-                $securityFlags += "FAILED_LOGONS"
-            }
-            
-            # 11. Service account without SPN (potentially misconfigured)
-            $isServiceAccount = $false
-            foreach ($pattern in $ServiceAccountPatterns) {
-                if ($user.SamAccountName -like "*$pattern*" -or $user.DisplayName -like "*$pattern*") {
-                    $isServiceAccount = $true
-                    break
-                }
-            }
-            
-            if ($isServiceAccount) {
-                if (-not $user.ServicePrincipalNames) {
-                    $issues += "Service account without SPN"
-                    $riskLevel += 1
-                    $recommendations += "Configure SPN for service account"
-                    $securityFlags += "SERVICE_NO_SPN"
-                }
-                
-                # Service accounts should not be interactive
-                if ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-30)) {
-                    $issues += "Interactive logons detected for service account"
-                    $riskLevel += 2
-                    $recommendations += "Review service account usage"
-                    $securityFlags += "SERVICE_INTERACTIVE"
-                }
-            }
-            
-            # 12. Never logged in accounts with high privileges
-            if ($user.LogonCount -eq 0 -and $user.AdminCount -eq 1) {
-                $issues += "Admin account never used"
-                $riskLevel += 3
-                $recommendations += "Disable unused admin account"
-                $securityFlags += "UNUSED_ADMIN"
-            } elseif ($user.LogonCount -eq 0 -and $user.whenCreated -lt (Get-Date).AddDays(-30)) {
-                $issues += "Account never used (created >30 days ago)"
-                $riskLevel += 1
-                $recommendations += "Consider disabling unused account"
-                $securityFlags += "NEVER_USED"
-            }
-            
-            # 13. Inactive privileged accounts
-            if ($user.AdminCount -eq 1 -and $user.LastLogonDate -and $user.LastLogonDate -lt (Get-Date).AddDays(-60)) {
-                $issues += "Privileged account inactive for >60 days"
-                $riskLevel += 3
-                $recommendations += "Review inactive admin account"
-                $securityFlags += "INACTIVE_ADMIN"
-            } elseif ($user.LastLogonDate -and $user.LastLogonDate -lt (Get-Date).AddDays(-180)) {
-                $issues += "Account inactive for >180 days"
-                $riskLevel += 2
-                $recommendations += "Consider disabling inactive account"
-                $securityFlags += "LONG_INACTIVE"
-            }
-            
-            # 14. Test/temp accounts without expiration
-            $isTestAccount = $false
-            foreach ($pattern in $TestAccountPatterns) {
-                if ($user.SamAccountName -like "*$pattern*" -or $user.DisplayName -like "*$pattern*") {
-                    $isTestAccount = $true
-                    break
-                }
-            }
-            
-            if ($isTestAccount) {
-                if ($user.AccountExpirationDate -eq $null) {
-                    $issues += "Test/temp account without expiration date"
-                    $riskLevel += 2
-                    $recommendations += "Set expiration date for temporary accounts"
-                    $securityFlags += "TEST_NO_EXPIRY"
-                }
-                
-                if ($user.whenCreated -lt (Get-Date).AddDays(-90)) {
-                    $issues += "Old test account (>90 days)"
-                    $riskLevel += 1
-                    $recommendations += "Review necessity of old test account"
-                    $securityFlags += "OLD_TEST_ACCOUNT"
-                }
-            }
-            
-            # 15. Locked accounts with admin privileges
-            if ($user.LockedOut -eq $true -and $user.AdminCount -eq 1) {
-                $issues += "Locked privileged account"
-                $riskLevel += 2
-                $recommendations += "Investigate locked admin account"
-                $securityFlags += "LOCKED_ADMIN"
-            }
-            
-            # 16. Accounts with suspicious creation patterns
-            if ($user.whenCreated -gt (Get-Date).AddDays(-7) -and $user.AdminCount -eq 1) {
-                $issues += "Recently created admin account"
-                $riskLevel += 2
-                $recommendations += "Verify legitimacy of new admin account"
-                $securityFlags += "NEW_ADMIN"
-            }
-            
-            # 17. Accounts with generic or weak naming
-            $weakNames = @("admin", "administrator", "user", "guest", "test", "temp", "service", "default")
-            foreach ($weakName in $weakNames) {
-                if ($user.SamAccountName -eq $weakName -or $user.SamAccountName -like "$weakName*") {
-                    $issues += "Generic/predictable account name"
-                    $riskLevel += 1
-                    $recommendations += "Use non-predictable account names"
-                    $securityFlags += "WEAK_NAMING"
-                    break
-                }
-            }
-            
-            # Only return users with identified vulnerabilities
-            if ($issues.Count -gt 0) {
-                # Categorize risk level
-                $riskCategory = switch ([int]$riskLevel) {
-                    {$_ -ge 10} { [string]"Critical" }
-                    {$_ -ge 7} { [string]"High" }
-                    {$_ -ge 4} { [string]"Medium" }
-                    {$_ -ge 2} { [string]"Low" }
-                    default    { [string]"Minimal" }
-                }
-                
-
-                # Add context information
-                $contextInfo = @()
-                if ($user.AdminCount -eq 1) { $contextInfo += "Privileged Account" }
-                if ($user.Enabled -eq $false) { $contextInfo += "Disabled" }
-                if ($user.LockedOut -eq $true) { $contextInfo += "Locked" }
-                if ($user.ServicePrincipalNames) { $contextInfo += "Service Account" }
-                if ($isServiceAccount) { $contextInfo += "Service Pattern" }
-                if ($isTestAccount) { $contextInfo += "Test/Temp Account" }
-                if ($user.SamAccountName -match "^(admin|administrator|root|sa|service|svc)") { $contextInfo += "System Account" }
-                
-                # Calculate compliance status
-                $complianceIssues = 0
-                if ($user.PasswordNeverExpires) { $complianceIssues++ }
-                if ($user.PasswordNotRequired) { $complianceIssues++ }
-                if ($user.DoesNotRequirePreAuth) { $complianceIssues++ }
-                if ($user.UseDESKeyOnly) { $complianceIssues++ }
-                if ($user.AllowReversiblePasswordEncryption) { $complianceIssues++ }
-                
-                $complianceStatus = if ($complianceIssues -eq 0) { "Compliant" } 
-                                   elseif ($complianceIssues -le 2) { "Partially Compliant" } 
-                                   else { "Non-Compliant" }
-                
-                # Calculate password age in days
-                $passwordAge = if ($user.PasswordLastSet) { 
-                    [math]::Round((New-TimeSpan -Start $user.PasswordLastSet -End (Get-Date)).TotalDays) 
-                } else { "Never Set" }
-                
-                # Calculate account age
-                $accountAge = [math]::Round((New-TimeSpan -Start $user.whenCreated -End (Get-Date)).TotalDays)
-                
-                # Determine urgency level
-                $urgencyLevel = if ($user.AdminCount -eq 1 -and $riskLevel -ge 7) { "Immediate Action Required" }
-                               elseif ($riskLevel -ge 10) { "Critical" }
-                               elseif ($riskLevel -ge 7) { "Urgent" }
-                               elseif ($riskLevel -ge 4) { "High Priority" }
-                               elseif ($riskLevel -ge 2) { "Medium Priority" }
-                               else { "Low Priority" }
-                
-                # Enhanced output object with comprehensive analysis
-                [PSCustomObject]@{
-                    DisplayName = $user.DisplayName
-                    SamAccountName = $user.SamAccountName
-                    UserPrincipalName = $user.UserPrincipalName
-                    Enabled = $user.Enabled
-                    LockedOut = $user.LockedOut
-                    Context = if ($contextInfo) { $contextInfo -join ", " } else { "Standard User" }
-                    PasswordLastSet = $user.PasswordLastSet
-                    PasswordAge = $passwordAge
-                    AccountCreated = $user.whenCreated
-                    AccountAge = $accountAge
-                    LastLogonDate = $user.LastLogonDate
-                    LogonCount = $user.LogonCount
-                    BadLogonCount = $user.BadLogonCount
-                    LastBadPasswordAttempt = $user.LastBadPasswordAttempt
-                    Vulnerabilities = $issues -join "; "
-                    SecurityFlags = $securityFlags -join ", "
-                    RiskLevel = $riskCategory
-                    RiskScore = $riskLevel
-                    ComplianceStatus = $complianceStatus
-                    ComplianceIssues = $complianceIssues
-                    UrgencyLevel = $urgencyLevel
-                    Recommendations = $recommendations -join "; "
-                    Description = $user.Description
-                    LastAssessment = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-                    TotalIssuesFound = $issues.Count
-                    RequiresImmediateAction = ($urgencyLevel -eq "Immediate Action Required" -or $urgencyLevel -eq "Critical")
-                }
-            }
-        }
-        
-        # Enhanced statistics for logging
-        $totalIssues = $WeakPasswordUsers.Count
-        $criticalIssues = ($WeakPasswordUsers | Where-Object { $_.RiskLevel -eq "Critical" }).Count
-        $highIssues = ($WeakPasswordUsers | Where-Object { $_.RiskLevel -eq "High" }).Count
-        $mediumIssues = ($WeakPasswordUsers | Where-Object { $_.RiskLevel -eq "Medium" }).Count
-        $adminIssues = ($WeakPasswordUsers | Where-Object { $_.Context -like "*Privileged Account*" }).Count
-        $nonCompliant = ($WeakPasswordUsers | Where-Object { $_.ComplianceStatus -eq "Non-Compliant" }).Count
-        $immediateAction = ($WeakPasswordUsers | Where-Object { $_.RequiresImmediateAction -eq $true }).Count
-        $serviceAccountIssues = ($WeakPasswordUsers | Where-Object { $_.Context -like "*Service*" }).Count
-        $testAccountIssues = ($WeakPasswordUsers | Where-Object { $_.Context -like "*Test*" }).Count
-        
-        Write-ADReportLog -Message "Password Policy Analysis completed:" -Type Info -Terminal
-        Write-ADReportLog -Message "  Total: $totalIssues users with vulnerabilities" -Type Info -Terminal
-        Write-ADReportLog -Message "  Risk Distribution - Critical: $criticalIssues, High: $highIssues, Medium: $mediumIssues" -Type Info -Terminal
-        Write-ADReportLog -Message "  Privileged accounts affected: $adminIssues" -Type Info -Terminal
-        Write-ADReportLog -Message "  Service accounts with issues: $serviceAccountIssues" -Type Info -Terminal
-        Write-ADReportLog -Message "  Test/temp accounts with issues: $testAccountIssues" -Type Info -Terminal
-        Write-ADReportLog -Message "  Compliance violations: $nonCompliant" -Type Info -Terminal
-        Write-ADReportLog -Message "  Requiring immediate action: $immediateAction" -Type Info -Terminal
-        
+        Write-ADReportLog -Message "$($WeakPasswordUsers.Count) Benutzer mit schwachen Passwortrichtlinien gefunden." -Type Info -Terminal
         return $WeakPasswordUsers
         
     } catch {
-        $ErrorMessage = "Error analyzing password policies: $($_.Exception.Message)"
+        $ErrorMessage = "Fehler beim Analysieren der Passwortrichtlinien: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
         return $null
     }
@@ -890,11 +578,11 @@ Function Get-RiskyGroupMemberships {
                                         default { "Niedrig" }
                                     }
                                     Empfehlung = if ($userDetails.Enabled -eq $false) { 
-                                        "Deactivate Account delete from group" 
+                                        "Deaktiviertes Konto aus Gruppe entfernen" 
                                     } elseif ($userDetails.LastLogonDate -and $userDetails.LastLogonDate -lt (Get-Date).AddDays(-90)) { 
-                                        "Check inactive account" 
+                                        "Inaktives Konto überprüfen" 
                                     } else { 
-                                        "Regularly review permissions" 
+                                        "Berechtigung regelmäßig überprüfen" 
                                     }
                                 }
                                 $RiskyUsers += $riskUser
@@ -960,84 +648,85 @@ Function Get-PrivilegedAccounts {
             $riskLevel = 0
             
             if ($account.AdminCount -eq 1) {
-                $riskFactors += "AdminCount set"
+                $riskFactors += "AdminCount gesetzt"
                 $riskLevel += 2
             }
             
             if ($account.ServicePrincipalNames) {
-                $riskFactors += "Service-Account (SPN)"
+                $riskFactors += "Service-Konto (SPN)"
                 $riskLevel += 1
             }
             
             if ($account.TrustedForDelegation) {
-                $riskFactors += "Delegation activated"
+                $riskFactors += "Delegierung aktiviert"
                 $riskLevel += 2
             }
             
             if ($account.TrustedToAuthForDelegation) {
-                $riskFactors += "Constrained Delegation"
+                $riskFactors += "Konstrained Delegation"
                 $riskLevel += 1
             }
             
             if ($account.PasswordNeverExpires) {
-                $riskFactors += "Password never expires"
+                $riskFactors += "Passwort läuft nie ab"
                 $riskLevel += 1
             }
             
             if ($account.Enabled -eq $false) {
-                $riskFactors += "Account disabled"
-                $riskLevel += 3  # Deactivated privileged accounts are a high risk
+                $riskFactors += "Konto deaktiviert"
+                $riskLevel += 3  # Deaktivierte privilegierte Konten sind ein hohes Risiko
             }
-
+            
             if ($account.LastLogonDate -and $account.LastLogonDate -lt (Get-Date).AddDays(-90)) {
-                $riskFactors += "Inactive (>90 days)"
+                $riskFactors += "Inaktiv (>90 Tage)"
                 $riskLevel += 2
             }
             
             # Privilegien-Level bestimmen
             $privilegeLevel = "Standard"
             if ($account.AdminCount -eq 1 -and ($account.TrustedForDelegation -or $account.TrustedToAuthForDelegation)) {
-                $privilegeLevel = "Critical"
+                $privilegeLevel = "Kritisch"
             } elseif ($account.AdminCount -eq 1) {
-                $privilegeLevel = "High"
+                $privilegeLevel = "Hoch"
             } elseif ($account.ServicePrincipalNames -or $account.TrustedForDelegation) {
-                $privilegeLevel = "Medium"
+                $privilegeLevel = "Mittel"
             }
             
             # Risikostufe bestimmen
             $overallRisk = switch ($riskLevel) {
-                {$_ -ge 5} { "Critical" }
-                {$_ -ge 3} { "High" }
-                {$_ -ge 2} { "Medium" }
-                default { "Low" }
+                {$_ -ge 5} { "Kritisch" }
+                {$_ -ge 3} { "Hoch" }
+                {$_ -ge 2} { "Mittel" }
+                default { "Niedrig" }
             }
             
             # Empfehlungen generieren
             $recommendations = @()
             if ($account.Enabled -eq $false -and $account.AdminCount -eq 1) {
-                $recommendations += "Reset AdminCount for deactivated account"
+                $recommendations += "AdminCount zurücksetzen für deaktiviertes Konto"
             }
             if ($account.LastLogonDate -and $account.LastLogonDate -lt (Get-Date).AddDays(-90)) {
-                $recommendations += "Check account usage"
+                $recommendations += "Konto-Nutzung überprüfen"
             }
             if ($account.PasswordNeverExpires -and $account.AdminCount -eq 1) {
-                $recommendations += "Enable password expiration"
+                $recommendations += "Passwort-Ablauf aktivieren"
             }
             if ($account.TrustedForDelegation) {
-                $recommendations += "Review delegation rights"
+                $recommendations += "Delegierungsrechte überprüfen"
             }
             
             [PSCustomObject]@{
-                AdminCount = $account.AdminCount
-                ServiceAccount = [bool]$account.ServicePrincipalNames
                 DisplayName = $account.DisplayName
                 SamAccountName = $account.SamAccountName
                 Enabled = $account.Enabled
                 LastLogonDate = $account.LastLogonDate
                 PasswordLastSet = $account.PasswordLastSet
-                PrivilegeLevel = $privilegeLevel
-                RiskFactors = $riskFactors -join "; "
-                Recommendations = if ($recommendations) { $recommendations -join "; " } else { "Regular review" }
+                PrivilegLevel = $privilegeLevel
+                Risikofaktoren = $riskFactors -join "; "
+                Risikostufe = $overallRisk
+                Empfehlungen = if ($recommendations) { $recommendations -join "; " } else { "Regelmäßige Überprüfung" }
+                AdminCount = $account.AdminCount
+                ServiceAccount = [bool]$account.ServicePrincipalNames
                 Delegation = $account.TrustedForDelegation -or $account.TrustedToAuthForDelegation
             }
         }
@@ -1067,49 +756,49 @@ Function Get-FSMORoles {
         
         # Forest-weite FSMO-Rollen
         $FSMORoles += [PSCustomObject]@{
-            Role = "Schema Master"
-            Type = "Forest-wide"
+            Rolle = "Schema Master"
+            Typ = "Forest-wide"
             Server = $Forest.SchemaMaster
             Domain = $Forest.Name
             Status = if (Test-Connection -ComputerName $Forest.SchemaMaster -Count 1 -Quiet) { "Online" } else { "Offline" }
-            Description = "Manages the Active Directory schema"
+            Beschreibung = "Manages the Active Directory schema"
         }
-
+        
         $FSMORoles += [PSCustomObject]@{
-            Role = "Domain Naming Master"
-            Type = "Forest-wide"
+            Rolle = "Domain Naming Master"
+            Typ = "Forest-wide"
             Server = $Forest.DomainNamingMaster
             Domain = $Forest.Name
             Status = if (Test-Connection -ComputerName $Forest.DomainNamingMaster -Count 1 -Quiet) { "Online" } else { "Offline" }
-            Description = "Manages adding and removing domains"
+            Beschreibung = "Manages adding and removing domains"
         }
         
         # Domänen-spezifische FSMO-Rollen
         $FSMORoles += [PSCustomObject]@{
-            Role = "PDC Emulator"
-            Type = "Domain-specific"
+            Rolle = "PDC Emulator"
+            Typ = "Domain-specific"
             Server = $Domain.PDCEmulator
             Domain = $Domain.Name
             Status = if (Test-Connection -ComputerName $Domain.PDCEmulator -Count 1 -Quiet) { "Online" } else { "Offline" }
-            Description = "Time synchronization and password changes"
+            Beschreibung = "Time synchronization and password changes"
         }
-
+        
         $FSMORoles += [PSCustomObject]@{
-            Role = "RID Master"
-            Type = "Domain-specific"
+            Rolle = "RID Master"
+            Typ = "Domain-specific"
             Server = $Domain.RIDMaster
             Domain = $Domain.Name
             Status = if (Test-Connection -ComputerName $Domain.RIDMaster -Count 1 -Quiet) { "Online" } else { "Offline" }
-            Description = "Distributes RID pools to domain controllers"
+            Beschreibung = "Distributes RID pools to domain controllers"
         }
-
+        
         $FSMORoles += [PSCustomObject]@{
-            Role = "Infrastructure Master"
-            Type = "Domain-specific"
+            Rolle = "Infrastructure Master"
+            Typ = "Domain-specific"
             Server = $Domain.InfrastructureMaster
             Domain = $Domain.Name
             Status = if (Test-Connection -ComputerName $Domain.InfrastructureMaster -Count 1 -Quiet) { "Online" } else { "Offline" }
-            Description = "Manages cross-domain references"
+            Beschreibung = "Manages cross-domain references"
         }
         
         Write-ADReportLog -Message "$($FSMORoles.Count) FSMO roles found." -Type Info -Terminal
@@ -1135,9 +824,9 @@ Function Get-DomainControllerStatus {
         try {
             $Forest = Get-ADForest -ErrorAction Stop
             $ForestInfo = [PSCustomObject]@{
-            Category = "Forest-Information"
+            Kategorie = "Forest-Information"
             Parameter = "Forest Name"
-            Value = $Forest.Name
+            Wert = $Forest.Name
             Status = "OK"
             Details = "Forest Functional Level: $($Forest.ForestMode)"
             }
@@ -1155,17 +844,17 @@ Function Get-DomainControllerStatus {
             }
             
             $ADHealthReport += [PSCustomObject]@{
-            Category = "Forest-Information"
+            Kategorie = "Forest-Information"
             Parameter = "Schema Version"
-            Value = $schemaVersion
+            Wert = $schemaVersion
             Status = "OK"
             Details = "Current schema version"
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-            Category = "Forest-Information"
+            Kategorie = "Forest-Information"
             Parameter = "Forest Access"
-            Value = "Error"
+            Wert = "Error"
             Status = "Critical"
             Details = $_.Exception.Message
             }
@@ -1175,9 +864,9 @@ Function Get-DomainControllerStatus {
         try {
             $Domain = Get-ADDomain -ErrorAction Stop
             $ADHealthReport += [PSCustomObject]@{
-                Category = "Domain-Information"
+                Kategorie = "Domain-Information"
                 Parameter = "Domain Name"
-                Value = $Domain.NetBIOSName
+                Wert = $Domain.NetBIOSName
                 Status = "OK"
                 Details = "FQDN: $($Domain.DNSRoot), Level: $($Domain.DomainMode)"
             }
@@ -1185,17 +874,17 @@ Function Get-DomainControllerStatus {
             # PDC Emulator Test
             $pdcTest = Test-Connection -ComputerName $Domain.PDCEmulator -Count 1 -Quiet -ErrorAction SilentlyContinue
             $ADHealthReport += [PSCustomObject]@{
-                Category = "Domain-Information"
+                Kategorie = "Domain-Information"
                 Parameter = "PDC Emulator"
-                Value = $Domain.PDCEmulator
+                Wert = $Domain.PDCEmulator
                 Status = if ($pdcTest) { "OK" } else { "Warning" }
                 Details = if ($pdcTest) { "Reachable" } else { "Not reachable" }
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "Domain-Information"
+                Kategorie = "Domain-Information"
                 Parameter = "Domain Access"
-                Value = "Error"
+                Wert = "Error"
                 Status = "Critical"
                 Details = $_.Exception.Message
             }
@@ -1208,31 +897,32 @@ Function Get-DomainControllerStatus {
             # Konvertiere zu Array und zähle dann
             $DCArray = @($DomainControllers)
             $DCCount = $DCArray.Count
+            
             $ADHealthReport += [PSCustomObject]@{
-                Category = "Domain Controller"
-                Parameter = "Numbers of DCs"
-                Value = $DCCount
-                Status = if ($DCCount -ge 2) { "OK" } else { "Warning" }
-                Details = "Recommended: Min. 2 DCs for redundancy"
+            Kategorie = "Domain Controller"
+            Parameter = "Numbers of DCs"
+            Wert = $DCCount
+            Status = if ($DCCount -ge 2) { "OK" } else { "Warning" }
+            Details = "Recommended: Min. 2 DCs for redundancy"
             }
-
+            
             foreach ($DC in $DomainControllers) {
-                # Ping-Test
-                $pingResult = Test-Connection -ComputerName $DC.HostName -Count 1 -Quiet -ErrorAction SilentlyContinue
-                $ADHealthReport += [PSCustomObject]@{
-                    Category = "Domain Controller"
-                    Parameter = "DC Reachability"
-                    Value = $DC.Name
-                    Status = if ($pingResult) { "OK" } else { "Critical" }
-                    Details = if ($pingResult) { "Ping successful" } else { "Ping failed" }
-                }
-
+            # Ping-Test
+            $pingResult = Test-Connection -ComputerName $DC.HostName -Count 1 -Quiet -ErrorAction SilentlyContinue
+            $ADHealthReport += [PSCustomObject]@{
+                Kategorie = "Domain Controller"
+                Parameter = "DC Reachability"
+                Wert = $DC.Name
+                Status = if ($pingResult) { "OK" } else { "Critical" }
+                Details = if ($pingResult) { "Ping successful" } else { "Ping failed" }
+            }
+                
                 # LDAP-Port Test
                 $ldapTest = Test-NetConnection -ComputerName $DC.HostName -Port 389 -InformationLevel Quiet -WarningAction SilentlyContinue -ErrorAction SilentlyContinue
                 $ADHealthReport += [PSCustomObject]@{
-                    Category = "Domain Controller"
+                    Kategorie = "Domain Controller"
                     Parameter = "LDAP Service"
-                    Value = "$($DC.Name):389"
+                    Wert = "$($DC.Name):389"
                     Status = if ($ldapTest) { "OK" } else { "Critical" }
                     Details = if ($ldapTest) { "LDAP Port reachable" } else { "LDAP Port not reachable" }
                 }
@@ -1241,9 +931,9 @@ Function Get-DomainControllerStatus {
                 if ($DC.IsGlobalCatalog) {
                     $gcTest = Test-NetConnection -ComputerName $DC.HostName -Port 3268 -InformationLevel Quiet -WarningAction SilentlyContinue -ErrorAction SilentlyContinue
                     $ADHealthReport += [PSCustomObject]@{
-                        Category = "Domain Controller"
+                        Kategorie = "Domain Controller"
                         Parameter = "Global Catalog"
-                        Value = "$($DC.Name):3268"
+                        Wert = "$($DC.Name):3268"
                         Status = if ($gcTest) { "OK" } else { "Warning" }
                         Details = if ($gcTest) { "GC Port reachable" } else { "GC Port not reachable    " }
                     }
@@ -1251,9 +941,9 @@ Function Get-DomainControllerStatus {
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "Domain Controller"
+                Kategorie = "Domain Controller"
                 Parameter = "DC Enumeration"
-                Value = "Error"
+                Wert = "Error"
                 Status = "Critical"
                 Details = $_.Exception.Message
             }
@@ -1262,49 +952,49 @@ Function Get-DomainControllerStatus {
         # 4. FSMO-Rollen Diagnose
         try {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "FSMO-Rollen"
+                Kategorie = "FSMO-Rollen"
                 Parameter = "Schema Master"
-                Value = $Forest.SchemaMaster
+                Wert = $Forest.SchemaMaster
                 Status = if (Test-Connection -ComputerName $Forest.SchemaMaster -Count 1 -Quiet -ErrorAction SilentlyContinue) { "OK" } else { "Critical" }
                 Details = "Forest-wide role"
             }
-
+            
             $ADHealthReport += [PSCustomObject]@{
-                Category = "FSMO-Rollen"
+                Kategorie = "FSMO-Rollen"
                 Parameter = "Domain Naming Master"
-                Value = $Forest.DomainNamingMaster
+                Wert = $Forest.DomainNamingMaster
                 Status = if (Test-Connection -ComputerName $Forest.DomainNamingMaster -Count 1 -Quiet -ErrorAction SilentlyContinue) { "OK" } else { "Critical" }
                 Details = "Forest-wide role"
             }
             
             $ADHealthReport += [PSCustomObject]@{
-                Category = "FSMO-Rollen"
+                Kategorie = "FSMO-Rollen"
                 Parameter = "PDC Emulator"
-                Value = $Domain.PDCEmulator
+                Wert = $Domain.PDCEmulator
                 Status = if (Test-Connection -ComputerName $Domain.PDCEmulator -Count 1 -Quiet -ErrorAction SilentlyContinue) { "OK" } else { "Critical" }
                 Details = "Time synchronization, password changes"
             }
 
             $ADHealthReport += [PSCustomObject]@{
-                Category = "FSMO-Rollen"
+                Kategorie = "FSMO-Rollen"
                 Parameter = "RID Master"
-                Value = $Domain.RIDMaster
+                Wert = $Domain.RIDMaster
                 Status = if (Test-Connection -ComputerName $Domain.RIDMaster -Count 1 -Quiet -ErrorAction SilentlyContinue) { "OK" } else { "Critical" }
                 Details = "RID pool distribution"
             }
             
             $ADHealthReport += [PSCustomObject]@{
-                Category = "FSMO-Rollen"
+                Kategorie = "FSMO-Rollen"
                 Parameter = "Infrastructure Master"
-                Value = $Domain.InfrastructureMaster
+                Wert = $Domain.InfrastructureMaster
                 Status = if (Test-Connection -ComputerName $Domain.InfrastructureMaster -Count 1 -Quiet -ErrorAction SilentlyContinue) { "OK" } else { "Critical" }
                 Details = "Cross-domain references"
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "FSMO-Rollen"
+                Kategorie = "FSMO-Rollen"
                 Parameter = "FSMO Access"
-                Value = "Error"
+                Wert = "Error"
                 Status = "Critical"
                 Details = $_.Exception.Message
             }
@@ -1314,9 +1004,9 @@ Function Get-DomainControllerStatus {
         try {
             $dnsResult = Resolve-DnsName -Name $Domain.DNSRoot -Type A -ErrorAction SilentlyContinue
             $ADHealthReport += [PSCustomObject]@{
-                Category = "DNS-Diagnose"
+                Kategorie = "DNS-Diagnose"
                 Parameter = "Domain DNS Resolution"
-                Value = $Domain.DNSRoot
+                Wert = $Domain.DNSRoot
                 Status = if ($dnsResult) { "OK" } else { "Warning" }
                 Details = if ($dnsResult) { "DNS resolution successful" } else { "DNS resolution failed" }
             }
@@ -1324,17 +1014,17 @@ Function Get-DomainControllerStatus {
             # SRV-Records testen
             $srvTest = Resolve-DnsName -Name "_ldap._tcp.$($Domain.DNSRoot)" -Type SRV -ErrorAction SilentlyContinue
             $ADHealthReport += [PSCustomObject]@{
-                Category = "DNS-Diagnose"
+                Kategorie = "DNS-Diagnose"
                 Parameter = "LDAP SRV Records"
-                Value = "_ldap._tcp.$($Domain.DNSRoot)"
+                Wert = "_ldap._tcp.$($Domain.DNSRoot)"
                 Status = if ($srvTest) { "OK" } else { "Warning" }
                 Details = if ($srvTest) { "$($srvTest.Count) SRV Records found" } else { "No SRV Records found" }
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "DNS-Diagnose"
+                Kategorie = "DNS-Diagnose"
                 Parameter = "DNS Test"
-                Value = "Error"
+                Wert = "Error"
                 Status = "Warning"
                 Details = $_.Exception.Message
             }
@@ -1347,26 +1037,26 @@ Function Get-DomainControllerStatus {
             if ($replPartners) {
                 $recentRepl = $replPartners | Where-Object { $_.LastReplicationSuccess -gt (Get-Date).AddHours(-24) }
                 $ADHealthReport += [PSCustomObject]@{
-                    Category = "Replication"
+                    Kategorie = "Replication"
                     Parameter = "Last Replication"
-                    Value = "$($recentRepl.Count)/$($replPartners.Count) Partner"
+                    Wert = "$($recentRepl.Count)/$($replPartners.Count) Partner"
                     Status = if ($recentRepl.Count -eq $replPartners.Count) { "OK" } elseif ($recentRepl.Count -gt 0) { "Warning" } else { "Critical" }
                     Details = "Replication at last 24h"
                 }
             } else {
                 $ADHealthReport += [PSCustomObject]@{
-                    Category = "Replication"
+                    Kategorie = "Replication"
                     Parameter = "Replication Partners"
-                    Value = "None found"
+                    Wert = "None found"
                     Status = "Warning"
                     Details = "No replication partners found"
                 }
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "Replication"
+                Kategorie = "Replication"
                 Parameter = "Replication Test"
-                Value = "Error"
+                Wert = "Error"
                 Status = "Warning"
                 Details = $_.Exception.Message
             }
@@ -1375,34 +1065,34 @@ Function Get-DomainControllerStatus {
         # 7. System-Gesundheit
         try {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "System-Info"
+                Kategorie = "System-Info"
                 Parameter = "Active Server"
-                Value = $env:COMPUTERNAME
+                Wert = $env:COMPUTERNAME
                 Status = "Info"
                 Details = "Ausfuehrungskontext: $($env:USERDOMAIN)\$($env:USERNAME)"
             }
-
+            
             $ADHealthReport += [PSCustomObject]@{
-                Category = "System-Info"
+                Kategorie = "System-Info"
                 Parameter = "PowerShell Version"
-                Value = $PSVersionTable.PSVersion.ToString()
+                Wert = $PSVersionTable.PSVersion.ToString()
                 Status = "Info"
                 Details = "AD-Modul available: $(if (Get-Module -ListAvailable -Name ActiveDirectory) { 'Ja' } else { 'Nein' })"
             }
 
             # Zeitzone und Zeit
             $ADHealthReport += [PSCustomObject]@{
-                Category = "System-Info"
+                Kategorie = "System-Info"
                 Parameter = "Systemtime"
-                Value = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+                Wert = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
                 Status = "Info"
                 Details = "Zeitzone: UTC$((Get-TimeZone).BaseUtcOffset.ToString('hh\:mm'))"
             }
         } catch {
             $ADHealthReport += [PSCustomObject]@{
-                Category = "System-Info"
+                Kategorie = "System-Info"
                 Parameter = "System-Check"
-                Value = "Teilweise Fehler"
+                Wert = "Teilweise Fehler"
                 Status = "Info"
                 Details = $_.Exception.Message
             }
@@ -1414,9 +1104,9 @@ Function Get-DomainControllerStatus {
         $ok = ($ADHealthReport | Where-Object { $_.Status -eq "OK" }).Count
         
         $summary = [PSCustomObject]@{
-            Category = "=== SUMMARY ==="
+            Kategorie = "=== SUMMARY ==="
             Parameter = "AD-Health Status"
-            Value = if ($kritisch -eq 0 -and $warnungen -eq 0) { "Healthy" } elseif ($kritisch -eq 0) { "Minor Issues" } else { "Critical Issues" }
+            Wert = if ($kritisch -eq 0 -and $warnungen -eq 0) { "Healthy" } elseif ($kritisch -eq 0) { "Minor Issues" } else { "Critical Issues" }
             Status = if ($kritisch -eq 0 -and $warnungen -eq 0) { "OK" } elseif ($kritisch -eq 0) { "Warning" } else { "Critical" }
             Details = "OK: $ok, Warnings: $warnungen, Critical: $kritisch"
         }
@@ -1431,9 +1121,9 @@ Function Get-DomainControllerStatus {
         $ErrorMessage = "Schwerwiegender Fehler bei AD-Health Diagnose: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
         return @([PSCustomObject]@{
-            Category = "FEHLER"
+            Kategorie = "FEHLER"
             Parameter = "AD-Health Check"
-            Value = "Fehlgeschlagen"
+            Wert = "Fehlgeschlagen"
             Status = "Kritisch"
             Details = $ErrorMessage
         })
