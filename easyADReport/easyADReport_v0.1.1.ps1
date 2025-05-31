@@ -34,7 +34,7 @@
                         <!-- Gesamtergebnis-Anzeige -->
                         <Border Background="#0063B1" CornerRadius="2" Margin="2">
                             <Grid>
-                                <TextBlock Text="Ergebnisse gesamt" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Width="266"/>
+                                <TextBlock Text="SUMMARY" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Width="266"/>
                                 <TextBlock x:Name="TotalResultCountText" Text="0" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Width="33" TextAlignment="Right"/>
                             </Grid>
                         </Border>
@@ -51,8 +51,8 @@
                         <!-- Objekttyp-Auswahl -->
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <Label Content="Objekttyp:" VerticalAlignment="Center" Width="80"/>
-                            <RadioButton x:Name="RadioButtonUser" Content="Benutzer" IsChecked="True" Margin="5,0" VerticalAlignment="Center" />
-                            <RadioButton x:Name="RadioButtonGroup" Content="Gruppe" Margin="15,0" VerticalAlignment="Center" />
+                            <RadioButton x:Name="RadioButtonUser" Content="User" IsChecked="True" Margin="5,0" VerticalAlignment="Center" />
+                            <RadioButton x:Name="RadioButtonGroup" Content="Group" Margin="15,0" VerticalAlignment="Center" />
                             <RadioButton x:Name="RadioButtonComputer" Content="Computer" Margin="5,0" VerticalAlignment="Center" />
                         </StackPanel>
                         
@@ -1649,6 +1649,11 @@ Function Initialize-ADReportForm {
     $Global:Window = [Windows.Markup.XamlReader]::Load( $reader )
 
     # --- UI Elemente zu globalen Variablen zuweisen --- 
+    # Objekttyp Radio Buttons
+    $Global:RadioButtonUser = $Window.FindName("RadioButtonUser")
+    $Global:RadioButtonGroup = $Window.FindName("RadioButtonGroup")
+    $Global:RadioButtonComputer = $Window.FindName("RadioButtonComputer")
+
     # Filter und Attribute
     $Global:ComboBoxFilterAttribute = $Window.FindName("ComboBoxFilterAttribute")
     $Global:TextBoxFilterValue = $Window.FindName("TextBoxFilterValue")
@@ -1714,50 +1719,51 @@ Function Update-ResultCounters {
         $Results
     )
     
-    Write-ADReportLog -Message "Aktualisiere Ergebnisanzeige..." -Type Info -Terminal
+    Write-ADReportLog -Message "Updating result display..." -Type Info -Terminal
     
     try {
-        # Ergebnisanzahl ermitteln
+        # Determine result count
         $totalCount = 0
         
         if ($null -ne $Results) {
             $totalCount = $Results.Count
             
-            # Objekttyp für das Log bestimmen (nur für die Protokollierung)
+            # Determine object type for logging (for logging purposes only)
             if ($totalCount -gt 0) {
                 $firstObject = $Results[0]
-                $objectType = "Unbekannt"
+                $objectType = "Unknown"
                 
                 if ($firstObject.PSObject.Properties.Name -contains "ObjectClass") {
                     switch ($firstObject.ObjectClass) {
-                        "user" { $objectType = "Benutzer" }
+                        "user" { $objectType = "User" }
                         "computer" { $objectType = "Computer" }
-                        "group" { $objectType = "Gruppen" }
+                        "group" { $objectType = "Group" }
                     }
                 }
                 
-                Write-ADReportLog -Message "$objectType-Ergebnisse: $totalCount" -Type Info -Terminal
+                Write-ADReportLog -Message "$objectType results: $totalCount" -Type Info -Terminal
             } else {
-                Write-ADReportLog -Message "Keine Ergebnisse gefunden" -Type Info -Terminal
+                Write-ADReportLog -Message "No results found" -Type Info -Terminal
             }
         } else {
-            Write-ADReportLog -Message "Keine Ergebnisse (Null)" -Type Info -Terminal
+            Write-ADReportLog -Message "No results (Null)" -Type Info -Terminal
         }
         
-        # Überprüfen, ob die UI-Elemente existieren, bevor wir versuchen, sie zu aktualisieren
+        # Check if UI elements exist before trying to update them
         if ($null -ne $Global:TotalResultCountText) {
             $Global:TotalResultCountText.Text = $totalCount.ToString()
         }
         
-        # Aktualisiere den Status im Status-Textblock
+        # Update the status in the status TextBlock
         if ($null -ne $Global:TextBlockStatus) {
-            $Global:TextBlockStatus.Text = "Abfrage abgeschlossen. $totalCount Ergebnis(se) gefunden."
+            $Global:TextBlockStatus.Text = "Query completed. $totalCount result(s) found."
         }
     }
     catch {
-        Write-ADReportLog -Message "Fehler beim Aktualisieren der Ergebnisanzeige: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error updating result display: $($_.Exception.Message)" -Type Error
     }
 }
+
 
 # Funktion zum Initialisieren der Ergebnisanzeige
 Function Initialize-ResultCounters {
@@ -1781,7 +1787,7 @@ Function Initialize-ResultCounters {
     
     # Status zurücksetzen
     if ($null -ne $Global:TextBlockStatus) {
-        $Global:TextBlockStatus.Text = "Bereit für Abfrage..."
+        $Global:TextBlockStatus.Text = "Ready for query..."
     }
     
     # DataGrid leeren
@@ -1815,6 +1821,78 @@ Function Update-ADReportResults {
 }
 
     # --- Event Handler zuweisen --- 
+    # Event Handler für RadioButtons zum Umschalten zwischen Objekttypen
+    $RadioButtonUser.add_Checked({
+        # Funktion wird ausgeführt, wenn RadioButtonUser ausgewählt wird
+        Write-ADReportLog -Message "Object type changed to User" -Type Info -Terminal
+        
+        # ComboBoxFilterAttribute leeren und mit benutzerspezifischen Attributen füllen
+        $Global:ComboBoxFilterAttribute.Items.Clear()
+        $UserFilterAttributes = @("DisplayName", "SamAccountName", "GivenName", "Surname", "mail", 
+                                  "Department", "Title", "EmployeeID", "EmployeeNumber", "UserPrincipalName")
+        $UserFilterAttributes | ForEach-Object { $Global:ComboBoxFilterAttribute.Items.Add($_) }
+        if ($Global:ComboBoxFilterAttribute.Items.Count -gt 0) { 
+            $Global:ComboBoxFilterAttribute.SelectedIndex = 0 
+        }
+        
+        # ListBoxSelectAttributes leeren und mit benutzerspezifischen Attributen füllen
+        $Global:ListBoxSelectAttributes.Items.Clear()
+        $UserAttributes = @("DisplayName", "SamAccountName", "GivenName", "Surname", "mail", 
+                            "Department", "Title", "Enabled", "LastLogonDate", "whenCreated", 
+                            "PasswordLastSet", "PasswordNeverExpires", "LockedOut", "Description",
+                            "Office", "OfficePhone", "MobilePhone", "Company")
+        $UserAttributes | ForEach-Object { $Global:ListBoxSelectAttributes.Items.Add($_) }
+        
+        # Status aktualisieren
+        $Global:TextBlockStatus.Text = "Bereit für Benutzerabfrage"
+    })
+
+    $RadioButtonGroup.add_Checked({
+        # Funktion wird ausgeführt, wenn RadioButtonGroup ausgewählt wird
+        Write-ADReportLog -Message "Object type changed to Group" -Type Info -Terminal
+        
+        # ComboBoxFilterAttribute leeren und mit gruppenspezifischen Attributen füllen
+        $Global:ComboBoxFilterAttribute.Items.Clear()
+        $GroupFilterAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope")
+        $GroupFilterAttributes | ForEach-Object { $Global:ComboBoxFilterAttribute.Items.Add($_) }
+        if ($Global:ComboBoxFilterAttribute.Items.Count -gt 0) { 
+            $Global:ComboBoxFilterAttribute.SelectedIndex = 0 
+        }
+        
+        # ListBoxSelectAttributes leeren und mit gruppenspezifischen Attributen füllen
+        $Global:ListBoxSelectAttributes.Items.Clear()
+        $GroupAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope", 
+                            "whenCreated", "whenChanged", "ManagedBy", "mail", "info", "MemberOf")
+        $GroupAttributes | ForEach-Object { $Global:ListBoxSelectAttributes.Items.Add($_) }
+        
+        # Status aktualisieren
+        $Global:TextBlockStatus.Text = "Bereit für Gruppenabfrage"
+    })
+
+    $RadioButtonComputer.add_Checked({
+        # Funktion wird ausgeführt, wenn RadioButtonComputer ausgewählt wird
+        Write-ADReportLog -Message "Object type changed to Computer" -Type Info -Terminal
+        
+        # ComboBoxFilterAttribute leeren und mit computerspezifischen Attributen füllen
+        $Global:ComboBoxFilterAttribute.Items.Clear()
+        $ComputerFilterAttributes = @("Name", "DNSHostName", "OperatingSystem", "Description")
+        $ComputerFilterAttributes | ForEach-Object { $Global:ComboBoxFilterAttribute.Items.Add($_) }
+        if ($Global:ComboBoxFilterAttribute.Items.Count -gt 0) { 
+            $Global:ComboBoxFilterAttribute.SelectedIndex = 0 
+        }
+        
+        # ListBoxSelectAttributes leeren und mit computerspezifischen Attributen füllen
+        $Global:ListBoxSelectAttributes.Items.Clear()
+        $ComputerAttributes = @("Name", "DNSHostName", "OperatingSystem", "OperatingSystemVersion", 
+                              "Enabled", "LastLogonDate", "whenCreated", "IPv4Address", "Description",
+                              "Location", "ManagedBy", "PasswordLastSet")
+        $ComputerAttributes | ForEach-Object { $Global:ListBoxSelectAttributes.Items.Add($_) }
+        
+        # Status aktualisieren
+        $Global:TextBlockStatus.Text = "Bereit für Computerabfrage"
+    })
+
+    # Event Handler für ButtonQueryAD anpassen, um Objekttyp zu berücksichtigen
     $ButtonQueryAD.add_Click({
         Write-ADReportLog -Message "Executing query..." -Type Info
         try {
@@ -1827,8 +1905,32 @@ Function Update-ADReportResults {
                 return
             }
 
-            # AD-Abfrage durchführen
-            $ReportData = Get-ADReportData -FilterAttribute $SelectedFilterAttribute -FilterValue $FilterValue -SelectedAttributes $SelectedExportAttributes
+            # Bestimme den aktuell ausgewählten Objekttyp
+            $ObjectType = if ($Global:RadioButtonUser.IsChecked) { "User" } 
+                        elseif ($Global:RadioButtonGroup.IsChecked) { "Group" } 
+                        else { "Computer" }
+            
+            # AD-Abfrage basierend auf Objekttyp durchführen
+            $ReportData = $null
+            switch ($ObjectType) {
+                "User" {
+                    $ReportData = Get-ADReportData -FilterAttribute $SelectedFilterAttribute -FilterValue $FilterValue -SelectedAttributes $SelectedExportAttributes
+                }
+                "Group" {
+                    # Für Gruppen wird der Filter erst nach dem Abrufen aller Gruppen angewendet
+                    $ReportData = Get-ADGroupReportData -CustomFilter "*" -SelectedAttributes $SelectedExportAttributes
+                    if ($FilterValue -and $SelectedFilterAttribute) {
+                        $ReportData = $ReportData | Where-Object { $_.$SelectedFilterAttribute -like "*$FilterValue*" }
+                    }
+                }
+                "Computer" {
+                    # Für Computer wird der Filter erst nach dem Abrufen aller Computer angewendet
+                    $ReportData = Get-ADComputerReportData -CustomFilter "*" -SelectedAttributes $SelectedExportAttributes
+                    if ($FilterValue -and $SelectedFilterAttribute) {
+                        $ReportData = $ReportData | Where-Object { $_.$SelectedFilterAttribute -like "*$FilterValue*" }
+                    }
+                }
+            }
             
             if ($ReportData) {
                 try {
@@ -1844,7 +1946,7 @@ Function Update-ADReportResults {
                     
                     # Zähle die Anzahl der Ergebnisse
                     $Count = $ReportCollection.Count
-                    Write-ADReportLog -Message "Query completed. $Count result(s) found." -Type Info
+                    Write-ADReportLog -Message "Query completed. $Count result(s) found for $ObjectType." -Type Info
                     
                     # Ergebniszähler im Header aktualisieren
                     Update-ResultCounters -Results $ReportCollection
@@ -1855,14 +1957,17 @@ Function Update-ADReportResults {
                 }
             } else {
                 $Global:DataGridResults.ItemsSource = $null # DataGrid leeren
-                # Status wird in Get-ADReportData gesetzt oder bleibt auf "Keine Benutzer gefunden"
+                Write-ADReportLog -Message "No results found for $ObjectType with the specified filter." -Type Info
+                Update-ResultCounters -Results @() # Leeres Array für die Zähler
             }
         } catch {
             $ErrorMessage = "Error in query process: $($_.Exception.Message)"
             Write-ADReportLog -Message $ErrorMessage -Type Error
             $Global:DataGridResults.ItemsSource = $null
+            Update-ResultCounters -Results @() # Leeres Array für die Zähler
         }
     })
+
 
     $ButtonQuickAllUsers.add_Click({
         Write-ADReportLog -Message "Loading all users..." -Type Info
