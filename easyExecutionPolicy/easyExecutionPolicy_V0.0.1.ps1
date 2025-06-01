@@ -47,6 +47,30 @@ $mainForm.FormBorderStyle = 'FixedDialog'
 $mainForm.MaximizeBox = $false
 $mainForm.MinimizeBox = $false
 
+# ToolTip Object for providing hints
+$toolTip = New-Object System.Windows.Forms.ToolTip
+$toolTip.AutoPopDelay = 10000 # Keep tooltip visible for 10 seconds
+$toolTip.InitialDelay = 500   # Show tooltip after 0.5 seconds
+$toolTip.ReshowDelay = 500
+
+# Define Tooltip Texts
+$scopeTooltips = @{
+    "MachinePolicy" = "MachinePolicy: Wird durch Gruppenrichtlinien für alle Benutzer dieses Computers festgelegt. Diese Einstellung hat Vorrang vor allen anderen Bereichen und kann hier nicht geändert werden."
+    "UserPolicy"    = "UserPolicy: Wird durch Gruppenrichtlinien für den aktuellen Benutzer festgelegt. Diese Einstellung hat Vorrang vor LocalMachine und CurrentUser und kann hier nicht geändert werden."
+    "Process"       = "Process: Gilt nur für die aktuelle PowerShell-Sitzung. Die Einstellung geht beim Schließen der Sitzung verloren und hat Vorrang vor CurrentUser und LocalMachine (außer wenn diese durch GPO gesperrt sind)."
+    "CurrentUser"   = "CurrentUser: Gilt nur für den aktuellen Benutzer und wird in dessen Registrierungsabschnitt gespeichert. Hat Vorrang vor LocalMachine (außer wenn diese durch GPO gesperrt sind)."
+    "LocalMachine"  = "LocalMachine: Standardrichtlinie für alle Benutzer dieses Computers, wenn keine spezifischere Richtlinie (Process, CurrentUser) oder eine GPO-Richtlinie (MachinePolicy, UserPolicy) gilt. Wird im lokalen Maschinen-Registrierungsabschnitt gespeichert."
+}
+
+$policyExplanationTooltips = @{
+    "Restricted"    = "Restricted: Keine Skripte dürfen ausgeführt werden. PowerShell kann nur im interaktiven Modus verwendet werden."
+    "AllSigned"     = "AllSigned: Nur Skripte, die von einem vertrauenswürdigen Herausgeber digital signiert wurden, können ausgeführt werden."
+    "RemoteSigned"  = "RemoteSigned: Lokal erstellte Skripte können ausgeführt werden. Skripte, die aus dem Internet heruntergeladen wurden (als 'Zone:Internet' markiert), müssen von einem vertrauenswürdigen Herausgeber signiert sein."
+    "Unrestricted"  = "Unrestricted: Alle Skripte können ausgeführt werden. Eine Warnung wird für nicht signierte Skripte aus dem Internet angezeigt. Vorsicht ist geboten."
+    "Bypass"        = "Bypass: Nichts wird blockiert und es gibt keine Warnungen oder Eingabeaufforderungen. Diese Richtlinie ist für Situationen gedacht, in denen ein PowerShell-Skript in eine größere Anwendung integriert ist oder PowerShell die Grundlage für ein Programm ist, das über ein eigenes Sicherheitsmodell verfügt."
+    "Undefined"     = "Undefined: Es ist keine Ausführungsrichtlinie für diesen Bereich explizit festgelegt. Die effektive Richtlinie wird durch die Rangfolge der anderen Bereiche bestimmt. Wenn alle Bereiche 'Undefined' sind, ist die Standardrichtlinie 'Restricted'."
+}
+
 $global:currentPolicies = @{}
 $policyOptions = @("Restricted", "AllSigned", "RemoteSigned", "Unrestricted", "Bypass", "Undefined")
 
@@ -74,7 +98,14 @@ function Update-PolicyDisplay {
         $comboBox = $mainForm.Controls.Find("cb$scopeName", $true)[0]
 
         if ($label) {
-            $label.Text = $global:currentPolicies[$scopeName]
+            $currentPolicyValue = $global:currentPolicies[$scopeName]
+            $label.Text = $currentPolicyValue
+            # Set tooltip for the current policy value label
+            if ($policyExplanationTooltips.ContainsKey($currentPolicyValue)) {
+                $toolTip.SetToolTip($label, $policyExplanationTooltips[$currentPolicyValue])
+            } else {
+                $toolTip.SetToolTip($label, "Keine spezifische Erklärung für diese Richtlinie verfügbar.")
+            }
         }
         if ($comboBox) {
             $currentIndex = $policyOptions.IndexOf($global:currentPolicies[$scopeName])
@@ -122,6 +153,10 @@ foreach ($scopeInfo in $scopesToManage) {
     $labelScope.AutoSize = $true
     $labelScope.Font = $labelFont
     $mainForm.Controls.Add($labelScope)
+    # Set tooltip for the scope display label
+    if ($scopeTooltips.ContainsKey($scopeName)) {
+        $toolTip.SetToolTip($labelScope, $scopeTooltips[$scopeName])
+    }
 
     # Label for current Policy (Column 2)
     $lblCurrentPolicy = New-Object System.Windows.Forms.Label
@@ -131,6 +166,7 @@ foreach ($scopeInfo in $scopesToManage) {
     $lblCurrentPolicy.AutoSize = $true
     $lblCurrentPolicy.Font = $boldLabelFont
     $mainForm.Controls.Add($lblCurrentPolicy)
+    # Tooltip for lblCurrentPolicy will be set in Update-PolicyDisplay based on its content
 
     # ComboBox to set Policy or placeholder (Column 3)
     if ($isSettable) {
@@ -142,6 +178,7 @@ foreach ($scopeInfo in $scopesToManage) {
         $cbPolicy.Font = $labelFont
         $policyOptions | ForEach-Object { $cbPolicy.Items.Add($_) } | Out-Null
         $mainForm.Controls.Add($cbPolicy)
+        $toolTip.SetToolTip($cbPolicy, "Wählen Sie hier die neue Richtlinie für den Bereich '$scopeDisplay'.")
     } else {
         $lblNotSettable = New-Object System.Windows.Forms.Label
         $lblNotSettable.Text = "(Controlled by Group Policy)"
@@ -150,6 +187,7 @@ foreach ($scopeInfo in $scopesToManage) {
         $lblNotSettable.Font = $labelFont
         $lblNotSettable.ForeColor = [System.Drawing.Color]::DarkSlateGray
         $mainForm.Controls.Add($lblNotSettable)
+        $toolTip.SetToolTip($lblNotSettable, "Diese Richtlinie wird durch eine Gruppenrichtlinie (GPO) verwaltet und kann mit diesem Tool nicht geändert werden.")
     }
     $yPos += 40
 }
@@ -161,6 +199,7 @@ $lblEffectivePolicy.Location = New-Object System.Drawing.Point(20, ($yPos + 10))
 $lblEffectivePolicy.AutoSize = $true
 $lblEffectivePolicy.Font = $labelFont
 $mainForm.Controls.Add($lblEffectivePolicy)
+$toolTip.SetToolTip($lblEffectivePolicy, "Die effektive Ausführungsrichtlinie ist das Ergebnis der Richtlinien aller Bereiche, basierend auf ihrer Rangfolge. Dies ist die Richtlinie, die für die aktuelle PowerShell-Sitzung tatsächlich gilt.")
 
 $lblEffectivePolicyValue = New-Object System.Windows.Forms.Label
 $lblEffectivePolicyValue.Name = "lblEffectivePolicyValue"
@@ -169,6 +208,7 @@ $lblEffectivePolicyValue.Location = New-Object System.Drawing.Point(360, ($yPos 
 $lblEffectivePolicyValue.AutoSize = $true
 $lblEffectivePolicyValue.Font = $boldLabelFont
 $mainForm.Controls.Add($lblEffectivePolicyValue)
+$toolTip.SetToolTip($lblEffectivePolicyValue, "Der Wert der aktuell wirksamen Ausführungsrichtlinie.")
 
 # Status Label
 $statusLabel = New-Object System.Windows.Forms.Label
@@ -214,7 +254,7 @@ $refreshButton.Add_Click({
 })
 
 # Event Handler for Apply button
-$applyButton.Add_Click(
+$applyButton.Add_Click({
     
     $statusLabel.Text = "Setting policies..."
     $statusLabel.ForeColor = [System.Drawing.Color]::Orange
