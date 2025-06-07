@@ -373,24 +373,164 @@ $xaml = @"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="easyIT | PowerShell Module &amp; Policy Manager - with Script Launcher" 
     Height="1000" 
-    Width="1400"
-    WindowStartupLocation="CenterScreen">
+    Width="1450"
+    WindowStartupLocation="CenterScreen"
+    Background="#FFFFFF"
+    FontFamily="Segoe UI"
+    FontSize="12">
     <Window.Resources>
-        <Style TargetType="Button" x:Key="InstallButtonStyle">
-            <Setter Property="Padding" Value="5,2"/>
-            <Setter Property="Background" Value="#EFEFEF"/>
+        <!-- Modern Button Style -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#0078D4" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#106EBE" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#005A9E" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-        <Style TargetType="Button" x:Key="PolicyButtonStyle">
-            <Setter Property="Padding" Value="5,2"/>
-            <Setter Property="Background" Value="#E3F2FD"/>
-            <Setter Property="FontSize" Value="11"/>
+
+        <Style x:Key="SmallModernButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="MinWidth" Value="60"/>
         </Style>
-        <Style TargetType="Button" x:Key="ScriptButtonStyle">
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,2"/>
-            <Setter Property="Background" Value="#E3F2FD"/>
+
+        <Style x:Key="ExitButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#D32F2F"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E57373" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C62828" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LinkButton" TargetType="Button" BasedOn="{StaticResource SmallModernButton}">
+            <Setter Property="Background" Value="#E8F4FD"/>
+            <Setter Property="Foreground" Value="#0078D4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#D0E0F0" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#B0C0D0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card Style for GroupBox -->
+        <Style x:Key="CardGroupBox" TargetType="GroupBox">
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,8,12,12" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Border Background="White"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Background="#F7F7F7" CornerRadius="8,8,0,0" Padding="10,6" BorderThickness="0,0,0,1" BorderBrush="#E0E0E0">
+                                    <ContentPresenter ContentSource="Header"/>
+                                </Border>
+                                <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Script Button Style -->
+        <Style x:Key="ScriptButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#F9F9F9" />
+            <Setter Property="Foreground" Value="#333333" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Margin" Value="0,3"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E3F2FD" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D4"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#BBDEFB" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+        <Style x:Key="ScriptListHeaderBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#E3F2FD"/>
+            <Setter Property="Margin" Value="0,10,0,5"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="CornerRadius" Value="3"/>
+        </Style>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -399,95 +539,92 @@ $xaml = @"
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!-- Header -->
-        <Border Grid.Row="0" Background="#0078D4" Padding="15,12">
-            <Grid>
-                <StackPanel>
-                    <TextBlock Text="easyIT | PowerShell Module &amp; Policy Manager - with Script Launcher" FontSize="20" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Manage PowerShell modules and execution policies | Launch scripts from subfolders" FontSize="12" Foreground="White" Margin="0,3,0,0"/>
-                </StackPanel>
-            </Grid>
+        <Border Grid.Row="0" Background="#FF1C323C" Padding="20,15">
+            <StackPanel>
+                <TextBlock Text="easyIT | PowerShell Module &amp; Policy Manager - with Script Launcher" FontSize="20" FontWeight="SemiBold" Foreground="#e2e2e2"/>
+                <TextBlock Text="Manage PowerShell modules and execution policies | Launch scripts from subfolders" FontSize="12" Foreground="#d0e8ff" Margin="0,5,0,0"/>
+            </StackPanel>
         </Border>
         <!-- Content with Split Layout -->
         <Grid Grid.Row="1" Margin="15">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.2*"/> <!-- Status area: slightly larger -->
-                <ColumnDefinition Width="1*"/> <!-- Script selection: 1/3 -->
+                <ColumnDefinition Width="2.2*"/>
+                <!-- Status area: slightly larger -->
+                <ColumnDefinition Width="1*"/>
+                <!-- Script selection: 1/3 -->
             </Grid.ColumnDefinitions>
             <!-- Left side - Status area -->
-            <Grid Grid.Column="0" Margin="0,0,8,0">
+            <Grid Grid.Column="0" Margin="0,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!-- Module Check Section -->
-                <GroupBox Grid.Row="0" Header="PowerShell Modules" Margin="0,0,0,8" Padding="8">
+                <GroupBox Grid.Row="0" Header="PowerShell Modules" Style="{StaticResource CardGroupBox}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Grid.Row="0" x:Name="lvModules" Margin="0,5,0,5" BorderThickness="1" Height="260">
+                        <ListView Grid.Row="0" x:Name="lvModules" Margin="0,5,0,10" BorderThickness="1" BorderBrush="#E0E0E0" Height="260">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Module" Width="430"> <!-- Adjusted width -->
+                                    <GridViewColumn Header="Module" Width="410">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}"/>
+                                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}" VerticalAlignment="Center"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Act. Ver." DisplayMemberBinding="{Binding MinVersion}" Width="120"/>
-                                    <GridViewColumn Header="Inst. Ver." DisplayMemberBinding="{Binding InstalledVersion}" Width="120"/>
-                                    <GridViewColumn Header="Install" Width="100">
+                                    <GridViewColumn Header="Required" DisplayMemberBinding="{Binding MinVersion}" Width="100"/>
+                                    <GridViewColumn Header="Installed" DisplayMemberBinding="{Binding InstalledVersion}" Width="100"/>
+                                    <GridViewColumn Header="Action" Width="120">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Content="Install/Update" 
-                                                        Style="{StaticResource InstallButtonStyle}"
+                                                        Style="{StaticResource SmallModernButton}"
                                                         IsEnabled="{Binding InstallEnabled}"
-                                                        Tag="{Binding Name}"
-                                                        FontSize="9"/>
+                                                        Tag="{Binding Name}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Web Link" Width="80">
+                                    <GridViewColumn Header="Link" Width="90">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="WEB LINK" 
-                                                        Style="{StaticResource InstallButtonStyle}"
-                                                        Tag="{Binding Webseite}"
-                                                        FontSize="9"
-                                                        Background="#E8F4FD"/>
+                                                <Button Content="Web Link" 
+                                                        Style="{StaticResource LinkButton}"
+                                                        Tag="{Binding Webseite}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <Button Grid.Row="1" x:Name="btnRefreshModules" Content="Refresh Modules" HorizontalAlignment="Left" Width="180" Height="22" Margin="0,5,0,0" Background="#FFE4FFE1" FontSize="11"/>
+                        <Button Grid.Row="1" x:Name="btnRefreshModules" Content="Refresh Modules" Style="{StaticResource ModernButton}" HorizontalAlignment="Left" Width="180" Height="25" Margin="0,5,0,0"/>
                     </Grid>
                 </GroupBox>
                 <!-- ExecutionPolicy Section -->
-                <GroupBox Grid.Row="1" Header="PowerShell Execution Policies" Margin="0,8,0,8" Padding="8">
+                <GroupBox Grid.Row="1" Header="PowerShell Execution Policies" Style="{StaticResource CardGroupBox}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Grid.Row="0" x:Name="lvExecutionPolicies" Margin="0,0,0,8" BorderThickness="1" Height="165">
+                        <ListView Grid.Row="0" x:Name="lvExecutionPolicies" Margin="0,0,0,10" BorderThickness="1" BorderBrush="#E0E0E0" Height="165">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Scope" DisplayMemberBinding="{Binding Description}" Width="350"/> <!-- Adjusted width -->
+                                    <GridViewColumn Header="Scope" DisplayMemberBinding="{Binding Description}" Width="330"/>
                                     <GridViewColumn Header="Current Policy" DisplayMemberBinding="{Binding CurrentPolicy}" Width="150"/>
-                                    <GridViewColumn Header="Modify" Width="375">
+                                    <GridViewColumn Header="Modify" Width="400">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Button Content="Restricted" Style="{StaticResource PolicyButtonStyle}" Margin="1,0" Tag="{Binding Scope}" Width="60" FontSize="9"/>
-                                                    <Button Content="AllSigned" Style="{StaticResource PolicyButtonStyle}" Margin="1,0" Tag="{Binding Scope}" Width="60" FontSize="9"/>
-                                                    <Button Content="RemoteSigned" Style="{StaticResource PolicyButtonStyle}" Margin="1,0" Tag="{Binding Scope}" Width="75" FontSize="9"/>
-                                                    <Button Content="Unrestricted" Style="{StaticResource PolicyButtonStyle}" Margin="1,0" Tag="{Binding Scope}" Width="70" FontSize="9"/>
-                                                    <Button Content="Bypass" Style="{StaticResource PolicyButtonStyle}" Margin="1,0" Tag="{Binding Scope}" Width="50" FontSize="9"/>
+                                                    <Button Content="Restricted" Style="{StaticResource SmallModernButton}" Margin="2,0" Tag="{Binding Scope}" Width="65"/>
+                                                    <Button Content="AllSigned" Style="{StaticResource SmallModernButton}" Margin="2,0" Tag="{Binding Scope}" Width="65"/>
+                                                    <Button Content="RemoteSigned" Style="{StaticResource SmallModernButton}" Margin="2,0" Tag="{Binding Scope}" Width="90"/>
+                                                    <Button Content="Unrestricted" Style="{StaticResource SmallModernButton}" Margin="2,0" Tag="{Binding Scope}" Width="80"/>
+                                                    <Button Content="Bypass" Style="{StaticResource SmallModernButton}" Margin="2,0" Tag="{Binding Scope}" Width="55"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -495,54 +632,53 @@ $xaml = @"
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <Button Grid.Row="1" x:Name="btnRefreshPolicies" Content="Refresh Execution Policies" HorizontalAlignment="Left" Width="180" Height="22" Background="#FFE4FFE1" FontSize="11"/>
+                        <Button Grid.Row="1" x:Name="btnRefreshPolicies" Content="Refresh Execution Policies" Style="{StaticResource ModernButton}" HorizontalAlignment="Left" Width="200" Height="25"/>
                     </Grid>
                 </GroupBox>
                 <!-- Status Log -->
-                <GroupBox Grid.Row="2" Header="Status and Log" Margin="0,8,0,0" Padding="8">
+                <GroupBox Grid.Row="2" Header="Status and Log" Style="{StaticResource CardGroupBox}" Margin="0,10,0,0">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBox x:Name="txtLog" IsReadOnly="True" TextWrapping="Wrap" 
-                                 FontFamily="Consolas" FontSize="10" Background="#f5f5f5" BorderThickness="0"/>
+                                 FontFamily="Consolas" FontSize="11" Background="#1E1E1E" Foreground="#A0D2A0" BorderThickness="0" Padding="5"/>
                     </ScrollViewer>
                 </GroupBox>
             </Grid>
             <!-- Right side - Script selection -->
-            <GroupBox Grid.Column="1" Header="Available PowerShell Scripts" Margin="8,0,0,0" Padding="8">
+            <GroupBox Grid.Column="1" Header="Available PowerShell Scripts" Style="{StaticResource CardGroupBox}" Margin="10,0,0,0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <!-- Suchfeld (optional, hier nicht implementiert) -->
+                        <!-- <RowDefinition Height="Auto"/> -->
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!-- Script list -->
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
                         <StackPanel x:Name="spScriptList" Orientation="Vertical" Margin="0,3,0,3">
                             <!-- Script buttons will be added dynamically -->
                         </StackPanel>
                     </ScrollViewer>
                     <!-- Refresh button -->
-                    <Button Grid.Row="2" x:Name="btnRefreshScripts" 
-                            Content="Refresh Script List" Margin="0,3,0,0" 
-                            Height="25" Background="#F0F0F0" FontSize="11"/>
+                    <Button Grid.Row="1" x:Name="btnRefreshScripts" 
+                            Content="Refresh Script List" Style="{StaticResource ModernButton}"
+                            Height="32"/>
                 </Grid>
             </GroupBox>
         </Grid>
         <!-- Footer with Buttons and Info -->
-        <Border Grid.Row="2" Background="#f0f0f0" Padding="15,10">
+        <Border Grid.Row="2" Background="#FF1C323C" Padding="20,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Linker Bereich: Versionsinformationen -->
                 <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock Text="PSscripts.de | Andreas Hepp  | easyPSinfo  -  Version: 0.0.3  -  Update: 23.05.2025" FontSize="9" Foreground="#555555"/>
+                    <TextBlock Text="PSscripts.de | Andreas Hepp  | easyPSinfo  -  Version: 0.0.3  -  Update: 23.05.2025" FontSize="10" Foreground="#d0e8ff"/>
                 </StackPanel>
 
-                <!-- Rechter Bereich: Exit Button -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button x:Name="btnExit" Content="Exit" Width="120" Height="28" Background="#FFFF7272" Margin="8,0,0,0" FontSize="11"/>
+                    <Button x:Name="btnExit" Content="Exit" Style="{StaticResource ExitButton}" Width="120" Height="32"/>
                 </StackPanel>
             </Grid>
         </Border>
