@@ -9,29 +9,26 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="Auto"/>
+            <!-- Header -->
             <RowDefinition Height="*"/>
+            <!-- Content Area -->
             <RowDefinition Height="50"/>
+            <!-- Footer -->
         </Grid.RowDefinitions>
 
-        <!-- Header -->
+        <!-- Header (Grid.Row="0") -->
         <Border Grid.Row="0" Background="#0078D7" BorderThickness="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-
-                <!-- Title und Version -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="20,0">
                     <TextBlock Text="easyADReport" Foreground="White" FontSize="22" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     <TextBlock Text="v0.2.1" Foreground="#E1E1E1" FontSize="14" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 </StackPanel>
-
-                <!-- Ergebnisanzahl-Anzeige -->
                 <Border Grid.Column="1" Background="#0063B1" Width="300" Height="50" CornerRadius="4" Margin="0,5,20,5">
                     <Grid x:Name="ResultCountGrid" Margin="5">
-                        <!-- Gesamtergebnis-Anzeige -->
                         <Border Background="#0063B1" CornerRadius="2" Margin="2">
                             <Grid>
                                 <TextBlock Text="SUMMARY" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Width="266"/>
@@ -43,141 +40,153 @@
             </Grid>
         </Border>
 
-        <!-- Upper Section: Filter and Attribute Selection -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,15">
-            <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,15,0" Width="565">
-                <GroupBox Header="Filter" Margin="5" BorderThickness="0">
-                    <StackPanel Margin="0,0,-2,0">
-                        <!-- Objekttyp-Auswahl -->
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Label Content="Objekttyp:" VerticalAlignment="Center" Width="80"/>
-                            <RadioButton x:Name="RadioButtonUser" Content="User" IsChecked="True" Margin="5,0" VerticalAlignment="Center" />
-                            <RadioButton x:Name="RadioButtonGroup" Content="Group" Margin="15,0" VerticalAlignment="Center" />
-                            <RadioButton x:Name="RadioButtonComputer" Content="Computer" Margin="5,0,10,0" VerticalAlignment="Center" />
-                            <RadioButton x:Name="RadioButtonGroupMemberships" Content="Mitgliedschaften" Margin="5,0" VerticalAlignment="Center" />
-                        </StackPanel>
-
-                        <!-- Filter-Attribute und Werte -->
-                        <StackPanel Orientation="Horizontal" Width="550">
-                            <Label Content="Filter Attribute:" VerticalAlignment="Center" Width="80"/>
-                            <ComboBox x:Name="ComboBoxFilterAttribute" Width="150" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
-                            <Label Content="Filter Value:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="TextBoxFilterValue" Width="222" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-            </Border>
-            <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,15,0" Width="400">
-                <GroupBox Header="Attributes to Export" Margin="5" BorderThickness="0">
-                    <ListBox x:Name="ListBoxSelectAttributes" Height="80" SelectionMode="Multiple" BorderThickness="0" Margin="10,0,-2,0">
-                        <ListBoxItem Content="DisplayName"/>
-                        <ListBoxItem Content="SamAccountName"/>
-                        <ListBoxItem Content="GivenName"/>
-                        <ListBoxItem Content="Surname"/>
-                        <ListBoxItem Content="mail"/>
-                        <ListBoxItem Content="Department"/>
-                        <ListBoxItem Content="Title"/>
-                        <ListBoxItem Content="Enabled"/>
-                    </ListBox>
-                </GroupBox>
-            </Border>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Height="100">
-                <Button x:Name="ButtonQueryAD" Content="Query" Width="200" Height="36" Margin="0,5,0,5" 
-            Background="#0078D7" Foreground="White" BorderThickness="0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="ButtonExportCSV" Content="Export CSV" Width="95" Height="28" Background="#F0F0F0" BorderBrush="#CCCCCC" Margin="0,20,5,0">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="3"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button x:Name="ButtonExportHTML" Content="Export HTML" Width="95" Height="28" Background="#F0F0F0" BorderBrush="#CCCCCC" Margin="0,20,5,0">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="3"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </StackPanel>
-            </StackPanel>
-
-        </StackPanel>
-
-        <!-- Middle Section: Quick Reports and Results -->
-        <Grid Grid.Row="2" Margin="20,0,20,15">
+        <!-- Content Area (Grid.Row="1") -->
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220"/>
+                <!-- Quick Reports -->
                 <ColumnDefinition Width="*"/>
+                <!-- Rest (Filter/Attributes + Results) -->
             </Grid.ColumnDefinitions>
 
-            <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,10,0">
-                <GroupBox Header="Quick Reports" BorderThickness="0" Margin="5,0,0,0">
-                    <StackPanel>
-                        <GroupBox Header="Users" BorderThickness="0" Margin="0,5,0,0">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickAllUsers" Content="All Users" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDisabledUsers" Content="Disabled Users" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickLockedUsers" Content="Locked Users" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickNeverExpire" Content="Password Never Expires" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickInactiveUsers" Content="Inactive Users (90+ days)" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickAdminUsers" Content="Administrators" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Groups" BorderThickness="0" Margin="0,5,0,0">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickGroups" Content="All Groups" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSecurityGroups" Content="Security Groups" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDistributionGroups" Content="Distribution Lists" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Computers" BorderThickness="0" Margin="0,5,0,0">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickComputers" Content="All Computers" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickInactiveComputers" Content="Inactive Computers (90+ days)" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Security Audit" BorderThickness="0" Margin="0,5,0,0">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickWeakPasswordPolicy" Content="Weak Password Policies" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRiskyGroupMemberships" Content="Risky Memberships" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickPrivilegedAccounts" Content="Privileged Accounts" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="AD-Health" FontSize="11" BorderThickness="0" Margin="0,5,0,0">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickFSMORoles" Content="FSMO Role Holders" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDCStatus" Content="Domain Controller Status" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickReplicationStatus" Content="Replication Status" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="OU - Topology" FontSize="11" BorderThickness="0" Margin="0,5,0,0">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickOUHierarchy" Content="OU Hierarchy" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSitesSubnets" Content="Sites &amp; Subnets" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <!-- Weitere Buttons für DNS Zones hier später einfügen -->
-                            </StackPanel>
-                        </GroupBox>
-                    </StackPanel>
-                </GroupBox>
-            </Border>
+            <!-- Quick Reports Panel (linke Spalte) -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="20,15,10,15">
+                <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <GroupBox Header="Quick Reports" BorderThickness="0" Margin="5,0,0,0">
+                        <StackPanel>
+                            <GroupBox Header="Users" BorderThickness="0" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <Button x:Name="ButtonQuickAllUsers" Content="All Users" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickDisabledUsers" Content="Disabled Users" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickLockedUsers" Content="Locked Users" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickNeverExpire" Content="Password Never Expires" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickInactiveUsers" Content="Inactive Users (90+ days)" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickAdminUsers" Content="Administrators" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Groups" BorderThickness="0" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <Button x:Name="ButtonQuickGroups" Content="All Groups" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickSecurityGroups" Content="Security Groups" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickDistributionGroups" Content="Distribution Lists" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Computers" BorderThickness="0" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <Button x:Name="ButtonQuickComputers" Content="All Computers" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickInactiveComputers" Content="Inactive Computers (90+ days)" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Security Audit" BorderThickness="0" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <Button x:Name="ButtonQuickWeakPasswordPolicy" Content="Weak Password Policies" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickRiskyGroupMemberships" Content="Risky Memberships" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickPrivilegedAccounts" Content="Privileged Accounts" Margin="0,2" Height="20" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="AD-Health" FontSize="11" BorderThickness="0" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <Button x:Name="ButtonQuickFSMORoles" Content="FSMO Role Holders" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickDCStatus" Content="Domain Controller Status" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickReplicationStatus" Content="Replication Status" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="OU - Topology" FontSize="11" BorderThickness="0" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <Button x:Name="ButtonQuickOUHierarchy" Content="OU Hierarchy" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <Button x:Name="ButtonQuickSitesSubnets" Content="Sites &amp; Subnets" Margin="0,2" FontSize="10" Height="15" Background="#F5F5F5" BorderBrush="#DDDDDD" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                    <!-- Weitere Buttons für DNS Zones hier später einfügen -->
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
+                </Border>
+            </ScrollViewer>
 
-            <Border Grid.Column="1" Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1">
-                <GroupBox BorderThickness="0" Margin="5">
-                    <DataGrid x:Name="DataGridResults" AutoGenerateColumns="True" IsReadOnly="True" BorderThickness="0"
-                              Background="Transparent" GridLinesVisibility="All" RowBackground="White" AlternatingRowBackground="#F5F5F5"/>
-                </GroupBox>
-            </Border>
+            <!-- Rechte Spalte: Filter/Attribute oben, Ergebnisse unten -->
+            <Grid Grid.Column="1" Margin="0,15,20,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Für Filter/Attribute -->
+                    <RowDefinition Height="*"/>
+                    <!-- Für Ergebnisse -->
+                </Grid.RowDefinitions>
+
+                <!-- Filter and Attribute Selection (oben rechts) -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                    <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,15,0" Width="700">
+                        <GroupBox Header="Filter" Margin="5" BorderThickness="0">
+                            <StackPanel Margin="0,0,-2,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <Label Content="Objekttyp:" VerticalAlignment="Center" Width="80"/>
+                                    <RadioButton x:Name="RadioButtonUser" Content="User" IsChecked="True" Margin="5,0" VerticalAlignment="Center" />
+                                    <RadioButton x:Name="RadioButtonGroup" Content="Group" Margin="15,0" VerticalAlignment="Center" />
+                                    <RadioButton x:Name="RadioButtonComputer" Content="Computer" Margin="5,0,10,0" VerticalAlignment="Center" />
+                                    <RadioButton x:Name="RadioButtonGroupMemberships" Content="Memberships" Margin="5,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Width="678">
+                                    <Label Content="Filter Attribute:" VerticalAlignment="Center" Width="80"/>
+                                    <ComboBox x:Name="ComboBoxFilterAttribute" Width="212" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
+                                    <Label Content="Filter Value:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TextBoxFilterValue" Width="300" Margin="5,0" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#CCCCCC"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </Border>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,15,0" Width="467">
+                        <GroupBox Header="Attributes to Export" Margin="5" BorderThickness="0">
+                            <ListBox x:Name="ListBoxSelectAttributes" Height="80" SelectionMode="Multiple" BorderThickness="0" Margin="10,0,-2,0">
+                                <ListBoxItem Content="DisplayName"/>
+                                <ListBoxItem Content="SamAccountName"/>
+                                <ListBoxItem Content="GivenName"/>
+                                <ListBoxItem Content="Surname"/>
+                                <ListBoxItem Content="mail"/>
+                                <ListBoxItem Content="Department"/>
+                                <ListBoxItem Content="Title"/>
+                                <ListBoxItem Content="Enabled"/>
+                            </ListBox>
+                        </GroupBox>
+                    </Border>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Height="90">
+                        <Button x:Name="ButtonQueryAD" Content="S E A R C H" Width="200" Height="36" Margin="0,5,0,5" 
+                    Background="#0078D7" Foreground="White" BorderThickness="0" FontWeight="Bold" FontSize="16">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="ButtonExportCSV" Content="Export CSV" Width="95" Height="28" Background="#F0F0F0" BorderBrush="#CCCCCC" Margin="0,10,5,0">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button x:Name="ButtonExportHTML" Content="Export HTML" Width="95" Height="28" Background="#F0F0F0" BorderBrush="#CCCCCC" Margin="0,10,5,0">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Results (unten rechts) -->
+                <Border Grid.Row="1" Background="White" CornerRadius="4" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <GroupBox BorderThickness="0" Margin="5">
+                        <DataGrid x:Name="DataGridResults" AutoGenerateColumns="True" IsReadOnly="True" BorderThickness="0"
+                                  Background="Transparent" GridLinesVisibility="All" RowBackground="White" AlternatingRowBackground="#F5F5F5"/>
+                    </GroupBox>
+                </Border>
+            </Grid>
         </Grid>
 
-        <!-- Footer -->
-        <Border Grid.Row="3" Background="#F0F0F0" BorderThickness="0,1,0,0" BorderBrush="#DDDDDD">
+        <!-- Footer (Grid.Row="2") -->
+        <Border Grid.Row="2" Background="#F0F0F0" BorderThickness="0,1,0,0" BorderBrush="#DDDDDD">
             <Grid Margin="20,0">
                 <TextBlock x:Name="TextBlockStatus" Text="Ready" VerticalAlignment="Center" Margin="0,0,460,0"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
@@ -1892,7 +1901,6 @@ Function Get-ADOUHierarchyReport {
                 Name                        = $OU.Name
                 DistinguishedName           = $OU.DistinguishedName
                 ParentContainer             = $ParentPath
-                DirectChildrenCount         = $DirectChildrenCount
                 Description                 = $OU.Description
                 ProtectedFromDeletion       = $OU.ProtectedFromAccidentalDeletion
                 Created                     = $OU.whenCreated
