@@ -330,6 +330,73 @@
                                 <Button x:Name="ButtonQuickQuotasLimits" Content="Quotas &amp; Limits" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
                                 <Button x:Name="ButtonQuickDCSyncRights" Content="DCSync Rights Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
                                 <Button x:Name="ButtonQuickSchemaAdmins" Content="Schema Admin Paths" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickDelegation" Content="Delegation Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Service Accounts Category -->
+                        <Expander Header="Service Accounts" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickManagedServiceAccounts" Content="Managed Service Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickServiceAccountsSPN" Content="Service Accounts with SPN" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickHighPrivServiceAccounts" Content="High Privilege Service Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickServiceAccountPasswordAge" Content="Service Account Password Age" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickUnusedServiceAccounts" Content="Unused Service Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- GPO & Policies Category -->
+                        <Expander Header="GPO &amp; Policies" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickUnlinkedGPOs" Content="Unlinked GPOs" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickEmptyGPOs" Content="Empty GPOs" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickGPOPermissions" Content="GPO Permissions" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickPasswordPolicySummary" Content="Password Policy Summary" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickAccountLockoutPolicies" Content="Account Lockout Policies" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickFineGrainedPasswordPolicies" Content="Fine-Grained Password Policies" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Advanced Security Category -->
+                        <Expander Header="Advanced Security" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickPrivilegeEscalation" Content="Privilege Escalation Paths" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickExposedCredentials" Content="Exposed Credentials" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickSuspiciousLogons" Content="Suspicious Logons" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickForeignSecurityPrincipals" Content="Foreign Security Principals" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickSIDHistoryAbuse" Content="SID History Abuse" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Permissions & ACL Category -->
+                        <Expander Header="Permissions &amp; ACL" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickACLAnalysis" Content="ACL Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickInheritanceBreaks" Content="Inheritance Breaks" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickAdminSDHolderObjects" Content="AdminSDHolder Objects" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickAdvancedDelegation" Content="Advanced Delegation" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickSchemaPermissions" Content="Schema Permissions" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Compliance & Audit Category -->
+                        <Expander Header="Compliance &amp; Audit" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickGDPRCompliance" Content="GDPR Compliance" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickISO27001Readiness" Content="ISO 27001 Readiness" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickNISTFramework" Content="NIST Framework" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickPCIDSSRequirements" Content="PCI DSS Requirements" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickHIPAACompliance" Content="HIPAA Compliance" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickCustomComplianceTemplates" Content="Custom Compliance Templates" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Statistics & Reports Category -->
+                        <Expander Header="Statistics &amp; Reports" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickDepartmentStats" Content="Department Statistics" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickDepartmentSecurity" Content="Department Security" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickDomainControllerHealth" Content="Domain Controller Health" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
                             </StackPanel>
                         </Expander>
                     </StackPanel>
