@@ -6,156 +6,477 @@
     Es bietet eine moderne XAML-GUI zur Anzeige, Installation und Deinstallation von Updates sowie zur Verwaltung
     der Update-Quellen und WSUS-Einstellungen.
 .NOTES
-    Version:        0.2.1
+    Version:        0.2.3
     Author:         easyIT
     Creation Date:  31.05.2025
 #>
 
 # Fehlercode-Mapping mit bekannten Loesungen
 $errorCodes = @{
-    "0x80240034" = @{
-        "Beschreibung" = "WU_E_DOWNLOAD_FAILED - Update-Download ist fehlgeschlagen";
-        "Loesungen" = @(
-            "Windows Update-Dienste neu starten",
-            "Temporaere Dateien und Cache loeschen",
-            "Netzwerkverbindung ueberpruefen",
-            "Windows Update-Komponenten zuruecksetzen"
-        )
-    };
-    "0x8024001F" = @{
-        "Beschreibung" = "WU_E_NO_CONNECTION - Keine Verbindung zum Update-Service";
-        "Loesungen" = @(
-            "Netzwerkverbindung ueberpruefen",
-            "Firewall- und Proxy-Einstellungen pruefen",
-            "Neustart des Netzwerkadapters",
-            "Windows Update-Dienste neu starten"
-        )
-    };
-    "0x80070020" = @{
-        "Beschreibung" = "InstallFileLocked - Eine Datei, die aktualisiert werden soll, ist gesperrt";
-        "Loesungen" = @(
-            "Alle laufenden Programme schliessen",
-            "Windows Update-Komponenten zuruecksetzen",
-            "Temporaere Dateien und Cache loeschen",
-            "System neustarten"
-        )
-    };
-    "0x80240022" = @{
-        "Beschreibung" = "WU_E_ALL_UPDATES_FAILED - Alle Updates konnten nicht installed werden";
-        "Loesungen" = @(
-            "Windows Update-Komponenten zuruecksetzen",
-            "System mit sauberem Boot starten",
-            "Windows-Systemdateien reparieren",
-            "Windows Update-Dienste neu starten"
-        )
-    };
-    "0x80070422" = @{
-        "Beschreibung" = "ERROR_SERVICE_DISABLED - Windows Update-Dienst ist disabled";
-        "Loesungen" = @(
-            "Windows Update-Dienst aktivieren",
-            "Registry-Einstellungen für Update-Dienste prüfen",
-            "Gruppenrichtlinien kontrollieren",
-            "Systemdiagnose ausführen"
-        )
-    };
-    "0x8024400A" = @{
-        "Beschreibung" = "WU_E_PT_HTTP_STATUS_BAD_REQUEST - Fehlerhafte HTTP-Anfrage an Update-Server";
-        "Loesungen" = @(
-            "Proxy-Einstellungen überprüfen",
-            "Windows Update-Komponenten zurücksetzen",
-            "Internet-Verbindung testen",
-            "Temporäre Internetdateien löschen"
-        )
-    };
-    "0x8024401C" = @{
-        "Beschreibung" = "WU_E_PT_HTTP_STATUS_SERVICE_UNAVAIL - Update-Server nicht verfügbar";
-        "Loesungen" = @(
-            "Später erneut versuchen",
-            "Microsoft Update-Server-Status prüfen",
-            "Alternative Update-Quelle verwenden",
-            "Netzwerkverbindung überprüfen"
-        )
-    };
-    "0x80246008" = @{
-        "Beschreibung" = "WU_E_DM_INCORRECTFILEHASH - Dateihash stimmt nicht überein";
-        "Loesungen" = @(
-            "Windows Update-Cache leeren",
-            "Windows Update-Komponenten zurücksetzen",
-            "SFC /scannow ausführen",
-            "Internetverbindung auf Stabilität prüfen"
+    "0x80072EE7" = @{
+        "Description" = "WININET_E_CANNOT_RESOLVE_NAME / The server name or address could not be resolved (DNS issue)";
+        "Solutions" = @(
+            "Clear DNS cache (ipconfig /flushdns)",
+            "Check proxy settings",
+            "Check network connection",
+            "Restart Windows Update services"
         )
     };
     "0x8024402C" = @{
-        "Beschreibung" = "WU_E_PT_WINHTTP_NAME_NOT_RESOLVED - DNS-Auflösungsproblem";
-        "Loesungen" = @(
-            "DNS-Cache leeren (ipconfig /flushdns)",
-            "DNS-Server-Einstellungen überprüfen",
-            "Alternative DNS-Server konfigurieren",
-            "Netzwerkadapter zurücksetzen"
+        "Description" = "WU_E_PT_WINHTTP_NAME_NOT_RESOLVED / DNS resolution error";
+        "Solutions" = @(
+            "Clear DNS cache (ipconfig /flushdns)",
+            "Check DNS server settings",
+            "Configure alternate DNS servers",
+            "Reset network adapter"
         )
     };
-    "0x80243004" = @{
-        "Beschreibung" = "WU_E_UH_REMOTEUNAVAILABLE - Server für Updateverlauf nicht verfügbar";
-        "Loesungen" = @(
-            "Windows Update-Dienste neu starten",
-            "Windows Update-Datenbank zurücksetzen",
-            "Systemdiagnose ausführen",
-            "Netzwerkverbindung überprüfen"
+    "0x8024401B" = @{
+        "Description" = "WU_E_PT_HTTP_STATUS_PROXY_AUTH_REQ / Proxy authentication required";
+        "Solutions" = @(
+            "Check proxy settings and configure user authentication",
+            "Reset WinHTTP proxy (netsh winhttp reset proxy)",
+            "Check network connection",
+            "Reset Windows Update components"
         )
     };
-    "0x80240017" = @{
-        "Beschreibung" = "WU_E_NOT_INITIALIZED - Windows Update-Agent wurde nicht initialisiert";
-        "Loesungen" = @(
-            "Windows Update-Dienste neu starten",
-            "Windows Update-Komponenten zurücksetzen",
-            "System neu starten",
-            "Windows-Systemdateien reparieren"
+    "0x80244018" = @{
+        "Description" = "WU_E_PT_HTTP_STATUS_FORBIDDEN / Access denied (HTTP 403)";
+        "Solutions" = @(
+            "Check firewall/proxy rules",
+            "Check access permissions",
+            "Restart Windows Update services",
+            "Delete temporary files"
         )
     };
-    "0x80070057" = @{
-        "Beschreibung" = "E_INVALIDARG - Ungültiger Parameter bei Windows Update";
-        "Loesungen" = @(
-            "Windows Update-Cache leeren",
-            "Windows Update-Komponenten zurücksetzen",
-            "System neu starten",
-            "Windows-Registrierung reparieren"
+    "0x80244019" = @{
+        "Description" = "WU_E_PT_HTTP_STATUS_NOT_FOUND / Update not found (HTTP 404)";
+        "Solutions" = @(
+            "Check WSUS/update source",
+            "Import proxy settings (netsh winhttp import proxy source=ie)",
+            "Reset Windows Update components",
+            "Restart system"
         )
     };
-    "0x80070002" = @{
-        "Beschreibung" = "ERROR_FILE_NOT_FOUND - Update-Datei nicht gefunden";
-        "Loesungen" = @(
-            "Windows Update-Cache leeren",
-            "Temporäre Dateien löschen",
-            "Windows Update-Komponenten zurücksetzen",
-            "SFC /scannow ausführen"
+    "0x80244022" = @{
+        "Description" = "WU_E_PT_HTTP_STATUS_SERVICE_UNAVAIL / Update server unavailable (HTTP 503)";
+        "Solutions" = @(
+            "Try again later",
+            "Check Microsoft Update server status",
+            "Use alternate update source",
+            "Check network connection"
+        )
+    };
+    "0x80072EFD" = @{
+        "Description" = "WININET_E_TIMEOUT / Timeout establishing connection";
+        "Solutions" = @(
+            "Check network connection",
+            "Check firewall/proxy settings",
+            "Restart Windows Update services",
+            "Try again later"
+        )
+    };
+    "0x80072EFE" = @{
+        "Description" = "WININET_E_INVALID_URL / Invalid URL for update server";
+        "Solutions" = @(
+            "Check update server address",
+            "Clear Windows Update cache",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80D02002" = @{
+        "Description" = "BG_E_NETWORK_FAILURE / Network failure during update download";
+        "Solutions" = @(
+            "Check internet connection",
+            "Check firewall/proxy settings",
+            "Reset BITS (bitsadmin /reset)",
+            "Reset Windows Update components"
+        )
+    };
+    "0x80072EE2" = @{
+        "Description" = "WININET_E_CONNECTION_TIMEOUT / Connection to update server could not be established";
+        "Solutions" = @(
+            "Check network connection",
+            "Check date and time settings",
+            "Enable TLS 1.2",
+            "Restart Windows Update services"
+        )
+    };
+    "0x80072F8F" = @{
+        "Description" = "WININET_E_DECODING_FAILED / TLS/SSL error";
+        "Solutions" = @(
+            "Enable TLS 1.2",
+            "Correct system date/time",
+            "Update Windows Update Agent",
+            "Restart Windows Update services"
+        )
+    };
+    "0x80200053" = @{
+        "Description" = "BG_E_VALIDATION_FAILED / File validation failed";
+        "Solutions" = @(
+            "Check web filter/firewall",
+            "Temporarily disable antivirus software",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80244007" = @{
+        "Description" = "WU_E_PT_SOAPCLIENT_SOAPFAULT / SOAP error during update scan (WSUS)";
+        "Solutions" = @(
+            "Check WSUS server settings",
+            "Reset WSUS client (wuauclt /resetauthorization /detectnow)",
+            "Restart Windows Update services",
+            "Restart system"
+        )
+    };
+    "0x8024D009" = @{
+        "Description" = "WU_E_SETUP_SKIP_UPDATE / Windows Update Agent self-update skipped";
+        "Solutions" = @(
+            "Repair WSUS self-update",
+            "Check permissions of virtual directory",
+            "Restart Windows Update services",
+            "Restart system"
+        )
+    };
+    "0x8024402F" = @{
+        "Description" = "WU_E_PT_ECP_SUCCEEDED_WITH_ERRORS / External CAB processing completed with errors";
+        "Solutions" = @(
+            "Configure web filter exceptions",
+            "Reset Windows Update components",
+            "Delete temporary files",
+            "Restart system"
+        )
+    };
+    "0x8024A10A" = @{
+        "Description" = "USO_E_SERVICE_SHUTTING_DOWN / Windows Update service shutting down";
+        "Solutions" = @(
+            "Keep system active during updates",
+            "Restart Windows Update services",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070422" = @{
+        "Description" = "ERROR_SERVICE_DISABLED / Windows Update service is disabled or not started";
+        "Solutions" = @(
+            "sc config wuauserv start= auto && sc start wuauserv",
+            "Check registry settings for update services",
+            "Review group policies",
+            "Run system diagnostics"
+        )
+    };
+    "0x80240020" = @{
+        "Description" = "WU_E_NO_INTERACTIVE_USER / No interactive user logged on";
+        "Solutions" = @(
+            "Log on as a user and restart update",
+            "Restart system",
+            "Restart Windows Update services",
+            "Reset Windows Update components"
+        )
+    };
+    "0x80242014" = @{
+        "Description" = "WU_E_UH_POSTREBOOTSTILLPENDING / Update is pending reboot";
+        "Solutions" = @(
+            "Restart system",
+            "Restart Windows Update services",
+            "Reset Windows Update components",
+            "Run system diagnostics"
+        )
+    };
+    "0x80070BC9" = @{
+        "Description" = "ERROR_FAIL_REBOOT_REQUIRED / Pending restart required";
+        "Solutions" = @(
+            "Restart system",
+            "Delete temporary update files",
+            "Reset Windows Update components",
+            "Run system diagnostics"
+        )
+    };
+    "0x800706BE" = @{
+        "Description" = "RPC_S_CALL_FAILED / RPC communication error";
+        "Solutions" = @(
+            "Check and restart RPC services",
+            "Reset Windows Update components",
+            "Restart system",
+            "Repair system files (sfc /scannow)"
+        )
+    };
+    "0x80246017" = @{
+        "Description" = "WU_E_DM_UNAUTHORIZED_LOCAL_USER / Download denied (user rights)";
+        "Solutions" = @(
+            "Log on as administrator",
+            "Check user rights",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x8007000D" = @{
+        "Description" = "ERROR_INVALID_DATA / Invalid or corrupted update data";
+        "Solutions" = @(
+            "Re-download update",
+            "Clear Windows Update cache",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070490" = @{
+        "Description" = "ERROR_NOT_FOUND / Update element not found";
+        "Solutions" = @(
+            "Check registry value",
+            "Reset Windows Update components",
+            "Restart Windows Update services",
+            "Restart system"
+        )
+    };
+    "0x80242006" = @{
+        "Description" = "WU_E_UH_INVALIDMETADATA / Invalid metadata in update";
+        "Solutions" = @(
+            "Rename SoftwareDistribution\\DataStore",
+            "Rename Catroot2",
+            "Reset Windows Update components",
+            "Restart system"
         )
     };
     "0x8024200D" = @{
-        "Beschreibung" = "WU_E_UH_POSTREBOOTUNEXPECTEDSTATE - Unerwarteter Zustand nach Neustart";
-        "Loesungen" = @(
-            "System erneut neu starten",
-            "Windows Update-Komponenten zurücksetzen",
-            "Windows-Systemdateien reparieren",
-            "DISM /Online /Cleanup-Image /RestoreHealth ausführen"
+        "Description" = "SUS_E_UH_NEEDANOTHERDOWNLOAD / Another download is needed";
+        "Solutions" = @(
+            "Redownload update",
+            "Install latest servicing stack",
+            "Reset Windows Update components",
+            "Restart system"
         )
     };
-    "0x80240FFF" = @{
-        "Beschreibung" = "WU_E_UNEXPECTED - Unerwarteter Fehler im Windows Update-Agent";
-        "Loesungen" = @(
-            "Windows Update-Dienste neu starten",
-            "Windows Update-Komponenten zurücksetzen",
-            "System im abgesicherten Modus starten",
-            "Windows-Systemdateien reparieren"
+    "0x80246007" = @{
+        "Description" = "WU_E_DM_NOTDOWNLOADED / Update not downloaded";
+        "Solutions" = @(
+            "Reset BITS (bitsadmin /reset)",
+            "Reset Windows Update components",
+            "Restart Windows Update services",
+            "Restart system"
         )
-    }
-}
+    };
+    "0x800705B4" = @{
+        "Description" = "ERROR_TIMEOUT / Operation timed out";
+        "Solutions" = @(
+            "Try again later",
+            "Run Windows Update Troubleshooter",
+            "Restart Windows Update services",
+            "Restart system"
+        )
+    };
+    "0x8024000B" = @{
+        "Description" = "WU_E_CALL_CANCELLED / Operation cancelled";
+        "Solutions" = @(
+            "Retry update without cancelling",
+            "Restart Windows Update services",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070643" = @{
+        "Description" = "FATAL_ERROR_DURING_INSTALLATION / Fatal error during installation";
+        "Solutions" = @(
+            "sfc /scannow (repair system files)",
+            "Reset Windows Update components",
+            "Restart system",
+            "Repair Windows system files"
+        )
+    };
+    "0x800B0109" = @{
+        "Description" = "TRUST_E_CERT_SIGNATURE / Certificate chain ends in untrusted root certificate";
+        "Solutions" = @(
+            "Repair system files (sfc /scannow)",
+            "Install missing root certificate",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070005" = @{
+        "Description" = "E_ACCESSDENIED / Access denied (permission issue)";
+        "Solutions" = @(
+            "Adjust permissions of affected files/registry paths",
+            "Run as administrator",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070570" = @{
+        "Description" = "ERROR_FILE_CORRUPT / File or directory corrupted (component store)";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth",
+            "sfc /scannow",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070003" = @{
+        "Description" = "ERROR_PATH_NOT_FOUND / A required path was not found";
+        "Solutions" = @(
+            "Search logs in %windir%\\Logs\\CBS\\CBS.log for error",
+            "Check and correct paths",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80070020" = @{
+        "Description" = "ERROR_SHARING_VIOLATION / Sharing violation accessing a file";
+        "Solutions" = @(
+            "Perform clean boot",
+            "Use Process Monitor to find blocking process",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80073701" = @{
+        "Description" = "ERROR_SXS_ASSEMBLY_MISSING / Referenced assembly not found (component store inconsistent)";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth",
+            "sfc /scannow",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x8007371B" = @{
+        "Description" = "ERROR_SXS_TRANSACTION_CLOSURE_INCOMPLETE / Transaction not complete";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth",
+            "sfc /scannow",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x80073712" = @{
+        "Description" = "ERROR_SXS_COMPONENT_STORE_CORRUPT / Component store is corrupt";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth",
+            "Consider in-place upgrade",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x800F081F" = @{
+        "Description" = "CBS_E_SOURCE_MISSING / Source package/file not found (often .NET Framework issue)";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth /Source:<path>",
+            "Repair component store",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x800F0831" = @{
+        "Description" = "CBS_E_STORE_CORRUPTION / Component store corruption";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth",
+            "sfc /scannow",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x800F0821" = @{
+        "Description" = "CBS_E_ABORT / Operation aborted by client (timeout)";
+        "Solutions" = @(
+            "Provide more resources (increase CPU/RAM)",
+            "Install patch KB4493473 or later",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+    "0x800F0825" = @{
+        "Description" = "CBS_E_CANNOT_UNINSTALL / Package cannot be uninstalled";
+        "Solutions" = @(
+            "DISM /Online /Cleanup-Image /RestoreHealth",
+            "sfc /scannow",
+            "Restart system",
+            "Reset Windows Update components"
+        )
+    };
+    "0x800F0920" = @{
+        "Description" = "CBS_E_HANG_DETECTED / Hang detected during update processing";
+        "Solutions" = @(
+            "Increase VM resources",
+            "Extend timeout",
+            "Install patch KB4493473+",
+            "Restart system"
+        )
+    };
+    "0x800F0922" = @{
+        "Description" = "CBS_E_INSTALLERS_FAILED / Installer routines failed";
+        "Solutions" = @(
+            "Adjust write permissions for C:\\Windows\\System32\\spp",
+            "Reset Windows Update components",
+            "Restart system",
+            "Restart Windows Update services"
+        )
+    };
+    "0xC1900101" = @{
+        "Description" = "General installation failure during upgrade (rollback)";
+        "Solutions" = @(
+            "Update drivers",
+            "Remove unnecessary hardware",
+            "Ensure sufficient disk space",
+            "Restart system"
+        )
+    };
+    "0xC1900107" = @{
+        "Description" = "Cleanup operation still pending / restart required";
+        "Solutions" = @(
+            "Restart system",
+            "Clean temporary Windows Update files",
+            "Run Disk Cleanup",
+            "Restart Windows Update services"
+        )
+    };
+    "0xC1900201" = @{
+        "Description" = "System reserved partition could not be updated (insufficient space)";
+        "Solutions" = @(
+            "Increase space on reserved partition",
+            "Remove unneeded language packs",
+            "Extend partition",
+            "Restart system"
+        )
+    };
+    "0x80240034" = @{
+        "Description" = "WU_E_PT_ECP_FAILURE_TO_DECOMPRESS_CAB_FILE / External CAB archive could not be decompressed";
+        "Solutions" = @(
+            "Reset Windows Update components",
+            "Delete temporary update files",
+            "Restart system",
+            "Run DISM /Online /Cleanup-Image /RestoreHealth"
+        )
+    };
+    "0x8024001F" = @{
+        "Description" = "WU_E_NO_CONNECTION / No connection to update service";
+        "Solutions" = @(
+            "Check network connection",
+            "Check firewall and proxy settings",
+            "Restart network adapter",
+            "Restart Windows Update services"
+        )
+    };
+    "0x80240003" = @{
+        "Description" = "WU_E_UNKNOWN_ID / An ID could not be found";
+        "Solutions" = @(
+            "Clear Windows Update cache",
+            "Manually install update",
+            "Reset Windows Update components",
+            "Restart system"
+        )
+    };
+}  
 
 #region Requires
 # Module PSWindowsUpdate wird benötigt
 if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
     try {
+        # PowerShellGet prüfen und ggf. installieren
+        if (-not (Get-Module -ListAvailable -Name PowerShellGet | Where-Object Version -ge "2.0")) {
+            Install-Module PowerShellGet -Force -AllowClobber -Scope CurrentUser -ErrorAction Stop
+        }
+        
+        # PSWindowsUpdate installieren
         Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser -ErrorAction Stop
-        Import-Module PSWindowsUpdate
+        Import-Module PSWindowsUpdate -ErrorAction Stop
         Write-Host "PSWindowsUpdate-Modul wurde installed und importiert." -ForegroundColor Green
     } catch {
         Write-Host "Fehler beim Installieren des PSWindowsUpdate-Moduls: $_" -ForegroundColor Red
@@ -163,7 +484,12 @@ if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
         exit
     }
 } else {
-    Import-Module PSWindowsUpdate
+    try {
+        Import-Module PSWindowsUpdate -ErrorAction Stop
+    } catch {
+        Write-Host "Fehler beim Importieren des PSWindowsUpdate-Moduls: $_" -ForegroundColor Red
+        exit
+    }
 }
 #endregion
 
@@ -217,7 +543,7 @@ Add-Type -AssemblyName WindowsBase
             <Grid>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="easyWINUpdate" Foreground="White" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-                    <TextBlock Text="v0.2.1" Foreground="#CCFFFFFF" FontSize="14" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="v0.2.3" Foreground="#CCFFFFFF" FontSize="14" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock x:Name="computerNameLabel" Text="Computer: " Foreground="White" FontSize="14" VerticalAlignment="Center"/>
@@ -785,6 +1111,126 @@ Add-Type -AssemblyName WindowsBase
                                     </Border>
                                 </StackPanel>
                             </TabItem>
+
+                            <!-- Tab 6: Zeitplanung -->
+                            <TabItem Header="Schedule">
+                                <StackPanel Margin="0,15,0,0">
+                                    <Border Background="#F5F5F5" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4" Margin="0,0,0,20">
+                                        <StackPanel>
+                                            <TextBlock Text="Windows Update Schedule" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,15"/>
+                                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,15">
+                                                Configure here when Windows Updates should be automatically searched, downloaded and installed.
+                                            </TextBlock>
+                                            
+                                            <!-- Enable/Disable automatic updates -->
+                                            <CheckBox x:Name="chkEnableAutoUpdates" Content="Enable automatic updates" Margin="0,0,0,10"/>
+                                            
+                                            <!-- Konfiguration für automatische Updates -->
+                                            <Grid Margin="0,10,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="180"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                
+                                                <!-- Zeile 1: Updatezeitpunkt -->
+                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Update time:" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                                                <ComboBox Grid.Column="1" Grid.Row="0" x:Name="cmbUpdateScheduleType" Margin="0,5,0,5" MinWidth="200" HorizontalAlignment="Left">
+                                                    <ComboBoxItem Content="Daily"/>
+                                                    <ComboBoxItem Content="Weekly"/>
+                                                    <ComboBoxItem Content="Monthly"/>
+                                                </ComboBox>
+                                                
+                                                <!-- Zeile 2: Wochentag (only visible if weekly is selected) -->
+                                                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="lblWeekDay" Text="Weekday:" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                                                <ComboBox Grid.Column="1" Grid.Row="1" x:Name="cmbWeekDay" Margin="0,5,0,5" MinWidth="200" HorizontalAlignment="Left">
+                                                    <ComboBoxItem Content="Monday"/>
+                                                    <ComboBoxItem Content="Tuesday"/>
+                                                    <ComboBoxItem Content="Wednesday"/>
+                                                    <ComboBoxItem Content="Thursday"/>
+                                                    <ComboBoxItem Content="Friday"/>
+                                                    <ComboBoxItem Content="Saturday"/>
+                                                    <ComboBoxItem Content="Sunday"/>
+                                                </ComboBox>
+                                                
+                                                <!-- Zeile 3: Tag des Monats (only visible if monthly is selected) -->
+                                                <TextBlock Grid.Column="0" Grid.Row="2" x:Name="lblMonthDay" Text="Month day:" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                                                <ComboBox Grid.Column="1" Grid.Row="2" x:Name="cmbMonthDay" Margin="0,5,0,5" MinWidth="200" HorizontalAlignment="Left">
+                                                    <!-- Tage 1-31 werden dynamisch befüllt -->
+                                                </ComboBox>
+                                                
+                                                <!-- Zeile 4: Time -->
+                                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Time:" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                                                <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="0,5,0,5">
+                                                    <ComboBox x:Name="cmbHour" MinWidth="80" HorizontalAlignment="Left">
+                                                        <!-- Stunden werden dynamisch befüllt -->
+                                                    </ComboBox>
+                                                    <TextBlock Text=":" VerticalAlignment="Center" Margin="5,0"/>
+                                                    <ComboBox x:Name="cmbMinute" MinWidth="80" HorizontalAlignment="Left">
+                                                        <!-- Minuten werden dynamisch befüllt -->
+                                                    </ComboBox>
+                                                </StackPanel>
+                                                
+                                                <!-- Zeile 5: Behavior -->
+                                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Behavior:" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                                                <ComboBox Grid.Column="1" Grid.Row="4" x:Name="cmbUpdateBehavior" Margin="0,5,0,5" MinWidth="200" HorizontalAlignment="Left">
+                                                    <ComboBoxItem Content="Only search for updates"/>
+                                                    <ComboBoxItem Content="Search and download"/>
+                                                    <ComboBoxItem Content="Search, download and install automatically"/>
+                                                </ComboBox>
+                                                
+                                                <!-- Zeile 6: Restart behavior -->
+                                                <TextBlock Grid.Column="0" Grid.Row="5" Text="After installation:" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                                                <ComboBox Grid.Column="1" Grid.Row="5" x:Name="cmbRestartBehavior" Margin="0,5,0,5" MinWidth="200" HorizontalAlignment="Left">
+                                                    <ComboBoxItem Content="Notify user"/>
+                                                    <ComboBoxItem Content="Automatically restart"/>
+                                                    <ComboBoxItem Content="Schedule restart for:"/>
+                                                </ComboBox>
+                                            </Grid>
+                                            
+                                            <!-- Restart time (only visible if "Schedule restart for" is selected) -->
+                                            <StackPanel x:Name="pnlRestartTime" Orientation="Horizontal" Margin="180,10,0,10">
+                                                <ComboBox x:Name="cmbRestartHour" MinWidth="80" HorizontalAlignment="Left">
+                                                    <!-- Stunden werden dynamisch befüllt -->
+                                                </ComboBox>
+                                                <TextBlock Text=":" VerticalAlignment="Center" Margin="5,0"/>
+                                                <ComboBox x:Name="cmbRestartMinute" MinWidth="80" HorizontalAlignment="Left">
+                                                    <!-- Minuten werden dynamisch befüllt -->
+                                                </ComboBox>
+                                            </StackPanel>
+                                            
+                                            <!-- Action buttons -->
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                                                <Button x:Name="btnApplySchedule" Content="Apply schedule" Padding="15,8" 
+                                                        Background="#0078D7" Foreground="White" BorderThickness="0" Margin="0,0,10,0"/>
+                                                <Button x:Name="btnViewCurrentSchedule" Content="View current schedule" Padding="15,8"
+                                                        Background="#F0F0F0" BorderThickness="1" BorderBrush="#CCCCCC" Margin="0,0,0,0"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                    
+                                    <!-- Aktuelle Zeitplan-Einstellungen anzeigen -->
+                                    <Border Background="#F0F8FF" BorderBrush="#99CCE8" BorderThickness="1" Padding="15" CornerRadius="4">
+                                        <StackPanel>
+                                            <TextBlock Text="Current Windows Update Schedule" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <TextBlock x:Name="txtCurrentSchedule" TextWrapping="Wrap" Margin="0,0,0,10">
+                                                No schedule information available. Click on "View current schedule".
+                                            </TextBlock>
+                                            
+                                            <TextBlock x:Name="txtLastRunResult" TextWrapping="Wrap" Margin="0,10,0,0" Visibility="Collapsed">
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </TabItem>
+
                         </TabControl>
                     </StackPanel>
                 </Grid>
@@ -3043,6 +3489,528 @@ function Load-WSUSSettingsPage {
     Update-StatusText -Text "WSUS settings have been loaded." -Color "Green"
 }
 
+# Funktion zum Initialisieren der Update-Zeitplan-Steuerelemente
+function Initialize-UpdateScheduleControls {
+    try {
+        # ComboBox für Wochentage befüllen
+        $cmbWeekDay = $window.FindName("cmbWeekDay")
+        if ($cmbWeekDay) {
+            $weekdays = @("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+            foreach ($day in $weekdays) {
+                $item = New-Object System.Windows.Controls.ComboBoxItem
+                $item.Content = $day
+                $cmbWeekDay.Items.Add($item)
+            }
+        }
+        
+        # ComboBox für Tage des Monats befüllen
+        $cmbMonthDay = $window.FindName("cmbMonthDay")
+        if ($cmbMonthDay) {
+            for ($i = 1; $i -le 31; $i++) {
+                $item = New-Object System.Windows.Controls.ComboBoxItem
+                $item.Content = "$i"
+                $cmbMonthDay.Items.Add($item)
+            }
+        }
+        
+        # ComboBox für Stunden befüllen
+        $cmbHour = $window.FindName("cmbHour")
+        $cmbRestartHour = $window.FindName("cmbRestartHour")
+        if ($cmbHour -and $cmbRestartHour) {
+            for ($i = 0; $i -le 23; $i++) {
+                $hourStr = $i.ToString("00")
+                
+                $item = New-Object System.Windows.Controls.ComboBoxItem
+                $item.Content = $hourStr
+                $cmbHour.Items.Add($item)
+                
+                $itemRestart = New-Object System.Windows.Controls.ComboBoxItem
+                $itemRestart.Content = $hourStr
+                $cmbRestartHour.Items.Add($itemRestart)
+            }
+        }
+        
+        # ComboBox für Minuten befüllen
+        $cmbMinute = $window.FindName("cmbMinute")
+        $cmbRestartMinute = $window.FindName("cmbRestartMinute")
+        if ($cmbMinute -and $cmbRestartMinute) {
+            for ($i = 0; $i -le 59; $i += 5) { # 5-Minuten-Intervalle
+                $minuteStr = $i.ToString("00")
+                
+                $item = New-Object System.Windows.Controls.ComboBoxItem
+                $item.Content = $minuteStr
+                $cmbMinute.Items.Add($item)
+                
+                $itemRestart = New-Object System.Windows.Controls.ComboBoxItem
+                $itemRestart.Content = $minuteStr
+                $cmbRestartMinute.Items.Add($itemRestart)
+            }
+        }
+        
+        # Standardwerte setzen
+        $cmbUpdateScheduleType = $window.FindName("cmbUpdateScheduleType")
+        if ($cmbUpdateScheduleType) {
+            $cmbUpdateScheduleType.SelectedIndex = 0
+        }
+        
+        if ($cmbWeekDay) {
+            $cmbWeekDay.SelectedIndex = 0
+        }
+        
+        if ($cmbMonthDay) {
+            $cmbMonthDay.SelectedIndex = 0
+        }
+        
+        if ($cmbHour) {
+            $cmbHour.SelectedIndex = 3 # 03:00 Uhr als Standard
+        }
+        
+        if ($cmbMinute) {
+            $cmbMinute.SelectedIndex = 0
+        }
+        
+        $cmbUpdateBehavior = $window.FindName("cmbUpdateBehavior")
+        if ($cmbUpdateBehavior) {
+            $cmbUpdateBehavior.SelectedIndex = 2
+        }
+        
+        $cmbRestartBehavior = $window.FindName("cmbRestartBehavior")
+        if ($cmbRestartBehavior) {
+            $cmbRestartBehavior.SelectedIndex = 0
+        }
+        
+        if ($cmbRestartHour) {
+            $cmbRestartHour.SelectedIndex = 3 # 03:00 Uhr als Standard
+        }
+        
+        if ($cmbRestartMinute) {
+            $cmbRestartMinute.SelectedIndex = 0
+        }
+        
+        # Sichtbarkeit der Bedingten Elemente steuern
+        $pnlRestartTime = $window.FindName("pnlRestartTime")
+        if ($pnlRestartTime) {
+            $pnlRestartTime.Visibility = [System.Windows.Visibility]::Collapsed
+        }
+        
+        $lblWeekDay = $window.FindName("lblWeekDay")
+        if ($lblWeekDay) {
+            $lblWeekDay.Visibility = [System.Windows.Visibility]::Collapsed
+        }
+        
+        if ($cmbWeekDay) {
+            $cmbWeekDay.Visibility = [System.Windows.Visibility]::Collapsed
+        }
+        
+        $lblMonthDay = $window.FindName("lblMonthDay")
+        if ($lblMonthDay) {
+            $lblMonthDay.Visibility = [System.Windows.Visibility]::Collapsed
+        }
+        
+        if ($cmbMonthDay) {
+            $cmbMonthDay.Visibility = [System.Windows.Visibility]::Collapsed
+        }
+        
+        # Event-Handler für bedingte Anzeige
+        if ($cmbUpdateScheduleType) {
+            $cmbUpdateScheduleType.Add_SelectionChanged({
+                if ($cmbUpdateScheduleType.SelectedIndex -eq 1) { # Wöchentlich
+                    if ($lblWeekDay) { $lblWeekDay.Visibility = [System.Windows.Visibility]::Visible }
+                    if ($cmbWeekDay) { $cmbWeekDay.Visibility = [System.Windows.Visibility]::Visible }
+                    if ($lblMonthDay) { $lblMonthDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                    if ($cmbMonthDay) { $cmbMonthDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                }
+                elseif ($cmbUpdateScheduleType.SelectedIndex -eq 2) { # Monatlich
+                    if ($lblWeekDay) { $lblWeekDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                    if ($cmbWeekDay) { $cmbWeekDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                    if ($lblMonthDay) { $lblMonthDay.Visibility = [System.Windows.Visibility]::Visible }
+                    if ($cmbMonthDay) { $cmbMonthDay.Visibility = [System.Windows.Visibility]::Visible }
+                }
+                else { # Täglich
+                    if ($lblWeekDay) { $lblWeekDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                    if ($cmbWeekDay) { $cmbWeekDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                    if ($lblMonthDay) { $lblMonthDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                    if ($cmbMonthDay) { $cmbMonthDay.Visibility = [System.Windows.Visibility]::Collapsed }
+                }
+            })
+        }
+        
+        if ($cmbRestartBehavior) {
+            $cmbRestartBehavior.Add_SelectionChanged({
+                if ($cmbRestartBehavior.SelectedIndex -eq 2 -and $pnlRestartTime) { # Neustart planen für
+                    $pnlRestartTime.Visibility = [System.Windows.Visibility]::Visible
+                }
+                elseif ($pnlRestartTime) {
+                    $pnlRestartTime.Visibility = [System.Windows.Visibility]::Collapsed
+                }
+            })
+        }
+
+        $radSchedule = $window.FindName("radSchedule")
+        if ($radSchedule) {
+            $radSchedule.Add_Click({
+                $schedulePage = $window.FindName("schedulePage")
+                if ($schedulePage) {
+                    SwitchPage -newPage $schedulePage
+                }
+            })
+        }
+        
+        # Event-Handler für den Button "Zeitplan anwenden"
+        $btnApplySchedule = $window.FindName("btnApplySchedule")
+        if ($btnApplySchedule) {
+            $btnApplySchedule.Add_Click({
+                Set-WindowsUpdateSchedule
+            })
+        }
+        
+        # Event-Handler für den Button "Aktuellen Zeitplan anzeigen"
+        $btnViewCurrentSchedule = $window.FindName("btnViewCurrentSchedule")
+        if ($btnViewCurrentSchedule) {
+            $btnViewCurrentSchedule.Add_Click({
+                Get-WindowsUpdateSchedule
+            })
+        }
+        
+        # CheckBox für automatische Updates
+        $chkEnableAutoUpdates = $window.FindName("chkEnableAutoUpdates")
+        if ($chkEnableAutoUpdates) {
+            # Aktuellen Status der automatischen Updates abfragen und CheckBox entsprechend setzen
+            $autoUpdateEnabled = Get-AutoUpdateStatus
+            $chkEnableAutoUpdates.IsChecked = $autoUpdateEnabled
+            
+            # Event-Handler für die CheckBox
+            $chkEnableAutoUpdates.Add_Checked({
+                Enable-WindowsAutoUpdate
+            })
+            
+            $chkEnableAutoUpdates.Add_Unchecked({
+                Disable-WindowsAutoUpdate
+            })
+        }
+        
+    } catch {
+        Update-StatusText -Text "Error initializing schedule controls: $_" -Color "Red"
+    }
+}
+
+# Funktion zum Setzen des Windows Update Zeitplans
+function Set-WindowsUpdateSchedule {
+    try {
+        # Werte aus der GUI auslesen
+        $chkEnableAutoUpdates = $window.FindName("chkEnableAutoUpdates")
+        if (-not $chkEnableAutoUpdates -or -not $chkEnableAutoUpdates.IsChecked) {
+            Update-StatusText -Text "Automatische Updates are disabled. Please enable them first." -Color "Yellow"
+            return
+        }
+        
+        # UI-Elemente finden und Werte auslesen
+        $cmbUpdateScheduleType = $window.FindName("cmbUpdateScheduleType")
+        $cmbWeekDay = $window.FindName("cmbWeekDay")
+        $cmbMonthDay = $window.FindName("cmbMonthDay")
+        $cmbHour = $window.FindName("cmbHour")
+        $cmbMinute = $window.FindName("cmbMinute")
+        $cmbUpdateBehavior = $window.FindName("cmbUpdateBehavior")
+        $cmbRestartBehavior = $window.FindName("cmbRestartBehavior")
+        $cmbRestartHour = $window.FindName("cmbRestartHour")
+        $cmbRestartMinute = $window.FindName("cmbRestartMinute")
+        
+        # Prüfen ob alle benötigten Elemente vorhanden und ausgewählt sind
+        if (-not $cmbUpdateScheduleType -or $cmbUpdateScheduleType.SelectedItem -eq $null -or
+            -not $cmbHour -or $cmbHour.SelectedItem -eq $null -or
+            -not $cmbMinute -or $cmbMinute.SelectedItem -eq $null -or
+            -not $cmbUpdateBehavior -or $cmbUpdateBehavior.SelectedItem -eq $null -or
+            -not $cmbRestartBehavior -or $cmbRestartBehavior.SelectedItem -eq $null) {
+            Update-StatusText -Text "Please select all required schedule options." -Color "Yellow"
+            return
+        }
+        
+        # Werte extrahieren
+        $scheduleType = $cmbUpdateScheduleType.SelectedItem.Content
+        $weekDay = if ($cmbWeekDay -and $cmbWeekDay.SelectedItem -ne $null) { $cmbWeekDay.SelectedItem.Content } else { "Monday" }
+        $monthDay = if ($cmbMonthDay -and $cmbMonthDay.SelectedItem -ne $null) { $cmbMonthDay.SelectedItem.Content } else { "1" }
+        $hour = $cmbHour.SelectedItem.Content
+        $minute = $cmbMinute.SelectedItem.Content
+        $updateBehavior = $cmbUpdateBehavior.SelectedItem.Content
+        $restartBehavior = $cmbRestartBehavior.SelectedItem.Content
+        $restartHour = if ($cmbRestartHour -and $cmbRestartHour.SelectedItem -ne $null) { $cmbRestartHour.SelectedItem.Content } else { "03" }
+        $restartMinute = if ($cmbRestartMinute -and $cmbRestartMinute.SelectedItem -ne $null) { $cmbRestartMinute.SelectedItem.Content } else { "00" }
+        
+        # Aufgabenplanung konfigurieren
+        Update-StatusText -Text "Configuring Windows Update schedule..." -Color "Blue"
+        
+        # Aufgabennamens-Präfix
+        $taskName = "easyWINUpdate_Task"
+        
+        # Vorhandene Aufgabe löschen, falls vorhanden
+        schtasks /query /tn $taskName 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            schtasks /delete /tn $taskName /f
+        }
+        
+        # PowerShell-Skript erstellen, das die Updates ausführt
+        $scriptPath = "$env:TEMP\RunWindowsUpdate.ps1"
+        
+        # Skriptinhalt erstellen
+        $scriptContent = "Import-Module PSWindowsUpdate`n"
+        
+        # Je nach gewähltem Verhalten unterschiedliche Befehle
+        switch ($updateBehavior) {
+            "Only search for updates" {
+                $scriptContent += "Get-WindowsUpdate"
+            }
+            "Search and download" {
+                $scriptContent += "Get-WindowsUpdate -Download"
+            }
+            default { # "Search, download and install"
+                $scriptContent += "Get-WindowsUpdate -Download -Install"
+                
+                # Neustart-Verhalten konfigurieren
+                if ($restartBehavior -eq "Automatically restart") {
+                    $scriptContent += " -AutoReboot"
+                }
+                elseif ($restartBehavior -eq "Plan restart for:") {
+                    $restartTime = "$restartHour`:$restartMinute"
+                    $scriptContent += " -ScheduleReboot '$restartTime'"
+                }
+            }
+        }
+        
+        # Skript speichern
+        $scriptContent | Out-File -FilePath $scriptPath -Encoding utf8 -Force
+        
+        # Zeitplan erstellen basierend auf dem gewählten Typ
+        $scheduleParam = ""
+        switch ($scheduleType) {
+            "Daily" {
+                $scheduleParam = "/sc DAILY"
+            }
+            "Weekly" {
+                # Wochentag in Englisch konvertieren für schtasks
+                $dayOfWeek = switch ($weekDay) {
+                    "Monday" { "MON" }
+                    "Tuesday" { "TUE" }
+                    "Wednesday" { "WED" }
+                    "Thursday" { "THU" }
+                    "Friday" { "FRI" }
+                    "Saturday" { "SAT" }
+                    "Sunday" { "SUN" }
+                    default { "MON" }
+                }
+                $scheduleParam = "/sc WEEKLY /d $dayOfWeek"
+            }
+            "Monthly" {
+                $scheduleParam = "/sc MONTHLY /d $monthDay"
+            }
+            default {
+                $scheduleParam = "/sc DAILY"
+            }
+        }
+        
+        # Uhrzeit setzen
+        $timeParam = "/st $hour`:$minute`:00"
+        
+        # Aufgabe erstellen
+        $command = "schtasks /create /tn $taskName /tr `"powershell.exe -ExecutionPolicy Bypass -File '$scriptPath'`" $scheduleParam $timeParam /ru SYSTEM /f"
+        Invoke-Expression $command
+        
+        # Konfiguration in Registry speichern für die Anzeige
+        $regPath = "HKCU:\SOFTWARE\easyWINUpdate"
+        if (-not (Test-Path $regPath)) {
+            New-Item -Path $regPath -Force | Out-Null
+        }
+        
+        # Konfiguration speichern
+        New-ItemProperty -Path $regPath -Name "ScheduleEnabled" -Value $true -PropertyType DWORD -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "ScheduleType" -Value $scheduleType -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "WeekDay" -Value $weekDay -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "MonthDay" -Value $monthDay -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "Hour" -Value $hour -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "Minute" -Value $minute -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "UpdateBehavior" -Value $updateBehavior -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "RestartBehavior" -Value $restartBehavior -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "RestartHour" -Value $restartHour -PropertyType String -Force | Out-Null
+        New-ItemProperty -Path $regPath -Name "RestartMinute" -Value $restartMinute -PropertyType String -Force | Out-Null
+        
+        Update-StatusText -Text "Windows Update schedule successfully configured" -Color "Green"
+        
+        # Aktuellen Zeitplan anzeigen
+        Get-WindowsUpdateSchedule
+        
+    } catch {
+        Update-StatusText -Text "Error creating Windows Update schedule: $_" -Color "Red"
+    }
+}
+
+# Funktion zum Abrufen des aktuellen Windows Update Zeitplans
+function Get-WindowsUpdateSchedule {
+    try {
+        $txtCurrentSchedule = $window.FindName("txtCurrentSchedule")
+        $txtLastRunResult = $window.FindName("txtLastRunResult")
+        
+        # Geplante Aufgabe abfragen
+        $taskName = "EasyWINUpdate_Scheduled_Task"
+        $taskExists = $false
+        
+        $taskInfoRaw = schtasks /query /tn $taskName /fo LIST 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            $taskExists = $true
+            
+            # Einfache Informationen aus der Aufgabe extrahieren
+            $nextRunTime = ($taskInfoRaw | Where-Object { $_ -match "Next Run Time:" }).Trim().Replace("Next Run Time:", "").Trim()
+            $lastRunTime = ($taskInfoRaw | Where-Object { $_ -match "Last Run Time:" }).Trim().Replace("Last Run Time:", "").Trim()
+            $lastResult = ($taskInfoRaw | Where-Object { $_ -match "Last Result:" }).Trim().Replace("Last Result:", "").Trim()
+            
+            # Status aus Registry holen (detaillierte Konfiguration)
+            $regPath = "HKCU:\SOFTWARE\easyWINUpdate"
+            $scheduleInfo = ""
+            
+            if (Test-Path $regPath) {
+                $scheduleType = (Get-ItemProperty -Path $regPath -Name "ScheduleType" -ErrorAction SilentlyContinue).ScheduleType
+                $weekDay = (Get-ItemProperty -Path $regPath -Name "WeekDay" -ErrorAction SilentlyContinue).WeekDay
+                $monthDay = (Get-ItemProperty -Path $regPath -Name "MonthDay" -ErrorAction SilentlyContinue).MonthDay
+                $hour = (Get-ItemProperty -Path $regPath -Name "Hour" -ErrorAction SilentlyContinue).Hour
+                $minute = (Get-ItemProperty -Path $regPath -Name "Minute" -ErrorAction SilentlyContinue).Minute
+                $updateBehavior = (Get-ItemProperty -Path $regPath -Name "UpdateBehavior" -ErrorAction SilentlyContinue).UpdateBehavior
+                $restartBehavior = (Get-ItemProperty -Path $regPath -Name "RestartBehavior" -ErrorAction SilentlyContinue).RestartBehavior
+                
+                # Format the schedule information
+                $scheduleInfo = "Schedule type: $scheduleType`r`n"
+                
+                if ($scheduleType -eq "Weekly") {
+                    $scheduleInfo += "Weekday: $weekDay`r`n"
+                } elseif ($scheduleType -eq "Monthly") {
+                    $scheduleInfo += "Day of month: $monthDay`r`n"
+                }
+                
+                $scheduleInfo += "Time: $hour`:$minute`r`n"
+                $scheduleInfo += "Behavior: $updateBehavior`r`n"
+                $scheduleInfo += "After installation: $restartBehavior`r`n"
+                
+                if ($restartBehavior -eq "Plan restart for:") {
+                    $restartHour = (Get-ItemProperty -Path $regPath -Name "RestartHour" -ErrorAction SilentlyContinue).RestartHour
+                    $restartMinute = (Get-ItemProperty -Path $regPath -Name "RestartMinute" -ErrorAction SilentlyContinue).RestartMinute
+                    $scheduleInfo += "Scheduled restart: $restartHour`:$restartMinute`r`n"
+                }
+            }
+            
+            # Status anzeigen
+            $statusText = "Windows Update schedule is active`r`n`r`n"
+            $statusText += $scheduleInfo
+            $statusText += "`r`nNext execution: $nextRunTime`r`n"
+            $statusText += "Last execution: $lastRunTime"
+            
+            $txtCurrentSchedule.Text = $statusText
+            
+            # Letztes Ergebnis anzeigen, wenn vorhanden
+            if ($lastResult -ne "0") {
+                $txtLastRunResult.Text = "Last result: $lastResult (Error code)"
+                $txtLastRunResult.Visibility = "Visible"
+            } else {
+                $txtLastRunResult.Visibility = "Collapsed"
+            }
+        } else {
+            $txtCurrentSchedule.Text = "No Windows Update schedule configured."
+            $txtLastRunResult.Visibility = "Collapsed"
+        }
+        
+        Update-StatusText -Text "Update schedule information updated" -Color "Green"
+        
+    } catch {
+        Update-StatusText -Text "Error fetching Windows Update schedule information: $_" -Color "Red"
+    }
+}
+
+# Funktion zum Aktivieren der automatischen Windows Updates
+function Enable-WindowsAutoUpdate {
+    try {
+        Update-StatusText -Text "Activating automatic Windows Updates..." -Color "Blue"
+        
+        # Registry-Einstellungen für automatische Updates
+        $auPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+        
+        # Prüfen, ob der Pfad existiert, ansonsten erstellen
+        if (!(Test-Path $auPath)) {
+            New-Item -Path $auPath -Force | Out-Null
+        }
+        
+        # AUOptions-Wert setzen (4 = automatische Installation)
+        Set-ItemProperty -Path $auPath -Name "NoAutoUpdate" -Value 0 -Type DWord -Force
+        Set-ItemProperty -Path $auPath -Name "AUOptions" -Value 4 -Type DWord -Force
+        
+        Update-StatusText -Text "Automatic Windows Updates activated" -Color "Green"
+    } catch {
+        Update-StatusText -Text "Error activating automatic Windows Updates: $_" -Color "Red"
+    }
+}
+
+# Funktion zum Deaktivieren der automatischen Windows Updates
+function Disable-WindowsAutoUpdate {
+    try {
+        Update-StatusText -Text "Deactivating automatic Windows Updates..." -Color "Blue"
+        
+        # Registry-Einstellungen für automatische Updates
+        $auPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+        
+        # Prüfen, ob der Pfad existiert, ansonsten erstellen
+        if (!(Test-Path $auPath)) {
+            New-Item -Path $auPath -Force | Out-Null
+        }
+        
+        # NoAutoUpdate-Wert setzen (1 = deaktiviert)
+        Set-ItemProperty -Path $auPath -Name "NoAutoUpdate" -Value 1 -Type DWord -Force
+        
+        # Geplante Aufgabe löschen
+        $taskName = "EasyWINUpdate_Scheduled_Task"
+        schtasks /query /tn $taskName 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            schtasks /delete /tn $taskName /f
+            Update-StatusText -Text "Scheduled update task removed" -Color "Blue"
+        }
+        
+        Update-StatusText -Text "Automatic Windows Updates deactivated" -Color "Green"
+    } catch {
+        Update-StatusText -Text "Error deactivating automatic Windows Updates: $_" -Color "Red"
+    }
+}
+
+# Function to retrieve the current status of automatic updates
+function Get-AutoUpdateStatus {
+    try {
+        # Registry-Pfad für Windows Update Einstellungen
+        $auPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+        
+        if (Test-Path $auPath) {
+            $noAutoUpdate = (Get-ItemProperty -Path $auPath -Name "NoAutoUpdate" -ErrorAction SilentlyContinue).NoAutoUpdate
+            $auOptions = (Get-ItemProperty -Path $auPath -Name "AUOptions" -ErrorAction SilentlyContinue).AUOptions
+            
+            # Status bestimmen
+            if ($null -eq $noAutoUpdate) {
+                return "Unknown"
+            }
+            elseif ($noAutoUpdate -eq 1) {
+                return "Deactivated"
+            }
+            else {
+                # Konfigurationstyp anzeigen
+                switch ($auOptions) {
+                    1 { return "Notify only" }
+                    2 { return "Notify before download" }
+                    3 { return "Notify before installation" }
+                    4 { return "Automatic installation" }
+                    default { return "Activated (User defined)" }
+                }
+            }
+        }
+        else {
+            return "Nicht konfiguriert"
+        }
+    }
+    catch {
+        return "Fehler: $_"
+    }
+}
+
 # Function to switch between pages
 function Switch-Page {
     param (
@@ -3641,8 +4609,9 @@ $window.Add_Loaded({
     $computerName = $window.FindName("computerName")
     $computerName.Text = $env:COMPUTERNAME
     
-    # Seiten laden - entferne doppelten Aufruf
-    
+    # Zeitplan-Steuerelemente initialisieren
+    Initialize-UpdateScheduleControls
+
     # WSUS-Seite initialisieren
     Load-WSUSSettingsPage
 })
