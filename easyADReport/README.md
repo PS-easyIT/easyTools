@@ -1,6 +1,6 @@
 # easyADReport
 
-![easyADReport Screenshot](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.4.2_PasswordNeverExpires-Report.jpg)
+![easyADReport Screenshot](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.4.1_ComputerByOSReport.jpg)
 
 ## 📊 Overview
 
