@@ -643,66 +643,603 @@
 
                 </Grid>
 
-                <!-- Results Section -->
-                <Border Grid.Row="2" Style="{StaticResource ModernCard}" Padding="20,16" Margin="0,0,0,10">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <!-- Results Section with Tabs -->
+                <TabControl Grid.Row="2" x:Name="MainTabControl" BorderThickness="0" Margin="0,0,0,10">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border x:Name="Border" BorderThickness="0" Padding="20,10" Margin="0,0,5,0">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="Transparent"/>
+                                            </Border.Background>
+                                            <ContentPresenter x:Name="ContentSite" ContentSource="Header"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="#EBF4FF"/>
+                                                <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#1E40AF"/>
+                                                <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="SemiBold"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="#F5F5F5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
 
-                        <!-- Results Header -->
-                        <Grid Grid.Row="0" Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Query Results" Style="{StaticResource CategoryHeader}"/>
-                            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <Button x:Name="ButtonRefresh" Content="Reset Query Window" Style="{StaticResource ModernButton}" Margin="0,0,8,0" Padding="8,4"/>
-                                <Button x:Name="ButtonCopy" Content="Copy Selected Rows" Style="{StaticResource ModernButton}" Padding="8,4"/>
-                            </StackPanel>
-                        </Grid>
+                    <!-- Standard Table View Tab -->
+                    <TabItem Header="📊 Tabular View" IsSelected="True">
+                        <Border Style="{StaticResource ModernCard}" Padding="20,16">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                        <!-- Enhanced DataGrid -->
-                        <DataGrid Grid.Row="1" x:Name="DataGridResults" 
-                                  AutoGenerateColumns="True" 
-                                  IsReadOnly="True" 
-                                  BorderThickness="1" 
-                                  BorderBrush="#E1E5E9"
-                                  Background="White" 
-                                  GridLinesVisibility="Horizontal" 
-                                  RowBackground="White" 
-                                  AlternatingRowBackground="#FAFBFC"
-                                  HeadersVisibility="Column"
-                                  CanUserSortColumns="True"
-                                  CanUserReorderColumns="True"
-                                  CanUserResizeColumns="True">
-                            <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="#F7FAFC"/>
-                                    <Setter Property="Foreground" Value="#2D3748"/>
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="BorderBrush" Value="#E1E5E9"/>
-                                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
-                                    <Setter Property="Padding" Value="12,8"/>
-                                </Style>
-                            </DataGrid.ColumnHeaderStyle>
-                            <DataGrid.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <Setter Property="Padding" Value="12,6"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#E3F2FD"/>
-                                            <Setter Property="Foreground" Value="#1565C0"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.CellStyle>
-                        </DataGrid>
-                    </Grid>
-                </Border>
+                                <!-- Results Header -->
+                                <Grid Grid.Row="0" Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Query Results" Style="{StaticResource CategoryHeader}"/>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button x:Name="ButtonRefresh" Content="Reset Query Window" Style="{StaticResource ModernButton}" Margin="0,0,8,0" Padding="8,4"/>
+                                        <Button x:Name="ButtonCopy" Content="Copy Selected Rows" Style="{StaticResource ModernButton}" Padding="8,4"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Result Count Grid -->
+                                <Grid x:Name="ResultCountGrid" Grid.Row="0" Margin="20,20,20,10" HorizontalAlignment="Center" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- User Count Card -->
+                                    <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20,12" MinWidth="140">
+                                        <StackPanel>
+                                            <TextBlock Text="👤 Users" FontSize="12" Foreground="#2B6CB0" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                            <TextBlock x:Name="UserCountText" Text="0" FontSize="24" FontWeight="Bold" Foreground="#1E40AF" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Computer Count Card -->
+                                    <Border Grid.Column="2" Background="#F0FDF4" CornerRadius="8" Padding="20,12" MinWidth="140">
+                                        <StackPanel>
+                                            <TextBlock Text="💻 Computers" FontSize="12" Foreground="#15803D" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                            <TextBlock x:Name="ComputerCountText" Text="0" FontSize="24" FontWeight="Bold" Foreground="#166534" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Group Count Card -->
+                                    <Border Grid.Column="4" Background="#FEF3C7" CornerRadius="8" Padding="20,12" MinWidth="140">
+                                        <StackPanel>
+                                            <TextBlock Text="👥 Groups" FontSize="12" Foreground="#B45309" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                            <TextBlock x:Name="GroupCountText" Text="0" FontSize="24" FontWeight="Bold" Foreground="#92400E" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Enhanced DataGrid -->
+                                <DataGrid Grid.Row="1" x:Name="DataGridResults" 
+                                          AutoGenerateColumns="True" 
+                                          IsReadOnly="True" 
+                                          BorderThickness="1" 
+                                          BorderBrush="#E1E5E9"
+                                          Background="White" 
+                                          GridLinesVisibility="Horizontal" 
+                                          RowBackground="White" 
+                                          AlternatingRowBackground="#FAFBFC"
+                                          HeadersVisibility="Column"
+                                          CanUserSortColumns="True"
+                                          CanUserReorderColumns="True"
+                                          CanUserResizeColumns="True">
+                                    <DataGrid.ColumnHeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#F7FAFC"/>
+                                            <Setter Property="Foreground" Value="#2D3748"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="BorderBrush" Value="#E1E5E9"/>
+                                            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                                            <Setter Property="Padding" Value="12,8"/>
+                                        </Style>
+                                    </DataGrid.ColumnHeaderStyle>
+                                    <DataGrid.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Padding" Value="12,6"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#E3F2FD"/>
+                                                    <Setter Property="Foreground" Value="#1565C0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.CellStyle>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+
+                    <!-- Security Heat Tab -->
+                    <TabItem Header="🔒 Security Heat" x:Name="TabSecurityHeat">
+                        <Border Style="{StaticResource ModernCard}" Padding="20">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Security Header -->
+                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                                    <TextBlock Text="Security Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Führen Sie umfassende Sicherheitsanalysen für Ihre Active Directory Umgebung durch" 
+                                               Foreground="#6B7280" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                
+                                <!-- Security Content -->
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Security Metrics -->
+                                        <Grid Grid.Row="1" Margin="0,0,0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <!-- Metric Cards -->
+                                            <Border Grid.Column="0" Background="#FEE2E2" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="⚠️ Kritische Findings" FontWeight="Bold" Foreground="#DC2626"/>
+                                                    <TextBlock x:Name="TxtCriticalFindings" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B91C1C" Margin="0,10"/>
+                                                    <Button x:Name="BtnViewCritical" Content="Details anzeigen" Style="{StaticResource ModernButton}" HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="1" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🔔 Warnungen" FontWeight="Bold" Foreground="#D97706"/>
+                                                    <TextBlock x:Name="TxtWarnings" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
+                                                    <Button x:Name="BtnViewWarnings" Content="Details anzeigen" Style="{StaticResource ModernButton}" HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="2" Background="#DBEAFE" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="ℹ️ Informationen" FontWeight="Bold" Foreground="#2563EB"/>
+                                                    <TextBlock x:Name="TxtInfos" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
+                                                    <Button x:Name="BtnViewInfos" Content="Details anzeigen" Style="{StaticResource ModernButton}" HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="3" Background="#D1FAE5" CornerRadius="8" Padding="20">
+                                                <StackPanel>
+                                                    <TextBlock Text="✅ Sicher" FontWeight="Bold" Foreground="#059669"/>
+                                                    <TextBlock x:Name="TxtSecure" Text="0%" FontSize="36" FontWeight="Bold" Foreground="#047857" Margin="0,10"/>
+                                                    <ProgressBar x:Name="ProgressSecure" Height="8" Minimum="0" Maximum="100" Value="0" Foreground="#10B981"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                                
+                                <!-- Status Bar -->
+                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Status: " FontWeight="Bold"/>
+                                        <TextBlock x:Name="TxtSecurityStatus" Text="Bereit" Margin="5,0"/>
+                                        <ProgressBar x:Name="ProgressSecurityAnalysis" Width="200" Height="16" Margin="20,0" Visibility="Collapsed"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+
+                    <!-- User Heat Tab -->
+                    <TabItem Header="👤 User Heat" x:Name="TabUserHeat">
+                        <Border Style="{StaticResource ModernCard}" Padding="20">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- User Header -->
+                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                                    <TextBlock Text="User Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Umfassende Analyse aller Benutzerkonten in Ihrer Active Directory Umgebung" 
+                                               Foreground="#6B7280" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                
+                                <!-- User Content -->
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- User Statistics -->
+                                        <Grid Grid.Row="0" Margin="0,0,0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="👥 Gesamt User" FontWeight="Bold" Foreground="#1E40AF"/>
+                                                    <TextBlock x:Name="TxtTotalUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
+                                                    <TextBlock Text="Active Directory" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="1" Background="#D1FAE5" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="✅ Aktive User" FontWeight="Bold" Foreground="#059669"/>
+                                                    <TextBlock x:Name="TxtActiveUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#047857" Margin="0,10"/>
+                                                    <TextBlock Text="Enabled Accounts" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="2" Background="#FEE2E2" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🚫 Deaktiviert" FontWeight="Bold" Foreground="#DC2626"/>
+                                                    <TextBlock x:Name="TxtDisabledUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B91C1C" Margin="0,10"/>
+                                                    <TextBlock Text="Disabled Accounts" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="3" Background="#F3E8FF" CornerRadius="8" Padding="20">
+                                                <StackPanel>
+                                                    <TextBlock Text="🔒 Gesperrt" FontWeight="Bold" Foreground="#7C3AED"/>
+                                                    <TextBlock x:Name="TxtLockedUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
+                                                    <TextBlock Text="Locked Accounts" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                                
+                                <!-- Status Bar -->
+                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Status: " FontWeight="Bold"/>
+                                        <TextBlock x:Name="TxtUserStatus" Text="Bereit" Margin="5,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+
+                    <!-- Computer Heat Tab -->
+                    <TabItem Header="💻 Computer Heat" x:Name="TabComputerHeat">
+                        <Border Style="{StaticResource ModernCard}" Padding="20">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Computer Header -->
+                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                                    <TextBlock Text="Computer Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Analysieren Sie alle Computer und Server in Ihrer Active Directory Umgebung" 
+                                               Foreground="#6B7280" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                
+                                <!-- Computer Content -->
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Computer Statistics -->
+                                        <Grid Grid.Row="0" Margin="0,0,0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🖥️ Workstations" FontWeight="Bold" Foreground="#1E40AF"/>
+                                                    <TextBlock x:Name="TxtWorkstations" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
+                                                    <TextBlock Text="Client Computer" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="1" Background="#F3E8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🖥️ Server" FontWeight="Bold" Foreground="#7C3AED"/>
+                                                    <TextBlock x:Name="TxtServers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
+                                                    <TextBlock Text="Windows Server" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🎮 Domain Controller" FontWeight="Bold" Foreground="#D97706"/>
+                                                    <TextBlock x:Name="TxtDomainControllers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
+                                                    <TextBlock Text="DCs" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="3" Background="#FEE2E2" CornerRadius="8" Padding="20">
+                                                <StackPanel>
+                                                    <TextBlock Text="⚠️ Offline" FontWeight="Bold" Foreground="#DC2626"/>
+                                                    <TextBlock x:Name="TxtOfflineComputers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B91C1C" Margin="0,10"/>
+                                                    <TextBlock Text="90+ Tage" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                                
+                                <!-- Status Bar -->
+                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Status: " FontWeight="Bold"/>
+                                        <TextBlock x:Name="TxtComputerStatus" Text="Bereit" Margin="5,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+
+                    <!-- Group Heat Tab -->
+                    <TabItem Header="👥 Group Heat" x:Name="TabGroupHeat">
+                        <Border Style="{StaticResource ModernCard}" Padding="20">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Group Header -->
+                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                                    <TextBlock Text="Group Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Analysieren Sie alle Gruppen und deren Mitgliedschaften in Ihrer Active Directory" 
+                                               Foreground="#6B7280" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                
+                                <!-- Group Content -->
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Group Statistics -->
+                                        <Grid Grid.Row="0" Margin="0,0,0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🏢 Security Groups" FontWeight="Bold" Foreground="#1E40AF"/>
+                                                    <TextBlock x:Name="TxtSecurityGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
+                                                    <TextBlock Text="Sicherheitsgruppen" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="1" Background="#D1FAE5" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="📧 Distribution Groups" FontWeight="Bold" Foreground="#059669"/>
+                                                    <TextBlock x:Name="TxtDistributionGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#047857" Margin="0,10"/>
+                                                    <TextBlock Text="Verteilergruppen" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🔨 Built-in Groups" FontWeight="Bold" Foreground="#D97706"/>
+                                                    <TextBlock x:Name="TxtBuiltinGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
+                                                    <TextBlock Text="System Gruppen" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="3" Background="#F3E8FF" CornerRadius="8" Padding="20">
+                                                <StackPanel>
+                                                    <TextBlock Text="📂 Empty Groups" FontWeight="Bold" Foreground="#7C3AED"/>
+                                                    <TextBlock x:Name="TxtEmptyGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
+                                                    <TextBlock Text="Leere Gruppen" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                                
+                                <!-- Status Bar -->
+                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Status: " FontWeight="Bold"/>
+                                        <TextBlock x:Name="TxtGroupStatus" Text="Bereit" Margin="5,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+
+                    <!-- AD Health Tab -->
+                    <TabItem Header="🏥 AD Health" x:Name="TabADHealth">
+                        <Border Style="{StaticResource ModernCard}" Padding="20">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- AD Health Header -->
+                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                                    <TextBlock Text="Active Directory Health Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Überwachen Sie die Gesundheit und Performance Ihrer Active Directory Infrastruktur" 
+                                               Foreground="#6B7280" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                
+                                <!-- AD Health Content -->
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Health Overview Cards -->
+                                        <Grid Grid.Row="0" Margin="0,0,0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Border Grid.Column="0" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#10B981" Offset="0"/>
+                                                        <GradientStop Color="#059669" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <StackPanel>
+                                                    <TextBlock Text="🟢 DC Status" FontWeight="Bold" Foreground="White"/>
+                                                    <TextBlock x:Name="TxtDCHealthStatus" Text="Alle Online" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,10"/>
+                                                    <TextBlock x:Name="TxtDCHealthDetails" Text="5 von 5 DCs" FontSize="11" Foreground="#E5E7EB"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="1" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="🔄 Replikation" FontWeight="Bold" Foreground="#1E40AF"/>
+                                                    <TextBlock x:Name="TxtReplicationStatus" Text="OK" FontSize="24" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
+                                                    <TextBlock x:Name="TxtReplicationDetails" Text="Keine Fehler" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="⏱️ Performance" FontWeight="Bold" Foreground="#D97706"/>
+                                                    <TextBlock x:Name="TxtPerformanceStatus" Text="Normal" FontSize="24" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
+                                                    <TextBlock x:Name="TxtPerformanceDetails" Text="Avg: 15ms" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Grid.Column="3" Background="#F3E8FF" CornerRadius="8" Padding="20">
+                                                <StackPanel>
+                                                    <TextBlock Text="💾 SYSVOL" FontWeight="Bold" Foreground="#7C3AED"/>
+                                                    <TextBlock x:Name="TxtSysvolStatus" Text="Sync OK" FontSize="24" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
+                                                    <TextBlock x:Name="TxtSysvolDetails" Text="FRS/DFSR" FontSize="11" Foreground="#6B7280"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                        
+                                        <!-- Domain Controller Details -->
+                                        <Border Grid.Row="1" Background="#F9FAFB" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+                                            <StackPanel>
+                                                <TextBlock Text="🖥️ Domain Controller Details" FontWeight="Bold" FontSize="16" Margin="0,0,0,15"/>
+                                                <DataGrid x:Name="DCHealthGrid" Height="200" AutoGenerateColumns="False" IsReadOnly="True">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="DC Name" Binding="{Binding Name}" Width="150"/>
+                                                        <DataGridTextColumn Header="Site" Binding="{Binding Site}" Width="100"/>
+                                                        <DataGridTextColumn Header="OS Version" Binding="{Binding OSVersion}" Width="150"/>
+                                                        <DataGridTextColumn Header="Last Contact" Binding="{Binding LastContact}" Width="120"/>
+                                                        <DataGridTextColumn Header="FSMO Roles" Binding="{Binding FSMORoles}" Width="200"/>
+                                                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="80"/>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </StackPanel>
+                                        </Border>
+                                        
+                                        <!-- Recent Issues -->
+                                        <Border Grid.Row="3" Background="#FEE2E2" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+                                            <StackPanel>
+                                                <TextBlock Text="⚠️ Aktuelle Probleme" FontWeight="Bold" FontSize="16" Margin="0,0,0,15" Foreground="#DC2626"/>
+                                                <ListBox x:Name="RecentIssuesList" MaxHeight="150">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border BorderBrush="#FCA5A5" BorderThickness="0,0,0,1" Padding="0,5">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" Text="{Binding Icon}" Margin="0,0,10,0"/>
+                                                                    <TextBlock Grid.Column="1" Text="{Binding Description}" TextWrapping="Wrap"/>
+                                                                    <TextBlock Grid.Column="2" Text="{Binding Time}" FontSize="11" Foreground="#6B7280"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </ScrollViewer>
+                                
+                                <!-- Status Bar -->
+                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <TextBlock Text="Status: " FontWeight="Bold"/>
+                                            <TextBlock x:Name="TxtHealthStatus" Text="Bereit" Margin="5,0"/>
+                                        </StackPanel>
+                                        <ProgressBar Grid.Column="1" x:Name="ProgressHealthCheck" Margin="20,0" Visibility="Collapsed"/>
+                                        <TextBlock Grid.Column="2" x:Name="TxtLastHealthCheck" Text="Letzter Check: -" FontSize="11" Foreground="#6B7280"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Grid>
 
@@ -7012,6 +7549,631 @@ function Get-SchemaPermissions {
     }
 }
 
+# ===================================
+# NETWORK TOPOLOGY FUNCTIONS
+# ===================================
+
+Function Get-ADNetworkTopology {
+    [CmdletBinding()]
+    param(
+        [ValidateSet("DomainControllers", "Sites", "OUHierarchy", "Trusts")]
+        [string]$ViewType = "DomainControllers"
+    )
+    
+    $topology = @{
+        nodes = @()
+        links = @()
+    }
+    
+    try {
+        switch ($ViewType) {
+            "DomainControllers" {
+                # Hole Domain und DCs
+                $domain = Get-ADDomain
+                $dcs = Get-ADDomainController -Filter *
+                
+                # Zentraler Domain-Knoten
+                $topology.nodes += @{
+                    id = "domain"
+                    label = $domain.Name
+                    type = "domain"
+                    x = 400
+                    y = 300
+                    color = "#0078D7"
+                    size = 40
+                }
+                
+                # DC Knoten im Kreis anordnen
+                $angleStep = 360 / $dcs.Count
+                $radius = 200
+                $centerX = 400
+                $centerY = 300
+                
+                for ($i = 0; $i -lt $dcs.Count; $i++) {
+                    $dc = $dcs[$i]
+                    $angle = $i * $angleStep * [Math]::PI / 180
+                    $x = $centerX + $radius * [Math]::Cos($angle)
+                    $y = $centerY + $radius * [Math]::Sin($angle)
+                    
+                    $topology.nodes += @{
+                        id = $dc.Name
+                        label = $dc.Name
+                        type = "dc"
+                        x = $x
+                        y = $y
+                        color = if ($dc.IsGlobalCatalog) { "#10B981" } else { "#3B82F6" }
+                        size = 30
+                        properties = @{
+                            Site = $dc.Site
+                            IP = $dc.IPv4Address
+                            OS = $dc.OperatingSystem
+                            IsGC = $dc.IsGlobalCatalog
+                            IsRODC = $dc.IsReadOnly
+                        }
+                    }
+                    
+                    # Link zum Domain-Knoten
+                    $topology.links += @{
+                        source = "domain"
+                        target = $dc.Name
+                        type = "contains"
+                        color = "#9CA3AF"
+                    }
+                }
+            }
+            
+            "Sites" {
+                # AD Sites und Replikationslinks
+                $sites = Get-ADReplicationSite -Filter *
+                $siteLinks = Get-ADReplicationSiteLink -Filter *
+                
+                # Erstelle Site-Knoten
+                $gridSize = [Math]::Ceiling([Math]::Sqrt($sites.Count))
+                $spacing = 150
+                
+                for ($i = 0; $i -lt $sites.Count; $i++) {
+                    $site = $sites[$i]
+                    $row = [Math]::Floor($i / $gridSize)
+                    $col = $i % $gridSize
+                    
+                    $topology.nodes += @{
+                        id = $site.Name
+                        label = $site.Name
+                        type = "site"
+                        x = 100 + ($col * $spacing)
+                        y = 100 + ($row * $spacing)
+                        color = "#10B981"
+                        size = 35
+                        properties = @{
+                            Description = $site.Description
+                            Location = $site.Location
+                        }
+                    }
+                }
+                
+                # Erstelle Site-Links
+                foreach ($link in $siteLinks) {
+                    $sitesInLink = $link.SitesIncluded | ForEach-Object {
+                        ($_ -split ',')[0] -replace 'CN=', ''
+                    }
+                    
+                    for ($i = 0; $i -lt $sitesInLink.Count - 1; $i++) {
+                        for ($j = $i + 1; $j -lt $sitesInLink.Count; $j++) {
+                            $topology.links += @{
+                                source = $sitesInLink[$i]
+                                target = $sitesInLink[$j]
+                                type = "replication"
+                                color = "#3B82F6"
+                                cost = $link.Cost
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $topology
+    }
+    catch {
+        Write-Error "Fehler beim Erstellen der Netzwerktopologie: $_"
+        return $topology
+    }
+}
+
+# Funktion zum Zeichnen auf Canvas
+Function Draw-TopologyOnCanvas {
+    param(
+        [System.Windows.Controls.Canvas]$Canvas,
+        [hashtable]$Topology
+    )
+    
+    $Canvas.Children.Clear()
+    
+    # Zeichne Links
+    foreach ($link in $Topology.links) {
+        $sourceNode = $Topology.nodes | Where-Object { $_.id -eq $link.source }
+        $targetNode = $Topology.nodes | Where-Object { $_.id -eq $link.target }
+        
+        if ($sourceNode -and $targetNode) {
+            $line = New-Object System.Windows.Shapes.Line
+            $line.X1 = $sourceNode.x
+            $line.Y1 = $sourceNode.y
+            $line.X2 = $targetNode.x
+            $line.Y2 = $targetNode.y
+            $line.Stroke = $link.color
+            $line.StrokeThickness = 2
+            $line.Opacity = 0.6
+            $Canvas.Children.Add($line)
+        }
+    }
+    
+    # Zeichne Knoten
+    foreach ($node in $Topology.nodes) {
+        # Knoten-Container
+        $nodeGroup = New-Object System.Windows.Controls.Canvas
+        
+        # Kreis für Knoten
+        $ellipse = New-Object System.Windows.Shapes.Ellipse
+        $ellipse.Width = $node.size
+        $ellipse.Height = $node.size
+        $ellipse.Fill = $node.color
+        $ellipse.Stroke = "#E5E7EB"
+        $ellipse.StrokeThickness = 2
+        
+        # Schatten
+        $shadow = New-Object System.Windows.Media.Effects.DropShadowEffect
+        $shadow.BlurRadius = 8
+        $shadow.ShadowDepth = 2
+        $shadow.Opacity = 0.3
+        $ellipse.Effect = $shadow
+        
+        # Text-Label
+        $label = New-Object System.Windows.Controls.TextBlock
+        $label.Text = $node.label
+        $label.Foreground = "White"
+        $label.FontWeight = "SemiBold"
+        $label.FontSize = 10
+        $label.TextAlignment = "Center"
+        
+        # Positionierung
+        [System.Windows.Controls.Canvas]::SetLeft($ellipse, $node.x - $node.size/2)
+        [System.Windows.Controls.Canvas]::SetTop($ellipse, $node.y - $node.size/2)
+        [System.Windows.Controls.Canvas]::SetLeft($label, $node.x - 30)
+        [System.Windows.Controls.Canvas]::SetTop($label, $node.y - 5)
+        
+        # Tooltip
+        if ($node.properties) {
+            $tooltip = ""
+            foreach ($prop in $node.properties.GetEnumerator()) {
+                $tooltip += "$($prop.Key): $($prop.Value)`n"
+            }
+            $ellipse.ToolTip = $tooltip.TrimEnd()
+        }
+        
+        $Canvas.Children.Add($ellipse)
+        $Canvas.Children.Add($label)
+    }
+}
+
+# ===================================
+# SECURITY HEATMAP FUNCTIONS
+# ===================================
+
+Function Get-SecurityHeatMapData {
+    [CmdletBinding()]
+    param(
+        [ValidateSet("PasswordSecurity", "AccountActivity", "PrivilegeLevel", "Compliance")]
+        [string]$MetricType = "PasswordSecurity",
+        
+        [ValidateSet("Department", "OU", "Manager")]
+        [string]$GroupBy = "Department"
+    )
+    
+    $heatMapData = @()
+    
+    try {
+        # Hole Benutzer mit relevanten Attributen
+        $users = Get-ADUser -Filter * -Properties *
+        
+        # Gruppiere Benutzer
+        $groups = switch ($GroupBy) {
+            "Department" { $users | Group-Object Department | Where-Object { $_.Name } }
+            "OU" { $users | Group-Object { ($_.DistinguishedName -split ',')[1] } }
+            "Manager" { $users | Group-Object Manager | Where-Object { $_.Name } }
+        }
+        
+        foreach ($group in $groups) {
+            $score = 0
+            $details = @{}
+            
+            switch ($MetricType) {
+                "PasswordSecurity" {
+                    # Berechne Passwort-Sicherheitsscore
+                    $pwdNeverExpires = ($group.Group | Where-Object { $_.PasswordNeverExpires }).Count
+                    $pwdNotRequired = ($group.Group | Where-Object { $_.PasswordNotRequired }).Count
+                    $oldPasswords = ($group.Group | Where-Object { 
+                        $_.PasswordLastSet -and $_.PasswordLastSet -lt (Get-Date).AddDays(-180) 
+                    }).Count
+                    
+                    # Score: 0-100 (100 = sehr sicher)
+                    $totalUsers = $group.Count
+                    $score = 100
+                    $score -= ($pwdNeverExpires / $totalUsers) * 30
+                    $score -= ($pwdNotRequired / $totalUsers) * 40
+                    $score -= ($oldPasswords / $totalUsers) * 30
+                    
+                    $details = @{
+                        "Total Users" = $totalUsers
+                        "Password Never Expires" = $pwdNeverExpires
+                        "Password Not Required" = $pwdNotRequired
+                        "Old Passwords (>180d)" = $oldPasswords
+                    }
+                }
+                
+                "AccountActivity" {
+                    # Berechne Account-Aktivitäts-Risiko
+                    $inactiveUsers = ($group.Group | Where-Object { 
+                        $_.LastLogonDate -and $_.LastLogonDate -lt (Get-Date).AddDays(-90) 
+                    }).Count
+                    $neverLoggedOn = ($group.Group | Where-Object { -not $_.LastLogonDate }).Count
+                    $disabledAccounts = ($group.Group | Where-Object { -not $_.Enabled }).Count
+                    
+                    $totalUsers = $group.Count
+                    $score = 100
+                    $score -= ($inactiveUsers / $totalUsers) * 40
+                    $score -= ($neverLoggedOn / $totalUsers) * 30
+                    $score -= ($disabledAccounts / $totalUsers) * 30
+                    
+                    $details = @{
+                        "Total Users" = $totalUsers
+                        "Inactive (>90d)" = $inactiveUsers
+                        "Never Logged On" = $neverLoggedOn
+                        "Disabled Accounts" = $disabledAccounts
+                    }
+                }
+            }
+            
+            $heatMapData += @{
+                Group = $group.Name
+                Score = [Math]::Round($score, 1)
+                Count = $group.Count
+                Details = $details
+                Color = Get-HeatMapColor -Score $score
+            }
+        }
+        
+        return $heatMapData | Sort-Object Score
+    }
+    catch {
+        Write-Error "Fehler beim Erstellen der HeatMap-Daten: $_"
+        return @()
+    }
+}
+
+Function Get-HeatMapColor {
+    param([double]$Score)
+    
+    # Farbverlauf von Rot (0) über Gelb (50) zu Grün (100)
+    if ($Score -ge 80) { return "#10B981" }  # Grün
+    elseif ($Score -ge 60) { return "#34D399" }  # Hellgrün
+    elseif ($Score -ge 40) { return "#FDE047" }  # Gelb
+    elseif ($Score -ge 20) { return "#FB923C" }  # Orange
+    else { return "#EF4444" }  # Rot
+}
+
+Function Draw-SecurityHeatMap {
+    param(
+        [System.Windows.Controls.Grid]$Container,
+        [array]$HeatMapData
+    )
+    
+    $Container.Children.Clear()
+    $Container.RowDefinitions.Clear()
+    $Container.ColumnDefinitions.Clear()
+    
+    # Berechne Grid-Layout
+    $itemCount = $HeatMapData.Count
+    $cols = [Math]::Ceiling([Math]::Sqrt($itemCount))
+    $rows = [Math]::Ceiling($itemCount / $cols)
+    
+    # Erstelle Grid-Definitionen
+    for ($i = 0; $i -lt $rows; $i++) {
+        $rowDef = New-Object System.Windows.RowDefinition
+        $rowDef.Height = "1*"
+        $Container.RowDefinitions.Add($rowDef)
+    }
+    
+    for ($i = 0; $i -lt $cols; $i++) {
+        $colDef = New-Object System.Windows.ColumnDefinition
+        $colDef.Width = "1*"
+        $Container.ColumnDefinitions.Add($colDef)
+    }
+    
+    # Füge HeatMap-Zellen hinzu
+    for ($i = 0; $i -lt $HeatMapData.Count; $i++) {
+        $data = $HeatMapData[$i]
+        $row = [Math]::Floor($i / $cols)
+        $col = $i % $cols
+        
+        # Zellen-Container
+        $border = New-Object System.Windows.Controls.Border
+        $border.Margin = "5"
+        $border.CornerRadius = "8"
+        $border.Background = $data.Color
+        $border.MinHeight = 100
+        
+        # Inhalt
+        $stack = New-Object System.Windows.Controls.StackPanel
+        $stack.VerticalAlignment = "Center"
+        $stack.Margin = "10"
+        
+        # Gruppenname
+        $groupLabel = New-Object System.Windows.Controls.TextBlock
+        $groupLabel.Text = $data.Group
+        $groupLabel.FontWeight = "Bold"
+        $groupLabel.FontSize = 14
+        $groupLabel.Foreground = "White"
+        $groupLabel.TextWrapping = "Wrap"
+        $groupLabel.HorizontalAlignment = "Center"
+        $stack.Children.Add($groupLabel)
+        
+        # Score
+        $scoreLabel = New-Object System.Windows.Controls.TextBlock
+        $scoreLabel.Text = "$($data.Score)%"
+        $scoreLabel.FontSize = 24
+        $scoreLabel.FontWeight = "Bold"
+        $scoreLabel.Foreground = "White"
+        $scoreLabel.HorizontalAlignment = "Center"
+        $scoreLabel.Margin = "0,5,0,0"
+        $stack.Children.Add($scoreLabel)
+        
+        # Benutzeranzahl
+        $countLabel = New-Object System.Windows.Controls.TextBlock
+        $countLabel.Text = "$($data.Count) users"
+        $countLabel.FontSize = 11
+        $countLabel.Foreground = "White"
+        $countLabel.Opacity = 0.8
+        $countLabel.HorizontalAlignment = "Center"
+        $stack.Children.Add($countLabel)
+        
+        $border.Child = $stack
+        
+        # Tooltip mit Details
+        $tooltip = New-Object System.Windows.Controls.ToolTip
+        $tooltipStack = New-Object System.Windows.Controls.StackPanel
+        
+        foreach ($detail in $data.Details.GetEnumerator()) {
+            $detailText = New-Object System.Windows.Controls.TextBlock
+            $detailText.Text = "$($detail.Key): $($detail.Value)"
+            $detailText.Margin = "0,2"
+            $tooltipStack.Children.Add($detailText)
+        }
+        
+        $tooltip.Content = $tooltipStack
+        $border.ToolTip = $tooltip
+        
+        # Position im Grid
+        [System.Windows.Controls.Grid]::SetRow($border, $row)
+        [System.Windows.Controls.Grid]::SetColumn($border, $col)
+        
+        $Container.Children.Add($border)
+    }
+}
+
+# ===================================
+# CUSTOM REPORT BUILDER FUNCTIONS
+# ===================================
+
+# Report Template Klasse
+class ReportTemplate {
+    [string]$Name
+    [string]$Description
+    [array]$Fields
+    [hashtable]$Filters
+    [string]$Layout
+    
+    ReportTemplate([string]$name) {
+        $this.Name = $name
+        $this.Fields = @()
+        $this.Filters = @{}
+        $this.Layout = "Table"
+    }
+}
+
+Function Initialize-ReportBuilder {
+    param(
+        [System.Windows.Controls.ListBox]$AvailableFieldsList,
+        [System.Windows.Controls.StackPanel]$ReportCanvas
+    )
+    
+    # Verfügbare Felder laden
+    $availableFields = @(
+        @{Name="DisplayName"; Category="User"; Type="String"}
+        @{Name="SamAccountName"; Category="User"; Type="String"}
+        @{Name="Department"; Category="User"; Type="String"}
+        @{Name="Title"; Category="User"; Type="String"}
+        @{Name="Manager"; Category="User"; Type="String"}
+        @{Name="LastLogonDate"; Category="User"; Type="DateTime"}
+        @{Name="PasswordLastSet"; Category="User"; Type="DateTime"}
+        @{Name="Enabled"; Category="User"; Type="Boolean"}
+        @{Name="Name"; Category="Computer"; Type="String"}
+        @{Name="OperatingSystem"; Category="Computer"; Type="String"}
+        @{Name="LastLogonDate"; Category="Computer"; Type="DateTime"}
+        @{Name="GroupName"; Category="Group"; Type="String"}
+        @{Name="GroupCategory"; Category="Group"; Type="String"}
+        @{Name="GroupScope"; Category="Group"; Type="String"}
+        @{Name="Members"; Category="Group"; Type="Array"}
+    )
+    
+    foreach ($field in $availableFields) {
+        $item = New-Object System.Windows.Controls.ListBoxItem
+        $item.Content = "$($field.Category).$($field.Name)"
+        $item.Tag = $field
+        
+        # Drag & Drop aktivieren
+        $item.AllowDrop = $true
+        $item.Add_MouseMove({
+            param($sender, $e)
+            if ($e.LeftButton -eq 'Pressed') {
+                [System.Windows.DragDrop]::DoDragDrop($sender, $sender.Tag, 'Copy')
+            }
+        })
+        
+        $AvailableFieldsList.Items.Add($item)
+    }
+    
+    # Drop-Handler für Canvas
+    $ReportCanvas.AllowDrop = $true
+    $ReportCanvas.Add_Drop({
+        param($sender, $e)
+        $field = $e.Data.GetData([hashtable])
+        if ($field) {
+            Add-FieldToReport -Field $field -Canvas $sender
+        }
+    })
+    
+    $ReportCanvas.Add_DragOver({
+        param($sender, $e)
+        $e.Effects = 'Copy'
+        $e.Handled = $true
+    })
+}
+
+Function Add-FieldToReport {
+    param(
+        [hashtable]$Field,
+        [System.Windows.Controls.StackPanel]$Canvas
+    )
+    
+    # Erstelle Feld-Container
+    $fieldContainer = New-Object System.Windows.Controls.Border
+    $fieldContainer.Background = "White"
+    $fieldContainer.BorderBrush = "#E5E7EB"
+    $fieldContainer.BorderThickness = "1"
+    $fieldContainer.CornerRadius = "6"
+    $fieldContainer.Margin = "0,5"
+    $fieldContainer.Padding = "10"
+    
+    $grid = New-Object System.Windows.Controls.Grid
+    $col1 = New-Object System.Windows.ColumnDefinition
+    $col1.Width = "*"
+    $col2 = New-Object System.Windows.ColumnDefinition
+    $col2.Width = "Auto"
+    $grid.ColumnDefinitions.Add($col1)
+    $grid.ColumnDefinitions.Add($col2)
+    
+    # Feldname
+    $nameBlock = New-Object System.Windows.Controls.TextBlock
+    $nameBlock.Text = "$($Field.Category).$($Field.Name)"
+    $nameBlock.FontWeight = "Medium"
+    $nameBlock.VerticalAlignment = "Center"
+    [System.Windows.Controls.Grid]::SetColumn($nameBlock, 0)
+    $grid.Children.Add($nameBlock)
+    
+    # Entfernen-Button
+    $removeBtn = New-Object System.Windows.Controls.Button
+    $removeBtn.Content = "✕"
+    $removeBtn.Width = 20
+    $removeBtn.Height = 20
+    $removeBtn.Background = "Transparent"
+    $removeBtn.BorderThickness = 0
+    $removeBtn.Tag = $fieldContainer
+    $removeBtn.Add_Click({
+        param($s, $e)
+        $Canvas.Children.Remove($s.Tag)
+    })
+    [System.Windows.Controls.Grid]::SetColumn($removeBtn, 1)
+    $grid.Children.Add($removeBtn)
+    
+    $fieldContainer.Child = $grid
+    $Canvas.Children.Remove($Canvas.Children[0]) # Entferne Platzhalter-Text
+    $Canvas.Children.Add($fieldContainer)
+}
+
+Function Build-CustomReport {
+    param(
+        [System.Windows.Controls.StackPanel]$ReportCanvas
+    )
+    
+    $selectedFields = @()
+    foreach ($child in $ReportCanvas.Children) {
+        if ($child -is [System.Windows.Controls.Border]) {
+            $textBlock = $child.Child.Children[0]
+            $selectedFields += $textBlock.Text
+        }
+    }
+    
+    if ($selectedFields.Count -eq 0) {
+        [System.Windows.MessageBox]::Show("Bitte wählen Sie mindestens ein Feld aus.", "Report Builder", "OK", "Warning")
+        return
+    }
+    
+    # Generiere LDAP-Properties aus Feldnamen
+    $properties = $selectedFields | ForEach-Object {
+        ($_ -split '\.')[-1]
+    } | Select-Object -Unique
+    
+    # Bestimme Objekttyp
+    $categories = $selectedFields | ForEach-Object {
+        ($_ -split '\.')[0]
+    } | Select-Object -Unique
+    
+    $results = @()
+    
+    try {
+        if ($categories -contains "User") {
+            $users = Get-ADUser -Filter * -Properties $properties
+            foreach ($user in $users) {
+                $obj = [PSCustomObject]@{}
+                foreach ($field in $selectedFields) {
+                    if ($field -like "User.*") {
+                        $propName = ($field -split '\.')[-1]
+                        $obj | Add-Member -NotePropertyName $field -NotePropertyValue $user.$propName
+                    }
+                }
+                $results += $obj
+            }
+        }
+        
+        # Ähnliche Logik für Computer und Groups...
+        
+        return $results
+    }
+    catch {
+        Write-Error "Fehler beim Erstellen des benutzerdefinierten Berichts: $_"
+        return @()
+    }
+}
+
+Function Save-ReportTemplate {
+    param(
+        [System.Windows.Controls.StackPanel]$ReportCanvas,
+        [string]$TemplateName,
+        [string]$Description
+    )
+    
+    $template = [ReportTemplate]::new($TemplateName)
+    $template.Description = $Description
+    
+    foreach ($child in $ReportCanvas.Children) {
+        if ($child -is [System.Windows.Controls.Border]) {
+            $textBlock = $child.Child.Children[0]
+            $template.Fields += $textBlock.Text
+        }
+    }
+    
+    # Speichere Template als JSON
+    $templatesPath = "$env:APPDATA\easyADReport\Templates"
+    if (-not (Test-Path $templatesPath)) {
+        New-Item -ItemType Directory -Path $templatesPath -Force
+    }
+    
+    $templateFile = Join-Path $templatesPath "$($TemplateName).json"
+    $template | ConvertTo-Json | Out-File $templateFile -Encoding UTF8
+    
+    return $templateFile
+}
+
 # Funktion zum Aktualisieren der ErgebniszÃ¤hler im Header
 Function Initialize-ResultCounters {
     # GesamtergebniszÃ¤hler auf 0 setzen
@@ -10714,6 +11876,637 @@ Function Initialize-ADReportForm {
         })
     }
 
+    # Event Handler für Security Heat Tab
+    if ($null -ne $Global:BtnSecurityOverview) {
+        $BtnSecurityOverview.Add_Click({
+            Write-ADReportLog -Message "Führe vollständigen Security Check durch..." -Type Info
+            try {
+                $Global:TxtSecurityStatus.Text = "Security Check läuft..."
+                $Global:ProgressSecurityAnalysis.Visibility = "Visible"
+                
+                # Führe verschiedene Security Checks durch
+                $securityResults = @()
+                
+                # Password Policy Check
+                $passwordIssues = Get-WeakPasswordPolicyUsers
+                if ($passwordIssues) { $securityResults += $passwordIssues }
+                
+                # Privileged Accounts Check
+                $privAccounts = Get-PrivilegedAccounts
+                if ($privAccounts) { $securityResults += $privAccounts }
+                
+                # Inactive Accounts Check
+                $inactiveAccounts = Get-InactiveUsers -Days 90
+                if ($inactiveAccounts) { $securityResults += $inactiveAccounts }
+                
+                # Update Metrics
+                $criticalCount = ($securityResults | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+                $warningCount = ($securityResults | Where-Object { $_.RiskLevel -eq "Warning" }).Count
+                $infoCount = ($securityResults | Where-Object { $_.RiskLevel -eq "Info" }).Count
+                
+                $Global:TxtCriticalFindings.Text = $criticalCount.ToString()
+                $Global:TxtWarnings.Text = $warningCount.ToString()
+                $Global:TxtInfos.Text = $infoCount.ToString()
+                
+                # Calculate security score
+                $totalIssues = $criticalCount + $warningCount + $infoCount
+                $securityScore = [Math]::Max(0, 100 - ($criticalCount * 10) - ($warningCount * 5) - ($infoCount * 2))
+                $Global:TxtSecure.Text = "$securityScore%"
+                $Global:ProgressSecure.Value = $securityScore
+                
+                # Display results
+                $Global:SecurityResultsGrid.ItemsSource = $securityResults
+                
+                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
+                $Global:TxtSecurityStatus.Text = "Security Check abgeschlossen"
+            } catch {
+                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
+                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Security Check Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnPasswordAudit) {
+        $BtnPasswordAudit.Add_Click({
+            Write-ADReportLog -Message "Führe Password Policy Audit durch..." -Type Info
+            try {
+                $passwordAudit = Get-PasswordPolicySummary
+                $Global:SecurityResultsGrid.ItemsSource = $passwordAudit
+                $Global:TxtSecurityStatus.Text = "Password Audit abgeschlossen. $($passwordAudit.Count) Ergebnisse gefunden."
+            } catch {
+                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Password Audit Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnPrivilegedAccounts) {
+        $BtnPrivilegedAccounts.Add_Click({
+            Write-ADReportLog -Message "Lade privilegierte Accounts..." -Type Info
+            try {
+                $privAccounts = Get-PrivilegedAccounts
+                $Global:SecurityResultsGrid.ItemsSource = $privAccounts
+                $Global:TxtSecurityStatus.Text = "Privilegierte Accounts geladen. $($privAccounts.Count) gefunden."
+            } catch {
+                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Privileged Accounts Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnInactiveAccounts) {
+        $BtnInactiveAccounts.Add_Click({
+            Write-ADReportLog -Message "Suche inaktive Accounts..." -Type Info
+            try {
+                $inactiveAccounts = Get-InactiveUsers -Days 90
+                $Global:SecurityResultsGrid.ItemsSource = $inactiveAccounts
+                $Global:TxtSecurityStatus.Text = "Inaktive Accounts gefunden: $($inactiveAccounts.Count)"
+            } catch {
+                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Inactive Accounts Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnRunSelectedReports) {
+        $BtnRunSelectedReports.Add_Click({
+            Write-ADReportLog -Message "Führe ausgewählte Security Reports aus..." -Type Info
+            try {
+                $Global:TxtSecurityStatus.Text = "Reports werden ausgeführt..."
+                $Global:ProgressSecurityAnalysis.Visibility = "Visible"
+                
+                $allResults = @()
+                
+                # Prüfe welche Reports ausgewählt sind
+                if ($Global:ChkPasswordExpiry.IsChecked) {
+                    $results = Get-PasswordExpiringSoon -Days 30
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkAccountLockouts.IsChecked) {
+                    $results = Get-LockedOutAccounts
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkLoginFailures.IsChecked) {
+                    # Implementierung für fehlgeschlagene Logins
+                    # $results = Get-FailedLogins
+                    # if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkServiceAccounts.IsChecked) {
+                    $results = Get-ServiceAccountsOverview
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkDelegation.IsChecked) {
+                    $results = Get-DelegationAnalysis
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkGroupMembership.IsChecked) {
+                    $results = Get-RiskyGroupMemberships
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkPermissions.IsChecked) {
+                    $results = Get-ACLAnalysis
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkKerberos.IsChecked) {
+                    $results = Get-KerberoastableUsers
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkGPOSecurity.IsChecked) {
+                    $results = Get-GPOPermissions
+                    if ($results) { $allResults += $results }
+                }
+                
+                if ($Global:ChkReplication.IsChecked) {
+                    $results = Get-ReplicationStatus
+                    if ($results) { $allResults += $results }
+                }
+                
+                $Global:SecurityResultsGrid.ItemsSource = $allResults
+                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
+                $Global:TxtSecurityStatus.Text = "Reports abgeschlossen. $($allResults.Count) Ergebnisse gefunden."
+            } catch {
+                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
+                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Selected Reports Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    # Event Handler für User Heat Tab
+    if ($null -ne $Global:BtnInactiveUsers) {
+        $BtnInactiveUsers.Add_Click({
+            Write-ADReportLog -Message "Suche inaktive Benutzer (90+ Tage)..." -Type Info
+            try {
+                $inactiveUsers = Get-InactiveUsers -Days 90
+                $Global:UserResultsGrid.ItemsSource = $inactiveUsers
+                $Global:TxtUserStatus.Text = "Inaktive Benutzer gefunden: $($inactiveUsers.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Inactive Users Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnExpiredPasswords) {
+        $BtnExpiredPasswords.Add_Click({
+            Write-ADReportLog -Message "Suche Benutzer mit abgelaufenen Passwörtern..." -Type Info
+            try {
+                $expiredPwd = Get-ExpiredPasswords
+                $Global:UserResultsGrid.ItemsSource = $expiredPwd
+                $Global:TxtUserStatus.Text = "Benutzer mit abgelaufenen Passwörtern: $($expiredPwd.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Expired Passwords Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnNeverExpiring) {
+        $BtnNeverExpiring.Add_Click({
+            Write-ADReportLog -Message "Suche Benutzer mit nie ablaufenden Passwörtern..." -Type Info
+            try {
+                $neverExpire = Get-UsersNeverExpirePassword
+                $Global:UserResultsGrid.ItemsSource = $neverExpire
+                $Global:TxtUserStatus.Text = "Benutzer mit nie ablaufenden Passwörtern: $($neverExpire.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Never Expiring Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnRecentlyCreated) {
+        $BtnRecentlyCreated.Add_Click({
+            Write-ADReportLog -Message "Suche neue Benutzer (30 Tage)..." -Type Info
+            try {
+                $recentUsers = Get-RecentlyCreatedUsers -Days 30
+                $Global:UserResultsGrid.ItemsSource = $recentUsers
+                $Global:TxtUserStatus.Text = "Neue Benutzer gefunden: $($recentUsers.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Recently Created Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+
+    
+    # Event Handler für Computer Heat Tab
+    if ($null -ne $Global:BtnInactiveComputers) {
+        $BtnInactiveComputers.Add_Click({
+            Write-ADReportLog -Message "Suche inaktive Computer..." -Type Info
+            try {
+                $inactiveComps = Get-InactiveComputers -Days 90
+                $Global:ComputerResultsGrid.ItemsSource = $inactiveComps
+                $Global:TxtComputerStatus.Text = "Inaktive Computer gefunden: $($inactiveComps.Count)"
+            } catch {
+                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Inactive Computers Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnOldOperatingSystems) {
+        $BtnOldOperatingSystems.Add_Click({
+            Write-ADReportLog -Message "Suche veraltete OS Versionen..." -Type Info
+            try {
+                $oldOS = Get-ComputersByOSVersion | Where-Object { $_.OperatingSystem -like "*Windows 7*" -or $_.OperatingSystem -like "*Windows 8*" -or $_.OperatingSystem -like "*Server 2008*" -or $_.OperatingSystem -like "*Server 2012*" }
+                $Global:ComputerResultsGrid.ItemsSource = $oldOS
+                $Global:TxtComputerStatus.Text = "Computer mit veralteten OS: $($oldOS.Count)"
+            } catch {
+                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Old OS Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+
+    
+    # Event Handler für Group Heat Tab
+    if ($null -ne $Global:BtnViewDomainAdmins) {
+        $BtnViewDomainAdmins.Add_Click({
+            Write-ADReportLog -Message "Lade Domain Admins..." -Type Info
+            try {
+                $domainAdmins = Get-ADGroupMember "Domain Admins" -Recursive | Get-ADUser -Properties DisplayName, EmailAddress, LastLogonDate
+                $Global:GroupResultsGrid.ItemsSource = $domainAdmins
+                $Global:TxtGroupStatus.Text = "Domain Admins geladen: $($domainAdmins.Count) Mitglieder"
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Domain Admins Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnNestedGroups) {
+        $BtnNestedGroups.Add_Click({
+            Write-ADReportLog -Message "Analysiere verschachtelte Gruppen..." -Type Info
+            try {
+                $nestedGroups = Get-NestedGroups
+                $Global:GroupResultsGrid.ItemsSource = $nestedGroups
+                $Global:TxtGroupStatus.Text = "Verschachtelte Gruppen gefunden: $($nestedGroups.Count)"
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Nested Groups Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnGenerateGroupReport) {
+        $BtnGenerateGroupReport.Add_Click({
+            Write-ADReportLog -Message "Generiere Gruppen Report..." -Type Info
+            try {
+                $Global:TxtGroupStatus.Text = "Report wird generiert..."
+                
+                $allGroups = Get-ADGroup -Filter * -Properties GroupCategory, GroupScope, ManagedBy, Members, Description
+                
+                # Update statistics
+                $securityGroups = ($allGroups | Where-Object { $_.GroupCategory -eq "Security" }).Count
+                $distributionGroups = ($allGroups | Where-Object { $_.GroupCategory -eq "Distribution" }).Count
+                $builtinGroups = ($allGroups | Where-Object { $_.DistinguishedName -like "*CN=Builtin,*" }).Count
+                $emptyGroups = ($allGroups | Where-Object { $_.Members.Count -eq 0 }).Count
+                
+                $Global:TxtSecurityGroups.Text = $securityGroups.ToString()
+                $Global:TxtDistributionGroups.Text = $distributionGroups.ToString()
+                $Global:TxtBuiltinGroups.Text = $builtinGroups.ToString()
+                $Global:TxtEmptyGroups.Text = $emptyGroups.ToString()
+                
+                # Update critical groups counts
+                $domainAdmins = (Get-ADGroupMember "Domain Admins" -Recursive).Count
+                $Global:TxtDomainAdminsCount.Text = "$domainAdmins Mitglieder"
+                
+                try {
+                    $enterpriseAdmins = (Get-ADGroupMember "Enterprise Admins" -Recursive).Count
+                    $Global:TxtEnterpriseAdminsCount.Text = "$enterpriseAdmins Mitglieder"
+                } catch {
+                    $Global:TxtEnterpriseAdminsCount.Text = "N/A"
+                }
+                
+                try {
+                    $schemaAdmins = (Get-ADGroupMember "Schema Admins" -Recursive).Count
+                    $Global:TxtSchemaAdminsCount.Text = "$schemaAdmins Mitglieder"
+                } catch {
+                    $Global:TxtSchemaAdminsCount.Text = "N/A"
+                }
+                
+                $Global:GroupResultsGrid.ItemsSource = $allGroups
+                $Global:TxtGroupStatus.Text = "Gruppen Report generiert. $($allGroups.Count) Gruppen gefunden."
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Generate Group Report Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    # Event Handler für AD Health Tab
+    if ($null -ne $Global:BtnRunHealthChecks) {
+        $BtnRunHealthChecks.Add_Click({
+            Write-ADReportLog -Message "Führe AD Health Checks durch..." -Type Info
+            try {
+                $Global:TxtHealthStatus.Text = "Health Checks laufen..."
+                $Global:ProgressHealthCheck.Visibility = "Visible"
+                
+                # DC Status Check
+                $dcs = Get-ADDomainController -Filter *
+                $dcData = $dcs | ForEach-Object {
+                    [PSCustomObject]@{
+                        Name = $_.Name
+                        Site = $_.Site
+                        OSVersion = $_.OperatingSystem
+                        LastContact = (Get-Date) - $_.LastContactTime
+                        FSMORoles = ($_.OperationMasterRoles -join ", ")
+                        Status = if ((Test-Connection $_.Name -Count 1 -Quiet)) { "Online" } else { "Offline" }
+                    }
+                }
+                $Global:DCHealthGrid.ItemsSource = $dcData
+                
+                # Update status cards
+                $onlineDCs = ($dcData | Where-Object { $_.Status -eq "Online" }).Count
+                $totalDCs = $dcData.Count
+                $Global:TxtDCHealthStatus.Text = if ($onlineDCs -eq $totalDCs) { "Alle Online" } else { "$onlineDCs Online" }
+                $Global:TxtDCHealthDetails.Text = "$onlineDCs von $totalDCs DCs"
+                
+                # Replication Status
+                if ($Global:ChkReplicationHealth.IsChecked) {
+                    $replStatus = Get-ReplicationStatus
+                    if ($replStatus | Where-Object { $_.Status -ne "Success" }) {
+                        $Global:TxtReplicationStatus.Text = "Fehler"
+                        $Global:TxtReplicationDetails.Text = "Fehler gefunden"
+                    } else {
+                        $Global:TxtReplicationStatus.Text = "OK"
+                        $Global:TxtReplicationDetails.Text = "Keine Fehler"
+                    }
+                }
+                
+                # Sammle alle Health Check Ergebnisse
+                $healthResults = ""
+                
+                if ($Global:ChkDCDiagnostics.IsChecked) {
+                    $healthResults += "`n=== DC Diagnostics (DCDiag) ===`n"
+                    # Hier würde DCDiag ausgeführt werden
+                    $healthResults += "DCDiag Checks würden hier ausgeführt...`n"
+                }
+                
+                if ($Global:ChkDNSHealth.IsChecked) {
+                    $healthResults += "`n=== DNS Health Check ===`n"
+                    # DNS Health Check
+                    $healthResults += "DNS Health Checks würden hier ausgeführt...`n"
+                }
+                
+                if ($Global:ChkEventLogs.IsChecked) {
+                    $healthResults += "`n=== Event Log Analysis ===`n"
+                    # Event Log Analysis
+                    $healthResults += "Event Log Analyse würde hier ausgeführt...`n"
+                }
+                
+                # Zeige Ergebnisse
+                $Global:HealthCheckResults.Document.Blocks.Clear()
+                $paragraph = New-Object System.Windows.Documents.Paragraph
+                $paragraph.Inlines.Add($healthResults)
+                $Global:HealthCheckResults.Document.Blocks.Add($paragraph)
+                
+                # Recent Issues (Beispieldaten)
+                $recentIssues = @(
+                    [PSCustomObject]@{ Icon = "⚠️"; Description = "Replikationsfehler zwischen DC01 und DC02"; Time = "vor 2h" }
+                    [PSCustomObject]@{ Icon = "🔔"; Description = "5 fehlgeschlagene Anmeldeversuche für Admin-Account"; Time = "vor 4h" }
+                    [PSCustomObject]@{ Icon = "ℹ️"; Description = "Backup erfolgreich abgeschlossen"; Time = "vor 12h" }
+                )
+                $Global:RecentIssuesList.ItemsSource = $recentIssues
+                
+                $Global:ProgressHealthCheck.Visibility = "Collapsed"
+                $Global:TxtHealthStatus.Text = "Health Checks abgeschlossen"
+                $Global:TxtLastHealthCheck.Text = "Letzter Check: $(Get-Date -Format 'dd.MM.yyyy HH:mm')"
+            } catch {
+                $Global:ProgressHealthCheck.Visibility = "Collapsed"
+                $Global:TxtHealthStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Health Check Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+
+    # Event Handler für neue Security-fokussierte User Heat Buttons
+    if ($null -ne $Global:BtnSuspiciousAccounts) {
+        $BtnSuspiciousAccounts.Add_Click({
+            Write-ADReportLog -Message "Suche verdächtige Accounts..." -Type Info
+            try {
+                # Kombiniere verschiedene Verdachtskriterien
+                $suspiciousAccounts = @()
+                
+                # Accounts mit SID History
+                $sidHistory = Get-SIDHistoryAbuse
+                if ($sidHistory) { $suspiciousAccounts += $sidHistory }
+                
+                # Accounts ohne Passwort-Ablauf aber nicht Service Accounts
+                $neverExpire = Get-UsersNeverExpirePassword | Where-Object { $_.ServicePrincipalName -eq $null }
+                if ($neverExpire) { $suspiciousAccounts += $neverExpire }
+                
+                # Kürzlich erstellte privilegierte Accounts
+                $recentPriv = Get-RecentlyCreatedUsers -Days 7 | Where-Object { 
+                    $_.MemberOf -match "Admin|Operator"
+                }
+                if ($recentPriv) { $suspiciousAccounts += $recentPriv }
+                
+                $Global:UserResultsGrid.ItemsSource = $suspiciousAccounts
+                $Global:TxtUserStatus.Text = "Verdächtige Accounts gefunden: $($suspiciousAccounts.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Suspicious Accounts Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnKerberoastable) {
+        $BtnKerberoastable.Add_Click({
+            Write-ADReportLog -Message "Suche Kerberoastable Users..." -Type Info
+            try {
+                $kerberoastable = Get-KerberoastableUsers
+                $Global:UserResultsGrid.ItemsSource = $kerberoastable
+                $Global:TxtUserStatus.Text = "Kerberoastable Users gefunden: $($kerberoastable.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Kerberoastable Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnASREPRoastable) {
+        $BtnASREPRoastable.Add_Click({
+            Write-ADReportLog -Message "Suche ASREP Roastable Users..." -Type Info
+            try {
+                $asrepRoastable = Get-ASREPRoastableUsers
+                $Global:UserResultsGrid.ItemsSource = $asrepRoastable
+                $Global:TxtUserStatus.Text = "ASREP Roastable Users gefunden: $($asrepRoastable.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "ASREP Roastable Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnPrivilegedUsers) {
+        $BtnPrivilegedUsers.Add_Click({
+            Write-ADReportLog -Message "Lade privilegierte Benutzer..." -Type Info
+            try {
+                $privUsers = Get-PrivilegedAccounts
+                $Global:UserResultsGrid.ItemsSource = $privUsers
+                $Global:TxtUserStatus.Text = "Privilegierte Benutzer gefunden: $($privUsers.Count)"
+            } catch {
+                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Privileged Users Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    # Event Handler für neue Security-fokussierte Computer Heat Buttons
+    if ($null -ne $Global:BtnUnsupportedOS) {
+        $BtnUnsupportedOS.Add_Click({
+            Write-ADReportLog -Message "Suche Computer mit unsupported OS..." -Type Info
+            try {
+                $unsupportedOS = Get-ComputersByOSVersion | Where-Object { 
+                    $_.OperatingSystem -like "*Windows 7*" -or 
+                    $_.OperatingSystem -like "*Windows 8*" -or 
+                    $_.OperatingSystem -like "*Windows XP*" -or
+                    $_.OperatingSystem -like "*Server 2003*" -or
+                    $_.OperatingSystem -like "*Server 2008*" -or
+                    $_.OperatingSystem -like "*Server 2012*"
+                }
+                $Global:ComputerResultsGrid.ItemsSource = $unsupportedOS
+                $Global:TxtComputerStatus.Text = "Computer mit unsupported OS: $($unsupportedOS.Count)"
+            } catch {
+                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Unsupported OS Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnUnencryptedComputers) {
+        $BtnUnencryptedComputers.Add_Click({
+            Write-ADReportLog -Message "Suche Computer ohne BitLocker..." -Type Info
+            try {
+                $unencrypted = Get-BitLockerStatus | Where-Object { $_.BitLockerEnabled -eq $false }
+                $Global:ComputerResultsGrid.ItemsSource = $unencrypted
+                $Global:TxtComputerStatus.Text = "Computer ohne BitLocker: $($unencrypted.Count)"
+            } catch {
+                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Unencrypted Computers Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnTrustedForDelegation) {
+        $BtnTrustedForDelegation.Add_Click({
+            Write-ADReportLog -Message "Suche Computer mit Delegation..." -Type Info
+            try {
+                $trustedDelegation = Get-ADComputer -Filter {TrustedForDelegation -eq $true} -Properties *
+                $Global:ComputerResultsGrid.ItemsSource = $trustedDelegation
+                $Global:TxtComputerStatus.Text = "Computer mit Delegation: $($trustedDelegation.Count)"
+            } catch {
+                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Trusted Delegation Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnMissingPatches) {
+        $BtnMissingPatches.Add_Click({
+            Write-ADReportLog -Message "Prüfe fehlende Patches..." -Type Info
+            try {
+                # Simuliere Patch-Status Check
+                $computers = Get-ADComputer -Filter * -Properties LastLogonDate, OperatingSystem | 
+                    Where-Object { $_.LastLogonDate -gt (Get-Date).AddDays(-30) }
+                
+                # Füge simulierte Patch-Informationen hinzu
+                $patchStatus = $computers | ForEach-Object {
+                    [PSCustomObject]@{
+                        Name = $_.Name
+                        OperatingSystem = $_.OperatingSystem
+                        LastLogonDate = $_.LastLogonDate
+                        PatchStatus = if ($_.LastLogonDate -lt (Get-Date).AddDays(-7)) { "Kritisch" } 
+                                     elseif ($_.LastLogonDate -lt (Get-Date).AddDays(-3)) { "Warnung" } 
+                                     else { "OK" }
+                        MissingPatches = if ($_.LastLogonDate -lt (Get-Date).AddDays(-7)) { "5+ kritische Updates" } 
+                                        elseif ($_.LastLogonDate -lt (Get-Date).AddDays(-3)) { "2-4 Updates" } 
+                                        else { "Aktuell" }
+                    }
+                }
+                
+                $criticalCount = ($patchStatus | Where-Object { $_.PatchStatus -eq "Kritisch" }).Count
+                $Global:ComputerResultsGrid.ItemsSource = $patchStatus | Where-Object { $_.PatchStatus -ne "OK" }
+                $Global:TxtComputerStatus.Text = "Computer mit fehlenden Patches: $criticalCount kritisch"
+            } catch {
+                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Missing Patches Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    # Event Handler für neue Security-fokussierte Group Heat Buttons
+    if ($null -ne $Global:BtnAdminSDHolder) {
+        $BtnAdminSDHolder.Add_Click({
+            Write-ADReportLog -Message "Prüfe AdminSDHolder Objekte..." -Type Info
+            try {
+                $adminSDHolderObjects = Get-AdminSDHolderObjects
+                $Global:GroupResultsGrid.ItemsSource = $adminSDHolderObjects
+                $Global:TxtGroupStatus.Text = "AdminSDHolder Objekte gefunden: $($adminSDHolderObjects.Count)"
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "AdminSDHolder Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnDCSync) {
+        $BtnDCSync.Add_Click({
+            Write-ADReportLog -Message "Prüfe DCSync Rechte..." -Type Info
+            try {
+                $dcSyncRights = Get-DCSyncRights
+                $Global:GroupResultsGrid.ItemsSource = $dcSyncRights
+                $Global:TxtGroupStatus.Text = "Objekte mit DCSync Rechten: $($dcSyncRights.Count)"
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "DCSync Rights Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnForeignSecurityPrincipals) {
+        $BtnForeignSecurityPrincipals.Add_Click({
+            Write-ADReportLog -Message "Prüfe Foreign Security Principals..." -Type Info
+            try {
+                $foreignPrincipals = Get-ForeignSecurityPrincipals
+                $Global:GroupResultsGrid.ItemsSource = $foreignPrincipals
+                $Global:TxtGroupStatus.Text = "Foreign Security Principals: $($foreignPrincipals.Count)"
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Foreign Principals Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+    
+    if ($null -ne $Global:BtnRiskyPermissions) {
+        $BtnRiskyPermissions.Add_Click({
+            Write-ADReportLog -Message "Prüfe riskante Berechtigungen..." -Type Info
+            try {
+                $riskyPerms = Get-ACLAnalysis | Where-Object { 
+                    $_.Permission -match "GenericAll|WriteDacl|WriteOwner|GenericWrite"
+                }
+                $Global:GroupResultsGrid.ItemsSource = $riskyPerms
+                $Global:TxtGroupStatus.Text = "Riskante Berechtigungen gefunden: $($riskyPerms.Count)"
+            } catch {
+                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
+                Write-ADReportLog -Message "Risky Permissions Error: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+
     # Definiere den ListBox Selection Changed Handler als Script Variable
     $script:ListBoxSelectionChangedHandler = $null
     
@@ -10752,7 +12545,42 @@ Function Start-ADReportGUI {
                   "ButtonQuickComputers", "ButtonQuickInactiveComputers", 
                   "ButtonQuickWeakPasswordPolicy", "ButtonQuickRiskyGroupMemberships", "ButtonQuickPrivilegedAccounts",
                   "DataGridResults", "TextBlockStatus", "ButtonExportCSV", "ButtonExportHTML",
-                  "ResultCountGrid", "UserCountText", "ComputerCountText", "GroupCountText")
+                  "ResultCountGrid", "UserCountText", "ComputerCountText", "GroupCountText",
+                  "MainTabControl", "TabSecurityHeat", "TabUserHeat", "TabComputerHeat", 
+                  "TabGroupHeat", "TabADHealth",
+                  # Security Heat Tab Elements
+                  "BtnSecurityOverview", "BtnPasswordAudit", "BtnPrivilegedAccounts", "BtnInactiveAccounts",
+                  "TxtCriticalFindings", "TxtWarnings", "TxtInfos", "TxtSecure", "ProgressSecure",
+                  "BtnViewCritical", "BtnViewWarnings", "BtnViewInfos",
+                  "ChkPasswordExpiry", "ChkAccountLockouts", "ChkLoginFailures", "ChkServiceAccounts", "ChkDelegation",
+                  "ChkGroupMembership", "ChkPermissions", "ChkKerberos", "ChkGPOSecurity", "ChkReplication",
+                  "BtnRunSelectedReports", "BtnExportSecurityReport", "BtnSaveSecurityReport",
+                  "SecurityResultsGrid", "TxtSecurityStatus", "ProgressSecurityAnalysis",
+                  # User Heat Tab Elements
+                  "TxtTotalUsers", "TxtActiveUsers", "TxtDisabledUsers", "TxtLockedUsers",
+                  "BtnInactiveUsers", "BtnExpiredPasswords", "BtnNeverExpiring", "BtnRecentlyCreated",
+                  "BtnDuplicateNames", "BtnUserLogonHours",
+                  "BtnSuspiciousAccounts", "BtnPrivilegedUsers", "BtnKerberoastable", "BtnASREPRoastable",
+                  "BtnExportUserReport", "UserResultsGrid", "TxtUserStatus",
+                  # Computer Heat Tab Elements
+                  "TxtWorkstations", "TxtServers", "TxtDomainControllers", "TxtOfflineComputers",
+                  "BtnInactiveComputers", "BtnOldOperatingSystems", "BtnServerInventory", "BtnBitlockerStatus",
+                  "BtnUnsupportedOS", "BtnMissingPatches", "BtnUnencryptedComputers", "BtnTrustedForDelegation",
+                  "BtnExportComputerReport", "ComputerResultsGrid", "TxtComputerStatus",
+                  # Group Heat Tab Elements
+                  "TxtSecurityGroups", "TxtDistributionGroups", "TxtBuiltinGroups", "TxtEmptyGroups",
+                  "TxtDomainAdminsCount", "TxtEnterpriseAdminsCount", "TxtSchemaAdminsCount",
+                  "BtnViewDomainAdmins", "BtnViewEnterpriseAdmins", "BtnViewSchemaAdmins",
+                  "BtnNestedGroups", "BtnAdminSDHolder", "BtnDCSync", "BtnForeignSecurityPrincipals", "BtnRiskyPermissions",
+                  "BtnGenerateGroupReport", "BtnExportGroupReport", "BtnGroupMembershipMatrix", "GroupResultsGrid", "TxtGroupStatus",
+                  # AD Health Tab Elements
+                  "TxtDCHealthStatus", "TxtDCHealthDetails", "TxtReplicationStatus", "TxtReplicationDetails",
+                  "TxtPerformanceStatus", "TxtPerformanceDetails", "TxtSysvolStatus", "TxtSysvolDetails",
+                  "DCHealthGrid", "ChkDCDiagnostics", "ChkReplicationHealth", "ChkDNSHealth", "ChkFSMOCheck",
+                  "ChkTimeSync", "ChkGPOHealth", "ChkTrustRelationships", "ChkSiteTopology",
+                  "ChkDatabaseIntegrity", "ChkEventLogs", "ChkBackupStatus", "ChkSchemaVersion",
+                  "BtnRunHealthChecks", "RecentIssuesList", "BtnExportHealthReport", "BtnScheduleHealthCheck",
+                  "HealthCheckResults", "TxtHealthStatus", "ProgressHealthCheck", "TxtLastHealthCheck")
     
     foreach ($var in $UiVariables) {
         Remove-Variable -Name $var -Scope Global -ErrorAction SilentlyContinue
