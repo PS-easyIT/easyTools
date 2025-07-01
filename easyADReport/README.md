@@ -1,5 +1,7 @@
 # easyADReport
 
+![easyADReport Screenshot](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.4.2_PasswordNeverExpires-Report.jpg)
+
 ## 📊 Overview
 
 **easyADReport** is a comprehensive PowerShell-based Active Directory reporting tool with a modern WPF GUI. It provides over 80 pre-built reports for auditing, security analysis, and compliance monitoring of your Active Directory environment.
