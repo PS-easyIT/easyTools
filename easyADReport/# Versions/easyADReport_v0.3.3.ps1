@@ -1,4 +1,4 @@
-[xml]$Global:XAML = @"
+﻿[xml]$Global:XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,7 +17,7 @@
         <!-- Modern Card Style -->
         <Style x:Key="ModernCard" TargetType="Border">
             <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
@@ -25,9 +25,10 @@
         <Style x:Key="ModernButton" TargetType="Button">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#E1E5E9"/>
-            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="Padding" Value="16,10"/>
             <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -36,16 +37,23 @@
                                 Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F8F9FA"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                                <Setter TargetName="border" Property="Background" Value="#F9FAFB"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Color="#103B82F6" Opacity="0.1"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#E3F2FD"/>
+                                <Setter TargetName="border" Property="Background" Value="#F3F4F6"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#1D4ED8"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -55,26 +63,33 @@
 
         <!-- Primary Button Style -->
         <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Background" Value="#0078D7"/>
+            <Setter Property="Background" Value="#3B82F6"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="Padding" Value="24,14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" 
                                 Background="{TemplateBinding Background}" 
-                                CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#106EBE"/>
+                                <Setter TargetName="border" Property="Background" Value="#2563EB"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="#103B82F6" Opacity="0.3"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
+                                <Setter TargetName="border" Property="Background" Value="#1D4ED8"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -90,48 +105,94 @@
             <Setter Property="Margin" Value="0,8,0,4"/>
         </Style>
 
+        <!-- Sidebar Menu Button Style -->
+        <Style x:Key="SidebarButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F1F5F9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E2E8F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Active Sidebar Button Style -->
+        <Style x:Key="SidebarButtonActive" TargetType="Button" BasedOn="{StaticResource SidebarButton}">
+            <Setter Property="Background" Value="#EBF4FF"/>
+            <Setter Property="Foreground" Value="#1E40AF"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+
         <!-- Expandable Section Style -->
         <Style x:Key="ExpanderStyle" TargetType="Expander">
             <Setter Property="IsExpanded" Value="True"/>
-            <Setter Property="Margin" Value="0,8,0,4"/>
+            <Setter Property="Margin" Value="0,4,0,8"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <ToggleButton x:Name="HeaderSite" 
-                                          Grid.Row="0" 
-                                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Background="Transparent"
-                                          BorderThickness="0"
-                                          Padding="8,6"
-                                          HorizontalAlignment="Stretch"
-                                          HorizontalContentAlignment="Left">
-                                <StackPanel Orientation="Horizontal">
-                                    <Path x:Name="arrow" 
-                                          Fill="#718096" 
-                                          Margin="0,0,8,0"
-                                          VerticalAlignment="Center"
-                                          Data="M4,6 L8,10 L4,14" 
-                                          Stroke="#718096" 
-                                          StrokeThickness="1">
-                                        <Path.RenderTransform>
-                                            <RotateTransform x:Name="arrowTransform" Angle="0" CenterX="6" CenterY="10"/>
-                                        </Path.RenderTransform>
-                                    </Path>
-                                    <ContentPresenter Content="{TemplateBinding Header}" 
-                                                      TextBlock.FontWeight="SemiBold" 
-                                                      TextBlock.Foreground="#2D3748"/>
-                                </StackPanel>
-                            </ToggleButton>
-                            <ContentPresenter x:Name="ExpandSite" 
-                                              Grid.Row="1" 
-                                              Visibility="Collapsed" 
-                                              Margin="20,4,0,8"/>
-                        </Grid>
+                        <Border Background="#FAFBFC" CornerRadius="8" Margin="0,2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <ToggleButton x:Name="HeaderSite" 
+                                              Grid.Row="0" 
+                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Background="Transparent"
+                                              BorderThickness="0"
+                                              Padding="12,10"
+                                              HorizontalAlignment="Stretch"
+                                              HorizontalContentAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path x:Name="arrow" 
+                                              Fill="#6B7280" 
+                                              Margin="0,0,8,0"
+                                              VerticalAlignment="Center"
+                                              Data="M4,6 L8,10 L4,14" 
+                                              Stroke="#6B7280" 
+                                              StrokeThickness="1.2"
+                                              Width="12"
+                                              Height="12">
+                                            <Path.RenderTransform>
+                                                <RotateTransform x:Name="arrowTransform" Angle="0" CenterX="6" CenterY="10"/>
+                                            </Path.RenderTransform>
+                                        </Path>
+                                        <ContentPresenter Content="{TemplateBinding Header}" 
+                                                          TextBlock.FontWeight="SemiBold" 
+                                                          TextBlock.FontSize="13"
+                                                          TextBlock.Foreground="#374151"/>
+                                    </StackPanel>
+                                </ToggleButton>
+                                <ContentPresenter x:Name="ExpandSite" 
+                                                  Grid.Row="1" 
+                                                  Visibility="Collapsed" 
+                                                  Margin="8,0,8,8"/>
+                            </Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsExpanded" Value="True">
                                 <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
@@ -153,6 +214,9 @@
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger SourceName="HeaderSite" Property="IsMouseOver" Value="True">
+                                <Setter TargetName="HeaderSite" Property="Background" Value="#F1F5F9"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -189,7 +253,7 @@
                     </Ellipse>
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="easyADReport" FontSize="20" FontWeight="SemiBold" Foreground="#1A202C"/>
-                        <TextBlock Text="Active Directory Reporting Platform" FontSize="11" Foreground="#718096" Margin="0,-2,0,0"/>
+                        <TextBlock Text="easy Active Directory Reporting" FontSize="11" Foreground="#718096" Margin="0,-2,0,0"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -207,196 +271,199 @@
         <!-- Content Area (Grid.Row="1") -->
         <Grid Grid.Row="1" Margin="24,20,24,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="280"/>
-                <!-- Enhanced Sidebar -->
-                <ColumnDefinition Width="20"/>
-                <!-- Spacing -->
+                <ColumnDefinition Width="320"/>
+                <!-- Enhanced Sidebar - erweitert für bessere Lesbarkeit -->
+                <ColumnDefinition Width="24"/>
+                <!-- Spacing - vergrößert -->
                 <ColumnDefinition Width="*"/>
                 <!-- Main Content -->
             </Grid.ColumnDefinitions>
 
             <!-- Modern Sidebar with Categorized Reports -->
-            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <Border Style="{StaticResource ModernCard}" Padding="20,16">
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                <Border Style="{StaticResource ModernCard}" Padding="16,20">
                     <StackPanel>
-                        <TextBlock Text="Quick Reports" Style="{StaticResource CategoryHeader}" FontSize="16" Margin="0,0,0,12"/>
+                        <!-- Sidebar Header -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="📊 Quick Reports" Style="{StaticResource CategoryHeader}" 
+                                       FontSize="16" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,8"/>
+                            <TextBlock Text="Select a predefined report to execute instantly" 
+                                       FontSize="12" Foreground="#6B7280" Grid.Row="1" TextWrapping="Wrap"/>
+                        </Grid>
 
                         <!-- Users Category -->
-                        <Expander Header="Users" Style="{StaticResource ExpanderStyle}">
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button x:Name="ButtonQuickAllUsers" Content="All Users" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDisabledUsers" Content="Disabled Users" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickLockedUsers" Content="Locked Users" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickNeverExpire" Content="Password Never Expires" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickInactiveUsers" Content="Inactive Users (90+ days)" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickAdminUsers" Content="Administrators" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRecentlyCreatedUsers" Content="Recently Created (30d)" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickPasswordExpiringSoon" Content="Password Expiring (7d)" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickExpiredPasswords" Content="Expired Passwords" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickNeverLoggedOn" Content="Never Logged On" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRecentlyDeletedUsers" Content="Recently Deleted" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRecentlyModifiedUsers" Content="Recently Modified" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickInactiveUsersXDays" Content="Inactive Users (X days)" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUsersWithoutManager" Content="Users without Manager" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUsersMissingRequiredAttributes" Content="Missing Required Attributes" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUsersDuplicateLogonNames" Content="Duplicate Logon Names" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickOrphanedSIDsUsers" Content="Orphaned SIDs" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <!-- Neue Roadmap Features -->
-                                <Button x:Name="ButtonQuickStalePasswords" Content="Stale Passwords" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickNeverChangingPasswords" Content="Never Changing Passwords" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickExpiringAccounts" Content="Expiring Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickReversibleEncryption" Content="Reversible Encryption" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickKerberosDES" Content="Kerberos DES Users" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUsersWithSPN" Content="Users with SPN" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickGuestAccountStatus" Content="Guest Account Status" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUsersByDepartment" Content="Users by Department" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUsersByManager" Content="Users by Manager" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRemoteAccessUsers" Content="Remote Access Users" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickMobileDeviceUsers" Content="Mobile Device Users" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                        <Expander Header="👤 Users" Style="{StaticResource ExpanderStyle}">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickAllUsers" Content="All Users" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDisabledUsers" Content="Disabled Users" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickLockedUsers" Content="Locked Users" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickNeverExpire" Content="Password Never Expires" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickInactiveUsers" Content="Inactive Users (90+ days)" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickAdminUsers" Content="Administrators" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickRecentlyCreatedUsers" Content="Recently Created (30d)" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickPasswordExpiringSoon" Content="Password Expiring (7d)" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickExpiredPasswords" Content="Expired Passwords" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickNeverLoggedOn" Content="Never Logged On" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickRecentlyDeletedUsers" Content="Recently Deleted" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickRecentlyModifiedUsers" Content="Recently Modified" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickInactiveUsersXDays" Content="Inactive Users (X days)" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUsersWithoutManager" Content="Users without Manager" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUsersMissingRequiredAttributes" Content="Missing Required Attributes" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUsersDuplicateLogonNames" Content="Duplicate Logon Names" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickOrphanedSIDsUsers" Content="Orphaned SIDs" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickStalePasswords" Content="Stale Passwords" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickNeverChangingPasswords" Content="Never Changing Passwords" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickExpiringAccounts" Content="Expiring Accounts" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickReversibleEncryption" Content="Reversible Encryption" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickKerberosDES" Content="Kerberos DES Users" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUsersWithSPN" Content="Users with SPN" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickGuestAccountStatus" Content="Guest Account Status" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUsersByDepartment" Content="Users by Department" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUsersByManager" Content="Users by Manager" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickRemoteAccessUsers" Content="Remote Access Users" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Groups Category -->
-                        <Expander Header="Groups" Style="{StaticResource ExpanderStyle}">
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button x:Name="ButtonQuickGroups" Content="All Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSecurityGroups" Content="Security Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDistributionGroups" Content="Distribution Lists" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <!-- Neue Roadmap Features -->
-                                <Button x:Name="ButtonQuickEmptyGroups" Content="Empty Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickNestedGroups" Content="Nested Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickCircularGroups" Content="Circular References" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickGroupsByTypeScope" Content="Groups by Type/Scope" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDynamicDistGroups" Content="Dynamic Distribution Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickMailEnabledGroups" Content="Mail Enabled Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickGroupsWithoutOwners" Content="Groups without Owners" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickLargeGroups" Content="Large Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRecentlyModifiedGroups" Content="Recently Modified Groups" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                        <Expander Header="👥 Groups" Style="{StaticResource ExpanderStyle}">
+                            <StackPanel>
+                                <Button x:Name="ButtonQuickGroups" Content="All Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSecurityGroups" Content="Security Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDistributionGroups" Content="Distribution Lists" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickEmptyGroups" Content="Empty Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickNestedGroups" Content="Nested Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickCircularGroups" Content="Circular References" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickGroupsByTypeScope" Content="Groups by Type/Scope" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDynamicDistGroups" Content="Dynamic Distribution Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickMailEnabledGroups" Content="Mail Enabled Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickGroupsWithoutOwners" Content="Groups without Owners" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickLargeGroups" Content="Large Groups" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickRecentlyModifiedGroups" Content="Recently Modified Groups" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Computers Category -->
-                        <Expander Header="Computers" Style="{StaticResource ExpanderStyle}">
+                        <Expander Header="💻 Computers" Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickComputers" Content="All Computers" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickInactiveComputers" Content="Inactive Computers (90+ days)" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <!-- Neue Roadmap Features -->
-                                <Button x:Name="ButtonQuickOSSummary" Content="Operating System Summary" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickComputersByOSVersion" Content="Computers by OS Version" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickBitLockerStatus" Content="BitLocker Status" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickTPMStatus" Content="TPM Status" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickStaleComputerPasswords" Content="Stale Computer Passwords" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickComputersNeverLoggedOn" Content="Computers Never Logged On" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDuplicateComputerNames" Content="Duplicate Computer Names" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickComputersByLocation" Content="Computers by Location" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickVirtualVsPhysical" Content="Virtual vs Physical" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickComputers" Content="All Computers" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickInactiveComputers" Content="Inactive Computers (90+ days)" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickOSSummary" Content="Operating System Summary" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickComputersByOSVersion" Content="Computers by OS Version" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickBitLockerStatus" Content="BitLocker Status" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickComputersNeverLoggedOn" Content="Computers Never Logged On" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDuplicateComputerNames" Content="Duplicate Computer Names" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickComputersByLocation" Content="Computers by Location" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickVirtualVsPhysical" Content="Virtual vs Physical" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Security Audit Category -->
-                        <Expander Header="Security Audit" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="🛡️ Security Audit" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickWeakPasswordPolicy" Content="Weak Password Policies" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickRiskyGroupMemberships" Content="Risky Memberships" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickPrivilegedAccounts" Content="Privileged Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickKerberoastable" Content="Kerberoastable Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickASREPRoastable" Content="ASREPRoastable Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickServiceAccountsOverview" Content="Service Accounts Overview" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickGPOOverview" Content="GPO Overview" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickHoneyTokens" Content="Honey Tokens" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickWeakPasswordPolicy" Content="Weak Password Policies" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickRiskyGroupMemberships" Content="Risky Memberships" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickPrivilegedAccounts" Content="Privileged Accounts" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickKerberoastable" Content="Kerberoastable Accounts" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickASREPRoastable" Content="ASREPRoastable Accounts" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickServiceAccountsOverview" Content="Service Accounts Overview" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickGPOOverview" Content="GPO Overview" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickHoneyTokens" Content="Honey Tokens" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- AD Health Category -->
-                        <Expander Header="AD Health" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="🏥 AD Health" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickFSMORoles" Content="FSMO Role Holders" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDCStatus" Content="Domain Controller Status" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickReplicationStatus" Content="Replication Status" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSYSVOLHealth" Content="SYSVOL Health Check" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDNSHealth" Content="DNS Health Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickBackupStatus" Content="Backup Readiness" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickFSMORoles" Content="FSMO Role Holders" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDCStatus" Content="Domain Controller Status" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickReplicationStatus" Content="Replication Status" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSYSVOLHealth" Content="SYSVOL Health Check" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDNSHealth" Content="DNS Health Analysis" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickBackupStatus" Content="Backup Readiness" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Advanced Analysis Category -->
-                        <Expander Header="Advanced Analysis" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="🔬 Advanced Analysis" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickOUHierarchy" Content="OU Hierarchy" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSitesSubnets" Content="Sites &amp; Subnets" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickTrustRelationships" Content="Trust Relationships" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSchemaAnalysis" Content="Schema Extensions" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickCertificateAnalysis" Content="Certificate Security" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickQuotasLimits" Content="Quotas &amp; Limits" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDCSyncRights" Content="DCSync Rights Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSchemaAdmins" Content="Schema Admin Paths" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDelegation" Content="Delegation Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickOUHierarchy" Content="OU Hierarchy" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSitesSubnets" Content="Sites &amp; Subnets" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickTrustRelationships" Content="Trust Relationships" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSchemaAnalysis" Content="Schema Extensions" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickCertificateAnalysis" Content="Certificate Security" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickQuotasLimits" Content="Quotas &amp; Limits" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDCSyncRights" Content="DCSync Rights Analysis" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSchemaAdmins" Content="Schema Admin Paths" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDelegation" Content="Delegation Analysis" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Service Accounts Category -->
-                        <Expander Header="Service Accounts" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="⚙️ Service Accounts" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickManagedServiceAccounts" Content="Managed Service Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickServiceAccountsSPN" Content="Service Accounts with SPN" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickHighPrivServiceAccounts" Content="High Privilege Service Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickServiceAccountPasswordAge" Content="Service Account Password Age" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickUnusedServiceAccounts" Content="Unused Service Accounts" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickManagedServiceAccounts" Content="Managed Service Accounts" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickServiceAccountsSPN" Content="Service Accounts with SPN" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickHighPrivServiceAccounts" Content="High Privilege Service Accounts" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickServiceAccountPasswordAge" Content="Service Account Password Age" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickUnusedServiceAccounts" Content="Unused Service Accounts" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- GPO & Policies Category -->
-                        <Expander Header="GPO &amp; Policies" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="📋 GPO &amp; Policies" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickUnlinkedGPOs" Content="Unlinked GPOs" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickEmptyGPOs" Content="Empty GPOs" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickGPOPermissions" Content="GPO Permissions" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickPasswordPolicySummary" Content="Password Policy Summary" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickAccountLockoutPolicies" Content="Account Lockout Policies" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickFineGrainedPasswordPolicies" Content="Fine-Grained Password Policies" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickUnlinkedGPOs" Content="Unlinked GPOs" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickEmptyGPOs" Content="Empty GPOs" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickGPOPermissions" Content="GPO Permissions" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickPasswordPolicySummary" Content="Password Policy Summary" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickAccountLockoutPolicies" Content="Account Lockout Policies" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickFineGrainedPasswordPolicies" Content="Fine-Grained Password Policies" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Advanced Security Category -->
-                        <Expander Header="Advanced Security" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="🔐 Advanced Security" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickPrivilegeEscalation" Content="Privilege Escalation Paths" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickExposedCredentials" Content="Exposed Credentials" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSuspiciousLogons" Content="Suspicious Logons" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickForeignSecurityPrincipals" Content="Foreign Security Principals" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSIDHistoryAbuse" Content="SID History Abuse" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickPrivilegeEscalation" Content="Privilege Escalation Paths" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickExposedCredentials" Content="Exposed Credentials" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSuspiciousLogons" Content="Suspicious Logons" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickForeignSecurityPrincipals" Content="Foreign Security Principals" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSIDHistoryAbuse" Content="SID History Abuse" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Permissions & ACL Category -->
-                        <Expander Header="Permissions &amp; ACL" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="🔑 Permissions &amp; ACL" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickACLAnalysis" Content="ACL Analysis" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickInheritanceBreaks" Content="Inheritance Breaks" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickAdminSDHolderObjects" Content="AdminSDHolder Objects" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickAdvancedDelegation" Content="Advanced Delegation" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickSchemaPermissions" Content="Schema Permissions" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickACLAnalysis" Content="ACL Analysis" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickInheritanceBreaks" Content="Inheritance Breaks" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickAdminSDHolderObjects" Content="AdminSDHolder Objects" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickAdvancedDelegation" Content="Advanced Delegation" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickSchemaPermissions" Content="Schema Permissions" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Compliance & Audit Category -->
-                        <Expander Header="Compliance &amp; Audit" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="📊 Compliance &amp; Audit" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickGDPRCompliance" Content="GDPR Compliance" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickISO27001Readiness" Content="ISO 27001 Readiness" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickNISTFramework" Content="NIST Framework" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickPCIDSSRequirements" Content="PCI DSS Requirements" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickHIPAACompliance" Content="HIPAA Compliance" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickCustomComplianceTemplates" Content="Custom Compliance Templates" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickGDPRCompliance" Content="GDPR Compliance" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickISO27001Readiness" Content="ISO 27001 Readiness" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickNISTFramework" Content="NIST Framework" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickPCIDSSRequirements" Content="PCI DSS Requirements" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickHIPAACompliance" Content="HIPAA Compliance" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickCustomComplianceTemplates" Content="Custom Compliance Templates" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
 
                         <!-- Statistics & Reports Category -->
-                        <Expander Header="Statistics &amp; Reports" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <Expander Header="📈 Statistics &amp; Reports" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickDepartmentStats" Content="Department Statistics" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDepartmentSecurity" Content="Department Security" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                                <Button x:Name="ButtonQuickDomainControllerHealth" Content="Domain Controller Health" Style="{StaticResource ModernButton}" Margin="0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                                <Button x:Name="ButtonQuickDepartmentStats" Content="Department Statistics" Style="{StaticResource SidebarButton}"/>
+                                <Button x:Name="ButtonQuickDepartmentSecurity" Content="Department Security" Style="{StaticResource SidebarButton}"/>
                             </StackPanel>
                         </Expander>
                     </StackPanel>
@@ -417,9 +484,9 @@
                 <!-- Enhanced Filter Section -->
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="Auto" MinWidth="435"/>
                         <ColumnDefinition Width="20"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
@@ -427,7 +494,7 @@
                     <!-- Advanced Filter Card -->
                     <Border Grid.Column="0" Style="{StaticResource ModernCard}" Padding="20,16">
                         <StackPanel>
-                            <TextBlock Text="Advanced Filter" Style="{StaticResource CategoryHeader}" Margin="0,0,0,12"/>
+                            <TextBlock Style="{StaticResource CategoryHeader}" Margin="0,0,0,12"><Run Language="de-de" Text="Search with "/><Run Text="Filter"/></TextBlock>
 
                             <!-- Object Type Selection -->
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
@@ -455,7 +522,7 @@
                                     <ComboBoxItem Content="EndsWith"/>
                                     <ComboBoxItem Content="NotEqual"/>
                                 </ComboBox>
-                                <TextBox x:Name="TextBoxFilterValue1" Grid.Column="3" Margin="8,0" VerticalAlignment="Center" Padding="8,6"/>
+                                <TextBox x:Name="TextBoxFilterValue1" Grid.Column="3" Margin="8,0,0,0" VerticalAlignment="Center" Padding="8,6"/>
                             </Grid>
 
                             <!-- Logic Selector -->
@@ -483,43 +550,86 @@
                                     <ComboBoxItem Content="EndsWith"/>
                                     <ComboBoxItem Content="NotEqual"/>
                                 </ComboBox>
-                                <TextBox x:Name="TextBoxFilterValue2" Grid.Column="3" Margin="8,0" VerticalAlignment="Center" Padding="8,6"/>
+                                <TextBox x:Name="TextBoxFilterValue2" Grid.Column="3" Margin="8,0,0,0" VerticalAlignment="Center" Padding="8,6"/>
                             </Grid>
                         </StackPanel>
                     </Border>
 
                     <!-- Attributes Selection Card -->
-                    <Border Grid.Column="2" Style="{StaticResource ModernCard}" Padding="20,16" Width="300">
+                    <Border Grid.Column="2" Style="{StaticResource ModernCard}" Padding="20,16">
                         <StackPanel>
-                            <TextBlock Text="Export Attributes" Style="{StaticResource CategoryHeader}" Margin="0,0,0,12"/>
-                            <ListBox x:Name="ListBoxSelectAttributes" Height="120" SelectionMode="Multiple" BorderThickness="0">
-                                <ListBoxItem Content="DisplayName"/>
-                                <ListBoxItem Content="SamAccountName"/>
-                                <ListBoxItem Content="GivenName"/>
-                                <ListBoxItem Content="Surname"/>
-                                <ListBoxItem Content="mail"/>
-                                <ListBoxItem Content="Department"/>
-                                <ListBoxItem Content="Title"/>
-                                <ListBoxItem Content="Enabled"/>
-                            </ListBox>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Export Attributes" Style="{StaticResource CategoryHeader}" Grid.Column="0"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button x:Name="ButtonSelectAllAttributes" Content="All" Style="{StaticResource ModernButton}" 
+                                            Margin="0,0,4,0" Padding="6,4" FontSize="10" ToolTip="Select all attributes"/>
+                                    <Button x:Name="ButtonSelectNoneAttributes" Content="None" Style="{StaticResource ModernButton}" 
+                                            Padding="6,4" FontSize="10" ToolTip="Deselect all attributes"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Attribute Categories -->
+                            <TabControl x:Name="TabControlAttributes" Height="140" BorderThickness="0" Background="Transparent">
+                                <TabItem Header="Basic" FontSize="11">
+                                    <ListBox x:Name="ListBoxBasicAttributes" SelectionMode="Multiple" BorderThickness="0" Background="Transparent">
+                                        <ListBoxItem Content="DisplayName" IsSelected="True"/>
+                                        <ListBoxItem Content="SamAccountName" IsSelected="True"/>
+                                        <ListBoxItem Content="GivenName"/>
+                                        <ListBoxItem Content="Surname"/>
+                                        <ListBoxItem Content="mail"/>
+                                        <ListBoxItem Content="Department"/>
+                                        <ListBoxItem Content="Title"/>
+                                        <ListBoxItem Content="Enabled" IsSelected="True"/>
+                                    </ListBox>
+                                </TabItem>
+                                <TabItem Header="Security" FontSize="11">
+                                    <ListBox x:Name="ListBoxSecurityAttributes" SelectionMode="Multiple" BorderThickness="0" Background="Transparent">
+                                        <ListBoxItem Content="LastLogonTimestamp"/>
+                                        <ListBoxItem Content="PasswordExpired"/>
+                                        <ListBoxItem Content="PasswordLastSet"/>
+                                        <ListBoxItem Content="AccountExpirationDate"/>
+                                        <ListBoxItem Content="badPwdCount"/>
+                                        <ListBoxItem Content="lockoutTime"/>
+                                        <ListBoxItem Content="UserAccountControl"/>
+                                        <ListBoxItem Content="memberOf"/>
+                                    </ListBox>
+                                </TabItem>
+                                <TabItem Header="Extended" FontSize="11">
+                                    <ListBox x:Name="ListBoxExtendedAttributes" SelectionMode="Multiple" BorderThickness="0" Background="Transparent">
+                                        <ListBoxItem Content="whenCreated"/>
+                                        <ListBoxItem Content="whenChanged"/>
+                                        <ListBoxItem Content="Manager"/>
+                                        <ListBoxItem Content="Company"/>
+                                        <ListBoxItem Content="physicalDeliveryOfficeName"/>
+                                        <ListBoxItem Content="telephoneNumber"/>
+                                        <ListBoxItem Content="homeDirectory"/>
+                                        <ListBoxItem Content="scriptPath"/>
+                                    </ListBox>
+                                </TabItem>
+                            </TabControl>
                         </StackPanel>
                     </Border>
 
                     <!-- Action Buttons -->
-                    <StackPanel Grid.Column="4" VerticalAlignment="Center" MinWidth="180">
+                    <StackPanel Grid.Column="4" VerticalAlignment="Center" MinWidth="180" Height="120">
                         <Button x:Name="ButtonQueryAD" Content="SEARCH" Style="{StaticResource PrimaryButton}" 
-                                Height="42" FontSize="15" Margin="0,0,0,12"/>
+                                Height="55" FontSize="15" Margin="0,0,0,12" Width="175"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button x:Name="ButtonExportCSV" Content="CSV" Style="{StaticResource ModernButton}" 
-                                    Width="80" Height="32" Margin="0,0,8,0"/>
+                                    Width="83" Height="45" Margin="0,0,8,0" Background="#FFCCD8FF"/>
                             <Button x:Name="ButtonExportHTML" Content="HTML" Style="{StaticResource ModernButton}" 
-                                    Width="80" Height="32"/>
+                                    Width="83" Height="45" Background="#FFCCD8FF"/>
                         </StackPanel>
                     </StackPanel>
+
                 </Grid>
 
                 <!-- Results Section -->
-                <Border Grid.Row="2" Style="{StaticResource ModernCard}" Padding="20,16">
+                <Border Grid.Row="2" Style="{StaticResource ModernCard}" Padding="20,16" Margin="0,0,0,10">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -587,17 +697,21 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Status and Info -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Ellipse Width="8" Height="8" Fill="#10B981" Margin="0,0,8,0"/>
-                    <TextBlock x:Name="TextBlockStatus" Text="Ready" FontWeight="Medium" Foreground="#374151"/>
+                    <Ellipse x:Name="StatusIndicator" Width="8" Height="8" Fill="#10B981" Margin="0,0,8,0"/>
+                    <TextBlock x:Name="TextBlockStatus" Text="Ready" FontWeight="Medium" Foreground="#374151" Margin="0,0,16,0"/>
+                    <TextBlock x:Name="TextBlockSelectedRows" Text="0 selected" FontSize="12" Foreground="#6B7280" Margin="0,0,16,0"/>
+                    <TextBlock x:Name="TextBlockLastUpdate" Text="Last update: Never" FontSize="12" Foreground="#6B7280"/>
                 </StackPanel>
 
-                <!-- Footer Actions -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="v0.3.X" FontSize="12" Foreground="#9CA3AF" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                <!-- Version Info -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="easyADReport v0.3.0" FontSize="12" Foreground="#9CA3AF" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -610,15 +724,15 @@
 [Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
 $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
-# Assembly für WPF laden
+# Assembly fÃ¼r WPF laden
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName PresentationCore
 Add-Type -AssemblyName WindowsBase
-Add-Type -AssemblyName System.Windows.Forms # Für SaveFileDialog
+Add-Type -AssemblyName System.Windows.Forms # FÃ¼r SaveFileDialog
 
-# --- Globale AD-Gruppennamen für Deutsch/Englisch Kompatibilität ---
+# --- Globale AD-Gruppennamen fÃ¼r Deutsch/Englisch KompatibilitÃ¤t ---
 $Global:ADGroupNames = @{
-    DomainAdmins = @("Domain Admins", "Domänen-Admins")
+    DomainAdmins = @("Domain Admins", "DomÃ¤nen-Admins")
     EnterpriseAdmins = @("Enterprise Admins", "Organisations-Admins")
     SchemaAdmins = @("Schema Admins", "Schema-Admins")
     Administrators = @("Administrators", "Administratoren")
@@ -629,8 +743,8 @@ $Global:ADGroupNames = @{
     Replicator = @("Replicator", "Replikations-Operator")
     RemoteDesktopUsers = @("Remote Desktop Users", "Remotedesktopbenutzer")
     PowerUsers = @("Power Users", "Hauptbenutzer")
-    DomainControllers = @("Domain Controllers", "Domänencontroller")
-    EnterpriseDomainControllers = @("Enterprise Domain Controllers", "Organisations-Domänencontroller")
+    DomainControllers = @("Domain Controllers", "DomÃ¤nencontroller")
+    EnterpriseDomainControllers = @("Enterprise Domain Controllers", "Organisations-DomÃ¤nencontroller")
 }
 
 # Hilfsfunktion zum Finden von AD-Gruppen in beiden Sprachen
@@ -662,7 +776,7 @@ Function Get-ADGroupByNames {
     return $null
 }
 
-# --- Log-Funktion für konsistente Fehlerausgabe ---
+# --- Log-Funktion fÃ¼r konsistente Fehlerausgabe ---
 Function Write-ADReportLog {
     [CmdletBinding()]
     param(
@@ -680,7 +794,7 @@ Function Write-ADReportLog {
         [switch]$Terminal
     )
     
-    # Standardmäßig sowohl GUI als auch Terminal, wenn nicht explizit angegeben
+    # StandardmÃ¤ÃŸig sowohl GUI als auch Terminal, wenn nicht explizit angegeben
     if (-not $GUI -and -not $Terminal) {
         $GUI = $true
         $Terminal = $true
@@ -701,7 +815,7 @@ Function Write-ADReportLog {
     }
 }
 
-# --- Debug-Log-Funktion für konsistente Debug-Ausgabe ---
+# --- Debug-Log-Funktion fÃ¼r konsistente Debug-Ausgabe ---
 Function Write-DebugLog {
     [CmdletBinding()]
     param(
@@ -744,7 +858,7 @@ Function Get-ADReportData {
         [string]$ObjectType = "User"
     )
 
-    # Überprüfen, ob das AD-Modul verfügbar ist
+    # ÃœberprÃ¼fen, ob das AD-Modul verfÃ¼gbar ist
     if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
         Write-ADReportLog -Message "Error: Active Directory module not found." -Type Error
         return $null
@@ -764,7 +878,7 @@ Function Get-ADReportData {
             } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
         )
 
-        # Basis-Eigenschaften hinzufügen
+        # Basis-Eigenschaften hinzufÃ¼gen
         if ('DistinguishedName' -notin $PropertiesToLoad) { $PropertiesToLoad += 'DistinguishedName' }
         if ('ObjectClass' -notin $PropertiesToLoad) { $PropertiesToLoad += 'ObjectClass' }
         $PropertiesToLoad = $PropertiesToLoad | Select-Object -Unique
@@ -829,7 +943,7 @@ Function Get-ADReportData {
                         $Results = $Results | Where-Object {$_ -ne $null}
                     }
                 } else {
-                    # Debug-Ausgabe für Filter
+                    # Debug-Ausgabe fÃ¼r Filter
                     Write-DebugLog "Executing Get-ADUser with filter: $Filter" -Category "ADQuery"
                     $Results = @(Get-ADUser -Filter $Filter -Properties $PropertiesToLoad -ErrorAction Stop)
                 }
@@ -888,14 +1002,14 @@ Function Get-UserGroupMemberships {
     }
 
     try {
-        $User = Get-ADUser -Identity $SamAccountName -Properties SamAccountName, Name -ErrorAction Stop | Select-Object -ExcludeProperty 'PropertyNames','AddedProperties','RemovedProperties','ModifiedProperties','PropertiesCount' # Hinzugefügt: Name für UserDisplayName
+        $User = Get-ADUser -Identity $SamAccountName -Properties SamAccountName, Name -ErrorAction Stop | Select-Object -ExcludeProperty 'PropertyNames','AddedProperties','RemovedProperties','ModifiedProperties','PropertiesCount' # HinzugefÃ¼gt: Name fÃ¼r UserDisplayName
         if (-not $User) {
             Write-ADReportLog -Message "Benutzer $SamAccountName nicht gefunden." -Type Warning
             return $null
         }
         
         $Groups = Get-ADPrincipalGroupMembership -Identity $User -ErrorAction Stop | 
-                  Get-ADGroup -Properties Name, SamAccountName, Description, GroupCategory, GroupScope -ErrorAction SilentlyContinue # Hinzugefügt: SamAccountName für GroupSamAccountName
+                  Get-ADGroup -Properties Name, SamAccountName, Description, GroupCategory, GroupScope -ErrorAction SilentlyContinue # HinzugefÃ¼gt: SamAccountName fÃ¼r GroupSamAccountName
 
         if ($Groups) {
             $GroupMemberships = $Groups | ForEach-Object {
@@ -911,8 +1025,8 @@ Function Get-UserGroupMemberships {
             }
             return $GroupMemberships
         } else {
-            Write-ADReportLog -Message "Keine Gruppenmitgliedschaften für Benutzer $SamAccountName gefunden." -Type Info
-            return [System.Collections.ArrayList]::new() # Leeres Array zurückgeben, um Fehler zu vermeiden
+            Write-ADReportLog -Message "Keine Gruppenmitgliedschaften fÃ¼r Benutzer $SamAccountName gefunden." -Type Info
+            return [System.Collections.ArrayList]::new() # Leeres Array zurÃ¼ckgeben, um Fehler zu vermeiden
         }
     } catch {
         $ErrorMessage = "Fehler beim Abrufen der Gruppenmitgliedschaften fuer $($SamAccountName): $($_.Exception.Message)"
@@ -931,7 +1045,7 @@ Function Get-ADGroupReportData {
         [string]$CustomFilter
     )
 
-    # Überprüfen, ob das AD-Modul verfügbar ist
+    # ÃœberprÃ¼fen, ob das AD-Modul verfÃ¼gbar ist
     if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
         Write-ADReportLog -Message "Fehler: Active Directory Modul nicht gefunden." -Type Error
         return $null
@@ -952,7 +1066,7 @@ Function Get-ADGroupReportData {
             } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
         )
 
-        if ('ObjectClass' -notin $PropertiesToLoad) { # Wichtig für Visualisierung und Typbestimmung
+        if ('ObjectClass' -notin $PropertiesToLoad) { # Wichtig fÃ¼r Visualisierung und Typbestimmung
             $PropertiesToLoad += 'ObjectClass'
         }
 
@@ -965,11 +1079,11 @@ Function Get-ADGroupReportData {
             $FilterToUse = $CustomFilter
         }
         
-        Write-Host "Führe Get-ADGroup mit Filter '$FilterToUse' und Eigenschaften '$($PropertiesToLoad -join ', ')' aus"
+        Write-Host "FÃ¼hre Get-ADGroup mit Filter '$FilterToUse' und Eigenschaften '$($PropertiesToLoad -join ', ')' aus"
         $Groups = Get-ADGroup -Filter $FilterToUse -Properties $PropertiesToLoad -ErrorAction Stop
 
         if ($Groups) {
-            # Erstelle Array mit den bereinigten Attributnamen für Select-Object
+            # Erstelle Array mit den bereinigten Attributnamen fÃ¼r Select-Object
             $SelectAttributes = @(
                 $SelectedAttributes | ForEach-Object {
                     if ($null -ne $_) {
@@ -983,7 +1097,7 @@ Function Get-ADGroupReportData {
             )
             
             # Verwende Select-Object, um ein Array von Objekten zu erstellen
-            # Dies stellt sicher, dass wir eine IEnumerable-Sammlung zurückgeben
+            # Dies stellt sicher, dass wir eine IEnumerable-Sammlung zurÃ¼ckgeben
             $Output = $Groups | Select-Object $SelectAttributes -ExcludeProperty 'PropertyNames','AddedProperties','RemovedProperties','ModifiedProperties','PropertiesCount'
             return $Output
         } else {
@@ -1007,7 +1121,7 @@ Function Get-ADComputerReportData {
         [string]$CustomFilter
     )
 
-    # Überprüfen, ob das AD-Modul verfügbar ist
+    # ÃœberprÃ¼fen, ob das AD-Modul verfÃ¼gbar ist
     if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
         Write-ADReportLog -Message "Fehler: Active Directory Modul nicht gefunden." -Type Error
         return $null
@@ -1028,7 +1142,7 @@ Function Get-ADComputerReportData {
             } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
         )
 
-        if ('ObjectClass' -notin $PropertiesToLoad) { # Wichtig für Visualisierung und Typbestimmung
+        if ('ObjectClass' -notin $PropertiesToLoad) { # Wichtig fÃ¼r Visualisierung und Typbestimmung
             $PropertiesToLoad += 'ObjectClass'
         }
 
@@ -1041,11 +1155,11 @@ Function Get-ADComputerReportData {
             $FilterToUse = $CustomFilter
         }
         
-        Write-Host "Führe Get-ADComputer mit Filter '$FilterToUse' und Eigenschaften '$($PropertiesToLoad -join ', ')' aus"
+        Write-Host "FÃ¼hre Get-ADComputer mit Filter '$FilterToUse' und Eigenschaften '$($PropertiesToLoad -join ', ')' aus"
         $Computers = Get-ADComputer -Filter $FilterToUse -Properties $PropertiesToLoad -ErrorAction Stop
 
         if ($Computers) {
-            # Erstelle Array mit den bereinigten Attributnamen für Select-Object
+            # Erstelle Array mit den bereinigten Attributnamen fÃ¼r Select-Object
             $SelectAttributes = @(
                 $SelectedAttributes | ForEach-Object {
                     if ($null -ne $_) {
@@ -1610,8 +1724,8 @@ Function Get-RiskyGroupMemberships {
                         # Empfehlungsgenerierung
                         $recommendation = switch ($true) {
                             (-not $userDetails.Enabled) { "Deaktiviertes Konto aus Gruppe entfernen" }
-                            ($userDetails.LastLogonDate -lt (Get-Date).AddDays(-90)) { "Inaktives Konto überprüfen" }
-                            default { "Berechtigungen regelmäßig überwachen" }
+                            ($userDetails.LastLogonDate -lt (Get-Date).AddDays(-90)) { "Inaktives Konto Ã¼berprÃ¼fen" }
+                            default { "Berechtigungen regelmÃ¤ÃŸig Ã¼berwachen" }
                         }
                         
                         # Objekterstellung mit Typisierung
@@ -1634,14 +1748,14 @@ Function Get-RiskyGroupMemberships {
                 }
             }
             catch {
-                Write-ADReportLog -Message "Gruppenanalyse fehlgeschlagen für '$groupName': $($_.Exception.Message)" -Type Warning
+                Write-ADReportLog -Message "Gruppenanalyse fehlgeschlagen fÃ¼r '$groupName': $($_.Exception.Message)" -Type Warning
             }
         }
         
         # Deduplizierung und Ausgabe
         $UniqueRiskyUsers = $RiskyUsers | Sort-Object SamAccountName -Unique
         
-        Write-ADReportLog -Message "Gruppenanalyse abgeschlossen. Gefundene Risikofälle: $($UniqueRiskyUsers.Count)" -Type Info -Terminal
+        Write-ADReportLog -Message "Gruppenanalyse abgeschlossen. Gefundene RisikofÃ¤lle: $($UniqueRiskyUsers.Count)" -Type Info -Terminal
         return $UniqueRiskyUsers
     }
     catch {
@@ -1656,9 +1770,9 @@ Function Get-PrivilegedAccounts {
     param()
     
     try {
-        Write-ADReportLog -Message "Analysiere Konten mit erhöhten Rechten..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analysiere Konten mit erhÃ¶hten Rechten..." -Type Info -Terminal
         
-        # Eigenschaften für privilegierte Konten
+        # Eigenschaften fÃ¼r privilegierte Konten
         $Properties = @(
             "DisplayName", "SamAccountName", "Enabled", "AdminCount", 
             "LastLogonDate", "PasswordLastSet", "PasswordNeverExpires",
@@ -1674,7 +1788,7 @@ Function Get-PrivilegedAccounts {
         # Konten mit Delegierungsrechten
         $DelegationAccounts = Get-ADUser -Filter "TrustedForDelegation -eq `$true -or TrustedToAuthForDelegation -eq `$true" -Properties $Properties | Select-Object -ExcludeProperty 'PropertyNames','AddedProperties','RemovedProperties','ModifiedProperties','PropertiesCount'
         
-        # Alle privilegierten Konten zusammenführen
+        # Alle privilegierten Konten zusammenfÃ¼hren
         $AllPrivilegedAccounts = @()
         $AllPrivilegedAccounts += $AdminCountUsers
         $AllPrivilegedAccounts += $ServiceAccounts
@@ -1771,7 +1885,7 @@ Function Get-PrivilegedAccounts {
             }
         }
         
-        Write-ADReportLog -Message "$($UniquePrivilegedAccounts.Count) Konten mit erhöhten Rechten gefunden." -Type Info -Terminal
+        Write-ADReportLog -Message "$($UniquePrivilegedAccounts.Count) Konten mit erhÃ¶hten Rechten gefunden." -Type Info -Terminal
         return $UniquePrivilegedAccounts
         
     } catch {
@@ -2052,7 +2166,7 @@ Function Get-ASREPRoastableAccounts {
         $ASREPRoastableAccounts = foreach ($user in $ASREPUsers) {
             # Risiko-Bewertung
             $riskFactors = @()
-            $riskLevel = 5  # Basis-Risiko für ASREP Roastable ist hoch
+            $riskLevel = 5  # Basis-Risiko fÃ¼r ASREP Roastable ist hoch
             
             if ($user.AdminCount -eq 1) {
                 $riskFactors += "Privileged Account"
@@ -2119,7 +2233,7 @@ Function Get-DelegationAnalysis {
         # Lade alle Objekte mit Delegierung
         $DelegatedObjects = @()
         
-        # Unconstrained Delegation (sehr gefährlich)
+        # Unconstrained Delegation (sehr gefÃ¤hrlich)
         $UnconstrainedDelegation = Get-ADObject -Filter "TrustedForDelegation -eq `$true -and TrustedToAuthForDelegation -eq `$false" `
                                                 -Properties Name, ObjectClass, DistinguishedName, whenCreated, whenChanged -ErrorAction SilentlyContinue
         
@@ -3001,7 +3115,7 @@ Function Get-FSMORoles {
             Description = "Manages adding and removing domains"
         }
         
-        # Domänen-spezifische FSMO-Rollen
+        # DomÃ¤nen-spezifische FSMO-Rollen
         $FSMORoles += [PSCustomObject]@{
             Role = "PDC Emulator"
             Type = "Domain-specific"
@@ -3046,7 +3160,7 @@ Function Get-DomainControllerStatus {
     try {
         Write-ADReportLog -Message "Collect AD Data ..." -Type Info -Terminal
         
-        # AD-Health Sammlung - ähnlich wie dxdiag
+        # AD-Health Sammlung - Ã¤hnlich wie dxdiag
         $ADHealthReport = @()
         
         # 1. Forest-Informationen
@@ -3064,7 +3178,7 @@ Function Get-DomainControllerStatus {
             # Schema Version korrekt auslesen
             $schemaVersion = "Unknown"
             if ($Forest.SchemaVersion) {
-            # Prüfe ob es eine Collection ist und hole den ersten Wert
+            # PrÃ¼fe ob es eine Collection ist und hole den ersten Wert
             if ($Forest.SchemaVersion -is [Microsoft.ActiveDirectory.Management.ADPropertyValueCollection]) {
                 $schemaVersion = $Forest.SchemaVersion[0]
             } else {
@@ -3123,7 +3237,7 @@ Function Get-DomainControllerStatus {
         try {
             $DomainControllers = Get-ADDomainController -Filter * -ErrorAction Stop
             
-            # Konvertiere zu Array und zähle dann
+            # Konvertiere zu Array und zÃ¤hle dann
             $DCArray = @($DomainControllers)
             $DCCount = $DCArray.Count
             $ADHealthReport += [PSCustomObject]@{
@@ -3342,7 +3456,7 @@ Function Get-DomainControllerStatus {
         # Zusammenfassung an den Anfang setzen
         $FinalReport = @($summary) + $ADHealthReport
         
-        Write-ADReportLog -Message "AD-Health Diagnose abgeschlossen: $($FinalReport.Count) Checks durchgeführt." -Type Info -Terminal
+        Write-ADReportLog -Message "AD-Health Diagnose abgeschlossen: $($FinalReport.Count) Checks durchgefÃ¼hrt." -Type Info -Terminal
         return $FinalReport
         
     } catch {
@@ -3575,9 +3689,9 @@ Function Get-ADOUHierarchyReport {
                 # Versuche, den Parent DN zu bekommen und daraus den Namen abzuleiten
                 $parentDN = $OU.DistinguishedName.Substring($OU.DistinguishedName.IndexOf(',') + 1)
                 if ($parentDN -and $parentDN -ne $OU.DistinguishedName) {
-                    # Prüfe ob es eine Domain-Root OU ist (direkt unter DC=...)
+                    # PrÃ¼fe ob es eine Domain-Root OU ist (direkt unter DC=...)
                     if ($parentDN -match '^DC=') {
-                        # Für Root-OUs zeige "Domain Root" oder den Domain Namen
+                        # FÃ¼r Root-OUs zeige "Domain Root" oder den Domain Namen
                         $domain = Get-ADDomain -ErrorAction SilentlyContinue
                         if ($domain) {
                             $ParentPath = "Domain Root ($($domain.NetBIOSName))"
@@ -3590,7 +3704,7 @@ Function Get-ADOUHierarchyReport {
                         if ($parentOUObj) {
                             $ParentPath = $parentOUObj.Name
                         } else {
-                            # Möglicherweise ein Container, kein OU
+                            # MÃ¶glicherweise ein Container, kein OU
                             try {
                                 $parentObj = Get-ADObject -Identity $parentDN -Properties Name -ErrorAction SilentlyContinue
                                 if ($parentObj) {
@@ -3652,7 +3766,7 @@ Function Get-ADSitesAndSubnetsReport {
         $Sites = Get-ADReplicationSite -Filter * -Properties Description, Options, InterSiteTopologyGenerator -ErrorAction SilentlyContinue
         if ($Sites) {
             foreach ($Site in $Sites) {
-                # Server für diesen Site separat abrufen
+                # Server fÃ¼r diesen Site separat abrufen
                 $ServersCount = 0
                 try {
                     $Servers = Get-ADDomainController -Filter { Site -eq $Site.Name } -ErrorAction SilentlyContinue
@@ -3679,8 +3793,8 @@ Function Get-ADSitesAndSubnetsReport {
                     InterSiteTopologyGenerator = $Site.InterSiteTopologyGenerator
                     Options = $Site.Options
                     SiteLinks = $SiteLinksText
-                    Location = $null # Für Konsistenz
-                    AssociatedSite = $null # Für Konsistenz mit Subnets
+                    Location = $null # FÃ¼r Konsistenz
+                    AssociatedSite = $null # FÃ¼r Konsistenz mit Subnets
                 }
             }
             Write-ADReportLog -Message "Successfully retrieved $($Sites.Count) AD Replication Sites." -Type Info -Terminal
@@ -3700,7 +3814,7 @@ Function Get-ADSitesAndSubnetsReport {
                     ServersInSiteCount = $null 
                     InterSiteTopologyGenerator = $null
                     Options = $null
-                    SiteLinks = $null # Für Konsistenz
+                    SiteLinks = $null # FÃ¼r Konsistenz
                     Location = $Subnet.Location
                     AssociatedSite = try { (Get-ADReplicationSite -Identity $Subnet.Site -ErrorAction SilentlyContinue).Name } catch { $Subnet.Site }
                 }
@@ -3714,7 +3828,7 @@ Function Get-ADSitesAndSubnetsReport {
             Write-ADReportLog -Message "Successfully generated Sites and Subnets Report for $($Report.Count) entries." -Type Info
             return $Report | Sort-Object Type, Name
         } else {
-            # Wenn keine Daten gefunden wurden, einen Platzhalter-Eintrag als Array zurückgeben
+            # Wenn keine Daten gefunden wurden, einen Platzhalter-Eintrag als Array zurÃ¼ckgeben
             Write-ADReportLog -Message "No data found for Sites and Subnets Report." -Type Info
             return @(
                 [PSCustomObject]@{
@@ -3752,14 +3866,14 @@ Function Get-ADSitesAndSubnetsReport {
     }
 }
 
-# Funktion zum Aktualisieren der Ergebniszähler im Header
+# Funktion zum Aktualisieren der ErgebniszÃ¤hler im Header
 Function Initialize-ResultCounters {
-    # Gesamtergebniszähler auf 0 setzen
+    # GesamtergebniszÃ¤hler auf 0 setzen
     if ($null -ne $Global:TotalResultCountText) {
         $Global:TotalResultCountText.Text = "0"
     }
     
-    # Sicherstellen, dass alle Zähler zurückgesetzt werden
+    # Sicherstellen, dass alle ZÃ¤hler zurÃ¼ckgesetzt werden
     if ($null -ne $Global:UserCountText) {
         $Global:UserCountText.Text = "0"
     }
@@ -3772,7 +3886,7 @@ Function Initialize-ResultCounters {
         $Global:GroupCountText.Text = "0"
     }
     
-    # Status zurücksetzen
+    # Status zurÃ¼cksetzen
     if ($null -ne $Global:TextBlockStatus) {
         $Global:TextBlockStatus.Text = "Ready for query..."
     }
@@ -3783,7 +3897,7 @@ Function Initialize-ResultCounters {
     }
 }
 
-# Funktion zum Aktualisieren der Ergebniszähler im Header
+# Funktion zum Aktualisieren der ErgebniszÃ¤hler im Header
 Function Update-ResultCounters {
     param (
         [Parameter(Mandatory=$true)]
@@ -3862,7 +3976,7 @@ Function Update-ADReportResults {
     Update-ResultVisualization -Results $Results
 }
 
-# Hilfsfunktion zum sicheren Hinzufügen von Event-Handlern
+# Hilfsfunktion zum sicheren HinzufÃ¼gen von Event-Handlern
 Function Add-SafeEventHandler {
     param(
         [Parameter(Mandatory=$true)]
@@ -3875,15 +3989,15 @@ Function Add-SafeEventHandler {
         try {
             $Button.add_Click($Handler)
         } catch {
-            Write-ADReportLog -Message "Warnung: Konnte Event-Handler für Button nicht hinzufügen: $($_.Exception.Message)" -Type Warning -Terminal
+            Write-ADReportLog -Message "Warnung: Konnte Event-Handler fÃ¼r Button nicht hinzufÃ¼gen: $($_.Exception.Message)" -Type Warning -Terminal
         }
    }
 }
 
-# --- Globale Variablen für UI Elemente --- 
+# --- Globale Variablen fÃ¼r UI Elemente --- 
 Function Initialize-ADReportForm {
     param($XAMLContent)
-    # Überprüfen, ob das Window-Objekt bereits existiert und zurücksetzen
+    # ÃœberprÃ¼fen, ob das Window-Objekt bereits existiert und zurÃ¼cksetzen
     if ($Global:Window) {
         Remove-Variable -Name Window -Scope Global -ErrorAction SilentlyContinue
     }
@@ -3961,7 +4075,7 @@ Function Initialize-ADReportForm {
     $Global:ButtonQuickOUHierarchy = $Window.FindName("ButtonQuickOUHierarchy")
     $Global:ButtonQuickSitesSubnets = $Window.FindName("ButtonQuickSitesSubnets")
     
-    # Neue Buttons für erweiterte Reports
+    # Neue Buttons fÃ¼r erweiterte Reports
     $Global:ButtonQuickDepartmentStats = $Window.FindName("ButtonQuickDepartmentStats")
     $Global:ButtonQuickDepartmentSecurity = $Window.FindName("ButtonQuickDepartmentSecurity")
     $Global:ButtonQuickKerberoastable = $Window.FindName("ButtonQuickKerberoastable")
@@ -4052,8 +4166,25 @@ Function Initialize-ADReportForm {
     $Global:ButtonQuickAdminSDHolderObjects = $Window.FindName("ButtonQuickAdminSDHolderObjects")
     $Global:ButtonQuickAdvancedDelegation = $Window.FindName("ButtonQuickAdvancedDelegation")
     $Global:ButtonQuickSchemaPermissions = $Window.FindName("ButtonQuickSchemaPermissions")
+    
+    # Attribute selection buttons
+    $Global:ButtonSelectAllAttributes = $Window.FindName("ButtonSelectAllAttributes")
+    $Global:ButtonSelectNoneAttributes = $Window.FindName("ButtonSelectNoneAttributes")
+    $Global:TabControlAttributes = $Window.FindName("TabControlAttributes")
+    $Global:ListBoxBasicAttributes = $Window.FindName("ListBoxBasicAttributes")
+    $Global:ListBoxSecurityAttributes = $Window.FindName("ListBoxSecurityAttributes")
+    $Global:ListBoxExtendedAttributes = $Window.FindName("ListBoxExtendedAttributes")
+    
+    # Help and About buttons
+    $Global:ButtonHelp = $Window.FindName("ButtonHelp")
+    $Global:ButtonAbout = $Window.FindName("ButtonAbout")
+    
+    # Footer elements
+    $Global:StatusIndicator = $Window.FindName("StatusIndicator")
+    $Global:TextBlockSelectedRows = $Window.FindName("TextBlockSelectedRows")
+    $Global:TextBlockLastUpdate = $Window.FindName("TextBlockLastUpdate")
 
-    # Event Handler für erweiterte Filter
+    # Event Handler fÃ¼r erweiterte Filter
     $Global:CheckBoxUseSecondFilter.add_Checked({
         $Global:SecondFilterPanel.IsEnabled = $true
     })
@@ -4062,12 +4193,173 @@ Function Initialize-ADReportForm {
         $Global:SecondFilterPanel.IsEnabled = $false
     })
 
+    # Helper function to get all selected attributes from all ListBoxes
+    function Get-AllSelectedAttributes {
+        $selectedAttributes = @()
+        
+        if ($Global:ListBoxBasicAttributes) {
+            foreach ($item in $Global:ListBoxBasicAttributes.SelectedItems) {
+                $selectedAttributes += $item.Content
+            }
+        }
+        if ($Global:ListBoxSecurityAttributes) {
+            foreach ($item in $Global:ListBoxSecurityAttributes.SelectedItems) {
+                $selectedAttributes += $item.Content
+            }
+        }
+        if ($Global:ListBoxExtendedAttributes) {
+            foreach ($item in $Global:ListBoxExtendedAttributes.SelectedItems) {
+                $selectedAttributes += $item.Content
+            }
+        }
+        
+        return $selectedAttributes | Select-Object -Unique
+    }
+
+    # Helper function to select specific attributes in the tabbed ListBoxes
+    function Select-AttributesInListBoxes {
+        param (
+            [string[]]$Attributes
+        )
+        
+        # Clear all selections
+        if ($Global:ListBoxBasicAttributes) {
+            foreach ($item in $Global:ListBoxBasicAttributes.Items) {
+                $item.IsSelected = $false
+            }
+        }
+        if ($Global:ListBoxSecurityAttributes) {
+            foreach ($item in $Global:ListBoxSecurityAttributes.Items) {
+                $item.IsSelected = $false
+            }
+        }
+        if ($Global:ListBoxExtendedAttributes) {
+            foreach ($item in $Global:ListBoxExtendedAttributes.Items) {
+                $item.IsSelected = $false
+            }
+        }
+        
+        # Select requested attributes
+        foreach ($attr in $Attributes) {
+            # Check in Basic Attributes
+            if ($Global:ListBoxBasicAttributes) {
+                foreach ($item in $Global:ListBoxBasicAttributes.Items) {
+                    if ($item.Content -eq $attr) {
+                        $item.IsSelected = $true
+                        break
+                    }
+                }
+            }
+            # Check in Security Attributes
+            if ($Global:ListBoxSecurityAttributes) {
+                foreach ($item in $Global:ListBoxSecurityAttributes.Items) {
+                    if ($item.Content -eq $attr) {
+                        $item.IsSelected = $true
+                        break
+                    }
+                }
+            }
+            # Check in Extended Attributes
+            if ($Global:ListBoxExtendedAttributes) {
+                foreach ($item in $Global:ListBoxExtendedAttributes.Items) {
+                    if ($item.Content -eq $attr) {
+                        $item.IsSelected = $true
+                        break
+                    }
+                }
+            }
+        }
+    }
+
+    # Helper function to populate attributes in the tabbed ListBoxes
+    function Set-AttributesForObjectType {
+        param (
+            [string]$ObjectType
+        )
+        
+        # Clear all ListBoxes
+        if ($Global:ListBoxBasicAttributes) { $Global:ListBoxBasicAttributes.Items.Clear() }
+        if ($Global:ListBoxSecurityAttributes) { $Global:ListBoxSecurityAttributes.Items.Clear() }
+        if ($Global:ListBoxExtendedAttributes) { $Global:ListBoxExtendedAttributes.Items.Clear() }
+        
+        switch ($ObjectType) {
+            "User" {
+                # Basic Attributes
+                @("DisplayName", "SamAccountName", "GivenName", "Surname", "mail", "Department", "Title", "Enabled") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    if ($_ -in @("DisplayName", "SamAccountName", "Enabled")) { $item.IsSelected = $true }
+                    $Global:ListBoxBasicAttributes.Items.Add($item)
+                }
+                
+                # Security Attributes
+                @("LastLogonTimestamp", "PasswordExpired", "PasswordLastSet", "AccountExpirationDate", "badPwdCount", "lockoutTime", "UserAccountControl", "memberOf") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    $Global:ListBoxSecurityAttributes.Items.Add($item)
+                }
+                
+                # Extended Attributes
+                @("whenCreated", "whenChanged", "Manager", "Company", "physicalDeliveryOfficeName", "telephoneNumber", "homeDirectory", "scriptPath") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    $Global:ListBoxExtendedAttributes.Items.Add($item)
+                }
+            }
+            "Group" {
+                # Basic Attributes
+                @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope", "mail") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    if ($_ -in @("Name", "SamAccountName")) { $item.IsSelected = $true }
+                    $Global:ListBoxBasicAttributes.Items.Add($item)
+                }
+                
+                # Security Attributes
+                @("ManagedBy", "info", "memberOf", "members") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    $Global:ListBoxSecurityAttributes.Items.Add($item)
+                }
+                
+                # Extended Attributes
+                @("whenCreated", "whenChanged", "distinguishedName", "objectGUID") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    $Global:ListBoxExtendedAttributes.Items.Add($item)
+                }
+            }
+            "Computer" {
+                # Basic Attributes
+                @("Name", "DNSHostName", "OperatingSystem", "OperatingSystemVersion", "Enabled", "IPv4Address") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    if ($_ -in @("Name", "OperatingSystem", "Enabled")) { $item.IsSelected = $true }
+                    $Global:ListBoxBasicAttributes.Items.Add($item)
+                }
+                
+                # Security Attributes
+                @("LastLogonDate", "PasswordLastSet", "userAccountControl") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    $Global:ListBoxSecurityAttributes.Items.Add($item)
+                }
+                
+                # Extended Attributes
+                @("whenCreated", "Description", "Location", "ManagedBy", "servicePrincipalName") | ForEach-Object {
+                    $item = New-Object System.Windows.Controls.ListBoxItem
+                    $item.Content = $_
+                    $Global:ListBoxExtendedAttributes.Items.Add($item)
+                }
+            }
+        }
+    }
+
     # RadioButton Event Handler
     $RadioButtonUser.add_Checked({
-        $Global:ListBoxSelectAttributes.IsEnabled = $true
         Write-ADReportLog -Message "Object type changed to User" -Type Info -Terminal
         
-        # Filter-Attribute für Benutzer
+        # Filter-Attribute fÃ¼r Benutzer
         $UserFilterAttributes = @("DisplayName", "SamAccountName", "GivenName", "Surname", "mail", "Department", "Title", "EmployeeID", "UserPrincipalName")
         $Global:ComboBoxFilterAttribute1.Items.Clear()
         $Global:ComboBoxFilterAttribute2.Items.Clear()
@@ -4080,23 +4372,16 @@ Function Initialize-ADReportForm {
             $Global:ComboBoxFilterAttribute2.SelectedIndex = 1
         }
         
-        # Benutzer-Attribute für Auswahl
-        $Global:ListBoxSelectAttributes.Items.Clear()
-        $UserAttributes = @("DisplayName", "SamAccountName", "GivenName", "Surname", "mail", "Department", "Title", "Enabled", "LastLogonDate", "whenCreated", "PasswordLastSet", "PasswordNeverExpires", "LockedOut", "Description")
-        $UserAttributes | ForEach-Object {
-            $newItem = New-Object System.Windows.Controls.ListBoxItem
-            $newItem.Content = $_ 
-            $Global:ListBoxSelectAttributes.Items.Add($newItem)
-        }
+        # Populate attributes in tabbed ListBoxes
+        Set-AttributesForObjectType -ObjectType "User"
         
         $Global:TextBlockStatus.Text = "Ready for user query"
     })
 
     $RadioButtonGroup.add_Checked({
-        $Global:ListBoxSelectAttributes.IsEnabled = $true
         Write-ADReportLog -Message "Object type changed to Group" -Type Info -Terminal
         
-        # Filter-Attribute für Gruppen
+        # Filter-Attribute fÃ¼r Gruppen
         $GroupFilterAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope")
         $Global:ComboBoxFilterAttribute1.Items.Clear()
         $Global:ComboBoxFilterAttribute2.Items.Clear()
@@ -4109,23 +4394,16 @@ Function Initialize-ADReportForm {
             $Global:ComboBoxFilterAttribute2.SelectedIndex = 1
         }
         
-        # Gruppen-Attribute für Auswahl
-        $Global:ListBoxSelectAttributes.Items.Clear()
-        $GroupAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope", "whenCreated", "whenChanged", "ManagedBy", "mail", "info", "MemberOf")
-        $GroupAttributes | ForEach-Object {
-            $newItem = New-Object System.Windows.Controls.ListBoxItem
-            $newItem.Content = $_ 
-            $Global:ListBoxSelectAttributes.Items.Add($newItem)
-        }
+        # Populate attributes in tabbed ListBoxes
+        Set-AttributesForObjectType -ObjectType "Group"
         
         $Global:TextBlockStatus.Text = "Ready for group query"
     })
 
     $RadioButtonComputer.add_Checked({
-        $Global:ListBoxSelectAttributes.IsEnabled = $true
         Write-ADReportLog -Message "Object type changed to Computer" -Type Info -Terminal
         
-        # Filter-Attribute für Computer
+        # Filter-Attribute fÃ¼r Computer
         $ComputerFilterAttributes = @("Name", "DNSHostName", "OperatingSystem", "Description")
         $Global:ComboBoxFilterAttribute1.Items.Clear()
         $Global:ComboBoxFilterAttribute2.Items.Clear()
@@ -4138,29 +4416,22 @@ Function Initialize-ADReportForm {
             $Global:ComboBoxFilterAttribute2.SelectedIndex = 1
         }
         
-        # Computer-Attribute für Auswahl
-        $Global:ListBoxSelectAttributes.Items.Clear()
-        $ComputerAttributes = @("Name", "DNSHostName", "OperatingSystem", "OperatingSystemVersion", "Enabled", "LastLogonDate", "whenCreated", "IPv4Address", "Description", "Location", "ManagedBy", "PasswordLastSet")
-        $ComputerAttributes | ForEach-Object {
-            $newItem = New-Object System.Windows.Controls.ListBoxItem
-            $newItem.Content = $_ 
-            $Global:ListBoxSelectAttributes.Items.Add($newItem)
-        }
+        # Populate attributes in tabbed ListBoxes
+        Set-AttributesForObjectType -ObjectType "Computer"
         
         $Global:TextBlockStatus.Text = "Ready for computer query"
     })
 
     $RadioButtonGroupMemberships.add_Checked({
         Write-ADReportLog -Message "Object type changed to GroupMemberships" -Type Info -Terminal
-        $Global:ListBoxSelectAttributes.IsEnabled = $false
-        # Optional: ComboBoxFilterAttribute anpassen oder leeren, falls erforderlich
-        # $Global:ComboBoxFilterAttribute.Items.Clear()
-        # $Global:ComboBoxFilterAttribute.Items.Add("SamAccountName") # Beispiel
-        # if ($Global:ComboBoxFilterAttribute.Items.Count -gt 0) { $Global:ComboBoxFilterAttribute.SelectedIndex = 0 }
+        # Clear all ListBoxes for Group Memberships (no attribute selection needed)
+        if ($Global:ListBoxBasicAttributes) { $Global:ListBoxBasicAttributes.Items.Clear() }
+        if ($Global:ListBoxSecurityAttributes) { $Global:ListBoxSecurityAttributes.Items.Clear() }
+        if ($Global:ListBoxExtendedAttributes) { $Global:ListBoxExtendedAttributes.Items.Clear() }
         Write-ADReportLog -Message "Attribute selection disabled for GroupMemberships query." -Type Info
     })
 
-    # Event Handler für ButtonQueryAD anpassen, um Objekttyp zu berücksichtigen
+    # Event Handler fÃ¼r ButtonQueryAD anpassen, um Objekttyp zu berÃ¼cksichtigen
     $ButtonQueryAD.add_Click({
         Write-ADReportLog -Message "Executing query..." -Type Info
         try {
@@ -4182,22 +4453,23 @@ Function Initialize-ADReportForm {
                 $FilterOperator2 = if ($Global:ComboBoxFilterOperator2.SelectedItem) { $Global:ComboBoxFilterOperator2.SelectedItem.Content.ToString() } else { "Contains" }
             }
             
-            $SelectedAttributes = $Global:ListBoxSelectAttributes.SelectedItems
-            Write-Host "DEBUG: SelectedItems in ButtonClickHandler: $($Global:ListBoxSelectAttributes.SelectedItems | ForEach-Object {$_.Content -join '; '})"
+            # Get selected attributes from all three ListBoxes
+            $SelectedAttributes = Get-AllSelectedAttributes
+            Write-Host "DEBUG: Selected attributes: $($SelectedAttributes -join '; ')"
             $isUserSearch = $Global:RadioButtonUser.IsChecked
 
-            if ($SelectedAttributes.Count -eq 0) {
+            if ($SelectedAttributes.Count -eq 0 -and $Global:RadioButtonGroupMemberships.IsChecked -eq $false) {
                 [System.Windows.MessageBox]::Show("Please select at least one attribute for export.", "Warnung", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning) | Out-Null
                 return
             }
 
-            # Bestimme den aktuell ausgewählten Objekttyp
+            # Bestimme den aktuell ausgewÃ¤hlten Objekttyp
             $ObjectType = if ($Global:RadioButtonUser.IsChecked) { "User" } 
                         elseif ($Global:RadioButtonGroup.IsChecked) { "Group" } 
                         elseif ($Global:RadioButtonGroupMemberships.IsChecked) { "GroupMemberships" } 
                         else { "Computer" }
             
-            # AD-Abfrage basierend auf Objekttyp durchführen
+            # AD-Abfrage basierend auf Objekttyp durchfÃ¼hren
             $ReportData = $null
             switch ($ObjectType) {
                 "User" {
@@ -4220,7 +4492,7 @@ Function Initialize-ADReportForm {
                         $ReportData = Get-ADGroupMembershipsReportData -FilterAttribute $SelectedFilterAttribute -FilterValue $FilterValue
                     } else {
                         Write-ADReportLog -Message "Filter attribute or value is empty for GroupMemberships query. Please specify a filter." -Type Warning
-                        [System.Windows.Forms.MessageBox]::Show("Bitte geben Sie einen Filter (Attribut und Wert) für die Mitgliedschaftsabfrage an.", "Hinweis", "OK", "Information")
+                        [System.Windows.Forms.MessageBox]::Show("Bitte geben Sie einen Filter (Attribut und Wert) fÃ¼r die Mitgliedschaftsabfrage an.", "Hinweis", "OK", "Information")
                         $ReportData = @()
                     }
                 }
@@ -4242,11 +4514,11 @@ Function Initialize-ADReportForm {
                     # Direkte Zuweisung an DataGrid
                     $Global:DataGridResults.ItemsSource = $ReportCollection
                     
-                    # Zähle die Anzahl der Ergebnisse
+                    # ZÃ¤hle die Anzahl der Ergebnisse
                     $Count = $ReportCollection.Count
                     Write-ADReportLog -Message "Query completed. $Count result(s) found for $ObjectType." -Type Info
                     
-                    # Ergebniszähler im Header aktualisieren
+                    # ErgebniszÃ¤hler im Header aktualisieren
                     Update-ResultCounters -Results $ReportCollection
                     
                     if ($isUserSearch -and $ReportCollection.Count -eq 1 -and $ReportCollection[0].PSObject.Properties['SamAccountName']) {
@@ -4254,7 +4526,7 @@ Function Initialize-ADReportForm {
                         
                         # Check if the "Mitgliedschaften" RadioButton is checked
                         if ($Global:RadioButtonGroupMemberships.IsChecked -eq $true) {
-                            Write-ADReportLog -Message "Rufe Gruppenmitgliedschaften für Benutzer $($userSamAccountName) ab (RadioButton 'Mitgliedschaften' ist aktiv)..." -Type Info
+                            Write-ADReportLog -Message "Rufe Gruppenmitgliedschaften fÃ¼r Benutzer $($userSamAccountName) ab (RadioButton 'Mitgliedschaften' ist aktiv)..." -Type Info
                             $GroupMemberships = Get-UserGroupMemberships -SamAccountName $userSamAccountName
                             
                             if ($GroupMemberships -and $GroupMemberships.Count -gt 0) {
@@ -4279,7 +4551,7 @@ Function Initialize-ADReportForm {
                                 }
                             } else {
                                 # RadioButton "Mitgliedschaften" is NOT checked. Display user data as usual.
-                                Write-ADReportLog -Message "RadioButton 'Mitgliedschaften' ist nicht aktiv. Zeige Benutzerdaten für $userSamAccountName." -Type Info
+                                Write-ADReportLog -Message "RadioButton 'Mitgliedschaften' ist nicht aktiv. Zeige Benutzerdaten fÃ¼r $userSamAccountName." -Type Info
                                 $Global:DataGridResults.ItemsSource = $ReportCollection
                                 $Global:TextBlockStatus.Text = "Benutzer $userSamAccountName gefunden. Mitgliedschaften nicht abgefragt."
                                 Update-ResultCounters -Results $ReportCollection
@@ -4287,7 +4559,7 @@ Function Initialize-ADReportForm {
                             }
                         } else {
                             # RadioButton "Mitgliedschaften" is NOT checked. Display user data as usual.
-                            Write-ADReportLog -Message "RadioButton 'Mitgliedschaften' ist nicht aktiv. Zeige Benutzerdaten für $userSamAccountName." -Type Info
+                            Write-ADReportLog -Message "RadioButton 'Mitgliedschaften' ist nicht aktiv. Zeige Benutzerdaten fÃ¼r $userSamAccountName." -Type Info
                             $Global:DataGridResults.ItemsSource = $ReportCollection
                             $Global:TextBlockStatus.Text = "Benutzer $userSamAccountName gefunden. Mitgliedschaften nicht abgefragt."
                             Update-ResultCounters -Results $ReportCollection
@@ -4307,7 +4579,7 @@ Function Initialize-ADReportForm {
                         $Global:DataGridResults.ItemsSource = $null
                         if ($Global:DataGridResults.Columns) { $Global:DataGridResults.Columns.Clear() }
                     }
-                    Update-ResultCounters -Results @() # Leeres Array für die Zähler
+                    Update-ResultCounters -Results @() # Leeres Array fÃ¼r die ZÃ¤hler
                 } 
             } else {
                 Write-ADReportLog -Message "No data returned from query for $ObjectType." -Type Info
@@ -4336,9 +4608,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickAllUsers.add_Click({
                 Write-ADReportLog -Message "Loading all users..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4346,11 +4615,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
                     
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "GivenName", "Surname", "mail", "Enabled", "LastLogonDate", "whenCreated", "LockedOut")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "*" -SelectedAttributes $QuickReportAttributes
                     Update-ADReportResults -Results $ReportData -StatusMessage "All users loaded."
@@ -4367,9 +4632,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickDisabledUsers.add_Click({
                 Write-ADReportLog -Message "Loading disabled users..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4377,11 +4639,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "Enabled", "LastLogonDate")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
                     
                     $ReportData = Get-ADReportData -CustomFilter "Enabled -eq `$false" -SelectedAttributes $QuickReportAttributes
                     Update-ADReportResults -Results $ReportData -StatusMessage "Disabled users loaded."
@@ -4398,9 +4656,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickLockedUsers.add_Click({
                 Write-ADReportLog -Message "Loading locked out users..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4408,17 +4663,13 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "LockedOut", "LastLogonDate", "BadLogonCount")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Verwende Search-ADAccount statt Get-ADUser für gesperrte Konten (basierend auf Microsoft-Dokumentation)
+                    # Verwende Search-ADAccount statt Get-ADUser fÃ¼r gesperrte Konten (basierend auf Microsoft-Dokumentation)
                     $LockedOutAccounts = Search-ADAccount -LockedOut -UsersOnly -ErrorAction SilentlyContinue
                     
                     if ($LockedOutAccounts) {
-                        # Hole detaillierte Informationen für jeden gesperrten Benutzer
+                        # Hole detaillierte Informationen fÃ¼r jeden gesperrten Benutzer
                         $DetailedLockedAccounts = @()
                         foreach ($account in $LockedOutAccounts) {
                             $userDetails = Get-ADUser -Identity $account.SamAccountName -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
@@ -4452,9 +4703,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickNeverExpire.add_Click({
                 Write-ADReportLog -Message "Loading users with password never expires..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4462,11 +4710,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "PasswordNeverExpires", "Enabled")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "PasswordNeverExpires -eq `$true" -SelectedAttributes $QuickReportAttributes
                     Update-ADReportResults -Results $ReportData -StatusMessage "Users with password never expires loaded."
@@ -4483,9 +4727,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickInactiveUsers.add_Click({
                 Write-ADReportLog -Message "Loading inactive users (90 days)..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4493,13 +4734,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "LastLogonDate", "Enabled")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Verwende FileTime-Format für AD-Datumsvergleiche
+                    # Verwende FileTime-Format fÃ¼r AD-Datumsvergleiche
                     $inactiveThreshold = (Get-Date).AddDays(-90).ToFileTime()
                     # Alternative: Lade alle Benutzer und filtere mit Where-Object
                     $AllUsers = Get-ADUser -Filter * -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
@@ -4535,9 +4772,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickAdminUsers.add_Click({
                 Write-ADReportLog -Message "Loading admin users..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4560,7 +4794,7 @@ Function Initialize-ADReportForm {
                     $AdminGroups += $Global:ADGroupNames.BackupOperators
                     
                     $AdminUsers = @()
-                    # Prüfe Benutzer auf Admin-Rechte - erst SIDs der Admin-Gruppen ermitteln
+                    # PrÃ¼fe Benutzer auf Admin-Rechte - erst SIDs der Admin-Gruppen ermitteln
                     $AdminGroupSIDs = @()
                     foreach ($groupName in $AdminGroups) {
                         try {
@@ -4575,7 +4809,7 @@ Function Initialize-ADReportForm {
                     
                     # Nur fortfahren, wenn wir Admin-Gruppen gefunden haben
                     if ($AdminGroupSIDs.Count -gt 0) {
-                        # Für jeden Benutzer die Gruppenmitgliedschaften prüfen
+                        # FÃ¼r jeden Benutzer die Gruppenmitgliedschaften prÃ¼fen
                         foreach ($user in $AllUsers) {
                             $memberOf = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName -ErrorAction SilentlyContinue
                             foreach ($group in $memberOf) {
@@ -4614,9 +4848,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickRecentlyCreatedUsers.add_Click({
                 Write-ADReportLog -Message "Loading recently created users (30 days)..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4624,13 +4855,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "whenCreated", "Enabled", "mail")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Lade alle Benutzer und filtere mit Where-Object für Datumsvergleiche
+                    # Lade alle Benutzer und filtere mit Where-Object fÃ¼r Datumsvergleiche
                     $AllUsers = Get-ADUser -Filter * -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
                     
                     if ($AllUsers) {
@@ -4664,9 +4891,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickPasswordExpiringSoon.add_Click({
                 Write-ADReportLog -Message "Loading users with password expiring soon (7 days)..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4674,11 +4898,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "PasswordLastSet", "Enabled", "PasswordNeverExpires", "AccountExpirationDate")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     # Hole die Domain Password Policy
                     $DomainPasswordPolicy = Get-ADDefaultDomainPasswordPolicy
@@ -4718,9 +4938,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickGroups.add_Click({
                 Write-ADReportLog -Message "Loading all groups..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonGroup.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4728,11 +4945,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope", "whenCreated")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "*" -SelectedAttributes $QuickReportAttributes -ObjectType "Group"
                     Update-ADReportResults -Results $ReportData -StatusMessage "All groups loaded."
@@ -4749,9 +4962,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickSecurityGroups.add_Click({
                 Write-ADReportLog -Message "Loading security groups..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonGroup.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4759,11 +4969,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "GroupCategory -eq 'Security'" -SelectedAttributes $QuickReportAttributes -ObjectType "Group"
                     Update-ADReportResults -Results $ReportData -StatusMessage "Security groups loaded."
@@ -4780,9 +4986,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickComputers.add_Click({
                 Write-ADReportLog -Message "Loading all computers..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonComputer.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4790,11 +4993,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("Name", "DNSHostName", "OperatingSystem", "Enabled", "LastLogonDate", "whenCreated")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "*" -SelectedAttributes $QuickReportAttributes -ObjectType "Computer"
                     Update-ADReportResults -Results $ReportData -StatusMessage "All computers loaded."
@@ -4811,9 +5010,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickInactiveComputers.add_Click({
                 Write-ADReportLog -Message "Loading inactive computers (90 days)..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonComputer.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4821,13 +5017,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("Name", "DNSHostName", "LastLogonDate", "Enabled", "OperatingSystem")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Lade alle Computer und filtere mit Where-Object für Datumsvergleiche
+                    # Lade alle Computer und filtere mit Where-Object fÃ¼r Datumsvergleiche
                     $AllComputers = Get-ADComputer -Filter * -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
                     
                     if ($AllComputers) {
@@ -4861,9 +5053,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickExpiredPasswords.add_Click({
                 Write-ADReportLog -Message "Loading users with expired passwords..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4871,11 +5060,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "PasswordLastSet", "Enabled", "PasswordNeverExpires")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     # Hole die Domain Password Policy
                     $DomainPasswordPolicy = Get-ADDefaultDomainPasswordPolicy
@@ -4915,9 +5100,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickNeverLoggedOn.add_Click({
                 Write-ADReportLog -Message "Loading users who never logged on..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4925,11 +5107,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "LastLogonDate", "whenCreated", "Enabled")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "LastLogonDate -notlike '*'" -SelectedAttributes $QuickReportAttributes -ObjectType "User"
                     Update-ADReportResults -Results $ReportData -StatusMessage "Users who never logged on loaded."
@@ -4946,9 +5124,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickRecentlyDeletedUsers.add_Click({
                 Write-ADReportLog -Message "Loading recently deleted users..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -4956,13 +5131,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "whenDeleted", "isDeleted", "lastKnownParent", "objectClass")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Für gelöschte Objekte müssen wir den Deleted Objects Container abfragen
+                    # FÃ¼r gelÃ¶schte Objekte mÃ¼ssen wir den Deleted Objects Container abfragen
                     try {
                         $deletedAfter = (Get-Date).AddDays(-30)
                         $Domain = Get-ADDomain
@@ -4986,7 +5157,7 @@ Function Initialize-ADReportForm {
                             $Global:TextBlockStatus.Text = "No recently deleted users found in the last 30 days."
                         }
                     } catch {
-                        # Fallback wenn keine Berechtigung für Deleted Objects
+                        # Fallback wenn keine Berechtigung fÃ¼r Deleted Objects
                         Write-ADReportLog -Message "Cannot access deleted objects. Requires appropriate permissions." -Type Warning
                         $Global:DataGridResults.ItemsSource = $null
                         $Global:TextBlockStatus.Text = "Access to deleted objects denied. Administrator permissions required."
@@ -5002,9 +5173,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickRecentlyModifiedUsers.add_Click({
                 Write-ADReportLog -Message "Loading recently modified users..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -5012,13 +5180,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "whenChanged", "whenCreated", "Enabled", "modifyTimeStamp")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Lade alle Benutzer und filtere mit Where-Object für Datumsvergleiche
+                    # Lade alle Benutzer und filtere mit Where-Object fÃ¼r Datumsvergleiche
                     $AllUsers = Get-ADUser -Filter * -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
                     
                     if ($AllUsers) {
@@ -5052,7 +5216,7 @@ Function Initialize-ADReportForm {
             $ButtonQuickInactiveUsersXDays.add_Click({
                 Write-ADReportLog -Message "Loading inactive users (custom days)..." -Type Info
                 try {
-                    # Eingabedialog für Anzahl der Tage
+                    # Eingabedialog fÃ¼r Anzahl der Tage
                     Add-Type -AssemblyName Microsoft.VisualBasic
                     $days = [Microsoft.VisualBasic.Interaction]::InputBox('Enter number of days for inactivity check:', 'Inactive Users', '60')
                     
@@ -5066,9 +5230,6 @@ Function Initialize-ADReportForm {
                         return
                     }
                     
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -5076,13 +5237,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "LastLogonDate", "Enabled", "whenCreated")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Lade alle Benutzer und filtere mit Where-Object für Datumsvergleiche
+                    # Lade alle Benutzer und filtere mit Where-Object fÃ¼r Datumsvergleiche
                     $AllUsers = Get-ADUser -Filter * -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
                     
                     if ($AllUsers) {
@@ -5116,9 +5273,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickUsersWithoutManager.add_Click({
                 Write-ADReportLog -Message "Loading users without manager..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -5126,13 +5280,9 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("DisplayName", "SamAccountName", "Department", "Title", "Enabled", "manager")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Manager-Attribut unterstützt nur -eq und -ne Operatoren
+                    # Manager-Attribut unterstÃ¼tzt nur -eq und -ne Operatoren
                     # Lade alle aktivierten Benutzer und filtere dann nach fehlenden Managern
                     $AllEnabledUsers = Get-ADUser -Filter "Enabled -eq `$true" -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
                     
@@ -5165,9 +5315,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickUsersMissingRequiredAttributes.add_Click({
                 Write-ADReportLog -Message "Loading users missing required attributes..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -5224,9 +5371,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickUsersDuplicateLogonNames.add_Click({
                 Write-ADReportLog -Message "Loading users with duplicate logon names..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonUser.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -5262,7 +5406,7 @@ Function Initialize-ADReportForm {
                     # Verarbeite UPN Duplikate
                     foreach ($group in $DuplicateUPNs) {
                         foreach ($user in $group.Group) {
-                            # Prüfe ob dieser User nicht schon als SamAccountName Duplikat erfasst wurde
+                            # PrÃ¼fe ob dieser User nicht schon als SamAccountName Duplikat erfasst wurde
                             if (-not ($DuplicateUsers | Where-Object { $_.SamAccountName -eq $user.SamAccountName })) {
                                 $DuplicateUsers += [PSCustomObject]@{
                                     DisplayName = $user.DisplayName
@@ -5298,10 +5442,6 @@ Function Initialize-ADReportForm {
             $ButtonQuickOrphanedSIDsUsers.add_Click({
                 Write-ADReportLog -Message "Loading orphaned SIDs (Foreign Security Principals)..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
-                    
                     # Lade Foreign Security Principals
                     $Domain = Get-ADDomain
                     $ForeignSecurityPrincipals = Get-ADObject -Filter * -SearchBase "CN=ForeignSecurityPrincipals,$($Domain.DistinguishedName)" -Properties Name, ObjectSID, whenCreated, whenChanged
@@ -5309,18 +5449,18 @@ Function Initialize-ADReportForm {
                     $OrphanedSIDs = @()
                     
                     foreach ($fsp in $ForeignSecurityPrincipals) {
-                        # Versuche den SID aufzulösen
+                        # Versuche den SID aufzulÃ¶sen
                         $resolved = $false
                         $resolvedName = "Unknown"
                         $sidString = $fsp.Name
                         
                         try {
-                            # Versuche SID zu einem Namen aufzulösen
+                            # Versuche SID zu einem Namen aufzulÃ¶sen
                             $sid = New-Object System.Security.Principal.SecurityIdentifier($sidString)
                             $resolvedName = $sid.Translate([System.Security.Principal.NTAccount]).Value
                             $resolved = $true
                         } catch {
-                            # SID konnte nicht aufgelöst werden - wahrscheinlich verwaist
+                            # SID konnte nicht aufgelÃ¶st werden - wahrscheinlich verwaist
                             $resolved = $false
                         }
                         
@@ -5335,7 +5475,7 @@ Function Initialize-ADReportForm {
                                 whenChanged = $fsp.whenChanged
                             }
                         } else {
-                            # Optional: Auch aufgelöste SIDs anzeigen
+                            # Optional: Auch aufgelÃ¶ste SIDs anzeigen
                             $OrphanedSIDs += [PSCustomObject]@{
                                 Name = $fsp.Name
                                 DistinguishedName = $fsp.DistinguishedName
@@ -5369,12 +5509,198 @@ Function Initialize-ADReportForm {
                 }
             })
 
+            $ButtonQuickReversibleEncryption.add_Click({
+                Write-ADReportLog -Message "Loading users with reversible encryption..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $ReversibleUsers = Get-ReversibleEncryptionUsers
+                    if ($ReversibleUsers -and $ReversibleUsers.Count -gt 0) {
+                        Update-ADReportResults -Results $ReversibleUsers
+                        Write-ADReportLog -Message "Users with reversible encryption loaded. $($ReversibleUsers.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Users with reversible encryption loaded. $($ReversibleUsers.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No users with reversible encryption found." -Type Info
+                        $Global:TextBlockStatus.Text = "No users with reversible encryption found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error loading users with reversible encryption: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
+            $ButtonQuickKerberosDES.add_Click({
+                Write-ADReportLog -Message "Loading users with Kerberos DES encryption..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $DESUsers = Get-KerberosDESUsers
+                    if ($DESUsers -and $DESUsers.Count -gt 0) {
+                        Update-ADReportResults -Results $DESUsers
+                        Write-ADReportLog -Message "Users with Kerberos DES loaded. $($DESUsers.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Users with Kerberos DES loaded. $($DESUsers.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No users with Kerberos DES found." -Type Info
+                        $Global:TextBlockStatus.Text = "No users with Kerberos DES encryption found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error loading users with Kerberos DES: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
+            $ButtonQuickUsersWithSPN.add_Click({
+                Write-ADReportLog -Message "Loading users with Service Principal Names..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $SPNUsers = Get-UsersWithSPN
+                    if ($SPNUsers -and $SPNUsers.Count -gt 0) {
+                        Update-ADReportResults -Results $SPNUsers
+                        Write-ADReportLog -Message "Users with SPN loaded. $($SPNUsers.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Users with SPN loaded. $($SPNUsers.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No users with SPN found." -Type Info
+                        $Global:TextBlockStatus.Text = "No users with Service Principal Names found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error loading users with SPN: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
+            $ButtonQuickGuestAccountStatus.add_Click({
+                Write-ADReportLog -Message "Analyzing Guest account status..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $GuestStatus = Get-GuestAccountStatus
+                    if ($GuestStatus -and $GuestStatus.Count -gt 0) {
+                        Update-ADReportResults -Results $GuestStatus
+                        Write-ADReportLog -Message "Guest account analysis completed. $($GuestStatus.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Guest account analysis completed. $($GuestStatus.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No Guest account information found." -Type Info
+                        $Global:TextBlockStatus.Text = "No Guest account found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error analyzing Guest account: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
+            $ButtonQuickUsersByDepartment.add_Click({
+                Write-ADReportLog -Message "Loading users by department..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $UsersByDept = Get-UsersByDepartment
+                    if ($UsersByDept -and $UsersByDept.Count -gt 0) {
+                        Update-ADReportResults -Results $UsersByDept
+                        Write-ADReportLog -Message "Users by department loaded. $($UsersByDept.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Users by department loaded. $($UsersByDept.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No department data found." -Type Info
+                        $Global:TextBlockStatus.Text = "No users with department information found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error loading users by department: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
+            $ButtonQuickUsersByManager.add_Click({
+                Write-ADReportLog -Message "Loading users by manager..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $UsersByMgr = Get-UsersByManager
+                    if ($UsersByMgr -and $UsersByMgr.Count -gt 0) {
+                        Update-ADReportResults -Results $UsersByMgr
+                        Write-ADReportLog -Message "Users by manager loaded. $($UsersByMgr.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Users by manager loaded. $($UsersByMgr.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No manager data found." -Type Info
+                        $Global:TextBlockStatus.Text = "No users with manager information found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error loading users by manager: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
+            $ButtonQuickRemoteAccessUsers.add_Click({
+                Write-ADReportLog -Message "Loading remote access users..." -Type Info
+                try {
+                    $Global:RadioButtonUser.IsChecked = $true
+                    $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                    $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                    $Global:TextBoxFilterValue1.Text = ""
+                    $Global:TextBoxFilterValue2.Text = ""
+
+                    $RemoteUsers = Get-RemoteAccessUsers
+                    if ($RemoteUsers -and $RemoteUsers.Count -gt 0) {
+                        Update-ADReportResults -Results $RemoteUsers
+                        Write-ADReportLog -Message "Remote access users loaded. $($RemoteUsers.Count) result(s) found." -Type Info
+                        $Global:TextBlockStatus.Text = "Remote access users loaded. $($RemoteUsers.Count) record(s) found."
+                    } else {
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No remote access users found." -Type Info
+                        $Global:TextBlockStatus.Text = "No remote access users found."
+                    }
+                } catch {
+                    $ErrorMessage = "Error loading remote access users: $($_.Exception.Message)"
+                    Write-ADReportLog -Message $ErrorMessage -Type Error
+                    Update-ADReportResults -Results @()
+                    $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+                }
+            })
+
             $ButtonQuickDistributionGroups.add_Click({
                 Write-ADReportLog -Message "Loading distribution groups..." -Type Info
                 try {
-                    if ($script:ListBoxSelectionChangedHandler) {
-                        $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-                    }
                     $Global:RadioButtonGroup.IsChecked = $true
                     $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
                     $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
@@ -5382,11 +5708,7 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue2.Text = ""
 
                     $QuickReportAttributes = @("Name", "SamAccountName", "Description", "GroupCategory", "GroupScope", "mail")
-                    $Global:ListBoxSelectAttributes.SelectedItems.Clear()
-                    foreach ($attr in $QuickReportAttributes) {
-                        $itemsToSelect = $Global:ListBoxSelectAttributes.Items | Where-Object { $_.Content -eq $attr }
-                        foreach ($item in $itemsToSelect) { $item.IsSelected = $true }
-                    }
+                    Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
                     $ReportData = Get-ADReportData -CustomFilter "GroupCategory -eq 'Distribution'" -SelectedAttributes $QuickReportAttributes -ObjectType "Group"
                     Update-ADReportResults -Results $ReportData -StatusMessage "Distribution groups loaded."
@@ -5556,7 +5878,7 @@ Function Initialize-ADReportForm {
         }
     })
 
-    # --- Event Handler für neue erweiterte Reports ---
+    # --- Event Handler fÃ¼r neue erweiterte Reports ---
     
     # Organisationsstruktur-Reports
     if ($null -ne $Global:ButtonQuickDepartmentStats) {
@@ -5695,7 +6017,7 @@ Function Initialize-ADReportForm {
         }
     })
     } else {
-        Write-ADReportLog -Message "ButtonQuickDCSyncRights nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+        Write-ADReportLog -Message "ButtonQuickDCSyncRights nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
     }
 
     # Advanced Security
@@ -5720,7 +6042,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickSchemaAdmins nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickSchemaAdmins nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickSchemaAdmins: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5747,7 +6069,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickCertificateAnalysis nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickCertificateAnalysis nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickCertificateAnalysis: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5778,7 +6100,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickSYSVOLHealth nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickSYSVOLHealth nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickSYSVOLHealth: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5805,7 +6127,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickDNSHealth nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickDNSHealth nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickDNSHealth: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5832,7 +6154,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickBackupStatus nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickBackupStatus nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickBackupStatus: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5860,7 +6182,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickSchemaAnalysis nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickSchemaAnalysis nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickSchemaAnalysis: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5887,7 +6209,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickTrustRelationships nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickTrustRelationships nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickTrustRelationships: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5914,7 +6236,7 @@ Function Initialize-ADReportForm {
         }
     })
         } else {
-            Write-ADReportLog -Message "ButtonQuickQuotasLimits nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+            Write-ADReportLog -Message "ButtonQuickQuotasLimits nicht gefunden - Funktion wird Ã¼bersprungen." -Type Warning -Terminal
         }
     } catch {
         Write-ADReportLog -Message "Fehler beim Initialisieren von ButtonQuickQuotasLimits: $($_.Exception.Message)" -Type Warning -Terminal
@@ -5994,6 +6316,297 @@ Function Initialize-ADReportForm {
         }
     })
 
+    # --- Event Handler fÃ¼r Attribute Selection Buttons ---
+    if ($null -ne $Global:ButtonSelectAllAttributes) {
+        $ButtonSelectAllAttributes.add_Click({
+            Write-ADReportLog -Message "Selecting all attributes..." -Type Info
+            try {
+                # Select all items in all three ListBoxes
+                if ($Global:ListBoxBasicAttributes) {
+                    foreach ($item in $Global:ListBoxBasicAttributes.Items) {
+                        $item.IsSelected = $true
+                    }
+                }
+                if ($Global:ListBoxSecurityAttributes) {
+                    foreach ($item in $Global:ListBoxSecurityAttributes.Items) {
+                        $item.IsSelected = $true
+                    }
+                }
+                if ($Global:ListBoxExtendedAttributes) {
+                    foreach ($item in $Global:ListBoxExtendedAttributes.Items) {
+                        $item.IsSelected = $true
+                    }
+                }
+                Write-ADReportLog -Message "All attributes selected." -Type Info
+            } catch {
+                Write-ADReportLog -Message "Error selecting all attributes: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+
+    if ($null -ne $Global:ButtonSelectNoneAttributes) {
+        $ButtonSelectNoneAttributes.add_Click({
+            Write-ADReportLog -Message "Deselecting all attributes..." -Type Info
+            try {
+                # Deselect all items in all three ListBoxes
+                if ($Global:ListBoxBasicAttributes) {
+                    foreach ($item in $Global:ListBoxBasicAttributes.Items) {
+                        $item.IsSelected = $false
+                    }
+                }
+                if ($Global:ListBoxSecurityAttributes) {
+                    foreach ($item in $Global:ListBoxSecurityAttributes.Items) {
+                        $item.IsSelected = $false
+                    }
+                }
+                if ($Global:ListBoxExtendedAttributes) {
+                    foreach ($item in $Global:ListBoxExtendedAttributes.Items) {
+                        $item.IsSelected = $false
+                    }
+                }
+                Write-ADReportLog -Message "All attributes deselected." -Type Info
+            } catch {
+                Write-ADReportLog -Message "Error deselecting all attributes: $($_.Exception.Message)" -Type Error
+            }
+        })
+    }
+
+    # --- Event Handler fÃ¼r Help and About Buttons ---
+    if ($null -ne $Global:ButtonHelp) {
+        $ButtonHelp.add_Click({
+            Write-ADReportLog -Message "Showing help dialog..." -Type Info
+            [System.Windows.MessageBox]::Show(
+                "easyADReport Help:`n`n" +
+                "1. Select Object Type: Choose between Users, Groups, Computers, or Group Memberships`n`n" +
+                "2. Set Filters: Configure search filters using attribute, operator, and value`n`n" +
+                "3. Select Attributes: Choose which attributes to include in the report`n`n" +
+                "4. Quick Reports: Use predefined reports for common AD queries`n`n" +
+                "5. Export Options: Export results to CSV or HTML format`n`n" +
+                "For more information, visit the documentation.",
+                "Help",
+                [System.Windows.MessageBoxButton]::OK,
+                [System.Windows.MessageBoxImage]::Information
+            ) | Out-Null
+        })
+    }
+
+    if ($null -ne $Global:ButtonAbout) {
+        $ButtonAbout.add_Click({
+            Write-ADReportLog -Message "Showing about dialog..." -Type Info
+            [System.Windows.MessageBox]::Show(
+                "easyADReport v0.3.3`n`n" +
+                "A comprehensive Active Directory reporting tool`n`n" +
+                "Features:`n" +
+                "â€¢ Advanced filtering and search capabilities`n" +
+                "â€¢ Multiple export formats (CSV, HTML)`n" +
+                "â€¢ Quick report templates for common scenarios`n" +
+                "â€¢ Security and compliance reports`n" +
+                "â€¢ Multi-language support`n`n" +
+                "Â© 2024 Your Organization",
+                "About easyADReport",
+                [System.Windows.MessageBoxButton]::OK,
+                [System.Windows.MessageBoxImage]::Information
+            ) | Out-Null
+        })
+    }
+
+    # --- Event Handler fÃ¼r neue Quick Report Buttons ---
+    
+    # Event Handler fÃ¼r ButtonQuickStalePasswords
+    if ($null -ne $Global:ButtonQuickStalePasswords) {
+        $ButtonQuickStalePasswords.add_Click({
+            Write-ADReportLog -Message "Loading users with stale passwords..." -Type Info
+            try {
+                $Global:RadioButtonUser.IsChecked = $true
+                $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                $Global:TextBoxFilterValue1.Text = ""
+                $Global:TextBoxFilterValue2.Text = ""
+
+                $StalePasswords = Get-StalePasswords -Days 90
+                if ($StalePasswords -and $StalePasswords.Count -gt 0) {
+                    Update-ADReportResults -Results $StalePasswords
+                    Write-ADReportLog -Message "Stale passwords loaded. $($StalePasswords.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $StalePasswords
+                    $Global:TextBlockStatus.Text = "Stale passwords loaded. $($StalePasswords.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No users with stale passwords found." -Type Info
+                    $Global:TextBlockStatus.Text = "No users with stale passwords found."
+                }
+            } catch {
+                $ErrorMessage = "Error loading stale passwords: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
+    # Event Handler fÃ¼r ButtonQuickNeverChangingPasswords
+    if ($null -ne $Global:ButtonQuickNeverChangingPasswords) {
+        $ButtonQuickNeverChangingPasswords.add_Click({
+            Write-ADReportLog -Message "Loading users with never changing passwords..." -Type Info
+            try {
+                $Global:RadioButtonUser.IsChecked = $true
+                $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
+                $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
+                $Global:TextBoxFilterValue1.Text = ""
+                $Global:TextBoxFilterValue2.Text = ""
+
+                $NeverChangingPasswords = Get-NeverChangingPasswords -Days 365
+                if ($NeverChangingPasswords -and $NeverChangingPasswords.Count -gt 0) {
+                    Update-ADReportResults -Results $NeverChangingPasswords
+                    Write-ADReportLog -Message "Never changing passwords loaded. $($NeverChangingPasswords.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $NeverChangingPasswords
+                    $Global:TextBlockStatus.Text = "Never changing passwords loaded. $($NeverChangingPasswords.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No users with never changing passwords found." -Type Info
+                    $Global:TextBlockStatus.Text = "No users with never changing passwords found."
+                }
+            } catch {
+                $ErrorMessage = "Error loading never changing passwords: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
+    # Event Handler fÃ¼r ButtonQuickEmptyGroups
+    if ($null -ne $Global:ButtonQuickEmptyGroups) {
+        $ButtonQuickEmptyGroups.add_Click({
+            Write-ADReportLog -Message "Loading empty groups..." -Type Info
+            try {
+                $Global:RadioButtonGroup.IsChecked = $true
+                
+                $EmptyGroups = Get-EmptyGroups
+                if ($EmptyGroups -and $EmptyGroups.Count -gt 0) {
+                    Update-ADReportResults -Results $EmptyGroups
+                    Write-ADReportLog -Message "Empty groups loaded. $($EmptyGroups.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $EmptyGroups
+                    $Global:TextBlockStatus.Text = "Empty groups loaded. $($EmptyGroups.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No empty groups found." -Type Info
+                    $Global:TextBlockStatus.Text = "No empty groups found."
+                }
+            } catch {
+                $ErrorMessage = "Error loading empty groups: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
+    # Event Handler fÃ¼r ButtonQuickServiceAccountsOverview
+    if ($null -ne $Global:ButtonQuickServiceAccountsOverview) {
+        $ButtonQuickServiceAccountsOverview.add_Click({
+            Write-ADReportLog -Message "Loading service accounts overview..." -Type Info
+            try {
+                $Global:RadioButtonUser.IsChecked = $true
+                
+                $ServiceAccounts = Get-ServiceAccountsOverview
+                if ($ServiceAccounts -and $ServiceAccounts.Count -gt 0) {
+                    Update-ADReportResults -Results $ServiceAccounts
+                    Write-ADReportLog -Message "Service accounts loaded. $($ServiceAccounts.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $ServiceAccounts
+                    $Global:TextBlockStatus.Text = "Service accounts loaded. $($ServiceAccounts.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No service accounts found." -Type Info
+                    $Global:TextBlockStatus.Text = "No service accounts found."
+                }
+            } catch {
+                $ErrorMessage = "Error loading service accounts: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
+    # Event Handler fÃ¼r ButtonQuickGPOOverview
+    if ($null -ne $Global:ButtonQuickGPOOverview) {
+        $ButtonQuickGPOOverview.add_Click({
+            Write-ADReportLog -Message "Loading GPO overview..." -Type Info
+            try {
+                $GPOOverview = Get-GPOOverview
+                if ($GPOOverview -and $GPOOverview.Count -gt 0) {
+                    Update-ADReportResults -Results $GPOOverview
+                    Write-ADReportLog -Message "GPO overview loaded. $($GPOOverview.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $GPOOverview
+                    $Global:TextBlockStatus.Text = "GPO overview loaded. $($GPOOverview.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No GPOs found." -Type Info
+                    $Global:TextBlockStatus.Text = "No GPOs found."
+                }
+            } catch {
+                $ErrorMessage = "Error loading GPO overview: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
+    # Event Handler fÃ¼r ButtonQuickHoneyTokens
+    if ($null -ne $Global:ButtonQuickHoneyTokens) {
+        $ButtonQuickHoneyTokens.add_Click({
+            Write-ADReportLog -Message "Analyzing potential honey tokens..." -Type Info
+            try {
+                $Global:RadioButtonUser.IsChecked = $true
+                
+                $HoneyTokens = Get-HoneyTokens
+                if ($HoneyTokens -and $HoneyTokens.Count -gt 0) {
+                    Update-ADReportResults -Results $HoneyTokens
+                    Write-ADReportLog -Message "Honey token analysis completed. $($HoneyTokens.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $HoneyTokens
+                    $Global:TextBlockStatus.Text = "Honey token analysis completed. $($HoneyTokens.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No honey tokens detected." -Type Info
+                    $Global:TextBlockStatus.Text = "No honey tokens detected."
+                }
+            } catch {
+                $ErrorMessage = "Error analyzing honey tokens: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
+    # Event Handler fÃ¼r weitere Quick Report Buttons
+    if ($null -ne $Global:ButtonQuickExpiringAccounts) {
+        $ButtonQuickExpiringAccounts.add_Click({
+            Write-ADReportLog -Message "Analyzing expiring accounts..." -Type Info
+            try {
+                $Global:RadioButtonUser.IsChecked = $true
+                
+                $ExpiringAccounts = Get-ExpiringAccounts
+                if ($ExpiringAccounts -and $ExpiringAccounts.Count -gt 0) {
+                    Update-ADReportResults -Results $ExpiringAccounts
+                    Write-ADReportLog -Message "Expiring accounts analysis completed. $($ExpiringAccounts.Count) result(s) found." -Type Info
+                    Update-ResultCounters -Results $ExpiringAccounts
+                    $Global:TextBlockStatus.Text = "Expiring accounts analysis completed. $($ExpiringAccounts.Count) record(s) found."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "No expiring accounts found." -Type Info
+                    $Global:TextBlockStatus.Text = "No expiring accounts found."
+                }
+            } catch {
+                $ErrorMessage = "Error analyzing expiring accounts: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        })
+    }
+
     # Definiere den ListBox Selection Changed Handler als Script Variable
     $script:ListBoxSelectionChangedHandler = $null
     
@@ -6001,24 +6614,24 @@ Function Initialize-ADReportForm {
     $null = $Window.ShowDialog()
 }
 
-# Funktion zur Visualisierung der Ergebnisse (Placeholder für zukünftige Implementierung)
+# Funktion zur Visualisierung der Ergebnisse (Placeholder fÃ¼r zukÃ¼nftige Implementierung)
 Function Update-ResultVisualization {
     param (
         [Parameter(Mandatory=$false)]
         $Results
     )
     
-    # Diese Funktion ist ein Placeholder für zukünftige Visualisierungen
+    # Diese Funktion ist ein Placeholder fÃ¼r zukÃ¼nftige Visualisierungen
     # Momentan wird nur ein Debug-Log-Eintrag erstellt
     Write-DebugLog "Update-ResultVisualization aufgerufen mit $($Results.Count) Ergebnissen" "Visualization"
 }
 
-# Platzhalter-Funktion für initiale Visualisierung beim Start
+# Platzhalter-Funktion fÃ¼r initiale Visualisierung beim Start
 Function Initialize-ResultVisualization {
     [CmdletBinding()]
     param()
     
-    # Diese Funktion ist ein Placeholder für zukünftige Visualisierungen
+    # Diese Funktion ist ein Placeholder fÃ¼r zukÃ¼nftige Visualisierungen
     Write-DebugLog "Initialize-ResultVisualization aufgerufen" "Visualization"
 }
 
@@ -6038,7 +6651,7 @@ Function Start-ADReportGUI {
         Remove-Variable -Name $var -Scope Global -ErrorAction SilentlyContinue
     }
 
-    # Ruft Initialize-ADReportForm auf, welche die UI lädt, Elemente zuweist und füllt.
+    # Ruft Initialize-ADReportForm auf, welche die UI lÃ¤dt, Elemente zuweist und fÃ¼llt.
     Initialize-ADReportForm -XAMLContent $Global:XAML
 }
 
@@ -6074,13 +6687,13 @@ Function Get-NeverChangingPasswords {
         $Users = Get-ADUser -Filter "Enabled -eq `$true" -Properties PasswordLastSet, WhenCreated, DisplayName, SamAccountName, Department, Title, PasswordNeverExpires -ErrorAction Stop
         
         $NeverChangedUsers = $Users | Where-Object { 
-            # Passwort nie geändert seit Erstellung
+            # Passwort nie geÃ¤ndert seit Erstellung
             ($_.PasswordLastSet -eq $_.WhenCreated) -or 
             # Passwort ist null
             ($_.PasswordLastSet -eq $null) -or
             # Passwort ist sehr alt
             ($_.PasswordLastSet -lt $CutoffDate) -or
-            # Passwort läuft nie ab und ist alt
+            # Passwort lÃ¤uft nie ab und ist alt
             ($_.PasswordNeverExpires -eq $true -and $_.PasswordLastSet -lt $CutoffDate)
         }
         
@@ -6189,6 +6802,434 @@ Function Get-UsersWithSPN {
     }
 }
 
+# --- Weitere User Report Funktionen ---
+Function Get-GuestAccountStatus {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing Guest account status..." -Type Info -Terminal
+        
+        # Suche nach dem Guest Account (kann verschiedene Namen haben)
+        $GuestAccounts = @()
+        
+        # Standard Guest Account Namen in verschiedenen Sprachen
+        $GuestNames = @("Guest", "Gast", "InvitÃ©", "Invitado", "Ospite")
+        
+        foreach ($name in $GuestNames) {
+            $account = Get-ADUser -Filter "SamAccountName -eq '$name'" -Properties * -ErrorAction SilentlyContinue
+            if ($account) {
+                $GuestAccounts += $account
+            }
+        }
+        
+        # Auch nach SID suchen (Well-known Guest SID endet mit -501)
+        $DomainSID = (Get-ADDomain).DomainSID.Value
+        $GuestSID = "$DomainSID-501"
+        
+        try {
+            $GuestBySID = Get-ADUser -Identity $GuestSID -Properties * -ErrorAction SilentlyContinue
+            if ($GuestBySID -and -not ($GuestAccounts | Where-Object { $_.SID -eq $GuestBySID.SID })) {
+                $GuestAccounts += $GuestBySID
+            }
+        } catch {
+            # SID nicht gefunden ist OK
+        }
+        
+        if ($GuestAccounts.Count -eq 0) {
+            Write-ADReportLog -Message "No Guest account found in domain." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                AccountName = "No Guest Account"
+                Status = "Not Found"
+                SecurityRisk = "Low"
+                Recommendation = "Guest account not present in domain (good security practice)"
+            })
+        }
+        
+        $Results = foreach ($guest in $GuestAccounts) {
+            # Analysiere Sicherheitsrisiken
+            $risks = @()
+            $riskLevel = "Low"
+            $recommendations = @()
+            
+            if ($guest.Enabled) {
+                $risks += "Account is enabled"
+                $riskLevel = "High"
+                $recommendations += "Disable Guest account immediately"
+            }
+            
+            if ($guest.PasswordNeverExpires) {
+                $risks += "Password never expires"
+                if ($riskLevel -ne "High") { $riskLevel = "Medium" }
+                $recommendations += "Set password expiration"
+            }
+            
+            if ($guest.PasswordNotRequired) {
+                $risks += "Password not required"
+                $riskLevel = "Critical"
+                $recommendations += "Enforce password requirement"
+            }
+            
+            if ($guest.LastLogonDate -and $guest.LastLogonDate -gt (Get-Date).AddDays(-30)) {
+                $risks += "Recently used (within 30 days)"
+                if ($riskLevel -eq "Low") { $riskLevel = "Medium" }
+                $recommendations += "Investigate recent usage"
+            }
+            
+            # PrÃ¼fe Gruppenmitgliedschaften
+            $groups = Get-ADPrincipalGroupMembership -Identity $guest -ErrorAction SilentlyContinue
+            $privilegedGroups = @()
+            
+            foreach ($group in $groups) {
+                if ($group.Name -ne "Domain Guests" -and $group.Name -ne "Guests") {
+                    $privilegedGroups += $group.Name
+                }
+            }
+            
+            if ($privilegedGroups.Count -gt 0) {
+                $risks += "Member of additional groups"
+                $riskLevel = "Critical"
+                $recommendations += "Remove from all groups except Domain Guests"
+            }
+            
+            [PSCustomObject]@{
+                AccountName = $guest.SamAccountName
+                DisplayName = $guest.DisplayName
+                Enabled = $guest.Enabled
+                PasswordLastSet = $guest.PasswordLastSet
+                LastLogonDate = $guest.LastLogonDate
+                PasswordNeverExpires = $guest.PasswordNeverExpires
+                PasswordNotRequired = $guest.PasswordNotRequired
+                AccountLockedOut = $guest.LockedOut
+                SID = $guest.SID
+                Groups = if ($privilegedGroups) { $privilegedGroups -join ", " } else { "Domain Guests only" }
+                RiskLevel = $riskLevel
+                SecurityIssues = if ($risks) { $risks -join "; " } else { "None" }
+                Recommendations = if ($recommendations) { $recommendations -join "; " } else { "Account properly secured" }
+                WhenCreated = $guest.WhenCreated
+                WhenChanged = $guest.WhenChanged
+            }
+        }
+        
+        Write-ADReportLog -Message "Guest account analysis completed. $($Results.Count) account(s) found." -Type Info -Terminal
+        return $Results
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing Guest account status: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-UsersByDepartment {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing users by department..." -Type Info -Terminal
+        
+        # Lade alle Benutzer mit Department-Attribut
+        $Users = Get-ADUser -Filter * -Properties Department, DisplayName, SamAccountName, Title, Enabled, LastLogonDate, Manager -ErrorAction Stop
+        
+        # Gruppiere nach Department
+        $DepartmentGroups = $Users | Group-Object Department
+        
+        $Results = foreach ($deptGroup in $DepartmentGroups) {
+            $deptName = if ([string]::IsNullOrWhiteSpace($deptGroup.Name)) { "(No Department)" } else { $deptGroup.Name }
+            
+            # Statistiken fÃ¼r die Abteilung
+            $enabledCount = ($deptGroup.Group | Where-Object { $_.Enabled }).Count
+            $disabledCount = ($deptGroup.Group | Where-Object { -not $_.Enabled }).Count
+            $activeCount = ($deptGroup.Group | Where-Object { $_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-30) }).Count
+            
+            # Manager in der Abteilung identifizieren
+            $managers = @()
+            $managersDict = @{}
+            
+            foreach ($user in $deptGroup.Group) {
+                if ($user.Manager) {
+                    if (-not $managersDict.ContainsKey($user.Manager)) {
+                        try {
+                            $managerObj = Get-ADUser -Identity $user.Manager -Properties DisplayName -ErrorAction SilentlyContinue
+                            if ($managerObj) {
+                                $managersDict[$user.Manager] = $managerObj.DisplayName
+                            }
+                        } catch {
+                            # Manager nicht gefunden
+                        }
+                    }
+                }
+            }
+            
+            $uniqueManagers = $managersDict.Values | Sort-Object -Unique
+            
+            # Erstelle EintrÃ¤ge fÃ¼r jeden Benutzer in der Abteilung
+            foreach ($user in $deptGroup.Group) {
+                $managerName = "None"
+                if ($user.Manager -and $managersDict.ContainsKey($user.Manager)) {
+                    $managerName = $managersDict[$user.Manager]
+                }
+                
+                [PSCustomObject]@{
+                    Department = $deptName
+                    DisplayName = $user.DisplayName
+                    SamAccountName = $user.SamAccountName
+                    Title = $user.Title
+                    Manager = $managerName
+                    Enabled = $user.Enabled
+                    LastLogonDate = $user.LastLogonDate
+                    DeptUserCount = $deptGroup.Count
+                    DeptEnabledCount = $enabledCount
+                    DeptActiveCount = $activeCount
+                    ActivityStatus = if ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-30)) { "Active" } 
+                                    elseif ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-90)) { "Inactive" } 
+                                    else { "Very Inactive" }
+                }
+            }
+        }
+        
+        Write-ADReportLog -Message "Users by department analysis completed. $($Results.Count) users in $($DepartmentGroups.Count) departments." -Type Info -Terminal
+        return $Results | Sort-Object Department, DisplayName
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing users by department: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-UsersByManager {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing users by manager..." -Type Info -Terminal
+        
+        # Lade alle Benutzer mit Manager-Attribut
+        $Users = Get-ADUser -Filter * -Properties Manager, DisplayName, SamAccountName, Department, Title, Enabled, LastLogonDate -ErrorAction Stop
+        
+        # Erstelle Dictionary fÃ¼r Manager-Namen
+        $managersDict = @{}
+        $usersWithManager = $Users | Where-Object { $_.Manager }
+        
+        foreach ($user in $usersWithManager) {
+            if (-not $managersDict.ContainsKey($user.Manager)) {
+                try {
+                    $managerObj = Get-ADUser -Identity $user.Manager -Properties DisplayName, Department, Title -ErrorAction SilentlyContinue
+                    if ($managerObj) {
+                        $managersDict[$user.Manager] = $managerObj
+                    }
+                } catch {
+                    # Manager nicht gefunden
+                }
+            }
+        }
+        
+        # Gruppiere nach Manager
+        $ManagerGroups = $usersWithManager | Group-Object Manager
+        
+        $Results = @()
+        
+        # Verarbeite Benutzer mit Manager
+        foreach ($mgrGroup in $ManagerGroups) {
+            $managerInfo = $managersDict[$mgrGroup.Name]
+            $managerName = if ($managerInfo) { $managerInfo.DisplayName } else { "Unknown Manager" }
+            $managerDept = if ($managerInfo) { $managerInfo.Department } else { "Unknown" }
+            $managerTitle = if ($managerInfo) { $managerInfo.Title } else { "Unknown" }
+            
+            # Statistiken fÃ¼r diesen Manager
+            $enabledCount = ($mgrGroup.Group | Where-Object { $_.Enabled }).Count
+            $activeCount = ($mgrGroup.Group | Where-Object { $_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-30) }).Count
+            
+            foreach ($user in $mgrGroup.Group) {
+                $Results += [PSCustomObject]@{
+                    ManagerName = $managerName
+                    ManagerDepartment = $managerDept
+                    ManagerTitle = $managerTitle
+                    DirectReports = $mgrGroup.Count
+                    ActiveReports = $activeCount
+                    UserDisplayName = $user.DisplayName
+                    UserSamAccountName = $user.SamAccountName
+                    UserDepartment = $user.Department
+                    UserTitle = $user.Title
+                    UserEnabled = $user.Enabled
+                    UserLastLogon = $user.LastLogonDate
+                    UserActivityStatus = if ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-30)) { "Active" } 
+                                        elseif ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-90)) { "Inactive" } 
+                                        else { "Very Inactive" }
+                }
+            }
+        }
+        
+        # FÃ¼ge Benutzer ohne Manager hinzu
+        $usersWithoutManager = $Users | Where-Object { -not $_.Manager }
+        foreach ($user in $usersWithoutManager) {
+            $Results += [PSCustomObject]@{
+                ManagerName = "(No Manager)"
+                ManagerDepartment = "N/A"
+                ManagerTitle = "N/A"
+                DirectReports = 0
+                ActiveReports = 0
+                UserDisplayName = $user.DisplayName
+                UserSamAccountName = $user.SamAccountName
+                UserDepartment = $user.Department
+                UserTitle = $user.Title
+                UserEnabled = $user.Enabled
+                UserLastLogon = $user.LastLogonDate
+                UserActivityStatus = if ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-30)) { "Active" } 
+                                    elseif ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-90)) { "Inactive" } 
+                                    else { "Very Inactive" }
+            }
+        }
+        
+        Write-ADReportLog -Message "Users by manager analysis completed. $($Results.Count) users analyzed." -Type Info -Terminal
+        return $Results | Sort-Object ManagerName, UserDisplayName
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing users by manager: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-RemoteAccessUsers {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing remote access users..." -Type Info -Terminal
+        
+        # Remote Access kann durch verschiedene Gruppenmitgliedschaften ermÃ¶glicht werden
+        $RemoteAccessGroups = @(
+            "Remote Desktop Users",
+            "Remotedesktopbenutzer", # Deutsch
+            "VPN Users",
+            "Remote Access Users",
+            "Remote Management Users",
+            "Terminal Server Users"
+        )
+        
+        $RemoteAccessUsers = @()
+        $ProcessedUsers = @{}
+        
+        # Suche nach Benutzern in Remote Access Gruppen
+        foreach ($groupName in $RemoteAccessGroups) {
+            try {
+                $group = Get-ADGroup -Filter "Name -eq '$groupName'" -ErrorAction SilentlyContinue
+                if ($group) {
+                    $members = Get-ADGroupMember -Identity $group -Recursive -ErrorAction SilentlyContinue | 
+                               Where-Object { $_.objectClass -eq "user" }
+                    
+                    foreach ($member in $members) {
+                        if (-not $ProcessedUsers.ContainsKey($member.SamAccountName)) {
+                            $userDetails = Get-ADUser -Identity $member.SamAccountName `
+                                -Properties DisplayName, Department, Title, Enabled, LastLogonDate, `
+                                           PasswordLastSet, AccountExpirationDate, Description, `
+                                           msNPAllowDialin, msRADIUSFramedIPAddress -ErrorAction SilentlyContinue
+                            
+                            if ($userDetails) {
+                                $ProcessedUsers[$member.SamAccountName] = @{
+                                    User = $userDetails
+                                    Groups = @($groupName)
+                                }
+                            }
+                        } else {
+                            $ProcessedUsers[$member.SamAccountName].Groups += $groupName
+                        }
+                    }
+                }
+            } catch {
+                Write-ADReportLog -Message "Could not process group $groupName : $($_.Exception.Message)" -Type Warning
+            }
+        }
+        
+        # Suche auch nach Benutzern mit Dial-In Berechtigung
+        try {
+            $dialInUsers = Get-ADUser -Filter "msNPAllowDialin -eq `$true" `
+                -Properties DisplayName, Department, Title, Enabled, LastLogonDate, `
+                           PasswordLastSet, AccountExpirationDate, Description, `
+                           msNPAllowDialin, msRADIUSFramedIPAddress -ErrorAction SilentlyContinue
+            
+            foreach ($user in $dialInUsers) {
+                if (-not $ProcessedUsers.ContainsKey($user.SamAccountName)) {
+                    $ProcessedUsers[$user.SamAccountName] = @{
+                        User = $user
+                        Groups = @("(Dial-In Permission)")
+                    }
+                } else {
+                    $ProcessedUsers[$user.SamAccountName].Groups += "(Dial-In Permission)"
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not check dial-in permissions: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # Erstelle Ergebnisse
+        foreach ($entry in $ProcessedUsers.GetEnumerator()) {
+            $user = $entry.Value.User
+            $groups = $entry.Value.Groups | Sort-Object -Unique
+            
+            # Risikobewertung
+            $riskLevel = "Low"
+            $riskFactors = @()
+            
+            if (-not $user.Enabled) {
+                $riskFactors += "Account disabled but has remote access"
+                $riskLevel = "Medium"
+            }
+            
+            if ($user.AccountExpirationDate -and $user.AccountExpirationDate -lt (Get-Date)) {
+                $riskFactors += "Account expired"
+                $riskLevel = "High"
+            }
+            
+            if ($user.PasswordLastSet -and $user.PasswordLastSet -lt (Get-Date).AddDays(-180)) {
+                $riskFactors += "Password older than 180 days"
+                if ($riskLevel -eq "Low") { $riskLevel = "Medium" }
+            }
+            
+            if (-not $user.LastLogonDate -or $user.LastLogonDate -lt (Get-Date).AddDays(-90)) {
+                $riskFactors += "Inactive for >90 days"
+                if ($riskLevel -eq "Low") { $riskLevel = "Medium" }
+            }
+            
+            $RemoteAccessUsers += [PSCustomObject]@{
+                DisplayName = $user.DisplayName
+                SamAccountName = $user.SamAccountName
+                Department = $user.Department
+                Title = $user.Title
+                Enabled = $user.Enabled
+                RemoteAccessGroups = $groups -join ", "
+                LastLogonDate = $user.LastLogonDate
+                PasswordLastSet = $user.PasswordLastSet
+                AccountExpiration = $user.AccountExpirationDate
+                DialInPermission = if ($user.msNPAllowDialin) { "Allowed" } else { "Not Set" }
+                RiskLevel = $riskLevel
+                RiskFactors = if ($riskFactors) { $riskFactors -join "; " } else { "None" }
+                ActivityStatus = if ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-30)) { "Active" } 
+                                elseif ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-90)) { "Inactive" } 
+                                else { "Very Inactive" }
+                Description = $user.Description
+            }
+        }
+        
+        if ($RemoteAccessUsers.Count -eq 0) {
+            Write-ADReportLog -Message "No remote access users found." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                DisplayName = "No Results"
+                SamAccountName = "N/A"
+                RemoteAccessGroups = "No remote access users found"
+                RiskLevel = "N/A"
+                ActivityStatus = "N/A"
+            })
+        }
+        
+        Write-ADReportLog -Message "Remote access users analysis completed. $($RemoteAccessUsers.Count) users found." -Type Info -Terminal
+        return $RemoteAccessUsers | Sort-Object RiskLevel, DisplayName
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing remote access users: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
 # --- Neue Roadmap Features - Gruppen-Reports ---
 Function Get-EmptyGroups {
     [CmdletBinding()]
@@ -6199,7 +7240,7 @@ Function Get-EmptyGroups {
         $Groups = Get-ADGroup -Filter * -Properties Members, Name, GroupCategory, GroupScope, Description, whenCreated, whenChanged -ErrorAction Stop
         
         $EmptyGroups = $Groups | Where-Object { 
-            # Prüfe sowohl direkte Members als auch über Get-ADGroupMember
+            # PrÃ¼fe sowohl direkte Members als auch Ã¼ber Get-ADGroupMember
             $_.Members.Count -eq 0 -and 
             @(Get-ADGroupMember -Identity $_.DistinguishedName -ErrorAction SilentlyContinue).Count -eq 0
         }
@@ -6275,7 +7316,7 @@ Function Get-BitLockerStatus {
     
     try {
         Write-ADReportLog -Message "Analyzing BitLocker status (placeholder - requires additional modules)..." -Type Info -Terminal
-        # Placeholder - würde BitLocker-spezifische Abfragen erfordern
+        # Placeholder - wÃ¼rde BitLocker-spezifische Abfragen erfordern
         $Results = @()
         Write-ADReportLog -Message "BitLocker analysis requires additional PowerShell modules and permissions." -Type Warning
         return $Results
@@ -6296,7 +7337,7 @@ Function Get-ServiceAccountsOverview {
         # Service Accounts identifizieren durch verschiedene Kriterien
         $PotentialServiceAccounts = @()
         
-        # 1. Accounts mit Service-ähnlichen Namen
+        # 1. Accounts mit Service-Ã¤hnlichen Namen
         $NameBasedSvcAccounts = Get-ADUser -Filter "(Name -like '*svc*') -or (Name -like '*service*') -or (Name -like '*sql*') -or (Name -like '*iis*') -or (Name -like '*app*') -or (Name -like '*web*')" -Properties Description, LastLogonDate, PasswordLastSet, ServicePrincipalName, PasswordNeverExpires, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
         $PotentialServiceAccounts += $NameBasedSvcAccounts
         
@@ -6384,7 +7425,7 @@ Function Get-ManagedServiceAccounts {
     }
 }
 
-# --- Platzhalter für weitere neue Features ---
+# --- Platzhalter fÃ¼r weitere neue Features ---
 Function Get-HoneyTokens {
     [CmdletBinding()]
     param()
@@ -6393,7 +7434,7 @@ Function Get-HoneyTokens {
         Write-ADReportLog -Message "Analyzing potential honey token accounts and suspicious activities..." -Type Info -Terminal
         
         # Honey Tokens sind oft spezielle Accounts die zur Angriffserkennung verwendet werden
-        # Wir suchen nach Accounts mit verdächtigen Eigenschaften oder Namensmustern
+        # Wir suchen nach Accounts mit verdÃ¤chtigen Eigenschaften oder Namensmustern
         
         $SuspiciousPatterns = @(
             "*honey*", "*canary*", "*trap*", "*decoy*", "*bait*", 
@@ -6402,17 +7443,17 @@ Function Get-HoneyTokens {
         
         $PotentialHoneyTokens = @()
         
-        # 1. Accounts mit verdächtigen Namen
+        # 1. Accounts mit verdÃ¤chtigen Namen
         foreach ($pattern in $SuspiciousPatterns) {
             $accounts = Get-ADUser -Filter "Name -like '$pattern'" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
             $PotentialHoneyTokens += $accounts
         }
         
-        # 2. Accounts mit verdächtigen Beschreibungen
+        # 2. Accounts mit verdÃ¤chtigen Beschreibungen
         $DescriptionBasedAccounts = Get-ADUser -Filter "Description -like '*honey*' -or Description -like '*canary*' -or Description -like '*monitoring*' -or Description -like '*security*'" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
         $PotentialHoneyTokens += $DescriptionBasedAccounts
         
-        # 3. Niemals verwendete Admin-ähnliche Accounts (verdächtig)
+        # 3. Niemals verwendete Admin-Ã¤hnliche Accounts (verdÃ¤chtig)
         $UnusedAdminAccounts = Get-ADUser -Filter "Name -like '*admin*' -and LastLogonDate -eq `$null -and Enabled -eq `$true" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
         $PotentialHoneyTokens += $UnusedAdminAccounts
         
@@ -6425,7 +7466,7 @@ Function Get-HoneyTokens {
                 (New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).Days 
             } else { 9999 }
             
-            # Verdächtigkeits-Score
+            # VerdÃ¤chtigkeits-Score
             $suspicionScore = 0
             $indicators = @()
             
@@ -6494,11 +7535,11 @@ Function Get-GPOOverview {
     try {
         Write-ADReportLog -Message "Generating comprehensive GPO overview..." -Type Info -Terminal
         
-        # Prüfe ob GroupPolicy Module verfügbar ist
+        # PrÃ¼fe ob GroupPolicy Module verfÃ¼gbar ist
         if (-not (Get-Module -ListAvailable -Name GroupPolicy)) {
             Write-ADReportLog -Message "GroupPolicy PowerShell module not available. Attempting alternative approach..." -Type Warning
             
-            # Alternative: Über AD direkt abfragen
+            # Alternative: Ãœber AD direkt abfragen
             $GPOs = Get-ADObject -SearchBase "CN=Policies,CN=System,$((Get-ADDomain).DistinguishedName)" -Filter "ObjectClass -eq 'groupPolicyContainer'" -Properties DisplayName, whenCreated, whenChanged, gPCFileSysPath -ErrorAction Stop
             
             $Results = foreach ($gpo in $GPOs) {
@@ -6585,787 +7626,970 @@ Function Get-GDPRCompliance {
     }
 }
 
-# --- FEHLENDE FUNKTIONEN FÜR QUICKREPORT BUTTONS ---
-
-Function Get-GuestAccountStatus {
-    [CmdletBinding()]
-    param()
-    
-    try {
-        Write-ADReportLog -Message "Analyzing guest account status..." -Type Info -Terminal
-        $Results = @()
-        
-        # Suche nach Guest-Accounts
-        $GuestAccounts = Get-ADUser -Filter "Name -like '*guest*' -or SamAccountName -like '*guest*'" -Properties Name, SamAccountName, Enabled, LastLogonDate, Description, PasswordLastSet, AccountExpirationDate
-        
-        foreach ($Account in $GuestAccounts) {
-            $Results += [PSCustomObject]@{
-                'Name' = $Account.Name
-                'SamAccountName' = $Account.SamAccountName
-                'Enabled' = $Account.Enabled
-                'LastLogonDate' = if ($Account.LastLogonDate) { $Account.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                'Description' = $Account.Description
-                'PasswordLastSet' = if ($Account.PasswordLastSet) { $Account.PasswordLastSet.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                'AccountExpirationDate' = if ($Account.AccountExpirationDate) { $Account.AccountExpirationDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                'Status' = if ($Account.Enabled) { "Enabled (Security Risk)" } else { "Disabled (Good)" }
-            }
-        }
-        
-        return $Results
-    } catch {
-        Write-ADReportLog -Message "Error analyzing guest account status: $($_.Exception.Message)" -Type Error
-        return @()
-    }
-}
-
-Function Get-UsersByDepartment {
-    [CmdletBinding()]
-    param()
-    
-    try {
-        Write-ADReportLog -Message "Analyzing users by department..." -Type Info -Terminal
-        $Results = @()
-        
-        $Users = Get-ADUser -Filter * -Properties Department, DisplayName, SamAccountName, Enabled, LastLogonDate
-        $DepartmentGroups = $Users | Group-Object -Property Department
-        
-        foreach ($DeptGroup in $DepartmentGroups) {
-            $DeptName = if ($DeptGroup.Name) { $DeptGroup.Name } else { "No Department" }
-            $EnabledUsers = ($DeptGroup.Group | Where-Object { $_.Enabled -eq $true }).Count
-            $DisabledUsers = ($DeptGroup.Group | Where-Object { $_.Enabled -eq $false }).Count
-            
-            $Results += [PSCustomObject]@{
-                'Department' = $DeptName
-                'TotalUsers' = $DeptGroup.Count
-                'EnabledUsers' = $EnabledUsers
-                'DisabledUsers' = $DisabledUsers
-                'Percentage' = [math]::Round(($DeptGroup.Count / $Users.Count) * 100, 2)
-            }
-        }
-        
-        return $Results | Sort-Object TotalUsers -Descending
-    } catch {
-        Write-ADReportLog -Message "Error analyzing users by department: $($_.Exception.Message)" -Type Error
-        return @()
-    }
-}
-
-Function Get-UsersByManager {
-    [CmdletBinding()]
-    param()
-    
-    try {
-        Write-ADReportLog -Message "Analyzing users by manager..." -Type Info -Terminal
-        $Results = @()
-        
-        $Users = Get-ADUser -Filter * -Properties Manager, DisplayName, SamAccountName, Enabled
-        $ManagerGroups = $Users | Group-Object -Property Manager
-        
-        foreach ($MgrGroup in $ManagerGroups) {
-            $ManagerName = "No Manager"
-            if ($MgrGroup.Name) {
-                try {
-                    $ManagerObject = Get-ADUser -Identity $MgrGroup.Name -Properties DisplayName -ErrorAction SilentlyContinue
-                    if ($ManagerObject) {
-                        $ManagerName = $ManagerObject.DisplayName
-                    }
-                } catch {
-                    $ManagerName = $MgrGroup.Name
-                }
-            }
-            
-            $EnabledUsers = ($MgrGroup.Group | Where-Object { $_.Enabled -eq $true }).Count
-            $DisabledUsers = ($MgrGroup.Group | Where-Object { $_.Enabled -eq $false }).Count
-            
-            $Results += [PSCustomObject]@{
-                'Manager' = $ManagerName
-                'TotalUsers' = $MgrGroup.Count
-                'EnabledUsers' = $EnabledUsers
-                'DisabledUsers' = $DisabledUsers
-                'Percentage' = [math]::Round(($MgrGroup.Count / $Users.Count) * 100, 2)
-            }
-        }
-        
-        return $Results | Sort-Object TotalUsers -Descending
-    } catch {
-        Write-ADReportLog -Message "Error analyzing users by manager: $($_.Exception.Message)" -Type Error
-        return @()
-    }
-}
-
-Function Get-RemoteAccessUsers {
-    [CmdletBinding()]
-    param()
-    
-    try {
-        Write-ADReportLog -Message "Analyzing remote access users..." -Type Info -Terminal
-        $Results = @()
-        
-        # Suche RDP-Benutzer
-        $RDPGroup = Get-ADGroupByNames -GroupNames $Global:ADGroupNames.RemoteDesktopUsers
-        if ($RDPGroup) {
-            $RDPUsers = Get-ADGroupMember -Identity $RDPGroup | Get-ADUser -Properties DisplayName, SamAccountName, Enabled, LastLogonDate
-            
-            foreach ($User in $RDPUsers) {
-                $Results += [PSCustomObject]@{
-                    'Name' = $User.DisplayName
-                    'SamAccountName' = $User.SamAccountName
-                    'Enabled' = $User.Enabled
-                    'LastLogonDate' = if ($User.LastLogonDate) { $User.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                    'AccessType' = "Remote Desktop"
-                    'GroupMembership' = $RDPGroup.Name
-                }
-            }
-        }
-        
-        # Suche VPN-Benutzer (falls VPN-Gruppen existieren)
-        $VPNGroups = Get-ADGroup -Filter "Name -like '*VPN*' -or Name -like '*Remote*'" -ErrorAction SilentlyContinue
-        foreach ($VPNGroup in $VPNGroups) {
-            $VPNUsers = Get-ADGroupMember -Identity $VPNGroup | Get-ADUser -Properties DisplayName, SamAccountName, Enabled, LastLogonDate -ErrorAction SilentlyContinue
-            
-            foreach ($User in $VPNUsers) {
-                $Results += [PSCustomObject]@{
-                    'Name' = $User.DisplayName
-                    'SamAccountName' = $User.SamAccountName
-                    'Enabled' = $User.Enabled
-                    'LastLogonDate' = if ($User.LastLogonDate) { $User.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                    'AccessType' = "VPN"
-                    'GroupMembership' = $VPNGroup.Name
-                }
-            }
-        }
-        
-        return $Results
-    } catch {
-        Write-ADReportLog -Message "Error analyzing remote access users: $($_.Exception.Message)" -Type Error
-        return @()
-    }
-}
-
-Function Get-MobileDeviceUsers {
-    [CmdletBinding()]
-    param()
-    
-    try {
-        Write-ADReportLog -Message "Analyzing mobile device users..." -Type Info -Terminal
-        $Results = @()
-        
-        # Suche nach Benutzern mit mobilen Geräten (Exchange-Attributen)
-        $Users = Get-ADUser -Filter * -Properties msExchActiveSyncAllowedDeviceIDs, msExchMobileMailboxFlags, DisplayName, SamAccountName, Enabled, LastLogonDate
-        
-        foreach ($User in $Users) {
-            if ($User.msExchActiveSyncAllowedDeviceIDs -or $User.msExchMobileMailboxFlags) {
-                $Results += [PSCustomObject]@{
-                    'Name' = $User.DisplayName
-                    'SamAccountName' = $User.SamAccountName
-                    'Enabled' = $User.Enabled
-                    'LastLogonDate' = if ($User.LastLogonDate) { $User.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                    'ActiveSyncDevices' = if ($User.msExchActiveSyncAllowedDeviceIDs) { $User.msExchActiveSyncAllowedDeviceIDs.Count } else { 0 }
-                    'MobileFlags' = $User.msExchMobileMailboxFlags
-                }
-            }
-        }
-        
-        # Falls keine Exchange-Attribute vorhanden, suche nach mobilen Gruppen
-        if ($Results.Count -eq 0) {
-            $MobileGroups = Get-ADGroup -Filter "Name -like '*Mobile*' -or Name -like '*Device*'" -ErrorAction SilentlyContinue
-            foreach ($MobileGroup in $MobileGroups) {
-                $MobileUsers = Get-ADGroupMember -Identity $MobileGroup | Get-ADUser -Properties DisplayName, SamAccountName, Enabled, LastLogonDate -ErrorAction SilentlyContinue
-                
-                foreach ($User in $MobileUsers) {
-                    $Results += [PSCustomObject]@{
-                        'Name' = $User.DisplayName
-                        'SamAccountName' = $User.SamAccountName
-                        'Enabled' = $User.Enabled
-                        'LastLogonDate' = if ($User.LastLogonDate) { $User.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" }
-                        'AccessType' = "Mobile Device Group"
-                        'GroupMembership' = $MobileGroup.Name
-                    }
-                }
-            }
-        }
-        
-        return $Results
-    } catch {
-        Write-ADReportLog -Message "Error analyzing mobile device users: $($_.Exception.Message)" -Type Error
-        return @()
-    }
-}
-
-Function Get-CircularGroupReferences {
+# --- Weitere Gruppen-Report Funktionen ---
+Function Get-CircularGroups {
     [CmdletBinding()]
     param()
     
     try {
         Write-ADReportLog -Message "Analyzing circular group references..." -Type Info -Terminal
-        $Results = @()
-        $ProcessedGroups = @{}
         
-        $AllGroups = Get-ADGroup -Filter * -Properties Members, MemberOf
+        # Dictionary zur Speicherung der Gruppenmitgliedschaften
+        $groupMemberships = @{}
+        $circularReferences = @()
         
-        foreach ($Group in $AllGroups) {
-            if ($ProcessedGroups.ContainsKey($Group.DistinguishedName)) {
-                continue
+        # Lade alle Gruppen mit ihren Mitgliedschaften
+        $allGroups = Get-ADGroup -Filter * -Properties MemberOf, Members, Description, GroupCategory, GroupScope -ErrorAction Stop
+        
+        # Baue Dictionary auf
+        foreach ($group in $allGroups) {
+            $groupMemberships[$group.DistinguishedName] = @{
+                Group = $group
+                MemberOf = $group.MemberOf
+                Visited = $false
+                InStack = $false
             }
-            
-            $CircularPath = @()
-            $CurrentGroup = $Group
-            $Visited = @{}
-            
-            while ($CurrentGroup -and -not $Visited.ContainsKey($CurrentGroup.DistinguishedName)) {
-                $Visited[$CurrentGroup.DistinguishedName] = $true
-                $CircularPath += $CurrentGroup.Name
-                
-                # Suche nach Gruppen in MemberOf
-                $ParentGroups = $CurrentGroup.MemberOf
-                $NextGroup = $null
-                
-                foreach ($ParentGroupDN in $ParentGroups) {
-                    try {
-                        $ParentGroup = Get-ADGroup -Identity $ParentGroupDN -Properties Members, MemberOf -ErrorAction SilentlyContinue
-                        if ($ParentGroup -and $ParentGroup.Members -contains $Group.DistinguishedName) {
-                            $NextGroup = $ParentGroup
-                            break
-                        }
-                    } catch {
-                        continue
-                    }
-                }
-                
-                $CurrentGroup = $NextGroup
-                
-                # Prüfe auf Zirkularität
-                if ($CurrentGroup -and $CurrentGroup.DistinguishedName -eq $Group.DistinguishedName) {
-                    $Results += [PSCustomObject]@{
-                        'CircularPath' = $CircularPath -join " -> "
-                        'StartGroup' = $Group.Name
-                        'PathLength' = $CircularPath.Count
-                        'RiskLevel' = "High"
-                    }
-                    break
-                }
-            }
-            
-            $ProcessedGroups[$Group.DistinguishedName] = $true
         }
         
-        return $Results
+        # Funktion zur rekursiven Suche nach zirkulären Referenzen
+        function Find-CircularReference {
+            param(
+                [string]$GroupDN,
+                [System.Collections.ArrayList]$Path
+            )
+            
+            if (-not $groupMemberships.ContainsKey($GroupDN)) { return }
+            
+            $groupData = $groupMemberships[$GroupDN]
+            
+            # Wenn bereits im Stack, haben wir eine zirkuläre Referenz gefunden
+            if ($groupData.InStack) {
+                $circularPath = $Path.Clone()
+                $circularPath.Add($GroupDN) | Out-Null
+                
+                # Finde den Start des Zyklus
+                $startIndex = $circularPath.IndexOf($GroupDN)
+                $cycle = $circularPath[$startIndex..($circularPath.Count - 1)]
+                
+                # Erstelle eine eindeutige ID für den Zyklus
+                $cycleId = ($cycle | Sort-Object) -join '|'
+                
+                if (-not ($circularReferences | Where-Object { $_.CycleId -eq $cycleId })) {
+                    $groupNames = $cycle | ForEach-Object {
+                        if ($groupMemberships.ContainsKey($_)) {
+                            $groupMemberships[$_].Group.Name
+                        } else {
+                            "Unknown"
+                        }
+                    }
+                    
+                    $circularReferences += [PSCustomObject]@{
+                        CycleId = $cycleId
+                        CircularPath = $groupNames -join " → "
+                        NumberOfGroups = $cycle.Count
+                        FirstGroup = $groupNames[0]
+                        GroupsInvolved = $groupNames -join ", "
+                        Risk = if ($cycle.Count -gt 3) { "High" } elseif ($cycle.Count -eq 3) { "Medium" } else { "Low" }
+                        Recommendation = "Break circular reference by removing one membership link"
+                    }
+                }
+                return
+            }
+            
+            # Markiere als besucht und im Stack
+            $groupData.Visited = $true
+            $groupData.InStack = $true
+            $Path.Add($GroupDN) | Out-Null
+            
+            # Durchlaufe alle Parent-Gruppen
+            foreach ($parentDN in $groupData.MemberOf) {
+                Find-CircularReference -GroupDN $parentDN -Path $Path
+            }
+            
+            # Entferne aus Stack
+            $groupData.InStack = $false
+            $Path.RemoveAt($Path.Count - 1)
+        }
+        
+        # Suche nach zirkulären Referenzen für alle Gruppen
+        foreach ($groupDN in $groupMemberships.Keys) {
+            if (-not $groupMemberships[$groupDN].Visited) {
+                $path = New-Object System.Collections.ArrayList
+                Find-CircularReference -GroupDN $groupDN -Path $path
+            }
+        }
+        
+        if ($circularReferences.Count -eq 0) {
+            Write-ADReportLog -Message "No circular group references found." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                CircularPath = "None Found"
+                NumberOfGroups = 0
+                FirstGroup = "N/A"
+                GroupsInvolved = "No circular references detected"
+                Risk = "None"
+                Recommendation = "Environment is healthy - no circular references"
+            })
+        }
+        
+        Write-ADReportLog -Message "Circular group reference analysis completed. $($circularReferences.Count) circular reference(s) found." -Type Info -Terminal
+        return $circularReferences | Sort-Object NumberOfGroups, FirstGroup
+        
     } catch {
         Write-ADReportLog -Message "Error analyzing circular group references: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
 
-# --- Event Handler für neue Roadmap Features ---
-
-# Event Handler für ButtonQuickStalePasswords
-$ButtonQuickStalePasswords.add_Click({
-    Write-ADReportLog -Message "Loading users with stale passwords..." -Type Info
+Function Get-GroupsByTypeScope {
+    [CmdletBinding()]
+    param()
+    
     try {
-        if ($script:ListBoxSelectionChangedHandler) {
-            $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-        }
-        $Global:RadioButtonUser.IsChecked = $true
-        $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
-        $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
-        $Global:TextBoxFilterValue1.Text = ""
-        $Global:TextBoxFilterValue2.Text = ""
-
-        $StalePasswords = Get-StalePasswords -Days 90
-        if ($StalePasswords -and $StalePasswords.Count -gt 0) {
-            Update-ADReportResults -Results $StalePasswords
-            Write-ADReportLog -Message "Stale passwords loaded. $($StalePasswords.Count) result(s) found." -Type Info
-            Update-ResultCounters -Results $StalePasswords
-            $Global:TextBlockStatus.Text = "Stale passwords loaded. $($StalePasswords.Count) record(s) found."
-        } else {
-            $Global:DataGridResults.ItemsSource = $null
-            Write-ADReportLog -Message "No users with stale passwords found." -Type Info
-            $Global:TextBlockStatus.Text = "No users with stale passwords found."
-        }
-    } catch {
-        $ErrorMessage = "Error loading stale passwords: $($_.Exception.Message)"
-        Write-ADReportLog -Message $ErrorMessage -Type Error
-        Update-ADReportResults -Results @()
-        $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-    }
-})
-
-# Event Handler für ButtonQuickNeverChangingPasswords  
-$ButtonQuickNeverChangingPasswords.add_Click({
-    Write-ADReportLog -Message "Loading users with never changing passwords..." -Type Info
-    try {
-        if ($script:ListBoxSelectionChangedHandler) {
-            $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-        }
-        $Global:RadioButtonUser.IsChecked = $true
-        $Global:ComboBoxFilterAttribute1.SelectedIndex = -1
-        $Global:ComboBoxFilterAttribute2.SelectedIndex = -1
-        $Global:TextBoxFilterValue1.Text = ""
-        $Global:TextBoxFilterValue2.Text = ""
-
-        $NeverChangingPasswords = Get-NeverChangingPasswords -Days 365
-        if ($NeverChangingPasswords -and $NeverChangingPasswords.Count -gt 0) {
-            Update-ADReportResults -Results $NeverChangingPasswords
-            Write-ADReportLog -Message "Never changing passwords loaded. $($NeverChangingPasswords.Count) result(s) found." -Type Info
-            Update-ResultCounters -Results $NeverChangingPasswords
-            $Global:TextBlockStatus.Text = "Never changing passwords loaded. $($NeverChangingPasswords.Count) record(s) found."
-        } else {
-            $Global:DataGridResults.ItemsSource = $null
-            Write-ADReportLog -Message "No users with never changing passwords found." -Type Info
-            $Global:TextBlockStatus.Text = "No users with never changing passwords found."
-        }
-    } catch {
-        $ErrorMessage = "Error loading never changing passwords: $($_.Exception.Message)"
-        Write-ADReportLog -Message $ErrorMessage -Type Error
-        Update-ADReportResults -Results @()
-        $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-    }
-})
-
-# Event Handler für ButtonQuickEmptyGroups
-$ButtonQuickEmptyGroups.add_Click({
-    Write-ADReportLog -Message "Loading empty groups..." -Type Info
-    try {
-        if ($script:ListBoxSelectionChangedHandler) {
-            $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-        }
-        $Global:RadioButtonGroup.IsChecked = $true
+        Write-ADReportLog -Message "Analyzing groups by type and scope..." -Type Info -Terminal
         
-        $EmptyGroups = Get-EmptyGroups
-        if ($EmptyGroups -and $EmptyGroups.Count -gt 0) {
-            Update-ADReportResults -Results $EmptyGroups
-            Write-ADReportLog -Message "Empty groups loaded. $($EmptyGroups.Count) result(s) found." -Type Info
-            Update-ResultCounters -Results $EmptyGroups
-            $Global:TextBlockStatus.Text = "Empty groups loaded. $($EmptyGroups.Count) record(s) found."
-        } else {
-            $Global:DataGridResults.ItemsSource = $null
-            Write-ADReportLog -Message "No empty groups found." -Type Info
-            $Global:TextBlockStatus.Text = "No empty groups found."
-        }
-    } catch {
-        $ErrorMessage = "Error loading empty groups: $($_.Exception.Message)"
-        Write-ADReportLog -Message $ErrorMessage -Type Error
-        Update-ADReportResults -Results @()
-        $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-    }
-})
-
-# Event Handler für ButtonQuickServiceAccountsOverview
-if ($null -ne $Global:ButtonQuickServiceAccountsOverview) {
-    $ButtonQuickServiceAccountsOverview.add_Click({
-    Write-ADReportLog -Message "Loading service accounts overview..." -Type Info
-    try {
-        if ($script:ListBoxSelectionChangedHandler) {
-            $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-        }
-        $Global:RadioButtonUser.IsChecked = $true
+        $Groups = Get-ADGroup -Filter * -Properties GroupCategory, GroupScope, Description, ManagedBy, whenCreated, whenChanged, Members -ErrorAction Stop
         
-        $ServiceAccounts = Get-ServiceAccountsOverview
-        if ($ServiceAccounts -and $ServiceAccounts.Count -gt 0) {
-            Update-ADReportResults -Results $ServiceAccounts
-            Write-ADReportLog -Message "Service accounts loaded. $($ServiceAccounts.Count) result(s) found." -Type Info
-            Update-ResultCounters -Results $ServiceAccounts
-            $Global:TextBlockStatus.Text = "Service accounts loaded. $($ServiceAccounts.Count) record(s) found."
-        } else {
-            $Global:DataGridResults.ItemsSource = $null
-            Write-ADReportLog -Message "No service accounts found." -Type Info
-            $Global:TextBlockStatus.Text = "No service accounts found."
-        }
-    } catch {
-        $ErrorMessage = "Error loading service accounts: $($_.Exception.Message)"
-        Write-ADReportLog -Message $ErrorMessage -Type Error
-        Update-ADReportResults -Results @()
-        $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-    }
-})
-} else {
-    Write-ADReportLog -Message "ButtonQuickServiceAccountsOverview nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickGPOOverview
-if ($null -ne $Global:ButtonQuickGPOOverview) {
-    $ButtonQuickGPOOverview.add_Click({
-    Write-ADReportLog -Message "Loading GPO overview..." -Type Info
-    try {
-        if ($script:ListBoxSelectionChangedHandler) {
-            $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
+        # Gruppiere nach Type und Scope
+        $GroupStats = $Groups | Group-Object -Property GroupCategory, GroupScope
+        
+        $Results = foreach ($statGroup in $GroupStats) {
+            $category = $statGroup.Group[0].GroupCategory
+            $scope = $statGroup.Group[0].GroupScope
+            
+            # Berechne durchschnittliche Mitgliederzahl
+            $memberCounts = @()
+            foreach ($group in $statGroup.Group) {
+                $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
+                $memberCounts += $memberCount
+            }
+            
+            $avgMembers = if ($memberCounts.Count -gt 0) { 
+                [math]::Round(($memberCounts | Measure-Object -Average).Average, 1) 
+            } else { 0 }
+            
+            $maxMembers = if ($memberCounts.Count -gt 0) { 
+                ($memberCounts | Measure-Object -Maximum).Maximum 
+            } else { 0 }
+            
+            # Best Practice Empfehlungen
+            $recommendation = switch ("$category-$scope") {
+                "Security-Global" { "Standard for most security groups" }
+                "Security-DomainLocal" { "Good for resource permissions" }
+                "Security-Universal" { "Use for cross-forest scenarios" }
+                "Distribution-Global" { "Standard for email distribution" }
+                "Distribution-DomainLocal" { "Rarely used - review necessity" }
+                "Distribution-Universal" { "Good for cross-forest distribution" }
+                default { "Review group configuration" }
+            }
+            
+            [PSCustomObject]@{
+                GroupCategory = $category
+                GroupScope = $scope
+                Count = $statGroup.Count
+                Percentage = [math]::Round(($statGroup.Count / $Groups.Count) * 100, 2)
+                AverageMemberCount = $avgMembers
+                MaxMemberCount = $maxMembers
+                Recommendation = $recommendation
+                Examples = ($statGroup.Group | Select-Object -First 3 | ForEach-Object { $_.Name }) -join ", "
+            }
         }
         
-        $GPOOverview = Get-GPOOverview
-        if ($GPOOverview -and $GPOOverview.Count -gt 0) {
-            Update-ADReportResults -Results $GPOOverview
-            Write-ADReportLog -Message "GPO overview loaded. $($GPOOverview.Count) result(s) found." -Type Info
-            Update-ResultCounters -Results $GPOOverview
-            $Global:TextBlockStatus.Text = "GPO overview loaded. $($GPOOverview.Count) record(s) found."
-        } else {
-            $Global:DataGridResults.ItemsSource = $null
-            Write-ADReportLog -Message "No GPOs found." -Type Info
-            $Global:TextBlockStatus.Text = "No GPOs found."
-        }
-    } catch {
-        $ErrorMessage = "Error loading GPO overview: $($_.Exception.Message)"
-        Write-ADReportLog -Message $ErrorMessage -Type Error
-        Update-ADReportResults -Results @()
-        $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-    }
-})
-} else {
-    Write-ADReportLog -Message "ButtonQuickGPOOverview nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickHoneyTokens
-if ($null -ne $Global:ButtonQuickHoneyTokens) {
-    $ButtonQuickHoneyTokens.add_Click({
-    Write-ADReportLog -Message "Analyzing potential honey tokens..." -Type Info
-    try {
-        if ($script:ListBoxSelectionChangedHandler) {
-            $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-        }
-        $Global:RadioButtonUser.IsChecked = $true
+        Write-ADReportLog -Message "Groups by type/scope analysis completed. $($Results.Count) combinations found." -Type Info -Terminal
+        return $Results | Sort-Object GroupCategory, GroupScope
         
-        $HoneyTokens = Get-HoneyTokens
-        if ($HoneyTokens -and $HoneyTokens.Count -gt 0) {
-            Update-ADReportResults -Results $HoneyTokens
-            Write-ADReportLog -Message "Honey token analysis completed. $($HoneyTokens.Count) result(s) found." -Type Info
-            Update-ResultCounters -Results $HoneyTokens
-            $Global:TextBlockStatus.Text = "Honey token analysis completed. $($HoneyTokens.Count) record(s) found."
-        } else {
-            $Global:DataGridResults.ItemsSource = $null
-            Write-ADReportLog -Message "No honey tokens detected." -Type Info
-            $Global:TextBlockStatus.Text = "No honey tokens detected."
-        }
     } catch {
-        $ErrorMessage = "Error analyzing honey tokens: $($_.Exception.Message)"
-        Write-ADReportLog -Message $ErrorMessage -Type Error
-        Update-ADReportResults -Results @()
-        $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+        Write-ADReportLog -Message "Error analyzing groups by type and scope: $($_.Exception.Message)" -Type Error
+        return @()
     }
-})
-} else {
-    Write-ADReportLog -Message "ButtonQuickHoneyTokens nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
 }
 
-# Event Handler für ButtonQuickExpiringAccounts
-if ($null -ne $Global:ButtonQuickExpiringAccounts) {
-    $ButtonQuickExpiringAccounts.add_Click({
-        Write-ADReportLog -Message "Analyzing expiring accounts..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
-            
-            $ExpiringAccounts = Get-ExpiringAccounts
-            if ($ExpiringAccounts -and $ExpiringAccounts.Count -gt 0) {
-                Update-ADReportResults -Results $ExpiringAccounts
-                Write-ADReportLog -Message "Expiring accounts analysis completed. $($ExpiringAccounts.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $ExpiringAccounts
-                $Global:TextBlockStatus.Text = "Expiring accounts analysis completed. $($ExpiringAccounts.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No expiring accounts found." -Type Info
-                $Global:TextBlockStatus.Text = "No expiring accounts found."
-            }
-        } catch {
-            $ErrorMessage = "Error analyzing expiring accounts: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+Function Get-DynamicDistGroups {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing dynamic distribution groups..." -Type Info -Terminal
+        
+        # Hinweis: Dynamic Distribution Groups sind ein Exchange-Feature
+        # Diese Funktion würde Exchange-Cmdlets benötigen
+        
+        Write-ADReportLog -Message "Dynamic Distribution Groups require Exchange PowerShell module." -Type Warning
+        
+        return @([PSCustomObject]@{
+            Name = "Not Available"
+            Status = "Exchange Required"
+            Description = "Dynamic Distribution Groups are an Exchange feature"
+            Recommendation = "Use Exchange Management Shell for this report"
+        })
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing dynamic distribution groups: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-MailEnabledGroups {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing mail-enabled groups..." -Type Info -Terminal
+        
+        # Suche nach Gruppen mit Mail-Attributen
+        $MailGroups = Get-ADGroup -Filter "mail -like '*'" -Properties mail, proxyAddresses, legacyExchangeDN, msExchRecipientTypeDetails, GroupCategory, GroupScope, ManagedBy, Description -ErrorAction Stop
+        
+        if ($MailGroups.Count -eq 0) {
+            Write-ADReportLog -Message "No mail-enabled groups found." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                Name = "No Results"
+                Mail = "N/A"
+                GroupCategory = "N/A"
+                Status = "No mail-enabled groups found"
+                Recommendation = "Mail-enabled groups may be managed through Exchange"
+            })
         }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickExpiringAccounts nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickReversibleEncryption
-if ($null -ne $Global:ButtonQuickReversibleEncryption) {
-    $ButtonQuickReversibleEncryption.add_Click({
-        Write-ADReportLog -Message "Analyzing users with reversible encryption..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
+        
+        $Results = foreach ($group in $MailGroups) {
+            # Prüfe Gruppenmitgliederzahl
+            $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
             
-            $ReversibleUsers = Get-ReversibleEncryptionUsers
-            if ($ReversibleUsers -and $ReversibleUsers.Count -gt 0) {
-                Update-ADReportResults -Results $ReversibleUsers
-                Write-ADReportLog -Message "Reversible encryption analysis completed. $($ReversibleUsers.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $ReversibleUsers
-                $Global:TextBlockStatus.Text = "Reversible encryption analysis completed. $($ReversibleUsers.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No users with reversible encryption found." -Type Info
-                $Global:TextBlockStatus.Text = "No users with reversible encryption found."
-            }
-        } catch {
-            $ErrorMessage = "Error analyzing reversible encryption: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickReversibleEncryption nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickKerberosDES
-if ($null -ne $Global:ButtonQuickKerberosDES) {
-    $ButtonQuickKerberosDES.add_Click({
-        Write-ADReportLog -Message "Analyzing Kerberos DES users..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
+            # Analysiere Mail-Eigenschaften
+            $hasMultipleProxies = ($group.proxyAddresses -and $group.proxyAddresses.Count -gt 1)
+            $primarySMTP = $group.proxyAddresses | Where-Object { $_ -clike "SMTP:*" } | Select-Object -First 1
             
-            $KerberosDESUsers = Get-KerberosDESUsers
-            if ($KerberosDESUsers -and $KerberosDESUsers.Count -gt 0) {
-                Update-ADReportResults -Results $KerberosDESUsers
-                Write-ADReportLog -Message "Kerberos DES analysis completed. $($KerberosDESUsers.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $KerberosDESUsers
-                $Global:TextBlockStatus.Text = "Kerberos DES analysis completed. $($KerberosDESUsers.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No Kerberos DES users found." -Type Info
-                $Global:TextBlockStatus.Text = "No Kerberos DES users found."
+            # Manager auflösen
+            $managerName = "None"
+            if ($group.ManagedBy) {
+                try {
+                    $manager = Get-ADUser -Identity $group.ManagedBy -Properties DisplayName -ErrorAction SilentlyContinue
+                    if ($manager) {
+                        $managerName = $manager.DisplayName
+                    }
+                } catch {
+                    $managerName = "Unknown"
+                }
             }
-        } catch {
-            $ErrorMessage = "Error analyzing Kerberos DES users: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickKerberosDES nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickUsersWithSPN
-if ($null -ne $Global:ButtonQuickUsersWithSPN) {
-    $ButtonQuickUsersWithSPN.add_Click({
-        Write-ADReportLog -Message "Analyzing users with SPN..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
             
-            $UsersWithSPN = Get-UsersWithSPN
-            if ($UsersWithSPN -and $UsersWithSPN.Count -gt 0) {
-                Update-ADReportResults -Results $UsersWithSPN
-                Write-ADReportLog -Message "Users with SPN analysis completed. $($UsersWithSPN.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $UsersWithSPN
-                $Global:TextBlockStatus.Text = "Users with SPN analysis completed. $($UsersWithSPN.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No users with SPN found." -Type Info
-                $Global:TextBlockStatus.Text = "No users with SPN found."
-            }
-        } catch {
-            $ErrorMessage = "Error analyzing users with SPN: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickUsersWithSPN nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickGuestAccountStatus
-if ($null -ne $Global:ButtonQuickGuestAccountStatus) {
-    $ButtonQuickGuestAccountStatus.add_Click({
-        Write-ADReportLog -Message "Analyzing guest account status..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
+            # Status und Empfehlungen
+            $status = "Active"
+            $recommendations = @()
             
-            $GuestAccountStatus = Get-GuestAccountStatus
-            if ($GuestAccountStatus -and $GuestAccountStatus.Count -gt 0) {
-                Update-ADReportResults -Results $GuestAccountStatus
-                Write-ADReportLog -Message "Guest account analysis completed. $($GuestAccountStatus.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $GuestAccountStatus
-                $Global:TextBlockStatus.Text = "Guest account analysis completed. $($GuestAccountStatus.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No guest account status found." -Type Info
-                $Global:TextBlockStatus.Text = "No guest account status found."
+            if ([string]::IsNullOrWhiteSpace($group.mail)) {
+                $status = "Incomplete"
+                $recommendations += "Mail attribute is empty"
             }
-        } catch {
-            $ErrorMessage = "Error analyzing guest account status: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickGuestAccountStatus nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickUsersByDepartment
-if ($null -ne $Global:ButtonQuickUsersByDepartment) {
-    $ButtonQuickUsersByDepartment.add_Click({
-        Write-ADReportLog -Message "Analyzing users by department..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
             
-            $UsersByDepartment = Get-UsersByDepartment
-            if ($UsersByDepartment -and $UsersByDepartment.Count -gt 0) {
-                Update-ADReportResults -Results $UsersByDepartment
-                Write-ADReportLog -Message "Users by department analysis completed. $($UsersByDepartment.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $UsersByDepartment
-                $Global:TextBlockStatus.Text = "Users by department analysis completed. $($UsersByDepartment.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No users by department found." -Type Info
-                $Global:TextBlockStatus.Text = "No users by department found."
+            if ($memberCount -eq 0) {
+                $recommendations += "Group has no members"
             }
-        } catch {
-            $ErrorMessage = "Error analyzing users by department: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickUsersByDepartment nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickUsersByManager
-if ($null -ne $Global:ButtonQuickUsersByManager) {
-    $ButtonQuickUsersByManager.add_Click({
-        Write-ADReportLog -Message "Analyzing users by manager..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
             
-            $UsersByManager = Get-UsersByManager
-            if ($UsersByManager -and $UsersByManager.Count -gt 0) {
-                Update-ADReportResults -Results $UsersByManager
-                Write-ADReportLog -Message "Users by manager analysis completed. $($UsersByManager.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $UsersByManager
-                $Global:TextBlockStatus.Text = "Users by manager analysis completed. $($UsersByManager.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No users by manager found." -Type Info
-                $Global:TextBlockStatus.Text = "No users by manager found."
+            if ($memberCount -gt 1000) {
+                $recommendations += "Large distribution list - consider breaking up"
             }
-        } catch {
-            $ErrorMessage = "Error analyzing users by manager: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickUsersByManager nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickRemoteAccessUsers
-if ($null -ne $Global:ButtonQuickRemoteAccessUsers) {
-    $ButtonQuickRemoteAccessUsers.add_Click({
-        Write-ADReportLog -Message "Analyzing remote access users..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
             
-            $RemoteAccessUsers = Get-RemoteAccessUsers
-            if ($RemoteAccessUsers -and $RemoteAccessUsers.Count -gt 0) {
-                Update-ADReportResults -Results $RemoteAccessUsers
-                Write-ADReportLog -Message "Remote access users analysis completed. $($RemoteAccessUsers.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $RemoteAccessUsers
-                $Global:TextBlockStatus.Text = "Remote access users analysis completed. $($RemoteAccessUsers.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No remote access users found." -Type Info
-                $Global:TextBlockStatus.Text = "No remote access users found."
+            if ([string]::IsNullOrWhiteSpace($group.ManagedBy)) {
+                $recommendations += "No manager assigned"
             }
-        } catch {
-            $ErrorMessage = "Error analyzing remote access users: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
-        }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickRemoteAccessUsers nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
-}
-
-# Event Handler für ButtonQuickMobileDeviceUsers
-if ($null -ne $Global:ButtonQuickMobileDeviceUsers) {
-    $ButtonQuickMobileDeviceUsers.add_Click({
-        Write-ADReportLog -Message "Analyzing mobile device users..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonUser.IsChecked = $true
             
-            $MobileDeviceUsers = Get-MobileDeviceUsers
-            if ($MobileDeviceUsers -and $MobileDeviceUsers.Count -gt 0) {
-                Update-ADReportResults -Results $MobileDeviceUsers
-                Write-ADReportLog -Message "Mobile device users analysis completed. $($MobileDeviceUsers.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $MobileDeviceUsers
-                $Global:TextBlockStatus.Text = "Mobile device users analysis completed. $($MobileDeviceUsers.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No mobile device users found." -Type Info
-                $Global:TextBlockStatus.Text = "No mobile device users found."
+            [PSCustomObject]@{
+                Name = $group.Name
+                Mail = $group.mail
+                PrimarySMTP = if ($primarySMTP) { $primarySMTP -replace "SMTP:", "" } else { $group.mail }
+                GroupCategory = $group.GroupCategory
+                GroupScope = $group.GroupScope
+                MemberCount = $memberCount
+                ManagedBy = $managerName
+                ProxyAddressCount = if ($group.proxyAddresses) { $group.proxyAddresses.Count } else { 0 }
+                Status = $status
+                Recommendations = if ($recommendations) { $recommendations -join "; " } else { "Properly configured" }
+                Description = $group.Description
             }
-        } catch {
-            $ErrorMessage = "Error analyzing mobile device users: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
         }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickMobileDeviceUsers nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+        
+        Write-ADReportLog -Message "Mail-enabled groups analysis completed. $($Results.Count) groups found." -Type Info -Terminal
+        return $Results | Sort-Object MemberCount -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing mail-enabled groups: $($_.Exception.Message)" -Type Error
+        return @()
+    }
 }
 
-# --- GROUPS CATEGORY EVENT HANDLERS ---
-
-# Event Handler für ButtonQuickNestedGroups
-if ($null -ne $Global:ButtonQuickNestedGroups) {
-    $ButtonQuickNestedGroups.add_Click({
-        Write-ADReportLog -Message "Analyzing nested groups..." -Type Info
-        try {
-            if ($script:ListBoxSelectionChangedHandler) {
-                $Global:ListBoxSelectAttributes.remove_SelectionChanged($script:ListBoxSelectionChangedHandler)
-            }
-            $Global:RadioButtonGroup.IsChecked = $true
+Function Get-GroupsWithoutOwners {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing groups without owners/managers..." -Type Info -Terminal
+        
+        $Groups = Get-ADGroup -Filter * -Properties ManagedBy, Description, GroupCategory, GroupScope, whenCreated, whenChanged, info -ErrorAction Stop
+        
+        # Filtere Gruppen ohne ManagedBy
+        $UnmanagedGroups = $Groups | Where-Object { [string]::IsNullOrWhiteSpace($_.ManagedBy) }
+        
+        $Results = foreach ($group in $UnmanagedGroups) {
+            # Prüfe Gruppengröße
+            $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
             
-            $NestedGroups = Get-NestedGroups
-            if ($NestedGroups -and $NestedGroups.Count -gt 0) {
-                Update-ADReportResults -Results $NestedGroups
-                Write-ADReportLog -Message "Nested groups analysis completed. $($NestedGroups.Count) result(s) found." -Type Info
-                Update-ResultCounters -Results $NestedGroups
-                $Global:TextBlockStatus.Text = "Nested groups analysis completed. $($NestedGroups.Count) record(s) found."
-            } else {
-                $Global:DataGridResults.ItemsSource = $null
-                Write-ADReportLog -Message "No nested groups found." -Type Info
-                $Global:TextBlockStatus.Text = "No nested groups found."
+            # Alter der Gruppe
+            $ageInDays = if ($group.whenCreated) { 
+                (New-TimeSpan -Start $group.whenCreated -End (Get-Date)).Days 
+            } else { 0 }
+            
+            # Risikobewertung
+            $riskLevel = "Low"
+            $riskFactors = @()
+            
+            if ($group.GroupCategory -eq "Security") {
+                $riskLevel = "Medium"
+                $riskFactors += "Security group"
             }
-        } catch {
-            $ErrorMessage = "Error analyzing nested groups: $($_.Exception.Message)"
-            Write-ADReportLog -Message $ErrorMessage -Type Error
-            Update-ADReportResults -Results @()
-            $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            
+            if ($memberCount -gt 50) {
+                if ($riskLevel -eq "Low") { $riskLevel = "Medium" }
+                $riskFactors += "Large membership ($memberCount members)"
+            }
+            
+            if ($memberCount -gt 100 -and $group.GroupCategory -eq "Security") {
+                $riskLevel = "High"
+            }
+            
+            if ($ageInDays -gt 365) {
+                $riskFactors += "Old group (>1 year)"
+            }
+            
+            # Empfehlungen
+            $recommendations = @("Assign a group manager/owner")
+            
+            if ($memberCount -eq 0 -and $ageInDays -gt 90) {
+                $recommendations += "Consider deleting empty old group"
+            }
+            
+            if ($group.GroupCategory -eq "Security" -and $memberCount -gt 20) {
+                $recommendations += "Security groups should have designated owners"
+            }
+            
+            [PSCustomObject]@{
+                Name = $group.Name
+                GroupCategory = $group.GroupCategory
+                GroupScope = $group.GroupScope
+                MemberCount = $memberCount
+                Description = if ($group.Description) { $group.Description } else { "(No description)" }
+                WhenCreated = $group.whenCreated
+                AgeInDays = $ageInDays
+                LastModified = $group.whenChanged
+                RiskLevel = $riskLevel
+                RiskFactors = if ($riskFactors) { $riskFactors -join "; " } else { "None" }
+                Recommendations = $recommendations -join "; "
+            }
         }
-    })
-} else {
-    Write-ADReportLog -Message "ButtonQuickNestedGroups nicht gefunden - Funktion wird übersprungen." -Type Warning -Terminal
+        
+        Write-ADReportLog -Message "Groups without owners analysis completed. $($Results.Count) groups found." -Type Info -Terminal
+        return $Results | Sort-Object RiskLevel, MemberCount -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing groups without owners: $($_.Exception.Message)" -Type Error
+        return @()
+    }
 }
+
+Function Get-LargeGroups {
+    [CmdletBinding()]
+    param([int]$Threshold = 100)
+    
+    try {
+        Write-ADReportLog -Message "Analyzing large groups (threshold: $Threshold members)..." -Type Info -Terminal
+        
+        $Groups = Get-ADGroup -Filter * -Properties Description, GroupCategory, GroupScope, ManagedBy, whenCreated -ErrorAction Stop
+        
+        $LargeGroups = @()
+        
+        foreach ($group in $Groups) {
+            $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -Recursive -ErrorAction SilentlyContinue).Count
+            
+            if ($memberCount -ge $Threshold) {
+                # Nested group analysis
+                $directMembers = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue)
+                $nestedGroups = @($directMembers | Where-Object { $_.objectClass -eq "group" })
+                
+                # Manager info
+                $managerName = "None"
+                if ($group.ManagedBy) {
+                    try {
+                        $manager = Get-ADUser -Identity $group.ManagedBy -Properties DisplayName -ErrorAction SilentlyContinue
+                        if ($manager) {
+                            $managerName = $manager.DisplayName
+                        }
+                    } catch {
+                        $managerName = "Unknown"
+                    }
+                }
+                
+                # Performance impact assessment
+                $performanceImpact = "Low"
+                if ($memberCount -gt 1000) {
+                    $performanceImpact = "High"
+                } elseif ($memberCount -gt 500) {
+                    $performanceImpact = "Medium"
+                }
+                
+                # Recommendations
+                $recommendations = @()
+                if ($memberCount -gt 5000) {
+                    $recommendations += "Consider breaking into smaller groups"
+                }
+                if ($nestedGroups.Count -gt 10) {
+                    $recommendations += "High number of nested groups may impact performance"
+                }
+                if ($group.GroupScope -eq "Global" -and $memberCount -gt 5000) {
+                    $recommendations += "Consider using Universal scope for large groups"
+                }
+                
+                $LargeGroups += [PSCustomObject]@{
+                    Name = $group.Name
+                    GroupCategory = $group.GroupCategory
+                    GroupScope = $group.GroupScope
+                    TotalMembers = $memberCount
+                    DirectMembers = $directMembers.Count
+                    NestedGroups = $nestedGroups.Count
+                    ManagedBy = $managerName
+                    Description = if ($group.Description) { $group.Description } else { "(No description)" }
+                    WhenCreated = $group.whenCreated
+                    PerformanceImpact = $performanceImpact
+                    Recommendations = if ($recommendations) { $recommendations -join "; " } else { "Monitor group size" }
+                }
+            }
+        }
+        
+        if ($LargeGroups.Count -eq 0) {
+            Write-ADReportLog -Message "No large groups found (threshold: $Threshold members)." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                Name = "No Results"
+                TotalMembers = 0
+                Status = "No groups with $Threshold or more members found"
+                Recommendations = "All groups are within size limits"
+            })
+        }
+        
+        Write-ADReportLog -Message "Large groups analysis completed. $($LargeGroups.Count) groups found." -Type Info -Terminal
+        return $LargeGroups | Sort-Object TotalMembers -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing large groups: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-RecentlyModifiedGroups {
+    [CmdletBinding()]
+    param([int]$Days = 7)
+    
+    try {
+        Write-ADReportLog -Message "Analyzing recently modified groups (last $Days days)..." -Type Info -Terminal
+        
+        $CutoffDate = (Get-Date).AddDays(-$Days)
+        $Groups = Get-ADGroup -Filter "whenChanged -gt '$CutoffDate'" -Properties whenChanged, whenCreated, ManagedBy, Description, GroupCategory, GroupScope, modifyTimeStamp -ErrorAction Stop
+        
+        if ($Groups.Count -eq 0) {
+            Write-ADReportLog -Message "No groups modified in the last $Days days." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                Name = "No Results"
+                Status = "No groups modified in the last $Days days"
+                LastModified = "N/A"
+                Recommendations = "Normal - no recent group modifications"
+            })
+        }
+        
+        $Results = foreach ($group in $Groups) {
+            # Versuche die Art der Änderung zu ermitteln
+            $changeType = "Modified"
+            if ($group.whenCreated -and $group.whenCreated -gt $CutoffDate) {
+                $changeType = "Created"
+            }
+            
+            # Manager info
+            $managerName = "None"
+            if ($group.ManagedBy) {
+                try {
+                    $manager = Get-ADUser -Identity $group.ManagedBy -Properties DisplayName -ErrorAction SilentlyContinue
+                    if ($manager) {
+                        $managerName = $manager.DisplayName
+                    }
+                } catch {
+                    $managerName = "Unknown"
+                }
+            }
+            
+            # Mitgliederzahl für Kontext
+            $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
+            
+            # Tage seit Änderung
+            $daysSinceChange = [math]::Round((New-TimeSpan -Start $group.whenChanged -End (Get-Date)).TotalDays, 1)
+            
+            [PSCustomObject]@{
+                Name = $group.Name
+                GroupCategory = $group.GroupCategory
+                GroupScope = $group.GroupScope
+                ChangeType = $changeType
+                LastModified = $group.whenChanged
+                DaysSinceChange = $daysSinceChange
+                CreatedDate = $group.whenCreated
+                MemberCount = $memberCount
+                ManagedBy = $managerName
+                Description = if ($group.Description) { $group.Description } else { "(No description)" }
+                ModificationTime = $group.whenChanged.ToString("HH:mm:ss")
+            }
+        }
+        
+        Write-ADReportLog -Message "Recently modified groups analysis completed. $($Results.Count) groups found." -Type Info -Terminal
+        return $Results | Sort-Object LastModified -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing recently modified groups: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+# --- Weitere Computer-Report Funktionen ---
+Function Get-ComputersByOSVersion {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing computers by OS version..." -Type Info -Terminal
+        
+        $Computers = Get-ADComputer -Filter * -Properties OperatingSystem, OperatingSystemVersion, OperatingSystemServicePack, LastLogonDate, Enabled, whenCreated -ErrorAction Stop
+        
+        # Gruppiere nach OS und Version
+        $OSGroups = $Computers | Group-Object -Property OperatingSystem, OperatingSystemVersion
+        
+        $Results = foreach ($osGroup in $OSGroups) {
+            $os = $osGroup.Group[0].OperatingSystem
+            $version = $osGroup.Group[0].OperatingSystemVersion
+            $sp = $osGroup.Group[0].OperatingSystemServicePack
+            
+            # Statistiken für diese OS-Version
+            $enabledCount = @($osGroup.Group | Where-Object { $_.Enabled }).Count
+            $activeCount = @($osGroup.Group | Where-Object { $_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-30) }).Count
+            
+            # Support-Status ermitteln
+            $supportStatus = "Unknown"
+            $eolDate = "Unknown"
+            
+            if ($os -like "*Windows 7*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2020-01-14"
+            } elseif ($os -like "*Windows 8*" -and $os -notlike "*8.1*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2016-01-12"
+            } elseif ($os -like "*Windows 8.1*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2023-01-10"
+            } elseif ($os -like "*Windows 10*") {
+                # Verschiedene Windows 10 Versionen haben unterschiedliche EOL-Daten
+                $supportStatus = "Check Version"
+                $eolDate = "Version-dependent"
+            } elseif ($os -like "*Windows 11*") {
+                $supportStatus = "Supported"
+                $eolDate = "Active"
+            } elseif ($os -like "*Server 2008*" -and $os -notlike "*R2*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2015-07-14"
+            } elseif ($os -like "*Server 2008 R2*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2020-01-14"
+            } elseif ($os -like "*Server 2012*" -and $os -notlike "*R2*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2023-10-10"
+            } elseif ($os -like "*Server 2012 R2*") {
+                $supportStatus = "End of Life"
+                $eolDate = "2023-10-10"
+            } elseif ($os -like "*Server 2016*") {
+                $supportStatus = "Supported"
+                $eolDate = "2027-01-12"
+            } elseif ($os -like "*Server 2019*") {
+                $supportStatus = "Supported"
+                $eolDate = "2029-01-09"
+            } elseif ($os -like "*Server 2022*") {
+                $supportStatus = "Supported"
+                $eolDate = "2031-10-14"
+            }
+            
+            # Risikobewertung
+            $riskLevel = "Low"
+            if ($supportStatus -eq "End of Life") {
+                $riskLevel = "Critical"
+            } elseif ($supportStatus -eq "Check Version") {
+                $riskLevel = "Medium"
+            }
+            
+            [PSCustomObject]@{
+                OperatingSystem = if ($os) { $os } else { "Unknown" }
+                Version = if ($version) { $version } else { "Unknown" }
+                ServicePack = if ($sp) { $sp } else { "None" }
+                Count = $osGroup.Count
+                EnabledCount = $enabledCount
+                ActiveCount = $activeCount
+                InactiveCount = $osGroup.Count - $activeCount
+                Percentage = [math]::Round(($osGroup.Count / $Computers.Count) * 100, 2)
+                SupportStatus = $supportStatus
+                EndOfLifeDate = $eolDate
+                RiskLevel = $riskLevel
+                Recommendation = if ($supportStatus -eq "End of Life") { 
+                    "Urgent: Upgrade or replace systems" 
+                } elseif ($supportStatus -eq "Check Version") { 
+                    "Verify specific version support status" 
+                } else { 
+                    "Keep systems updated" 
+                }
+            }
+        }
+        
+        Write-ADReportLog -Message "Computers by OS version analysis completed. $($Results.Count) unique OS versions found." -Type Info -Terminal
+        return $Results | Sort-Object RiskLevel, Count -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing computers by OS version: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-ComputersNeverLoggedOn {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing computers that never logged on..." -Type Info -Terminal
+        
+        $Computers = Get-ADComputer -Filter "LastLogonDate -notlike '*'" -Properties LastLogonDate, whenCreated, OperatingSystem, Enabled, Description, DistinguishedName -ErrorAction Stop
+        
+        if ($Computers.Count -eq 0) {
+            Write-ADReportLog -Message "No computers found that never logged on." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                Name = "No Results"
+                Status = "All computers have logged on at least once"
+                Recommendation = "Environment is healthy"
+            })
+        }
+        
+        $Results = foreach ($computer in $Computers) {
+            # Alter des Computer-Objekts
+            $ageInDays = if ($computer.whenCreated) {
+                (New-TimeSpan -Start $computer.whenCreated -End (Get-Date)).Days
+            } else { "Unknown" }
+            
+            # OU-Pfad extrahieren
+            $ouPath = if ($computer.DistinguishedName -match 'CN=[^,]+,(.+)$') { $matches[1] } else { "Unknown" }
+            
+            # Risikobewertung
+            $riskLevel = "Low"
+            $recommendations = @()
+            
+            if ($computer.Enabled) {
+                $riskLevel = "Medium"
+                $recommendations += "Consider disabling unused computer"
+            }
+            
+            if ($ageInDays -is [int] -and $ageInDays -gt 90) {
+                if ($riskLevel -eq "Low") { $riskLevel = "Medium" }
+                if ($computer.Enabled) { $riskLevel = "High" }
+                $recommendations += "Old unused computer account - consider deletion"
+            }
+            
+            if ($ageInDays -is [int] -and $ageInDays -gt 180) {
+                $riskLevel = "High"
+                $recommendations = @("Delete unused computer account")
+            }
+            
+            [PSCustomObject]@{
+                Name = $computer.Name
+                OperatingSystem = if ($computer.OperatingSystem) { $computer.OperatingSystem } else { "Unknown" }
+                Enabled = $computer.Enabled
+                WhenCreated = $computer.whenCreated
+                AgeInDays = $ageInDays
+                Description = if ($computer.Description) { $computer.Description } else { "(No description)" }
+                OrganizationalUnit = $ouPath
+                RiskLevel = $riskLevel
+                Recommendations = if ($recommendations) { $recommendations -join "; " } else { "Monitor account" }
+                Status = if ($computer.Enabled) { "Enabled but never used" } else { "Disabled and never used" }
+            }
+        }
+        
+        Write-ADReportLog -Message "Computers never logged on analysis completed. $($Results.Count) computers found." -Type Info -Terminal
+        return $Results | Sort-Object RiskLevel, AgeInDays -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing computers never logged on: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-DuplicateComputerNames {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing duplicate computer names..." -Type Info -Terminal
+        
+        $Computers = Get-ADComputer -Filter * -Properties DNSHostName, Enabled, OperatingSystem, LastLogonDate, whenCreated, DistinguishedName, IPv4Address -ErrorAction Stop
+        
+        # Suche nach Duplikaten basierend auf Name (ohne $)
+        $ComputerNames = $Computers | ForEach-Object { 
+            [PSCustomObject]@{
+                Computer = $_
+                CleanName = $_.Name.TrimEnd('$').ToUpper()
+            }
+        }
+        
+        # Gruppiere nach bereinigtem Namen
+        $DuplicateGroups = $ComputerNames | Group-Object CleanName | Where-Object { $_.Count -gt 1 }
+        
+        if ($DuplicateGroups.Count -eq 0) {
+            Write-ADReportLog -Message "No duplicate computer names found." -Type Info -Terminal
+            return @([PSCustomObject]@{
+                Name = "No Duplicates"
+                Status = "No duplicate computer names detected"
+                Count = 0
+                Recommendation = "Environment is healthy"
+            })
+        }
+        
+        $Results = foreach ($dupGroup in $DuplicateGroups) {
+            foreach ($item in $dupGroup.Group) {
+                $computer = $item.Computer
+                
+                # OU-Pfad extrahieren
+                $ouPath = if ($computer.DistinguishedName -match 'CN=[^,]+,(.+)$') { $matches[1] } else { "Unknown" }
+                
+                # Bestimme welcher Computer der "aktive" ist
+                $isActive = $computer.Enabled -and $computer.LastLogonDate -and 
+                           $computer.LastLogonDate -gt (Get-Date).AddDays(-30)
+                
+                [PSCustomObject]@{
+                    Name = $computer.Name
+                    CleanName = $item.CleanName
+                    DNSHostName = $computer.DNSHostName
+                    IPv4Address = if ($computer.IPv4Address) { $computer.IPv4Address } else { "No IP" }
+                    Enabled = $computer.Enabled
+                    OperatingSystem = if ($computer.OperatingSystem) { $computer.OperatingSystem } else { "Unknown" }
+                    LastLogonDate = $computer.LastLogonDate
+                    WhenCreated = $computer.whenCreated
+                    OrganizationalUnit = $ouPath
+                    DuplicateCount = $dupGroup.Count
+                    Status = if ($isActive) { "Active Duplicate" } 
+                            elseif ($computer.Enabled) { "Enabled but Inactive" } 
+                            else { "Disabled" }
+                    Recommendation = if (-not $computer.Enabled -and (-not $computer.LastLogonDate -or 
+                                      $computer.LastLogonDate -lt (Get-Date).AddDays(-90))) {
+                                        "Delete disabled/inactive duplicate"
+                                    } elseif ($dupGroup.Count -gt 2) {
+                                        "Multiple duplicates - immediate investigation required"
+                                    } else {
+                                        "Investigate and resolve duplicate"
+                                    }
+                }
+            }
+        }
+        
+        Write-ADReportLog -Message "Duplicate computer names analysis completed. $($DuplicateGroups.Count) duplicate groups found." -Type Info -Terminal
+        return $Results | Sort-Object CleanName, Status
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing duplicate computer names: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-ComputersByLocation {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing computers by location..." -Type Info -Terminal
+        
+        $Computers = Get-ADComputer -Filter * -Properties Location, Enabled, OperatingSystem, LastLogonDate, Description, DistinguishedName -ErrorAction Stop
+        
+        # Gruppiere nach Location
+        $LocationGroups = $Computers | Group-Object Location
+        
+        $Results = foreach ($locGroup in $LocationGroups) {
+            $location = if ([string]::IsNullOrWhiteSpace($locGroup.Name)) { "(No Location)" } else { $locGroup.Name }
+            
+            # Statistiken für diese Location
+            $enabledCount = @($locGroup.Group | Where-Object { $_.Enabled }).Count
+            $activeCount = @($locGroup.Group | Where-Object { 
+                $_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-30) 
+            }).Count
+            
+            # OS-Verteilung in dieser Location
+            $osDistribution = $locGroup.Group | Group-Object OperatingSystem | 
+                             Sort-Object Count -Descending | 
+                             Select-Object -First 3 | 
+                             ForEach-Object { "$($_.Name): $($_.Count)" }
+            
+            # Durchschnittliche Inaktivität
+            $inactiveDays = @()
+            foreach ($comp in $locGroup.Group) {
+                if ($comp.LastLogonDate) {
+                    $inactiveDays += (New-TimeSpan -Start $comp.LastLogonDate -End (Get-Date)).Days
+                }
+            }
+            
+            $avgInactiveDays = if ($inactiveDays.Count -gt 0) {
+                [math]::Round(($inactiveDays | Measure-Object -Average).Average, 1)
+            } else { "N/A" }
+            
+            [PSCustomObject]@{
+                Location = $location
+                TotalComputers = $locGroup.Count
+                EnabledComputers = $enabledCount
+                ActiveComputers = $activeCount
+                InactiveComputers = $locGroup.Count - $activeCount
+                Percentage = [math]::Round(($locGroup.Count / $Computers.Count) * 100, 2)
+                TopOperatingSystems = if ($osDistribution) { $osDistribution -join "; " } else { "Unknown" }
+                AverageInactiveDays = $avgInactiveDays
+                HealthStatus = if ($activeCount -lt ($enabledCount * 0.5)) { "Poor" } 
+                              elseif ($activeCount -lt ($enabledCount * 0.8)) { "Fair" } 
+                              else { "Good" }
+                Recommendation = if ($enabledCount -gt 0 -and $activeCount -lt ($enabledCount * 0.5)) {
+                                   "Many inactive computers - review and cleanup"
+                               } elseif ([string]::IsNullOrWhiteSpace($locGroup.Name)) {
+                                   "Update location information for better tracking"
+                               } else {
+                                   "Location properly maintained"
+                               }
+            }
+        }
+        
+        Write-ADReportLog -Message "Computers by location analysis completed. $($Results.Count) locations found." -Type Info -Terminal
+        return $Results | Sort-Object TotalComputers -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing computers by location: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-VirtualVsPhysical {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing virtual vs physical computers..." -Type Info -Terminal
+        
+        $Computers = Get-ADComputer -Filter * -Properties OperatingSystem, Manufacturer, Model, Enabled, LastLogonDate, Description -ErrorAction Stop
+        
+        # Kategorisiere Computer als virtuell oder physisch
+        $ComputerTypes = foreach ($computer in $Computers) {
+            $type = "Physical"  # Standard-Annahme
+            $platform = "Unknown"
+            
+            # Prüfe verschiedene Indikatoren für virtuelle Maschinen
+            # Hinweis: Diese Properties sind möglicherweise nicht immer verfügbar
+            if ($computer.Manufacturer) {
+                if ($computer.Manufacturer -like "*VMware*") {
+                    $type = "Virtual"
+                    $platform = "VMware"
+                } elseif ($computer.Manufacturer -like "*Microsoft Corporation*" -and $computer.Model -like "*Virtual*") {
+                    $type = "Virtual"
+                    $platform = "Hyper-V"
+                } elseif ($computer.Manufacturer -like "*Xen*") {
+                    $type = "Virtual"
+                    $platform = "Xen"
+                } elseif ($computer.Manufacturer -like "*QEMU*" -or $computer.Manufacturer -like "*KVM*") {
+                    $type = "Virtual"
+                    $platform = "KVM/QEMU"
+                } elseif ($computer.Manufacturer -like "*Oracle*" -and $computer.Model -like "*VirtualBox*") {
+                    $type = "Virtual"
+                    $platform = "VirtualBox"
+                } elseif ($computer.Manufacturer -like "*Amazon*" -or $computer.Manufacturer -like "*EC2*") {
+                    $type = "Virtual"
+                    $platform = "AWS EC2"
+                } elseif ($computer.Manufacturer -like "*Google*" -or $computer.Model -like "*Google*") {
+                    $type = "Virtual"
+                    $platform = "Google Cloud"
+                } elseif ($computer.Manufacturer -like "*Microsoft*" -and $computer.Model -like "*Azure*") {
+                    $type = "Virtual"
+                    $platform = "Azure"
+                }
+            }
+            
+            # Zusätzliche Prüfung über Modell
+            if ($computer.Model) {
+                if ($computer.Model -like "*Virtual*" -or $computer.Model -like "*VM*") {
+                    if ($type -eq "Physical") {
+                        $type = "Virtual"
+                        $platform = "Generic VM"
+                    }
+                }
+            }
+            
+            [PSCustomObject]@{
+                Computer = $computer
+                Type = $type
+                Platform = $platform
+            }
+        }
+        
+        # Gruppiere nach Typ
+        $TypeGroups = $ComputerTypes | Group-Object Type
+        
+        # Erstelle Zusammenfassung
+        $Summary = foreach ($typeGroup in $TypeGroups) {
+            $computers = $typeGroup.Group.Computer
+            
+            # Statistiken
+            $enabledCount = @($computers | Where-Object { $_.Enabled }).Count
+            $activeCount = @($computers | Where-Object { 
+                $_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-30) 
+            }).Count
+            
+            # Platform-Verteilung für virtuelle Maschinen
+            $platformDist = if ($typeGroup.Name -eq "Virtual") {
+                $typeGroup.Group | Group-Object Platform | 
+                Sort-Object Count -Descending | 
+                ForEach-Object { "$($_.Name): $($_.Count)" }
+            } else { @("N/A") }
+            
+            # OS-Verteilung
+            $osDist = $computers | Group-Object OperatingSystem | 
+                     Sort-Object Count -Descending | 
+                     Select-Object -First 5 | 
+                     ForEach-Object { "$($_.Name): $($_.Count)" }
+            
+            [PSCustomObject]@{
+                Type = $typeGroup.Name
+                Count = $typeGroup.Count
+                Percentage = [math]::Round(($typeGroup.Count / $Computers.Count) * 100, 2)
+                Enabled = $enabledCount
+                Active = $activeCount
+                Inactive = $typeGroup.Count - $activeCount
+                Platforms = if ($platformDist) { $platformDist -join "; " } else { "N/A" }
+                TopOperatingSystems = if ($osDist) { $osDist -join "; " } else { "Unknown" }
+                Recommendations = if ($typeGroup.Name -eq "Virtual" -and $platformDist.Count -gt 3) {
+                                    "Multiple virtualization platforms detected - consider standardization"
+                                } elseif ($activeCount -lt ($enabledCount * 0.7)) {
+                                    "Many inactive $($typeGroup.Name.ToLower()) machines - review for cleanup"
+                                } else {
+                                    "Environment properly maintained"
+                                }
+            }
+        }
+        
+        Write-ADReportLog -Message "Virtual vs Physical analysis completed. Found $($TypeGroups.Count) types." -Type Info -Terminal
+        return $Summary  # Nur Summary zurückgeben für bessere Übersicht
+        
+    } catch {
+        Write-ADReportLog -Message "Error analyzing virtual vs physical computers: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+
+
 
 # --- Skriptstart ---
 Start-ADReportGUI
+
+
+
