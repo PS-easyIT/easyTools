@@ -4,56 +4,55 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="easyADReport v0.4.2"
-    Width="1775"
+    Title="easyADReport v0.5.X Series"
+    Width="1850"
     Height="1000"
-    Background="#F8F9FA"
+    Background="#F8FAFC"
     FontFamily="Segoe UI"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen">
 
-    <!-- Window Resources for Modern Styling -->
+    <!--  Window Resources for Modern Styling  -->
     <Window.Resources>
-        <!-- Modern Card Style -->
+        <!--  Modern Card Style  -->
         <Style x:Key="ModernCard" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#E5E7EB" />
         </Style>
 
-        <!-- Modern Button Style -->
+        <!--  Modern Button Style  -->
         <Style x:Key="ModernButton" TargetType="Button">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#E5E7EB"/>
-            <Setter Property="Padding" Value="16,10"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" 
-                                Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              Margin="{TemplateBinding Padding}"/>
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F9FAFB"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
-                                <Setter TargetName="border" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Color="#103B82F6" Opacity="0.1"/>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter TargetName="border" Property="Background" Value="#F3F4F6" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#6366F1" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F3F4F6"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#1D4ED8"/>
+                                <Setter TargetName="border" Property="Background" Value="#E5E7EB" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#4F46E5" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -61,35 +60,33 @@
             </Setter>
         </Style>
 
-        <!-- Primary Button Style -->
+        <!--  Primary Button Style  -->
         <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Background" Value="#3B82F6"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="24,14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#6366F1" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="24,14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" 
-                                Background="{TemplateBinding Background}" 
-                                CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              Margin="{TemplateBinding Padding}"/>
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4">
+                            <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#2563EB"/>
-                                <Setter TargetName="border" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="#103B82F6" Opacity="0.3"/>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter TargetName="border" Property="Background" Value="#5B5BD6" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#1D4ED8"/>
+                                <Setter TargetName="border" Property="Background" Value="#4F46E5" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -97,41 +94,42 @@
             </Setter>
         </Style>
 
-        <!-- Category Header Style -->
+        <!--  Category Header Style  -->
         <Style x:Key="CategoryHeader" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#2D3748"/>
-            <Setter Property="Margin" Value="0,8,0,4"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#1F2937" />
+            <Setter Property="Margin" Value="0,8,0,4" />
         </Style>
 
-        <!-- Sidebar Menu Button Style -->
+        <!--  Sidebar Menu Button Style  -->
         <Style x:Key="SidebarButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,1" />
+            <Setter Property="Foreground" Value="#374151" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" 
-                                Background="{TemplateBinding Background}" 
-                                CornerRadius="6"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                              VerticalAlignment="Center"/>
+                        <Border
+                            x:Name="border"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F1F5F9"/>
+                                <Setter TargetName="border" Property="Background" Value="#F3F4F6" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#E2E8F0"/>
+                                <Setter TargetName="border" Property="Background" Value="#E5E7EB" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -139,1131 +137,1136 @@
             </Setter>
         </Style>
 
-        <!-- Active Sidebar Button Style -->
-        <Style x:Key="SidebarButtonActive" TargetType="Button" BasedOn="{StaticResource SidebarButton}">
-            <Setter Property="Background" Value="#EBF4FF"/>
-            <Setter Property="Foreground" Value="#1E40AF"/>
-            <Setter Property="FontWeight" Value="Medium"/>
+        <!--  Active Sidebar Button Style  -->
+        <Style
+            x:Key="SidebarButtonActive"
+            BasedOn="{StaticResource SidebarButton}"
+            TargetType="Button">
+            <Setter Property="Background" Value="#EEF2FF" />
+            <Setter Property="Foreground" Value="#6366F1" />
+            <Setter Property="FontWeight" Value="Medium" />
         </Style>
 
-        <!-- Expandable Section Style -->
+        <!--  Expandable Section Style - Simplified  -->
         <Style x:Key="ExpanderStyle" TargetType="Expander">
-            <Setter Property="IsExpanded" Value="True"/>
-            <Setter Property="Margin" Value="0,4,0,8"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Expander">
-                        <Border Background="#FAFBFC" CornerRadius="8" Margin="0,2">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <ToggleButton x:Name="HeaderSite" 
-                                              Grid.Row="0" 
-                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Background="Transparent"
-                                              BorderThickness="0"
-                                              Padding="12,10"
-                                              HorizontalAlignment="Stretch"
-                                              HorizontalContentAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Path x:Name="arrow" 
-                                              Fill="#6B7280" 
-                                              Margin="0,0,8,0"
-                                              VerticalAlignment="Center"
-                                              Data="M4,6 L8,10 L4,14" 
-                                              Stroke="#6B7280" 
-                                              StrokeThickness="1.2"
-                                              Width="12"
-                                              Height="12">
-                                            <Path.RenderTransform>
-                                                <RotateTransform x:Name="arrowTransform" Angle="0" CenterX="6" CenterY="10"/>
-                                            </Path.RenderTransform>
-                                        </Path>
-                                        <ContentPresenter Content="{TemplateBinding Header}" 
-                                                          TextBlock.FontWeight="SemiBold" 
-                                                          TextBlock.FontSize="13"
-                                                          TextBlock.Foreground="#374151"/>
-                                    </StackPanel>
-                                </ToggleButton>
-                                <ContentPresenter x:Name="ExpandSite" 
-                                                  Grid.Row="1" 
-                                                  Visibility="Collapsed" 
-                                                  Margin="8,0,8,8"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsExpanded" Value="True">
-                                <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="arrowTransform" 
-                                                             Storyboard.TargetProperty="Angle" 
-                                                             To="90" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="arrowTransform" 
-                                                             Storyboard.TargetProperty="Angle" 
-                                                             To="0" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                            <Trigger SourceName="HeaderSite" Property="IsMouseOver" Value="True">
-                                <Setter TargetName="HeaderSite" Property="Background" Value="#F1F5F9"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="Margin" Value="0,2,0,6" />
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#E5E7EB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Foreground" Value="#374151" />
         </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <!-- Modern Header -->
-            <RowDefinition Height="*"/>
-            <!-- Content Area -->
-            <RowDefinition Height="60"/>
-            <!-- Enhanced Footer -->
+            <RowDefinition Height="50" />
+            <!--  Header  -->
+            <RowDefinition Height="*" />
+            <!--  Content Area  -->
+            <RowDefinition Height="25" />
+            <!--  Footer  -->
         </Grid.RowDefinitions>
 
-        <!-- Modern Header (Grid.Row="0") -->
-        <Border Grid.Row="0" Background="White" BorderThickness="0,0,0,1" BorderBrush="#E1E5E9">
-            <Grid Margin="24,0">
+        <!--  Header (Grid.Row="0")  -->
+        <Border
+            Grid.Row="0"
+            Background="#374151"
+            BorderBrush="#E5E7EB"
+            BorderThickness="0,0,0,1">
+            <Grid Margin="20,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- App Title -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Ellipse Width="36" Height="36" Fill="#0078D7" Margin="0,0,12,0">
-                        <Ellipse.Effect>
-                            <DropShadowEffect BlurRadius="6" ShadowDepth="1" Color="#0D000000" Opacity="0.15"/>
-                        </Ellipse.Effect>
-                    </Ellipse>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="easyADReport" FontSize="20" FontWeight="SemiBold" Foreground="#1A202C"/>
-                        <TextBlock Text="easy Active Directory Reporting" FontSize="11" Foreground="#718096" Margin="0,-2,0,0"/>
-                    </StackPanel>
+                <!--  App Title  -->
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="#F9FAFB"
+                        Text="easyADReport v0.5.X Series" />
                 </StackPanel>
 
-                <!-- Statistics Card -->
-                <Border Grid.Column="2" Style="{StaticResource ModernCard}" Padding="16,8" MinWidth="140">
-                    <StackPanel>
-                        <TextBlock Text="Total Results" FontSize="11" Foreground="#718096" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="TotalResultCountText" Text="0" FontSize="24" FontWeight="Bold" 
-                                   Foreground="#0078D7" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                    </StackPanel>
-                </Border>
+                <!--  Results Counter  -->
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical" Background="#FF4C5B73" Height="49" Margin="1475,0,-20,0" Grid.ColumnSpan="2">
+                    <TextBlock Text="Total Results" FontSize="14" Foreground="#FFC1FFDB" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="TotalResultCountText" Text="0" FontSize="20" FontWeight="Bold" 
+                               Foreground="#FFEAEAEA" HorizontalAlignment="Center" Margin="0,2,0,0" Width="60" TextAlignment="Center"/>
+                </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Content Area (Grid.Row="1") -->
+        <!--  Content Area (Grid.Row="1")  -->
         <Grid Grid.Row="1" Margin="24,20,24,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320"/>
-                <!-- Enhanced Sidebar - erweitert für bessere Lesbarkeit -->
-                <ColumnDefinition Width="24"/>
-                <!-- Spacing - vergrößert -->
-                <ColumnDefinition Width="*"/>
-                <!-- Main Content -->
+                <ColumnDefinition Width="320" />
+                <!--  Enhanced Sidebar  -->
+                <ColumnDefinition Width="24" />
+                <!--  Spacing  -->
+                <ColumnDefinition Width="*" />
+                <!--  Main Content  -->
             </Grid.ColumnDefinitions>
 
-            <!-- Modern Sidebar with Categorized Reports -->
-            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.ColumnSpan="2" Margin="0,0,10,0">
-                <Border Style="{StaticResource ModernCard}" Padding="16,20">
+            <!--  Modern Sidebar with Categorized Reports  -->
+            <ScrollViewer
+                Grid.Column="0"
+                Margin="0,0,0,10"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+                <Border
+                    Padding="16,16"
+                    Background="#F8FAFC"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1"
+                    CornerRadius="6">
                     <StackPanel>
-                        <!-- Sidebar Header -->
-                        <Grid Margin="0,0,0,20">
+                        <!--  Sidebar Header  -->
+                        <Grid Margin="0,0,0,16">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="📊 Quick Reports" Style="{StaticResource CategoryHeader}" 
-                                       FontSize="16" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,8"/>
-                            <TextBlock Text="Select a predefined report to execute instantly" 
-                                       FontSize="12" Foreground="#6B7280" Grid.Row="1" TextWrapping="Wrap"/>
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="0,0,0,8"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Foreground="#374151"
+                                Text="📊 Quick Reports" />
                         </Grid>
 
-                        <!-- Users - General Overview -->
-                        <Expander Header="👤 Users - Overview" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Domain Overview Reports  -->
+                        <Expander
+                            Header="📊 Domain Overview"
+                            IsExpanded="True"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickAllUsers" Content="All Users" Style="{StaticResource SidebarButton}" ToolTip="Retrieve all user accounts in the domain"/>
-                                <Button x:Name="ButtonQuickDisabledUsers" Content="Disabled Users" Style="{StaticResource SidebarButton}" ToolTip="Find all disabled user accounts"/>
-                                <Button x:Name="ButtonQuickLockedUsers" Content="Locked Users" Style="{StaticResource SidebarButton}" ToolTip="Show accounts currently locked out"/>
-                                <Button x:Name="ButtonQuickNeverLoggedOn" Content="Never Logged On" Style="{StaticResource SidebarButton}" ToolTip="Users who have never logged into the system"/>
-                                <Button x:Name="ButtonQuickAdminUsers" Content="Administrators" Style="{StaticResource SidebarButton}" ToolTip="Show all administrative accounts"/>
-                                <Button x:Name="ButtonQuickGuestAccountStatus" Content="Guest Account Status" Style="{StaticResource SidebarButton}" ToolTip="Check status of guest accounts"/>
+                                <Button
+                                    x:Name="ButtonQuickAllUsers"
+                                    Content="All Users"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Retrieve all user accounts in the domain" />
+                                <Button
+                                    x:Name="ButtonQuickGroups"
+                                    Content="All Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Retrieve all groups in the domain" />
+                                <Button
+                                    x:Name="ButtonQuickComputers"
+                                    Content="All Computers"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Retrieve all computer accounts" />
+                                <Button
+                                    x:Name="ButtonQuickOSSummary"
+                                    Content="Operating System Summary"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Summary of OS versions in use" />
+                                <Button
+                                    x:Name="ButtonQuickOUHierarchy"
+                                    Content="OU Hierarchy"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show Organizational Unit hierarchy" />
+                                <Button
+                                    x:Name="ButtonQuickSitesSubnets"
+                                    Content="Sites and Subnets"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Display sites and subnets" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Users - Activity and Time -->
-                        <Expander Header="📅 Users - Activity" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Statistics and Reports  -->
+                        <Expander
+                            Header="📈 Statistics and Reports"
+                            IsExpanded="True"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickInactiveUsers" Content="Inactive Users (90+ days)" Style="{StaticResource SidebarButton}" ToolTip="Users inactive for more than 90 days"/>
-                                <Button x:Name="ButtonQuickRecentlyCreatedUsers" Content="Recently Created (30d)" Style="{StaticResource SidebarButton}" ToolTip="New user accounts created within 30 days"/>
-                                <Button x:Name="ButtonQuickRecentlyDeletedUsers" Content="Recently Deleted" Style="{StaticResource SidebarButton}" ToolTip="Recently deleted user accounts"/>
-                                <Button x:Name="ButtonQuickRecentlyModifiedUsers" Content="Recently Modified" Style="{StaticResource SidebarButton}" ToolTip="User accounts with recent changes"/>
-                                <Button x:Name="ButtonQuickExpiringAccounts" Content="Expiring Accounts" Style="{StaticResource SidebarButton}" ToolTip="Accounts approaching expiration date"/>
+                                <Button
+                                    x:Name="ButtonQuickSecurityDashboard"
+                                    Content="Security Assessment Dashboard"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Overall AD security assessment with recommendations" />
+                                <Button
+                                    x:Name="ButtonQuickCompromiseIndicators"
+                                    Content="AD Compromise Indicators"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Signs of compromise and suspicious activities" />
+                                <Button
+                                    x:Name="ButtonQuickDepartmentStats"
+                                    Content="Department Statistics"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Generate department statistics" />
+                                <Button
+                                    x:Name="ButtonQuickDepartmentSecurity"
+                                    Content="Department Security"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze department security posture" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Users - Password and Security -->
-                        <Expander Header="🔐 Users - Passwords" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  User Account Management  -->
+                        <Expander
+                            Header="👤 User Accounts"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickNeverExpire" Content="Password Never Expires" Style="{StaticResource SidebarButton}" ToolTip="Users with non-expiring passwords"/>
-                                <Button x:Name="ButtonQuickPasswordExpiringSoon" Content="Password Expiring (7d)" Style="{StaticResource SidebarButton}" ToolTip="Passwords expiring within 7 days"/>
-                                <Button x:Name="ButtonQuickExpiredPasswords" Content="Expired Passwords" Style="{StaticResource SidebarButton}" ToolTip="Users with expired passwords"/>
-                                <Button x:Name="ButtonQuickStalePasswords" Content="Stale Passwords" Style="{StaticResource SidebarButton}" ToolTip="Users with very old passwords"/>
-                                <Button x:Name="ButtonQuickNeverChangingPasswords" Content="Never Changing Passwords" Style="{StaticResource SidebarButton}" ToolTip="Users who never changed their password"/>
-                                <Button x:Name="ButtonQuickReversibleEncryption" Content="Reversible Encryption" Style="{StaticResource SidebarButton}" ToolTip="Users with reversible password encryption"/>
+                                <Button
+                                    x:Name="ButtonQuickDisabledUsers"
+                                    Content="Disabled Users"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find all disabled user accounts" />
+                                <Button
+                                    x:Name="ButtonQuickInactiveUsers"
+                                    Content="Inactive Users (90+ days)"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users inactive for more than 90 days" />
+                                <Button
+                                    x:Name="ButtonQuickLockedUsers"
+                                    Content="Locked Users"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show accounts currently locked out" />
+                                <Button
+                                    x:Name="ButtonQuickNeverLoggedOn"
+                                    Content="Never Logged On"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users who have never logged into the system" />
+                                <Button
+                                    x:Name="ButtonQuickExpiringAccounts"
+                                    Content="Expiring Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Accounts approaching expiration date" />
+                                <Button
+                                    x:Name="ButtonQuickRecentlyCreatedUsers"
+                                    Content="Recently Created (30d)"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="New user accounts created within 30 days" />
+                                <Button
+                                    x:Name="ButtonQuickRecentlyDeletedUsers"
+                                    Content="Recently Deleted"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Recently deleted user accounts" />
+                                <Button
+                                    x:Name="ButtonQuickRecentlyModifiedUsers"
+                                    Content="Recently Modified"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="User accounts with recent changes" />
+                                <Button
+                                    x:Name="ButtonQuickUsersByDepartment"
+                                    Content="Users by Department"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Group users by their department" />
+                                <Button
+                                    x:Name="ButtonQuickUsersByManager"
+                                    Content="Users by Manager"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show users organized by manager" />
+                                <Button
+                                    x:Name="ButtonQuickUsersWithoutManager"
+                                    Content="Users without Manager"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users with no assigned manager" />
+                                <Button
+                                    x:Name="ButtonQuickUsersMissingRequiredAttributes"
+                                    Content="Missing Required Attributes"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users with incomplete profile information" />
+                                <Button
+                                    x:Name="ButtonQuickGuestAccountStatus"
+                                    Content="Guest Account Status"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check status of guest accounts" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Users - Organization and Attributes -->
-                        <Expander Header="🏢 Users - Organization" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Password Security  -->
+                        <Expander
+                            Header="🔐 User Security"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickUsersByDepartment" Content="Users by Department" Style="{StaticResource SidebarButton}" ToolTip="Group users by their department"/>
-                                <Button x:Name="ButtonQuickUsersByManager" Content="Users by Manager" Style="{StaticResource SidebarButton}" ToolTip="Show users organized by manager"/>
-                                <Button x:Name="ButtonQuickUsersWithoutManager" Content="Users without Manager" Style="{StaticResource SidebarButton}" ToolTip="Users with no assigned manager"/>
-                                <Button x:Name="ButtonQuickUsersMissingRequiredAttributes" Content="Missing Required Attributes" Style="{StaticResource SidebarButton}" ToolTip="Users with incomplete profile information"/>
+                                <Button
+                                    x:Name="ButtonQuickNeverExpire"
+                                    Content="Password Never Expires"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users with non-expiring passwords" />
+                                <Button
+                                    x:Name="ButtonQuickPasswordExpiringSoon"
+                                    Content="Password Expiring (7d)"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Passwords expiring within 7 days" />
+                                <Button
+                                    x:Name="ButtonQuickExpiredPasswords"
+                                    Content="Expired Passwords"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users with expired passwords" />
+                                <Button
+                                    x:Name="ButtonQuickStalePasswords"
+                                    Content="Stale Passwords"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users with very old passwords" />
+                                <Button
+                                    x:Name="ButtonQuickNeverChangingPasswords"
+                                    Content="Never Changing Passwords"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users who never changed their password" />
+                                <Button
+                                    x:Name="ButtonQuickReversibleEncryption"
+                                    Content="Reversible Encryption"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users with reversible password encryption" />
+                                <Button
+                                    x:Name="ButtonQuickWeakPasswordPolicy"
+                                    Content="Weak Password Policies"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze weak password policies" />
+                                <Button
+                                    x:Name="ButtonQuickPasswordPolicySummary"
+                                    Content="Password Policy Summary"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Summary of password policies" />
+                                <Button
+                                    x:Name="ButtonQuickAccountLockoutPolicies"
+                                    Content="Account Lockout Policies"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Review account lockout policies" />
+                                <Button
+                                    x:Name="ButtonQuickFineGrainedPasswordPolicies"
+                                    Content="Fine-Grained Password Policies"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show fine-grained password policies" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Users - Advanced Security -->
-                        <Expander Header="🛡️ Users - Advanced Security" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Group Management  -->
+                        <Expander
+                            Header="👥 Group Management"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickKerberosDES" Content="Kerberos DES Users" Style="{StaticResource SidebarButton}" ToolTip="Users using weak DES encryption"/>
-                                <Button x:Name="ButtonQuickUsersWithSPN" Content="Users with SPN" Style="{StaticResource SidebarButton}" ToolTip="User accounts with Service Principal Names"/>
-                                <Button x:Name="ButtonQuickUsersDuplicateLogonNames" Content="Duplicate Logon Names" Style="{StaticResource SidebarButton}" ToolTip="Find duplicate user logon names"/>
-                                <Button x:Name="ButtonQuickOrphanedSIDsUsers" Content="Orphaned SIDs" Style="{StaticResource SidebarButton}" ToolTip="User accounts with orphaned SIDs"/>
+                                <Button
+                                    x:Name="ButtonQuickEmptyGroups"
+                                    Content="Empty Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups with no members" />
+                                <Button
+                                    x:Name="ButtonQuickSecurityGroups"
+                                    Content="Security Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show only security groups" />
+                                <Button
+                                    x:Name="ButtonQuickDistributionGroups"
+                                    Content="Distribution Lists"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show only distribution groups" />
+                                <Button
+                                    x:Name="ButtonQuickGroupsByTypeScope"
+                                    Content="Groups by Type/Scope"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Categorize groups by type and scope" />
+                                <Button
+                                    x:Name="ButtonQuickMailEnabledGroups"
+                                    Content="Mail Enabled Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups enabled for email" />
+                                <Button
+                                    x:Name="ButtonQuickDynamicDistGroups"
+                                    Content="Dynamic Distribution Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Dynamic distribution groups" />
+                                <Button
+                                    x:Name="ButtonQuickNestedGroups"
+                                    Content="Nested Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups containing other groups" />
+                                <Button
+                                    x:Name="ButtonQuickCircularGroups"
+                                    Content="Circular References"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups with circular membership" />
+                                <Button
+                                    x:Name="ButtonQuickGroupsWithoutOwners"
+                                    Content="Groups without Owners"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups with no assigned owners" />
+                                <Button
+                                    x:Name="ButtonQuickLargeGroups"
+                                    Content="Large Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups with many members" />
+                                <Button
+                                    x:Name="ButtonQuickRecentlyModifiedGroups"
+                                    Content="Recently Modified Groups"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Groups with recent changes" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Groups - Overview -->
-                        <Expander Header="👥 Groups - Overview" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Computer Management  -->
+                        <Expander
+                            Header="💻 Computer Management"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickGroups" Content="All Groups" Style="{StaticResource SidebarButton}" ToolTip="Retrieve all groups in the domain"/>
-                                <Button x:Name="ButtonQuickSecurityGroups" Content="Security Groups" Style="{StaticResource SidebarButton}" ToolTip="Show only security groups"/>
-                                <Button x:Name="ButtonQuickDistributionGroups" Content="Distribution Lists" Style="{StaticResource SidebarButton}" ToolTip="Show only distribution groups"/>
-                                <Button x:Name="ButtonQuickGroupsByTypeScope" Content="Groups by Type/Scope" Style="{StaticResource SidebarButton}" ToolTip="Categorize groups by type and scope"/>
-                                <Button x:Name="ButtonQuickMailEnabledGroups" Content="Mail Enabled Groups" Style="{StaticResource SidebarButton}" ToolTip="Groups enabled for email"/>
-                                <Button x:Name="ButtonQuickDynamicDistGroups" Content="Dynamic Distribution Groups" Style="{StaticResource SidebarButton}" ToolTip="Dynamic distribution groups"/>
+                                <Button
+                                    x:Name="ButtonQuickInactiveComputers"
+                                    Content="Inactive Computers (90+ days)"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Computers inactive for more than 90 days" />
+                                <Button
+                                    x:Name="ButtonQuickComputersNeverLoggedOn"
+                                    Content="Computers Never Logged On"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Computer accounts that never logged on" />
+                                <Button
+                                    x:Name="ButtonQuickComputersByLocation"
+                                    Content="Computers by Location"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Group computers by location" />
+                                <Button
+                                    x:Name="ButtonQuickComputersByOSVersion"
+                                    Content="Computers by OS Version"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Group computers by OS version" />
+                                <Button
+                                    x:Name="ButtonQuickDuplicateComputerNames"
+                                    Content="Duplicate Computer Names"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find duplicate computer names" />
+                                <Button
+                                    x:Name="ButtonQuickBitLockerStatus"
+                                    Content="BitLocker Status"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check BitLocker encryption status" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Groups - Structure and Issues -->
-                        <Expander Header="⚠️ Groups - Structure Issues" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Privileged Accounts and Security  -->
+                        <Expander
+                            Header="🛡️ Privileged Accounts"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickEmptyGroups" Content="Empty Groups" Style="{StaticResource SidebarButton}" ToolTip="Groups with no members"/>
-                                <Button x:Name="ButtonQuickNestedGroups" Content="Nested Groups" Style="{StaticResource SidebarButton}" ToolTip="Groups containing other groups"/>
-                                <Button x:Name="ButtonQuickCircularGroups" Content="Circular References" Style="{StaticResource SidebarButton}" ToolTip="Groups with circular membership"/>
-                                <Button x:Name="ButtonQuickGroupsWithoutOwners" Content="Groups without Owners" Style="{StaticResource SidebarButton}" ToolTip="Groups with no assigned owners"/>
-                                <Button x:Name="ButtonQuickLargeGroups" Content="Large Groups" Style="{StaticResource SidebarButton}" ToolTip="Groups with many members"/>
-                                <Button x:Name="ButtonQuickRecentlyModifiedGroups" Content="Recently Modified Groups" Style="{StaticResource SidebarButton}" ToolTip="Groups with recent changes"/>
+                                <Button
+                                    x:Name="ButtonQuickAdminUsers"
+                                    Content="Administrators"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show all administrative accounts" />
+                                <Button
+                                    x:Name="ButtonQuickPrivilegedAccounts"
+                                    Content="Privileged Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show all privileged accounts" />
+                                <Button
+                                    x:Name="ButtonQuickServiceAccountsOverview"
+                                    Content="Service Accounts Overview"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Overview of all service accounts" />
+                                <Button
+                                    x:Name="ButtonQuickManagedServiceAccounts"
+                                    Content="Managed Service Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show managed service accounts (MSA)" />
+                                <Button
+                                    x:Name="ButtonQuickServiceAccountsSPN"
+                                    Content="Service Accounts with SPN"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Service accounts with Service Principal Names" />
+                                <Button
+                                    x:Name="ButtonQuickHighPrivServiceAccounts"
+                                    Content="High Privilege Service Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Service accounts with high privileges" />
+                                <Button
+                                    x:Name="ButtonQuickServiceAccountPasswordAge"
+                                    Content="Service Account Password Age"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check service account password ages" />
+                                <Button
+                                    x:Name="ButtonQuickUnusedServiceAccounts"
+                                    Content="Unused Service Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Unused or obsolete service accounts" />
+                                <Button
+                                    x:Name="ButtonQuickRiskyGroupMemberships"
+                                    Content="Risky Memberships"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find risky group memberships" />
+                                <Button
+                                    x:Name="ButtonQuickKerberosDES"
+                                    Content="Kerberos DES Users"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Users using weak DES encryption" />
+                                <Button
+                                    x:Name="ButtonQuickUsersWithSPN"
+                                    Content="Users with SPN"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="User accounts with Service Principal Names" />
+                                <Button
+                                    x:Name="ButtonQuickUsersDuplicateLogonNames"
+                                    Content="Duplicate Logon Names"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find duplicate user logon names" />
+                                <Button
+                                    x:Name="ButtonQuickOrphanedSIDsUsers"
+                                    Content="Orphaned SIDs"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="User accounts with orphaned SIDs" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Computers - Overview -->
-                        <Expander Header="💻 Computers - Overview" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Security Threats Analysis  -->
+                        <Expander
+                            Header="🔍 Security Threats"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickComputers" Content="All Computers" Style="{StaticResource SidebarButton}" ToolTip="Retrieve all computer accounts"/>
-                                <Button x:Name="ButtonQuickInactiveComputers" Content="Inactive Computers (90+ days)" Style="{StaticResource SidebarButton}" ToolTip="Computers inactive for more than 90 days"/>
-                                <Button x:Name="ButtonQuickComputersNeverLoggedOn" Content="Computers Never Logged On" Style="{StaticResource SidebarButton}" ToolTip="Computer accounts that never logged on"/>
-                                <Button x:Name="ButtonQuickComputersByLocation" Content="Computers by Location" Style="{StaticResource SidebarButton}" ToolTip="Group computers by location"/>
-                                <Button x:Name="ButtonQuickDuplicateComputerNames" Content="Duplicate Computer Names" Style="{StaticResource SidebarButton}" ToolTip="Find duplicate computer names"/>
+                                <Button
+                                    x:Name="ButtonQuickKerberoastable"
+                                    Content="Kerberoastable Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Accounts vulnerable to Kerberoasting" />
+                                <Button
+                                    x:Name="ButtonQuickASREPRoastable"
+                                    Content="ASREPRoastable Accounts"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Accounts vulnerable to ASREPRoasting" />
+                                <Button
+                                    x:Name="ButtonQuickHoneyTokens"
+                                    Content="Honey Tokens"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Identify honey token accounts" />
+                                <Button
+                                    x:Name="ButtonQuickPrivilegeEscalation"
+                                    Content="Privilege Escalation Paths"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find privilege escalation paths" />
+                                <Button
+                                    x:Name="ButtonQuickExposedCredentials"
+                                    Content="Exposed Credentials"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check for exposed credentials" />
+                                <Button
+                                    x:Name="ButtonQuickSuspiciousLogons"
+                                    Content="Suspicious Logons"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Detect suspicious logon patterns" />
+                                <Button
+                                    x:Name="ButtonQuickForeignSecurityPrincipals"
+                                    Content="Foreign Security Principals"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find foreign security principals" />
+                                <Button
+                                    x:Name="ButtonQuickSIDHistoryAbuse"
+                                    Content="SID History Abuse"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Detect SID history abuse" />
+                                <Button
+                                    x:Name="ButtonQuickAuthProtocolAnalysis"
+                                    Content="Authentication Protocol Analysis"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Breakdown of NTLM vs. Kerberos usage" />
+                                <Button
+                                    x:Name="ButtonQuickFailedAuthPatterns"
+                                    Content="Failed Authentication Patterns"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Advanced analysis of failed login attempts" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Computers - Operating System and Security -->
-                        <Expander Header="🖥️ Computers - OS Security" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Permissions and Access Control  -->
+                        <Expander
+                            Header="🔑 Permissions and Access"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickOSSummary" Content="Operating System Summary" Style="{StaticResource SidebarButton}" ToolTip="Summary of OS versions in use"/>
-                                <Button x:Name="ButtonQuickComputersByOSVersion" Content="Computers by OS Version" Style="{StaticResource SidebarButton}" ToolTip="Group computers by OS version"/>
-                                <Button x:Name="ButtonQuickBitLockerStatus" Content="BitLocker Status" Style="{StaticResource SidebarButton}" ToolTip="Check BitLocker encryption status"/>
+                                <Button
+                                    x:Name="ButtonQuickACLAnalysis"
+                                    Content="ACL Analysis"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze Access Control Lists" />
+                                <Button
+                                    x:Name="ButtonQuickInheritanceBreaks"
+                                    Content="Inheritance Breaks"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find ACL inheritance breaks" />
+                                <Button
+                                    x:Name="ButtonQuickAdminSDHolderObjects"
+                                    Content="AdminSDHolder Objects"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show AdminSDHolder protected objects" />
+                                <Button
+                                    x:Name="ButtonQuickAdvancedDelegation"
+                                    Content="Advanced Delegation"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Advanced delegation analysis" />
+                                <Button
+                                    x:Name="ButtonQuickDelegation"
+                                    Content="Delegation Analysis"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="General delegation analysis" />
+                                <Button
+                                    x:Name="ButtonQuickSchemaPermissions"
+                                    Content="Schema Permissions"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check schema permissions" />
+                                <Button
+                                    x:Name="ButtonQuickDCSyncRights"
+                                    Content="DCSync Rights Analysis"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze DCSync rights" />
+                                <Button
+                                    x:Name="ButtonQuickSchemaAdmins"
+                                    Content="Schema Admin Paths"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show schema admin privilege paths" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Service Accounts -->
-                        <Expander Header="⚙️ Service Accounts" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  Policies and Group Policy Objects  -->
+                        <Expander
+                            Header="📋 Policies and GPOs"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickServiceAccountsOverview" Content="Service Accounts Overview" Style="{StaticResource SidebarButton}" ToolTip="Overview of all service accounts"/>
-                                <Button x:Name="ButtonQuickManagedServiceAccounts" Content="Managed Service Accounts" Style="{StaticResource SidebarButton}" ToolTip="Show managed service accounts (MSA)"/>
-                                <Button x:Name="ButtonQuickServiceAccountsSPN" Content="Service Accounts with SPN" Style="{StaticResource SidebarButton}" ToolTip="Service accounts with Service Principal Names"/>
-                                <Button x:Name="ButtonQuickHighPrivServiceAccounts" Content="High Privilege Service Accounts" Style="{StaticResource SidebarButton}" ToolTip="Service accounts with high privileges"/>
-                                <Button x:Name="ButtonQuickServiceAccountPasswordAge" Content="Service Account Password Age" Style="{StaticResource SidebarButton}" ToolTip="Check service account password ages"/>
-                                <Button x:Name="ButtonQuickUnusedServiceAccounts" Content="Unused Service Accounts" Style="{StaticResource SidebarButton}" ToolTip="Unused or obsolete service accounts"/>
+                                <Button
+                                    x:Name="ButtonQuickGPOOverview"
+                                    Content="GPO Overview"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="General Group Policy Objects overview" />
+                                <Button
+                                    x:Name="ButtonQuickUnlinkedGPOs"
+                                    Content="Unlinked GPOs"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Find unlinked Group Policy Objects" />
+                                <Button
+                                    x:Name="ButtonQuickEmptyGPOs"
+                                    Content="Empty GPOs"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show empty Group Policy Objects" />
+                                <Button
+                                    x:Name="ButtonQuickGPOPermissions"
+                                    Content="GPO Permissions"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze GPO permissions" />
+                                <Button
+                                    x:Name="ButtonQuickConditionalAccessPolicies"
+                                    Content="Conditional Access Policies"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Report on conditional access configurations" />
                             </StackPanel>
                         </Expander>
 
-                        <!-- Security Analysis -->
-                        <Expander Header="🔍 Security Analysis" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
+                        <!--  AD Infrastructure and Health  -->
+                        <Expander
+                            Header="🏥 AD Infrastructure"
+                            IsExpanded="False"
+                            Style="{StaticResource ExpanderStyle}">
                             <StackPanel>
-                                <Button x:Name="ButtonQuickWeakPasswordPolicy" Content="Weak Password Policies" Style="{StaticResource SidebarButton}" ToolTip="Analyze weak password policies"/>
-                                <Button x:Name="ButtonQuickRiskyGroupMemberships" Content="Risky Memberships" Style="{StaticResource SidebarButton}" ToolTip="Find risky group memberships"/>
-                                <Button x:Name="ButtonQuickPrivilegedAccounts" Content="Privileged Accounts" Style="{StaticResource SidebarButton}" ToolTip="Show all privileged accounts"/>
-                                <Button x:Name="ButtonQuickKerberoastable" Content="Kerberoastable Accounts" Style="{StaticResource SidebarButton}" ToolTip="Accounts vulnerable to Kerberoasting"/>
-                                <Button x:Name="ButtonQuickASREPRoastable" Content="ASREPRoastable Accounts" Style="{StaticResource SidebarButton}" ToolTip="Accounts vulnerable to ASREPRoasting"/>
-                                <Button x:Name="ButtonQuickHoneyTokens" Content="Honey Tokens" Style="{StaticResource SidebarButton}" ToolTip="Identify honey token accounts"/>
-                                <Button x:Name="ButtonQuickPrivilegeEscalation" Content="Privilege Escalation Paths" Style="{StaticResource SidebarButton}" ToolTip="Find privilege escalation paths"/>
-                                <Button x:Name="ButtonQuickExposedCredentials" Content="Exposed Credentials" Style="{StaticResource SidebarButton}" ToolTip="Check for exposed credentials"/>
-                                <Button x:Name="ButtonQuickSuspiciousLogons" Content="Suspicious Logons" Style="{StaticResource SidebarButton}" ToolTip="Detect suspicious logon patterns"/>
-                                <Button x:Name="ButtonQuickForeignSecurityPrincipals" Content="Foreign Security Principals" Style="{StaticResource SidebarButton}" ToolTip="Find foreign security principals"/>
-                                <Button x:Name="ButtonQuickSIDHistoryAbuse" Content="SID History Abuse" Style="{StaticResource SidebarButton}" ToolTip="Detect SID history abuse"/>
-                            </StackPanel>
-                        </Expander>
-
-                        <!-- Permissions and ACL -->
-                        <Expander Header="🔑 Permissions and ACL" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickACLAnalysis" Content="ACL Analysis" Style="{StaticResource SidebarButton}" ToolTip="Analyze Access Control Lists"/>
-                                <Button x:Name="ButtonQuickInheritanceBreaks" Content="Inheritance Breaks" Style="{StaticResource SidebarButton}" ToolTip="Find ACL inheritance breaks"/>
-                                <Button x:Name="ButtonQuickAdminSDHolderObjects" Content="AdminSDHolder Objects" Style="{StaticResource SidebarButton}" ToolTip="Show AdminSDHolder protected objects"/>
-                                <Button x:Name="ButtonQuickAdvancedDelegation" Content="Advanced Delegation" Style="{StaticResource SidebarButton}" ToolTip="Advanced delegation analysis"/>
-                                <Button x:Name="ButtonQuickDelegation" Content="Delegation Analysis" Style="{StaticResource SidebarButton}" ToolTip="General delegation analysis"/>
-                                <Button x:Name="ButtonQuickSchemaPermissions" Content="Schema Permissions" Style="{StaticResource SidebarButton}" ToolTip="Check schema permissions"/>
-                                <Button x:Name="ButtonQuickDCSyncRights" Content="DCSync Rights Analysis" Style="{StaticResource SidebarButton}" ToolTip="Analyze DCSync rights"/>
-                                <Button x:Name="ButtonQuickSchemaAdmins" Content="Schema Admin Paths" Style="{StaticResource SidebarButton}" ToolTip="Show schema admin privilege paths"/>
-                            </StackPanel>
-                        </Expander>
-
-                        <!-- Policies and GPOs -->
-                        <Expander Header="📋 GPOs and Policies" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickGPOOverview" Content="GPO Overview" Style="{StaticResource SidebarButton}" ToolTip="General Group Policy Objects overview"/>
-                                <Button x:Name="ButtonQuickUnlinkedGPOs" Content="Unlinked GPOs" Style="{StaticResource SidebarButton}" ToolTip="Find unlinked Group Policy Objects"/>
-                                <Button x:Name="ButtonQuickEmptyGPOs" Content="Empty GPOs" Style="{StaticResource SidebarButton}" ToolTip="Show empty Group Policy Objects"/>
-                                <Button x:Name="ButtonQuickGPOPermissions" Content="GPO Permissions" Style="{StaticResource SidebarButton}" ToolTip="Analyze GPO permissions"/>
-                                <Button x:Name="ButtonQuickPasswordPolicySummary" Content="Password Policy Summary" Style="{StaticResource SidebarButton}" ToolTip="Summary of password policies"/>
-                                <Button x:Name="ButtonQuickAccountLockoutPolicies" Content="Account Lockout Policies" Style="{StaticResource SidebarButton}" ToolTip="Review account lockout policies"/>
-                                <Button x:Name="ButtonQuickFineGrainedPasswordPolicies" Content="Fine-Grained Password Policies" Style="{StaticResource SidebarButton}" ToolTip="Show fine-grained password policies"/>
-                            </StackPanel>
-                        </Expander>
-
-                        <!-- AD Infrastructure and Health -->
-                        <Expander Header="🏥 AD Infrastructure" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickFSMORoles" Content="FSMO Role Holders" Style="{StaticResource SidebarButton}" ToolTip="Show FSMO role holders"/>
-                                <Button x:Name="ButtonQuickDCStatus" Content="Domain Controller Status" Style="{StaticResource SidebarButton}" ToolTip="Check domain controller status"/>
-                                <Button x:Name="ButtonQuickReplicationStatus" Content="Replication Status" Style="{StaticResource SidebarButton}" ToolTip="Check replication status"/>
-                                <Button x:Name="ButtonQuickSYSVOLHealth" Content="SYSVOL Health Check" Style="{StaticResource SidebarButton}" ToolTip="Analyze SYSVOL health"/>
-                                <Button x:Name="ButtonQuickDNSHealth" Content="DNS Health Analysis" Style="{StaticResource SidebarButton}" ToolTip="Check DNS health and configuration"/>
-                                <Button x:Name="ButtonQuickBackupStatus" Content="Backup Readiness" Style="{StaticResource SidebarButton}" ToolTip="Check backup readiness status"/>
-                                <Button x:Name="ButtonQuickOUHierarchy" Content="OU Hierarchy" Style="{StaticResource SidebarButton}" ToolTip="Show Organizational Unit hierarchy"/>
-                                <Button x:Name="ButtonQuickSitesSubnets" Content="Sites and Subnets" Style="{StaticResource SidebarButton}" ToolTip="Display sites and subnets"/>
-                                <Button x:Name="ButtonQuickTrustRelationships" Content="Trust Relationships" Style="{StaticResource SidebarButton}" ToolTip="Show trust relationships"/>
-                            </StackPanel>
-                        </Expander>
-
-                        <!-- Schema and Advanced Analysis -->
-                        <Expander Header="🔬 Schema and Advanced Analysis" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickSchemaAnalysis" Content="Schema Extensions" Style="{StaticResource SidebarButton}" ToolTip="Analyze Active Directory schema extensions"/>
-                                <Button x:Name="ButtonQuickCertificateAnalysis" Content="Certificate Security" Style="{StaticResource SidebarButton}" ToolTip="Analyze certificate security"/>
-                                <Button x:Name="ButtonQuickQuotasLimits" Content="Quotas and Limits" Style="{StaticResource SidebarButton}" ToolTip="Check directory quotas and limits"/>
-                            </StackPanel>
-                        </Expander>
-
-                        <!-- Statistics and Reports -->
-                        <Expander Header="📈 Statistics and Reports" Style="{StaticResource ExpanderStyle}" IsExpanded="False">
-                            <StackPanel>
-                                <Button x:Name="ButtonQuickDepartmentStats" Content="Department Statistics" Style="{StaticResource SidebarButton}" ToolTip="Generate department statistics"/>
-                                <Button x:Name="ButtonQuickDepartmentSecurity" Content="Department Security" Style="{StaticResource SidebarButton}" ToolTip="Analyze department security posture"/>
+                                <Button
+                                    x:Name="ButtonQuickFSMORoles"
+                                    Content="FSMO Role Holders"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show FSMO role holders" />
+                                <Button
+                                    x:Name="ButtonQuickDCStatus"
+                                    Content="Domain Controller Status"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check domain controller status" />
+                                <Button
+                                    x:Name="ButtonQuickReplicationStatus"
+                                    Content="Replication Status"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check replication status" />
+                                <Button
+                                    x:Name="ButtonQuickSYSVOLHealth"
+                                    Content="SYSVOL Health Check"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze SYSVOL health" />
+                                <Button
+                                    x:Name="ButtonQuickDNSHealth"
+                                    Content="DNS Health Analysis"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check DNS health and configuration" />
+                                <Button
+                                    x:Name="ButtonQuickBackupStatus"
+                                    Content="Backup Readiness"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check backup readiness status" />
+                                <Button
+                                    x:Name="ButtonQuickTrustRelationships"
+                                    Content="Trust Relationships"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Show trust relationships" />
+                                <Button
+                                    x:Name="ButtonQuickSchemaAnalysis"
+                                    Content="Schema Extensions"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze Active Directory schema extensions" />
+                                <Button
+                                    x:Name="ButtonQuickCertificateAnalysis"
+                                    Content="Certificate Security"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Analyze certificate security" />
+                                <Button
+                                    x:Name="ButtonQuickQuotasLimits"
+                                    Content="Quotas and Limits"
+                                    Style="{StaticResource SidebarButton}"
+                                    ToolTip="Check directory quotas and limits" />
                             </StackPanel>
                         </Expander>
                     </StackPanel>
                 </Border>
             </ScrollViewer>
 
-            <!-- Main Content Area -->
+            <!--  Main Content Area  -->
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <!-- Filter Section -->
-                    <RowDefinition Height="20"/>
-                    <!-- Spacing -->
-                    <RowDefinition Height="*"/>
-                    <!-- Results -->
+                    <RowDefinition Height="Auto" />
+                    <!--  Filter Section  -->
+                    <RowDefinition Height="20" />
+                    <!--  Spacing  -->
+                    <RowDefinition Height="*" />
+                    <!--  Results  -->
                 </Grid.RowDefinitions>
 
-                <!-- Enhanced Filter Section -->
+                <!--  Enhanced Filter Section  -->
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="Auto" MinWidth="435"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="Auto" MinWidth="435" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Advanced Filter Card -->
-                    <Border Grid.Column="0" Style="{StaticResource ModernCard}" Padding="20,16">
+                    <!--  Advanced Filter Card  -->
+                    <Border
+                        Grid.Column="0"
+                        Padding="20,16"
+                        Background="#FFFFFF"
+                        Style="{StaticResource ModernCard}">
                         <StackPanel>
-                            <TextBlock Style="{StaticResource CategoryHeader}" Margin="0,0,0,12"><Run Language="de-de" Text="Search with "/><Run Text="Filter"/></TextBlock>
+                            <TextBlock Margin="0,0,0,12" Style="{StaticResource CategoryHeader}" Text="Search with Filter" />
 
-                            <!-- Object Type Selection -->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                <TextBlock Text="Object Type:" VerticalAlignment="Center" Width="90" FontWeight="Medium"/>
-                                <RadioButton x:Name="RadioButtonUser" Content="User" IsChecked="True" Margin="12,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="RadioButtonGroup" Content="Group" Margin="12,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="RadioButtonComputer" Content="Computer" Margin="12,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="RadioButtonGroupMemberships" Content="Memberships" Margin="12,0" VerticalAlignment="Center"/>
+                            <!--  Object Type Selection  -->
+                            <StackPanel
+                                Margin="0,0,0,12"
+                                Background="#F9FAFB"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Width="90"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Medium"
+                                    Text="Object Type:" />
+                                <RadioButton
+                                    x:Name="RadioButtonUser"
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    Content="User"
+                                    IsChecked="True" />
+                                <RadioButton
+                                    x:Name="RadioButtonGroup"
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    Content="Group" />
+                                <RadioButton
+                                    x:Name="RadioButtonComputer"
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    Content="Computer" />
+                                <RadioButton
+                                    x:Name="RadioButtonGroupMemberships"
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    Content="Memberships" />
                             </StackPanel>
 
-                            <!-- Filter 1 -->
-                            <Grid Margin="0,0,0,8">
+                            <!--  Filter 1  -->
+                            <Grid Margin="0,0,0,8" Background="#FFF9F9F9">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80"/>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Filter 1:" VerticalAlignment="Center" FontWeight="Medium"/>
-                                <ComboBox x:Name="ComboBoxFilterAttribute1" Grid.Column="1" Margin="8,0" VerticalAlignment="Center"/>
-                                <ComboBox x:Name="ComboBoxFilterOperator1" Grid.Column="2" Margin="8,0" VerticalAlignment="Center">
-                                    <ComboBoxItem Content="Contains" IsSelected="True"/>
-                                    <ComboBoxItem Content="Equals"/>
-                                    <ComboBoxItem Content="StartsWith"/>
-                                    <ComboBoxItem Content="EndsWith"/>
-                                    <ComboBoxItem Content="NotEqual"/>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Medium"
+                                    Text="Filter 1:" />
+                                <ComboBox
+                                    x:Name="ComboBoxFilterAttribute1"
+                                    Grid.Column="1"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center" />
+                                <ComboBox
+                                    x:Name="ComboBoxFilterOperator1"
+                                    Grid.Column="2"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center">
+                                    <ComboBoxItem Content="Contains" IsSelected="True" />
+                                    <ComboBoxItem Content="Equals" />
+                                    <ComboBoxItem Content="StartsWith" />
+                                    <ComboBoxItem Content="EndsWith" />
+                                    <ComboBoxItem Content="NotEqual" />
                                 </ComboBox>
-                                <TextBox x:Name="TextBoxFilterValue1" Grid.Column="3" Margin="8,0,0,0" VerticalAlignment="Center" Padding="8,6"/>
+                                <TextBox
+                                    x:Name="TextBoxFilterValue1"
+                                    Grid.Column="3"
+                                    Margin="8,0,0,0"
+                                    Padding="8,6"
+                                    VerticalAlignment="Center" />
                             </Grid>
 
-                            <!-- Logic Selector -->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="Logic:" VerticalAlignment="Center" Width="80" FontWeight="Medium"/>
-                                <RadioButton x:Name="RadioButtonAnd" Content="AND" IsChecked="True" Margin="8,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="RadioButtonOr" Content="OR" Margin="12,0" VerticalAlignment="Center"/>
-                                <CheckBox x:Name="CheckBoxUseSecondFilter" Content="Use second filter" VerticalAlignment="Center" Margin="20,0"/>
+                            <!--  Logic Selector  -->
+                            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                                <TextBlock
+                                    Width="80"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Medium"
+                                    Text="Logic:" />
+                                <RadioButton
+                                    x:Name="RadioButtonAnd"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center"
+                                    Content="AND"
+                                    IsChecked="True" />
+                                <RadioButton
+                                    x:Name="RadioButtonOr"
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    Content="OR" />
+                                <CheckBox
+                                    x:Name="CheckBoxUseSecondFilter"
+                                    Margin="20,0"
+                                    VerticalAlignment="Center"
+                                    Content="Use second filter" />
                             </StackPanel>
 
-                            <!-- Filter 2 -->
-                            <Grid x:Name="SecondFilterPanel" IsEnabled="False">
+                            <!--  Filter 2  -->
+                            <Grid
+                                x:Name="SecondFilterPanel"
+                                Background="#FFF9F9F9"
+                                IsEnabled="False">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80"/>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Filter 2:" VerticalAlignment="Center" FontWeight="Medium"/>
-                                <ComboBox x:Name="ComboBoxFilterAttribute2" Grid.Column="1" Margin="8,0" VerticalAlignment="Center"/>
-                                <ComboBox x:Name="ComboBoxFilterOperator2" Grid.Column="2" Margin="8,0" VerticalAlignment="Center">
-                                    <ComboBoxItem Content="Contains" IsSelected="True"/>
-                                    <ComboBoxItem Content="Equals"/>
-                                    <ComboBoxItem Content="StartsWith"/>
-                                    <ComboBoxItem Content="EndsWith"/>
-                                    <ComboBoxItem Content="NotEqual"/>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Medium"
+                                    Text="Filter 2:" />
+                                <ComboBox
+                                    x:Name="ComboBoxFilterAttribute2"
+                                    Grid.Column="1"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center" />
+                                <ComboBox
+                                    x:Name="ComboBoxFilterOperator2"
+                                    Grid.Column="2"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center">
+                                    <ComboBoxItem Content="Contains" IsSelected="True" />
+                                    <ComboBoxItem Content="Equals" />
+                                    <ComboBoxItem Content="StartsWith" />
+                                    <ComboBoxItem Content="EndsWith" />
+                                    <ComboBoxItem Content="NotEqual" />
                                 </ComboBox>
-                                <TextBox x:Name="TextBoxFilterValue2" Grid.Column="3" Margin="8,0,0,0" VerticalAlignment="Center" Padding="8,6"/>
+                                <TextBox
+                                    x:Name="TextBoxFilterValue2"
+                                    Grid.Column="3"
+                                    Margin="8,0,0,0"
+                                    Padding="8,6"
+                                    VerticalAlignment="Center" />
                             </Grid>
                         </StackPanel>
                     </Border>
 
-                    <!-- Attributes Selection Card -->
-                    <Border Grid.Column="2" Style="{StaticResource ModernCard}" Padding="20,16">
+                    <!--  Attributes Selection Card  -->
+                    <Border
+                        Grid.Column="2"
+                        Padding="20,16"
+                        Background="#FFFFFF"
+                        BorderBrush="#E5E7EB"
+                        Style="{StaticResource ModernCard}">
                         <StackPanel>
-                            <Grid Margin="0,0,0,12">
+                            <Grid Height="25" Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="Export Attributes" Style="{StaticResource CategoryHeader}" Grid.Column="0"/>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource CategoryHeader}"
+                                    Text="Export Attributes" />
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Button x:Name="ButtonSelectAllAttributes" Content="All" Style="{StaticResource ModernButton}" 
-                                            Margin="0,0,4,0" Padding="6,4" FontSize="10" ToolTip="Select all attributes"/>
-                                    <Button x:Name="ButtonSelectNoneAttributes" Content="None" Style="{StaticResource ModernButton}" 
-                                            Padding="6,4" FontSize="10" ToolTip="Deselect all attributes"/>
+                                    <Button
+                                        x:Name="ButtonSelectAllAttributes"
+                                        Width="40"
+                                        Height="25"
+                                        Margin="0,0,4,0"
+                                        Padding="6,4"
+                                        Content="All"
+                                        FontSize="10"
+                                        Style="{StaticResource ModernButton}"
+                                        ToolTip="Select all attributes" />
+                                    <Button
+                                        x:Name="ButtonSelectNoneAttributes"
+                                        Width="40"
+                                        Height="25"
+                                        Padding="6,4"
+                                        Content="None"
+                                        FontSize="10"
+                                        Style="{StaticResource ModernButton}"
+                                        ToolTip="Deselect all attributes" />
                                 </StackPanel>
                             </Grid>
 
-                            <!-- Attribute Categories -->
-                            <TabControl x:Name="TabControlAttributes" Height="140" BorderThickness="0" Background="Transparent">
-                                <TabItem Header="Basic" FontSize="11">
-                                    <ListBox x:Name="ListBoxBasicAttributes" SelectionMode="Multiple" BorderThickness="0" Background="Transparent">
-                                        <ListBoxItem Content="DisplayName" IsSelected="True"/>
-                                        <ListBoxItem Content="SamAccountName" IsSelected="True"/>
-                                        <ListBoxItem Content="GivenName"/>
-                                        <ListBoxItem Content="Surname"/>
-                                        <ListBoxItem Content="mail"/>
-                                        <ListBoxItem Content="Department"/>
-                                        <ListBoxItem Content="Title"/>
-                                        <ListBoxItem Content="Enabled" IsSelected="True"/>
+                            <!--  Attribute Categories  -->
+                            <TabControl
+                                x:Name="TabControlAttributes"
+                                Height="140"
+                                Background="Transparent"
+                                BorderThickness="0">
+                                <TabItem FontSize="11" Header="Basic">
+                                    <ListBox
+                                        x:Name="ListBoxBasicAttributes"
+                                        Background="White"
+                                        BorderThickness="0"
+                                        SelectionMode="Multiple">
+                                        <ListBoxItem Content="DisplayName" IsSelected="True" />
+                                        <ListBoxItem Content="SamAccountName" IsSelected="True" />
+                                        <ListBoxItem Content="GivenName" />
+                                        <ListBoxItem Content="Surname" />
+                                        <ListBoxItem Content="mail" />
+                                        <ListBoxItem Content="Department" />
+                                        <ListBoxItem Content="Title" />
+                                        <ListBoxItem Content="Enabled" IsSelected="True" />
                                     </ListBox>
                                 </TabItem>
-                                <TabItem Header="Security" FontSize="11">
-                                    <ListBox x:Name="ListBoxSecurityAttributes" SelectionMode="Multiple" BorderThickness="0" Background="Transparent">
-                                        <ListBoxItem Content="LastLogonTimestamp"/>
-                                        <ListBoxItem Content="PasswordExpired"/>
-                                        <ListBoxItem Content="PasswordLastSet"/>
-                                        <ListBoxItem Content="AccountExpirationDate"/>
-                                        <ListBoxItem Content="badPwdCount"/>
-                                        <ListBoxItem Content="lockoutTime"/>
-                                        <ListBoxItem Content="UserAccountControl"/>
-                                        <ListBoxItem Content="memberOf"/>
+                                <TabItem FontSize="11" Header="Security">
+                                    <ListBox
+                                        x:Name="ListBoxSecurityAttributes"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        SelectionMode="Multiple">
+                                        <ListBoxItem Content="LastLogonTimestamp" />
+                                        <ListBoxItem Content="PasswordExpired" />
+                                        <ListBoxItem Content="PasswordLastSet" />
+                                        <ListBoxItem Content="AccountExpirationDate" />
+                                        <ListBoxItem Content="badPwdCount" />
+                                        <ListBoxItem Content="lockoutTime" />
+                                        <ListBoxItem Content="UserAccountControl" />
+                                        <ListBoxItem Content="memberOf" />
                                     </ListBox>
                                 </TabItem>
-                                <TabItem Header="Extended" FontSize="11">
-                                    <ListBox x:Name="ListBoxExtendedAttributes" SelectionMode="Multiple" BorderThickness="0" Background="Transparent">
-                                        <ListBoxItem Content="whenCreated"/>
-                                        <ListBoxItem Content="whenChanged"/>
-                                        <ListBoxItem Content="Manager"/>
-                                        <ListBoxItem Content="Company"/>
-                                        <ListBoxItem Content="physicalDeliveryOfficeName"/>
-                                        <ListBoxItem Content="telephoneNumber"/>
-                                        <ListBoxItem Content="homeDirectory"/>
-                                        <ListBoxItem Content="scriptPath"/>
+                                <TabItem FontSize="11" Header="Extended">
+                                    <ListBox
+                                        x:Name="ListBoxExtendedAttributes"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        SelectionMode="Multiple">
+                                        <ListBoxItem Content="whenCreated" />
+                                        <ListBoxItem Content="whenChanged" />
+                                        <ListBoxItem Content="Manager" />
+                                        <ListBoxItem Content="Company" />
+                                        <ListBoxItem Content="physicalDeliveryOfficeName" />
+                                        <ListBoxItem Content="telephoneNumber" />
+                                        <ListBoxItem Content="homeDirectory" />
+                                        <ListBoxItem Content="scriptPath" />
                                     </ListBox>
                                 </TabItem>
                             </TabControl>
                         </StackPanel>
                     </Border>
 
-                    <!-- Action Buttons -->
-                    <StackPanel Grid.Column="4" VerticalAlignment="Center" MinWidth="180" Height="120">
-                        <Button x:Name="ButtonQueryAD" Content="SEARCH" Style="{StaticResource PrimaryButton}" 
-                                Height="55" FontSize="15" Margin="0,0,0,12" Width="175"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button x:Name="ButtonExportCSV" Content="CSV" Style="{StaticResource ModernButton}" 
-                                    Width="83" Height="45" Margin="0,0,8,0" Background="#FFCCD8FF"/>
-                            <Button x:Name="ButtonExportHTML" Content="HTML" Style="{StaticResource ModernButton}" 
-                                    Width="83" Height="45" Background="#FFCCD8FF"/>
+                    <!--  Action Buttons  -->
+                    <StackPanel
+                        Grid.Column="4"
+                        MinWidth="180"
+                        Margin="0,44,0,63">
+                        <Button
+                            x:Name="ButtonQueryAD"
+                            Width="178"
+                            Height="50"
+                            Margin="0,0,0,12"
+                            Content="SEARCH"
+                            FontSize="16"
+                            Style="{StaticResource PrimaryButton}" Background="#FF313261" />
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="ButtonExportCSV"
+                                Width="85"
+                                Height="38"
+                                Margin="0,0,8,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="#FFBDBDBD"
+                                Content="CSV"
+                                Style="{StaticResource ModernButton}" />
+                            <Button
+                                x:Name="ButtonExportHTML"
+                                Width="85"
+                                Height="38"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="#FFBDBDBD"
+                                Content="HTML"
+                                Style="{StaticResource ModernButton}" />
                         </StackPanel>
                     </StackPanel>
 
                 </Grid>
 
-                <!-- Results Section with Tabs -->
-                <TabControl Grid.Row="2" x:Name="MainTabControl" BorderThickness="0" Margin="0,0,0,10">
-                    <TabControl.Resources>
-                        <Style TargetType="TabItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="TabItem">
-                                        <Border x:Name="Border" BorderThickness="0" Padding="20,10" Margin="0,0,5,0">
-                                            <Border.Background>
-                                                <SolidColorBrush Color="Transparent"/>
-                                            </Border.Background>
-                                            <ContentPresenter x:Name="ContentSite" ContentSource="Header"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="Border" Property="Background" Value="#EBF4FF"/>
-                                                <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#1E40AF"/>
-                                                <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="SemiBold"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="Border" Property="Background" Value="#F5F5F5"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TabControl.Resources>
+                <!--  Results Section  -->
+                <Border
+                    Grid.Row="2"
+                    Margin="0,0,0,10"
+                    Padding="20,16"
+                    Background="#FFFFFF"
+                    Style="{StaticResource ModernCard}">
+                    <Grid Margin="-10,0,-20,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <!-- Standard Table View Tab -->
-                    <TabItem Header="📊 Tabular View" IsSelected="True">
-                        <Border Style="{StaticResource ModernCard}" Padding="20,16">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                        <!--  Results Header  -->
+                        <Grid Grid.Row="0" Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Style="{StaticResource CategoryHeader}"
+                                Text="Query Results" />
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button
+                                    x:Name="ButtonRefresh"
+                                    Margin="0,0,8,0"
+                                    Padding="8,4"
+                                    Content="Reset Query Window"
+                                    Style="{StaticResource ModernButton}" />
+                                <Button
+                                    x:Name="ButtonCopy"
+                                    Margin="0,0,10,0"
+                                    Padding="8,4"
+                                    Content="Copy Selected Rows"
+                                    Style="{StaticResource ModernButton}" />
+                            </StackPanel>
+                        </Grid>
 
-                                <!-- Results Header -->
-                                <Grid Grid.Row="0" Margin="0,0,0,16">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Query Results" Style="{StaticResource CategoryHeader}"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                        <Button x:Name="ButtonRefresh" Content="Reset Query Window" Style="{StaticResource ModernButton}" Margin="0,0,8,0" Padding="8,4"/>
-                                        <Button x:Name="ButtonCopy" Content="Copy Selected Rows" Style="{StaticResource ModernButton}" Padding="8,4"/>
-                                    </StackPanel>
-                                </Grid>
-
-                                <!-- Result Count Grid -->
-                                <Grid x:Name="ResultCountGrid" Grid.Row="0" Margin="20,20,20,10" HorizontalAlignment="Center" Visibility="Collapsed">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="24"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="24"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <!-- User Count Card -->
-                                    <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20,12" MinWidth="140">
-                                        <StackPanel>
-                                            <TextBlock Text="👤 Users" FontSize="12" Foreground="#2B6CB0" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                            <TextBlock x:Name="UserCountText" Text="0" FontSize="24" FontWeight="Bold" Foreground="#1E40AF" HorizontalAlignment="Center" Margin="0,4,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- Computer Count Card -->
-                                    <Border Grid.Column="2" Background="#F0FDF4" CornerRadius="8" Padding="20,12" MinWidth="140">
-                                        <StackPanel>
-                                            <TextBlock Text="💻 Computers" FontSize="12" Foreground="#15803D" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                            <TextBlock x:Name="ComputerCountText" Text="0" FontSize="24" FontWeight="Bold" Foreground="#166534" HorizontalAlignment="Center" Margin="0,4,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- Group Count Card -->
-                                    <Border Grid.Column="4" Background="#FEF3C7" CornerRadius="8" Padding="20,12" MinWidth="140">
-                                        <StackPanel>
-                                            <TextBlock Text="👥 Groups" FontSize="12" Foreground="#B45309" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                            <TextBlock x:Name="GroupCountText" Text="0" FontSize="24" FontWeight="Bold" Foreground="#92400E" HorizontalAlignment="Center" Margin="0,4,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-                                </Grid>
-
-                                <!-- Enhanced DataGrid -->
-                                <DataGrid Grid.Row="1" x:Name="DataGridResults" 
-                                          AutoGenerateColumns="True" 
-                                          IsReadOnly="True" 
-                                          BorderThickness="1" 
-                                          BorderBrush="#E1E5E9"
-                                          Background="White" 
-                                          GridLinesVisibility="Horizontal" 
-                                          RowBackground="White" 
-                                          AlternatingRowBackground="#FAFBFC"
-                                          HeadersVisibility="Column"
-                                          CanUserSortColumns="True"
-                                          CanUserReorderColumns="True"
-                                          CanUserResizeColumns="True">
-                                    <DataGrid.ColumnHeaderStyle>
-                                        <Style TargetType="DataGridColumnHeader">
-                                            <Setter Property="Background" Value="#F7FAFC"/>
-                                            <Setter Property="Foreground" Value="#2D3748"/>
-                                            <Setter Property="FontWeight" Value="SemiBold"/>
-                                            <Setter Property="BorderBrush" Value="#E1E5E9"/>
-                                            <Setter Property="BorderThickness" Value="0,0,1,1"/>
-                                            <Setter Property="Padding" Value="12,8"/>
-                                        </Style>
-                                    </DataGrid.ColumnHeaderStyle>
-                                    <DataGrid.CellStyle>
-                                        <Style TargetType="DataGridCell">
-                                            <Setter Property="Padding" Value="12,6"/>
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="#E3F2FD"/>
-                                                    <Setter Property="Foreground" Value="#1565C0"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </DataGrid.CellStyle>
-                                </DataGrid>
-                            </Grid>
-                        </Border>
-                    </TabItem>
-
-                    <!-- Security Heat Tab -->
-                    <TabItem Header="🔒 Security Heat" x:Name="TabSecurityHeat">
-                        <Border Style="{StaticResource ModernCard}" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- Security Header -->
-                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                                    <TextBlock Text="Security Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
-                                    <TextBlock Text="Führen Sie umfassende Sicherheitsanalysen für Ihre Active Directory Umgebung durch" 
-                                               Foreground="#6B7280" TextWrapping="Wrap"/>
-                                </StackPanel>
-                                
-                                <!-- Security Content -->
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- Security Metrics -->
-                                        <Grid Grid.Row="1" Margin="0,0,0,20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <!-- Metric Cards -->
-                                            <Border Grid.Column="0" Background="#FEE2E2" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="⚠️ Kritische Findings" FontWeight="Bold" Foreground="#DC2626"/>
-                                                    <TextBlock x:Name="TxtCriticalFindings" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B91C1C" Margin="0,10"/>
-                                                    <Button x:Name="BtnViewCritical" Content="Details anzeigen" Style="{StaticResource ModernButton}" HorizontalAlignment="Left"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="1" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🔔 Warnungen" FontWeight="Bold" Foreground="#D97706"/>
-                                                    <TextBlock x:Name="TxtWarnings" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
-                                                    <Button x:Name="BtnViewWarnings" Content="Details anzeigen" Style="{StaticResource ModernButton}" HorizontalAlignment="Left"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="2" Background="#DBEAFE" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="ℹ️ Informationen" FontWeight="Bold" Foreground="#2563EB"/>
-                                                    <TextBlock x:Name="TxtInfos" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
-                                                    <Button x:Name="BtnViewInfos" Content="Details anzeigen" Style="{StaticResource ModernButton}" HorizontalAlignment="Left"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="3" Background="#D1FAE5" CornerRadius="8" Padding="20">
-                                                <StackPanel>
-                                                    <TextBlock Text="✅ Sicher" FontWeight="Bold" Foreground="#059669"/>
-                                                    <TextBlock x:Name="TxtSecure" Text="0%" FontSize="36" FontWeight="Bold" Foreground="#047857" Margin="0,10"/>
-                                                    <ProgressBar x:Name="ProgressSecure" Height="8" Minimum="0" Maximum="100" Value="0" Foreground="#10B981"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                    </Grid>
-                                </ScrollViewer>
-                                
-                                <!-- Status Bar -->
-                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Status: " FontWeight="Bold"/>
-                                        <TextBlock x:Name="TxtSecurityStatus" Text="Bereit" Margin="5,0"/>
-                                        <ProgressBar x:Name="ProgressSecurityAnalysis" Width="200" Height="16" Margin="20,0" Visibility="Collapsed"/>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </TabItem>
-
-                    <!-- User Heat Tab -->
-                    <TabItem Header="👤 User Heat" x:Name="TabUserHeat">
-                        <Border Style="{StaticResource ModernCard}" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- User Header -->
-                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                                    <TextBlock Text="User Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
-                                    <TextBlock Text="Umfassende Analyse aller Benutzerkonten in Ihrer Active Directory Umgebung" 
-                                               Foreground="#6B7280" TextWrapping="Wrap"/>
-                                </StackPanel>
-                                
-                                <!-- User Content -->
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- User Statistics -->
-                                        <Grid Grid.Row="0" Margin="0,0,0,20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="👥 Gesamt User" FontWeight="Bold" Foreground="#1E40AF"/>
-                                                    <TextBlock x:Name="TxtTotalUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
-                                                    <TextBlock Text="Active Directory" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="1" Background="#D1FAE5" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="✅ Aktive User" FontWeight="Bold" Foreground="#059669"/>
-                                                    <TextBlock x:Name="TxtActiveUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#047857" Margin="0,10"/>
-                                                    <TextBlock Text="Enabled Accounts" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="2" Background="#FEE2E2" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🚫 Deaktiviert" FontWeight="Bold" Foreground="#DC2626"/>
-                                                    <TextBlock x:Name="TxtDisabledUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B91C1C" Margin="0,10"/>
-                                                    <TextBlock Text="Disabled Accounts" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="3" Background="#F3E8FF" CornerRadius="8" Padding="20">
-                                                <StackPanel>
-                                                    <TextBlock Text="🔒 Gesperrt" FontWeight="Bold" Foreground="#7C3AED"/>
-                                                    <TextBlock x:Name="TxtLockedUsers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
-                                                    <TextBlock Text="Locked Accounts" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                    </Grid>
-                                </ScrollViewer>
-                                
-                                <!-- Status Bar -->
-                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Status: " FontWeight="Bold"/>
-                                        <TextBlock x:Name="TxtUserStatus" Text="Bereit" Margin="5,0"/>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </TabItem>
-
-                    <!-- Computer Heat Tab -->
-                    <TabItem Header="💻 Computer Heat" x:Name="TabComputerHeat">
-                        <Border Style="{StaticResource ModernCard}" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- Computer Header -->
-                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                                    <TextBlock Text="Computer Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
-                                    <TextBlock Text="Analysieren Sie alle Computer und Server in Ihrer Active Directory Umgebung" 
-                                               Foreground="#6B7280" TextWrapping="Wrap"/>
-                                </StackPanel>
-                                
-                                <!-- Computer Content -->
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- Computer Statistics -->
-                                        <Grid Grid.Row="0" Margin="0,0,0,20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🖥️ Workstations" FontWeight="Bold" Foreground="#1E40AF"/>
-                                                    <TextBlock x:Name="TxtWorkstations" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
-                                                    <TextBlock Text="Client Computer" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="1" Background="#F3E8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🖥️ Server" FontWeight="Bold" Foreground="#7C3AED"/>
-                                                    <TextBlock x:Name="TxtServers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
-                                                    <TextBlock Text="Windows Server" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🎮 Domain Controller" FontWeight="Bold" Foreground="#D97706"/>
-                                                    <TextBlock x:Name="TxtDomainControllers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
-                                                    <TextBlock Text="DCs" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="3" Background="#FEE2E2" CornerRadius="8" Padding="20">
-                                                <StackPanel>
-                                                    <TextBlock Text="⚠️ Offline" FontWeight="Bold" Foreground="#DC2626"/>
-                                                    <TextBlock x:Name="TxtOfflineComputers" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B91C1C" Margin="0,10"/>
-                                                    <TextBlock Text="90+ Tage" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                    </Grid>
-                                </ScrollViewer>
-                                
-                                <!-- Status Bar -->
-                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Status: " FontWeight="Bold"/>
-                                        <TextBlock x:Name="TxtComputerStatus" Text="Bereit" Margin="5,0"/>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </TabItem>
-
-                    <!-- Group Heat Tab -->
-                    <TabItem Header="👥 Group Heat" x:Name="TabGroupHeat">
-                        <Border Style="{StaticResource ModernCard}" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- Group Header -->
-                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                                    <TextBlock Text="Group Analysis Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
-                                    <TextBlock Text="Analysieren Sie alle Gruppen und deren Mitgliedschaften in Ihrer Active Directory" 
-                                               Foreground="#6B7280" TextWrapping="Wrap"/>
-                                </StackPanel>
-                                
-                                <!-- Group Content -->
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- Group Statistics -->
-                                        <Grid Grid.Row="0" Margin="0,0,0,20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <Border Grid.Column="0" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🏢 Security Groups" FontWeight="Bold" Foreground="#1E40AF"/>
-                                                    <TextBlock x:Name="TxtSecurityGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
-                                                    <TextBlock Text="Sicherheitsgruppen" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="1" Background="#D1FAE5" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="📧 Distribution Groups" FontWeight="Bold" Foreground="#059669"/>
-                                                    <TextBlock x:Name="TxtDistributionGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#047857" Margin="0,10"/>
-                                                    <TextBlock Text="Verteilergruppen" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🔨 Built-in Groups" FontWeight="Bold" Foreground="#D97706"/>
-                                                    <TextBlock x:Name="TxtBuiltinGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
-                                                    <TextBlock Text="System Gruppen" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="3" Background="#F3E8FF" CornerRadius="8" Padding="20">
-                                                <StackPanel>
-                                                    <TextBlock Text="📂 Empty Groups" FontWeight="Bold" Foreground="#7C3AED"/>
-                                                    <TextBlock x:Name="TxtEmptyGroups" Text="0" FontSize="36" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
-                                                    <TextBlock Text="Leere Gruppen" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                    </Grid>
-                                </ScrollViewer>
-                                
-                                <!-- Status Bar -->
-                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Status: " FontWeight="Bold"/>
-                                        <TextBlock x:Name="TxtGroupStatus" Text="Bereit" Margin="5,0"/>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </TabItem>
-
-                    <!-- AD Health Tab -->
-                    <TabItem Header="🏥 AD Health" x:Name="TabADHealth">
-                        <Border Style="{StaticResource ModernCard}" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- AD Health Header -->
-                                <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                                    <TextBlock Text="Active Directory Health Dashboard" Style="{StaticResource CategoryHeader}" FontSize="20" Margin="0,0,0,10"/>
-                                    <TextBlock Text="Überwachen Sie die Gesundheit und Performance Ihrer Active Directory Infrastruktur" 
-                                               Foreground="#6B7280" TextWrapping="Wrap"/>
-                                </StackPanel>
-                                
-                                <!-- AD Health Content -->
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- Health Overview Cards -->
-                                        <Grid Grid.Row="0" Margin="0,0,0,20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <Border Grid.Column="0" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#10B981" Offset="0"/>
-                                                        <GradientStop Color="#059669" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
-                                                <StackPanel>
-                                                    <TextBlock Text="🟢 DC Status" FontWeight="Bold" Foreground="White"/>
-                                                    <TextBlock x:Name="TxtDCHealthStatus" Text="Alle Online" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,10"/>
-                                                    <TextBlock x:Name="TxtDCHealthDetails" Text="5 von 5 DCs" FontSize="11" Foreground="#E5E7EB"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="1" Background="#EBF8FF" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="🔄 Replikation" FontWeight="Bold" Foreground="#1E40AF"/>
-                                                    <TextBlock x:Name="TxtReplicationStatus" Text="OK" FontSize="24" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,10"/>
-                                                    <TextBlock x:Name="TxtReplicationDetails" Text="Keine Fehler" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="20" Margin="0,0,10,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="⏱️ Performance" FontWeight="Bold" Foreground="#D97706"/>
-                                                    <TextBlock x:Name="TxtPerformanceStatus" Text="Normal" FontSize="24" FontWeight="Bold" Foreground="#B45309" Margin="0,10"/>
-                                                    <TextBlock x:Name="TxtPerformanceDetails" Text="Avg: 15ms" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                            
-                                            <Border Grid.Column="3" Background="#F3E8FF" CornerRadius="8" Padding="20">
-                                                <StackPanel>
-                                                    <TextBlock Text="💾 SYSVOL" FontWeight="Bold" Foreground="#7C3AED"/>
-                                                    <TextBlock x:Name="TxtSysvolStatus" Text="Sync OK" FontSize="24" FontWeight="Bold" Foreground="#6D28D9" Margin="0,10"/>
-                                                    <TextBlock x:Name="TxtSysvolDetails" Text="FRS/DFSR" FontSize="11" Foreground="#6B7280"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                        
-                                        <!-- Domain Controller Details -->
-                                        <Border Grid.Row="1" Background="#F9FAFB" CornerRadius="8" Padding="20" Margin="0,0,0,20">
-                                            <StackPanel>
-                                                <TextBlock Text="🖥️ Domain Controller Details" FontWeight="Bold" FontSize="16" Margin="0,0,0,15"/>
-                                                <DataGrid x:Name="DCHealthGrid" Height="200" AutoGenerateColumns="False" IsReadOnly="True">
-                                                    <DataGrid.Columns>
-                                                        <DataGridTextColumn Header="DC Name" Binding="{Binding Name}" Width="150"/>
-                                                        <DataGridTextColumn Header="Site" Binding="{Binding Site}" Width="100"/>
-                                                        <DataGridTextColumn Header="OS Version" Binding="{Binding OSVersion}" Width="150"/>
-                                                        <DataGridTextColumn Header="Last Contact" Binding="{Binding LastContact}" Width="120"/>
-                                                        <DataGridTextColumn Header="FSMO Roles" Binding="{Binding FSMORoles}" Width="200"/>
-                                                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="80"/>
-                                                    </DataGrid.Columns>
-                                                </DataGrid>
-                                            </StackPanel>
-                                        </Border>
-                                        
-                                        <!-- Recent Issues -->
-                                        <Border Grid.Row="3" Background="#FEE2E2" CornerRadius="8" Padding="20" Margin="0,0,0,20">
-                                            <StackPanel>
-                                                <TextBlock Text="⚠️ Aktuelle Probleme" FontWeight="Bold" FontSize="16" Margin="0,0,0,15" Foreground="#DC2626"/>
-                                                <ListBox x:Name="RecentIssuesList" MaxHeight="150">
-                                                    <ListBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Border BorderBrush="#FCA5A5" BorderThickness="0,0,0,1" Padding="0,5">
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="Auto"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                        <ColumnDefinition Width="Auto"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Grid.Column="0" Text="{Binding Icon}" Margin="0,0,10,0"/>
-                                                                    <TextBlock Grid.Column="1" Text="{Binding Description}" TextWrapping="Wrap"/>
-                                                                    <TextBlock Grid.Column="2" Text="{Binding Time}" FontSize="11" Foreground="#6B7280"/>
-                                                                </Grid>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </ListBox.ItemTemplate>
-                                                </ListBox>
-                                            </StackPanel>
-                                        </Border>
-                                    </Grid>
-                                </ScrollViewer>
-                                
-                                <!-- Status Bar -->
-                                <Border Grid.Row="2" Background="#F9FAFB" CornerRadius="8" Padding="10" Margin="0,10,0,0">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                            <TextBlock Text="Status: " FontWeight="Bold"/>
-                                            <TextBlock x:Name="TxtHealthStatus" Text="Bereit" Margin="5,0"/>
-                                        </StackPanel>
-                                        <ProgressBar Grid.Column="1" x:Name="ProgressHealthCheck" Margin="20,0" Visibility="Collapsed"/>
-                                        <TextBlock Grid.Column="2" x:Name="TxtLastHealthCheck" Text="Letzter Check: -" FontSize="11" Foreground="#6B7280"/>
-                                    </Grid>
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </TabItem>
-                </TabControl>
+                        <!--  Enhanced DataGrid  -->
+                        <DataGrid
+                            x:Name="DataGridResults"
+                            Grid.Row="1"
+                            Margin="0,0,10,0"
+                            AlternatingRowBackground="#F8FAFC"
+                            AutoGenerateColumns="True"
+                            Background="White"
+                            BorderBrush="#E5E7EB"
+                            BorderThickness="1"
+                            CanUserReorderColumns="True"
+                            CanUserResizeColumns="True"
+                            CanUserSortColumns="True"
+                            GridLinesVisibility="Horizontal"
+                            HeadersVisibility="Column"
+                            IsReadOnly="True"
+                            RowBackground="White">
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#F3F4F6" />
+                                    <Setter Property="Foreground" Value="#374151" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="BorderBrush" Value="#E5E7EB" />
+                                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                                    <Setter Property="Padding" Value="12,8" />
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Padding" Value="12,6" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#EEF2FF" />
+                                            <Setter Property="Foreground" Value="#6366F1" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+                        </DataGrid>
+                    </Grid>
+                </Border>
             </Grid>
         </Grid>
 
-        <!-- Enhanced Footer (Grid.Row="2") -->
-        <Border Grid.Row="2" Background="White" BorderThickness="0,1,0,0" BorderBrush="#E1E5E9">
-            <Grid Margin="24,0">
+        <!--  Footer (Grid.Row="2")  -->
+        <Border
+            Grid.Row="2"
+            Background="#374151"
+            BorderBrush="#E5E7EB"
+            BorderThickness="0,1,0,0">
+            <Grid Margin="20,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Status and Info -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Ellipse x:Name="StatusIndicator" Width="8" Height="8" Fill="#10B981" Margin="0,0,8,0"/>
-                    <TextBlock x:Name="TextBlockStatus" Text="Ready" FontWeight="Medium" Foreground="#374151" Margin="0,0,16,0"/>
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontSize="11"
+                    Foreground="#E5E7EB"
+                    Text="easyADReport  |  Version: v0.5.3  |  Last Update: 02.07.2025" />
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Ellipse x:Name="StatusIndicator" Width="16" Height="16" Fill="#10B981" Margin="0,0,8,0"/>
+                    <TextBlock x:Name="TextBlockStatus" Text="Ready" FontWeight="Medium" Foreground="#FFFFBBBB" Margin="0,0,16,0" FontSize="16" Height="22"/>
                 </StackPanel>
 
-                <!-- Version Info -->
-                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Last update: 01.07.2025" FontSize="12" Foreground="#6B7280"/>
-                    <TextBlock Text="easyADReport v0.4.2" FontSize="12" Foreground="#9CA3AF" VerticalAlignment="Center"/>
-                </StackPanel>
+                <TextBlock
+                    Grid.Column="2"
+                    Width="141"
+                    Margin="620,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="11"
+                    Foreground="#E5E7EB"
+                    Text="© 2025 easyIT - PSScripts.de" />
+                <TextBlock
+                    Name="linkWebsite"
+                    Grid.Column="2"
+                    Margin="780,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Cursor="Hand"
+                    FontSize="11"
+                    Foreground="#93C5FD"
+                    Text="www.phinit.de" Width="136" />
             </Grid>
         </Border>
     </Grid>
@@ -2258,120 +2261,211 @@ Function Get-RiskyGroupMemberships {
     param()
     
     try {
-        Write-ADReportLog -Message "Analysiere riskante Gruppenmitgliedschaften..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analyzing risky group memberships..." -Type Info -Terminal
         
-        # Definiere hochprivilegierte Gruppen mit deutschen und englischen Namen
+        # Define high-privileged groups with German and English names
         $RiskyGroups = @(
             'Domain Controllers', 'Domänencontroller',
-            'Enterprise Admins',
+            'Enterprise Admins', 'Organisations-Admins',
             'Domain Admins', 'Domänen-Admins', 
-            'Account Operators',
-            'Remote Desktop Users',
+            'Account Operators', 'Konten-Operatoren',
+            'Remote Desktop Users', 'Remotedesktopbenutzer',
             'Enterprise Domain Controllers', 'Organisations-Domänencontroller',
-            'Schema Admins',
-            'Backup Operators',
-            'Replicator',
-            'Server Operators', 
-            'Print Operators',
+            'Schema Admins', 'Schema-Admins',
+            'Backup Operators', 'Sicherungsoperatoren',
+            'Replicator', 'Replikations-Operator',
+            'Server Operators', 'Server-Operatoren',
+            'Print Operators', 'Druckoperatoren',
             'Power Users', 'Hauptbenutzer',
-            'Administrators'
+            'Administrators', 'Administratoren'
         )
 
-        # Füge zusätzliche Gruppen aus der Konfiguration hinzu
-        $RiskyGroups += foreach ($groupType in $Global:ADGroupNames.GetEnumerator()) {
-            if ([string]::IsNullOrEmpty($groupType.Value)) {
-                Write-ADReportLog -Message "Warnung: Leerer Gruppenname für $($groupType.Key)" -Type Warning
-                continue
+        # Add additional groups from configuration if available
+        if ($Global:ADGroupNames) {
+            $RiskyGroups += foreach ($groupType in $Global:ADGroupNames.GetEnumerator()) {
+                if (-not [string]::IsNullOrEmpty($groupType.Value)) {
+                    $groupType.Value
+                }
             }
-            $groupType.Value
         }
         
         $RiskyUsers = [System.Collections.Generic.List[PSObject]]::new()
         
-        # Gruppenanalyse mit erweiterter Fehlerbehandlung
+        # Group analysis with enhanced error handling
         foreach ($groupName in $RiskyGroups) {
             try {
                 if ([string]::IsNullOrEmpty($groupName)) {
-                    Write-ADReportLog -Message "Überspringe leeren Gruppennamen" -Type Warning
+                    Write-ADReportLog -Message "Skipping empty group name" -Type Warning
                     continue
                 }
 
-                # Versuche beide Namensformate (deutsch/englisch)
+                # Try to find group using both name formats (German/English)
                 $group = Get-ADGroup -Filter "Name -eq '$groupName' -or SamAccountName -eq '$groupName'" -ErrorAction SilentlyContinue
                 if (-not $group) {
-                    Write-ADReportLog -Message "Gruppe '$groupName' nicht gefunden" -Type Warning
+                    Write-ADReportLog -Message "Group '$groupName' not found" -Type Warning
                     continue
                 }
                 
-                $members = Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction Stop |
+                $members = Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue |
                     Where-Object { $_.objectClass -eq "user" } |
                     ForEach-Object {
                         try {
                             Get-ADObject -Identity $_.DistinguishedName -Properties DisplayName, SamAccountName, ObjectClass -ErrorAction Stop
                         } catch {
-                            Write-ADReportLog -Message "Fehler beim Abrufen des Benutzerobjekts: $($_.Exception.Message)" -Type Warning
+                            Write-ADReportLog -Message "Error retrieving user object: $($_.Exception.Message)" -Type Warning
                             $null
                         }
                     } | Where-Object { $_ -ne $null }
                 
                 foreach ($member in $members) {
                     try {
-                        $userDetails = Get-ADUser -Identity $member.DistinguishedName -Properties DisplayName, Enabled, LastLogonDate, PasswordLastSet -ErrorAction Stop |
-                            Select-Object DisplayName, SamAccountName, Enabled, LastLogonDate, PasswordLastSet
+                        $userDetails = Get-ADUser -Identity $member.DistinguishedName -Properties DisplayName, Enabled, LastLogonDate, PasswordLastSet, Department, Description -ErrorAction Stop
                         
-                        # Dynamische Risikobewertung basierend auf Gruppennamen
-                        $riskLevel = switch -Wildcard ($group.Name) {
-                            { $_ -match '(Domain Admins|Domänen-Admins|Enterprise Admins|Schema Admins)' } { "Kritisch" }
-                            { $_ -match '(Administrators|Domain Controllers|Domänencontroller)' } { "Hoch" }
-                            { $_ -match '(Account Operators|Server Operators|Backup Operators|Print Operators)' } { "Mittel" }
-                            default { "Niedrig" }
+                        # Dynamic risk assessment based on group name (normalized to English)
+                        $normalizedGroupName = switch -Wildcard ($group.Name) {
+                            { $_ -match '(Domain Admins|Domänen-Admins)' } { "Domain Admins" }
+                            { $_ -match '(Enterprise Admins|Organisations-Admins)' } { "Enterprise Admins" }
+                            { $_ -match '(Schema Admins|Schema-Admins)' } { "Schema Admins" }
+                            { $_ -match '(Administrators|Administratoren)' } { "Administrators" }
+                            { $_ -match '(Domain Controllers|Domänencontroller)' } { "Domain Controllers" }
+                            { $_ -match '(Account Operators|Konten-Operatoren)' } { "Account Operators" }
+                            { $_ -match '(Server Operators|Server-Operatoren)' } { "Server Operators" }
+                            { $_ -match '(Backup Operators|Sicherungsoperatoren)' } { "Backup Operators" }
+                            { $_ -match '(Print Operators|Druckoperatoren)' } { "Print Operators" }
+                            { $_ -match '(Power Users|Hauptbenutzer)' } { "Power Users" }
+                            { $_ -match '(Remote Desktop Users|Remotedesktopbenutzer)' } { "Remote Desktop Users" }
+                            { $_ -match '(Replicator|Replikations-Operator)' } { "Replicator" }
+                            default { $group.Name }
                         }
                         
-                        # Empfehlungsgenerierung als String
-                        $recommendation = if (-not $userDetails.Enabled) {
-                            "Deaktiviertes Konto aus Gruppe entfernen"
-                        } elseif ($null -eq $userDetails.LastLogonDate) {
-                            "Konto wurde nie angemeldet - überprüfen"
-                        } elseif ($userDetails.LastLogonDate -lt (Get-Date).AddDays(-90)) {
-                            "Inaktives Konto überprüfen"
+                        # Risk level assessment (output in English for GUI)
+                        $riskLevel = switch ($normalizedGroupName) {
+                            { $_ -in @("Domain Admins", "Enterprise Admins", "Schema Admins") } { "Critical" }
+                            { $_ -in @("Administrators", "Domain Controllers") } { "High" }
+                            { $_ -in @("Account Operators", "Server Operators", "Backup Operators") } { "Medium" }
+                            { $_ -in @("Print Operators", "Power Users", "Remote Desktop Users", "Replicator") } { "Low" }
+                            default { "Medium" }
+                        }
+                        
+                        # Enhanced recommendation generation
+                        $recommendation = switch ($true) {
+                            (-not $userDetails.Enabled) { 
+                                "Remove disabled account from privileged group immediately" 
+                            }
+                            ($null -eq $userDetails.LastLogonDate) { 
+                                "Account never logged on - review necessity and remove if not required" 
+                            }
+                            ($userDetails.LastLogonDate -lt (Get-Date).AddDays(-90)) { 
+                                "Inactive account (>90 days) - review and consider removal" 
+                            }
+                            ($userDetails.LastLogonDate -lt (Get-Date).AddDays(-30)) { 
+                                "Account inactive for 30+ days - verify still needed" 
+                            }
+                            ($riskLevel -eq "Critical") { 
+                                "Critical privileged account - implement enhanced monitoring and MFA" 
+                            }
+                            ($riskLevel -eq "High") { 
+                                "High-risk account - regular access review required" 
+                            }
+                            default { 
+                                "Regular monitoring and periodic access review required" 
+                            }
+                        }
+                        
+                        # Account type classification
+                        $accountType = switch ($true) {
+                            ($userDetails.SamAccountName -match '^(svc|service)') { "Service Account" }
+                            ($userDetails.SamAccountName -match '^(admin|adm)') { "Administrative Account" }
+                            ($userDetails.SamAccountName -match '^(test|tmp|temp)') { "Test/Temporary Account" }
+                            ($userDetails.Description -match '(service|system|automation)') { "System Account" }
+                            default { "User Account" }
+                        }
+                        
+                        # Days since last logon calculation
+                        $daysSinceLastLogon = if ($userDetails.LastLogonDate) {
+                            [math]::Round((New-TimeSpan -Start $userDetails.LastLogonDate -End (Get-Date)).TotalDays)
                         } else {
-                            "Berechtigungen regelmäßig überwachen"
+                            999
                         }
                         
-                        # Objekterstellung mit Typisierung
+                        # Password age calculation
+                        $passwordAge = if ($userDetails.PasswordLastSet) {
+                            [math]::Round((New-TimeSpan -Start $userDetails.PasswordLastSet -End (Get-Date)).TotalDays)
+                        } else {
+                            999
+                        }
+                        
+                        # Security flags
+                        $securityFlags = @()
+                        if (-not $userDetails.Enabled) { $securityFlags += "Disabled" }
+                        if ($daysSinceLastLogon -gt 90) { $securityFlags += "Inactive" }
+                        if ($passwordAge -gt 365) { $securityFlags += "Old Password" }
+                        if ($null -eq $userDetails.LastLogonDate) { $securityFlags += "Never Logged On" }
+                        
+                        # Create result object with proper typing
                         $riskUser = [PSCustomObject]@{
-                            DisplayName = $userDetails.DisplayName
-                            SamAccountName = $userDetails.SamAccountName
+                            RiskyGroup = [string]$normalizedGroupName
+                            DisplayName = [string]($userDetails.DisplayName -replace '[^\x20-\x7E]', '')
+                            SamAccountName = [string]$userDetails.SamAccountName
                             Enabled = [bool]$userDetails.Enabled
-                            LastLogonDate = $userDetails.LastLogonDate
-                            PasswordLastSet = $userDetails.PasswordLastSet
-                            RisikoGruppe = $group.Name
-                            Risikostufe = $riskLevel
-                            Empfehlung = $recommendation
+                            LastLogonDate = if ($userDetails.LastLogonDate) { $userDetails.LastLogonDate.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                            PasswordLastSet = if ($userDetails.PasswordLastSet) { $userDetails.PasswordLastSet.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                            DaysSinceLastLogon = [int]$daysSinceLastLogon
+                            PasswordAge = [int]$passwordAge
+                            RiskLevel = [string]$riskLevel
+                            AccountType = [string]$accountType
+                            SecurityFlags = [string]($securityFlags -join ", ")
+                            Recommendation = [string]$recommendation
                         }
                         
                         $RiskyUsers.Add($riskUser)
                     }
                     catch {
-                        Write-ADReportLog -Message "Fehler bei Benutzer $($member.SamAccountName): $($_.Exception.Message)" -Type Warning
+                        Write-ADReportLog -Message "Error processing user $($member.SamAccountName): $($_.Exception.Message)" -Type Warning
                     }
                 }
             }
             catch {
-                Write-ADReportLog -Message "Gruppenanalyse fehlgeschlagen für '$groupName': $($_.Exception.Message)" -Type Warning
+                Write-ADReportLog -Message "Group analysis failed for '$groupName': $($_.Exception.Message)" -Type Warning
             }
         }
         
-        # Deduplizierung und Ausgabe
-        $UniqueRiskyUsers = $RiskyUsers | Sort-Object SamAccountName -Unique
+        # Deduplication and sorting
+        $UniqueRiskyUsers = $RiskyUsers | 
+            Sort-Object SamAccountName -Unique |
+            Sort-Object @{
+                Expression = {
+                    switch ($_.RiskLevel) {
+                        "Critical" { 1 }
+                        "High" { 2 }
+                        "Medium" { 3 }
+                        "Low" { 4 }
+                        default { 5 }
+                    }
+                }
+            }, @{Expression = {-not $_.Enabled}}, DaysSinceLastLogon -Descending
         
-        Write-ADReportLog -Message "Gruppenanalyse abgeschlossen. Gefundene Risikofälle: $($UniqueRiskyUsers.Count)" -Type Info -Terminal
+        # Enhanced statistics logging
+        if ($UniqueRiskyUsers.Count -gt 0) {
+            $criticalCount = ($UniqueRiskyUsers | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+            $highCount = ($UniqueRiskyUsers | Where-Object { $_.RiskLevel -eq "High" }).Count
+            $disabledCount = ($UniqueRiskyUsers | Where-Object { -not $_.Enabled }).Count
+            $inactiveCount = ($UniqueRiskyUsers | Where-Object { $_.DaysSinceLastLogon -gt 90 }).Count
+            $neverLoggedCount = ($UniqueRiskyUsers | Where-Object { $_.LastLogonDate -eq "Never" }).Count
+            
+            Write-ADReportLog -Message "Risky group membership analysis completed. Found $($UniqueRiskyUsers.Count) users in privileged groups." -Type Info -Terminal
+            Write-ADReportLog -Message "Risk Distribution - Critical: $criticalCount, High: $highCount, Medium: $(($UniqueRiskyUsers | Where-Object { $_.RiskLevel -eq "Medium" }).Count), Low: $(($UniqueRiskyUsers | Where-Object { $_.RiskLevel -eq "Low" }).Count)" -Type Info -Terminal
+            Write-ADReportLog -Message "Security Issues - Disabled: $disabledCount, Inactive (>90d): $inactiveCount, Never logged on: $neverLoggedCount" -Type Info -Terminal
+        } else {
+            Write-ADReportLog -Message "No risky group memberships found." -Type Info -Terminal
+        }
+        
         return $UniqueRiskyUsers
     }
     catch {
-        $ErrorMessage = "Gesamtfehler Gruppenanalyse: $($_.Exception.Message)"
+        $ErrorMessage = "Error in risky group membership analysis: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error -Terminal
-        return $null
+        return @()
     }
 }
 
@@ -2518,18 +2612,26 @@ Function Get-DepartmentStatistics {
         
         # Gruppiere nach Abteilung und erstelle leeres Array für Ergebnisse
         $DepartmentStats = [System.Collections.ArrayList]@()
-        $DepartmentGroups = $Users | Group-Object Department
+        $DepartmentGroups = $Users | Group-Object { 
+            $dept = $_.Department
+            if ([string]::IsNullOrWhiteSpace($dept)) { 
+                "(No Department)" 
+            } else { 
+                [string]$dept 
+            }
+        }
         
         foreach ($dept in $DepartmentGroups) {
-            $deptName = if ([string]::IsNullOrWhiteSpace($dept.Name)) { "(No Department)" } else { $dept.Name }
+            $deptName = [string]$dept.Name
             $deptUsers = $dept.Group
             
-            # Statistiken berechnen
-            $enabledCount = ($deptUsers | Where-Object { $_.Enabled -eq $true } | Measure-Object).Count
-            $disabledCount = ($deptUsers | Where-Object { $_.Enabled -eq $false } | Measure-Object).Count
-            $lockedCount = ($deptUsers | Where-Object { $_.LockedOut -eq $true } | Measure-Object).Count
-            $neverExpireCount = ($deptUsers | Where-Object { $_.PasswordNeverExpires -eq $true } | Measure-Object).Count
-            $inactiveCount = ($deptUsers | Where-Object { 
+            # Statistiken berechnen mit sicherer Typisierung
+            $totalUsers = [int]($deptUsers | Measure-Object).Count
+            $enabledCount = [int]($deptUsers | Where-Object { $_.Enabled -eq $true } | Measure-Object).Count
+            $disabledCount = [int]($deptUsers | Where-Object { $_.Enabled -eq $false } | Measure-Object).Count
+            $lockedCount = [int]($deptUsers | Where-Object { $_.LockedOut -eq $true } | Measure-Object).Count
+            $neverExpireCount = [int]($deptUsers | Where-Object { $_.PasswordNeverExpires -eq $true } | Measure-Object).Count
+            $inactiveCount = [int]($deptUsers | Where-Object { 
                 $_.LastLogonDate -and 
                 $_.LastLogonDate -lt (Get-Date).AddDays(-90) 
             } | Measure-Object).Count
@@ -2550,37 +2652,62 @@ Function Get-DepartmentStatistics {
             }
             
             # Titel zählen
-            $uniqueTitles = @($deptUsers | Where-Object { -not [string]::IsNullOrEmpty($_.Title) } | Select-Object -ExpandProperty Title -Unique).Count
+            $uniqueTitles = [int](@($deptUsers | Where-Object { -not [string]::IsNullOrEmpty($_.Title) } | Select-Object -ExpandProperty Title -Unique).Count)
             
             # Sicherheits-Score berechnen
-            $totalUsers = ($deptUsers | Measure-Object).Count
-            $securityScore = 100
+            $securityScore = 100.0
             if ($totalUsers -gt 0) {
                 $issueCount = [int]($disabledCount + $lockedCount + $neverExpireCount + $inactiveCount)
                 $securityScore = [math]::Round(100 - (($issueCount / $totalUsers) * 100), 1)
             }
             
+            # Health Status basierend auf Security Score
+            $healthStatus = switch ($securityScore) {
+                {$_ -ge 90} { "Excellent" }
+                {$_ -ge 80} { "Good" }
+                {$_ -ge 70} { "Fair" }
+                {$_ -ge 60} { "Poor" }
+                default { "Critical" }
+            }
+            
+            # Empfehlungen basierend auf Kennzahlen
+            $recommendations = @()
+            if ($disabledCount -gt 0) {
+                $recommendations += "Review $disabledCount disabled accounts"
+            }
+            if ($lockedCount -gt 0) {
+                $recommendations += "Unlock $lockedCount locked accounts"
+            }
+            if ($inactiveCount -gt 0) {
+                $recommendations += "Review $inactiveCount inactive accounts"
+            }
+            if ($neverExpireCount -gt 0) {
+                $recommendations += "Enable password expiration for $neverExpireCount accounts"
+            }
+            
             # Füge Statistiken zum Array hinzu
             $null = $DepartmentStats.Add([PSCustomObject]@{
-                Department = $deptName
-                TotalUsers = $totalUsers
-                EnabledUsers = $enabledCount
-                DisabledUsers = $disabledCount
-                LockedUsers = $lockedCount
-                InactiveUsers = $inactiveCount
-                PasswordNeverExpires = $neverExpireCount
-                AvgAccountAgeDays = $avgAccountAge
-                UniqueTitles = $uniqueTitles
-                SecurityScore = $securityScore
+                Department = [string]$deptName
+                TotalUsers = [int]$totalUsers
+                EnabledUsers = [int]$enabledCount
+                DisabledUsers = [int]$disabledCount
+                LockedUsers = [int]$lockedCount
+                InactiveUsers = [int]$inactiveCount
+                PasswordNeverExpires = [int]$neverExpireCount
+                AvgAccountAgeDays = [double]$avgAccountAge
+                UniqueTitles = [int]$uniqueTitles
+                SecurityScore = [double]$securityScore
+                HealthStatus = [string]$healthStatus
+                Recommendations = [string]($recommendations -join "; ")
             })
         }
         
         Write-ADReportLog -Message "Department statistics analysis completed. $($DepartmentStats.Count) departments found." -Type Info -Terminal
-        return $DepartmentStats | Sort-Object TotalUsers -Descending
+        return $DepartmentStats | Sort-Object SecurityScore -Descending
         
     } catch {
         Write-ADReportLog -Message "Error analyzing department statistics: $($_.Exception.Message)" -Type Error
-        return $null
+        return @()
     }
 }
 
@@ -2591,71 +2718,165 @@ Function Get-DepartmentSecurityRisks {
     try {
         Write-ADReportLog -Message "Analyzing security risks by department..." -Type Info -Terminal
         
-        # Lade alle Benutzer mit erweiterten Eigenschaften
+        # Lade alle Benutzer mit erweiterten Eigenschaften - nur standardmäßige AD-Attribute verwenden
         $Users = Get-ADUser -Filter * -Properties Department, Enabled, LastLogonDate, PasswordLastSet, PasswordNeverExpires, 
                                                   LockedOut, AdminCount, ServicePrincipalNames, DoesNotRequirePreAuth,
-                                                  TrustedForDelegation, AllowReversiblePasswordEncryption -ErrorAction Stop
+                                                  TrustedForDelegation, AllowReversiblePasswordEncryption, DisplayName,
+                                                  SamAccountName, whenCreated, Description -ErrorAction Stop
         
-        # Gruppiere nach Abteilung und erstelle leeres Array für Ergebnisse
+        # Erstelle leeres Array für Ergebnisse
         $DepartmentRisks = [System.Collections.ArrayList]@()
-        $DepartmentGroups = $Users | Group-Object Department
+        
+        # Gruppiere nach Abteilung - verwende nur das Standard-Department Attribut
+        $DepartmentGroups = $Users | Group-Object { 
+            $dept = $_.Department
+            if ([string]::IsNullOrWhiteSpace($dept)) {
+                "(No Department)"
+            } else {
+                $dept
+            }
+        }
         
         foreach ($dept in $DepartmentGroups) {
-            $deptName = if ([string]::IsNullOrWhiteSpace($dept.Name)) { "(No Department)" } else { $dept.Name }
+            $deptName = if ([string]::IsNullOrWhiteSpace($dept.Name)) { "(No Department)" } else { [string]$dept.Name }
             $deptUsers = $dept.Group
+            $totalUsers = ($deptUsers | Measure-Object).Count
             
-            # Risiko-Metriken berechnen
-            $adminUsers = ($deptUsers | Where-Object { $_.AdminCount -eq 1 } | Measure-Object).Count
-            $serviceAccounts = ($deptUsers | Where-Object { $null -ne $_.ServicePrincipalNames -and @($_.ServicePrincipalNames).Count -gt 0 } | Measure-Object).Count
-            $kerberoastable = ($deptUsers | Where-Object { $null -ne $_.ServicePrincipalNames -and @($_.ServicePrincipalNames).Count -gt 0 -and $_.Enabled -eq $true } | Measure-Object).Count
-            $asrepRoastable = ($deptUsers | Where-Object { $_.DoesNotRequirePreAuth -eq $true } | Measure-Object).Count
-            $delegationEnabled = ($deptUsers | Where-Object { $_.TrustedForDelegation -eq $true } | Measure-Object).Count
-            $reversiblePwd = ($deptUsers | Where-Object { $_.AllowReversiblePasswordEncryption -eq $true } | Measure-Object).Count
-            $neverExpire = ($deptUsers | Where-Object { $_.PasswordNeverExpires -eq $true } | Measure-Object).Count
-            $oldPasswords = ($deptUsers | Where-Object { $_.PasswordLastSet -and $_.PasswordLastSet -lt (Get-Date).AddDays(-180) } | Measure-Object).Count
+            if ($totalUsers -eq 0) { continue }
             
-            # Risiko-Score berechnen
+            # Risiko-Metriken berechnen mit sauberer Typisierung
+            $adminUsers = [int]($deptUsers | Where-Object { $_.AdminCount -eq 1 } | Measure-Object).Count
+            $serviceAccounts = [int]($deptUsers | Where-Object { 
+                $null -ne $_.ServicePrincipalNames -and @($_.ServicePrincipalNames).Count -gt 0 
+            } | Measure-Object).Count
+            
+            $kerberoastable = [int]($deptUsers | Where-Object { 
+                $null -ne $_.ServicePrincipalNames -and @($_.ServicePrincipalNames).Count -gt 0 -and $_.Enabled -eq $true 
+            } | Measure-Object).Count
+            
+            $asrepRoastable = [int]($deptUsers | Where-Object { $_.DoesNotRequirePreAuth -eq $true } | Measure-Object).Count
+            $delegationEnabled = [int]($deptUsers | Where-Object { $_.TrustedForDelegation -eq $true } | Measure-Object).Count
+            $reversiblePwd = [int]($deptUsers | Where-Object { $_.AllowReversiblePasswordEncryption -eq $true } | Measure-Object).Count
+            $neverExpire = [int]($deptUsers | Where-Object { $_.PasswordNeverExpires -eq $true } | Measure-Object).Count
+            $oldPasswords = [int]($deptUsers | Where-Object { 
+                $_.PasswordLastSet -and $_.PasswordLastSet -lt (Get-Date).AddDays(-180) 
+            } | Measure-Object).Count
+            
+            $inactiveUsers = [int]($deptUsers | Where-Object { 
+                $_.LastLogonDate -and $_.LastLogonDate -lt (Get-Date).AddDays(-90) 
+            } | Measure-Object).Count
+            
+            $disabledUsers = [int]($deptUsers | Where-Object { $_.Enabled -eq $false } | Measure-Object).Count
+            $lockedUsers = [int]($deptUsers | Where-Object { $_.LockedOut -eq $true } | Measure-Object).Count
+            
+            # Risiko-Score berechnen (gewichtete Bewertung)
             [int]$riskScore = 0
-            $riskScore += [int]($adminUsers * 3)
-            $riskScore += [int]($kerberoastable * 2)
-            $riskScore += [int]($asrepRoastable * 3)
-            $riskScore += [int]($delegationEnabled * 2)
-            $riskScore += [int]($reversiblePwd * 4)
-            $riskScore += [int]($neverExpire * 0.5)
-            $riskScore += [int]($oldPasswords * 0.3)
+            $riskScore += $adminUsers * 5       # Privilegierte Konten haben höchstes Risiko
+            $riskScore += $kerberoastable * 4   # Kerberoastable Konten sind kritisch
+            $riskScore += $asrepRoastable * 4   # ASREPRoastable Konten sind kritisch
+            $riskScore += $delegationEnabled * 3 # Delegation ist riskant
+            $riskScore += $reversiblePwd * 5    # Reversible Passwörter sind kritisch
+            $riskScore += [int]($neverExpire * 1.5)     # Passwörter die nie ablaufen
+            $riskScore += [int]($oldPasswords * 1.2)    # Alte Passwörter
+            $riskScore += [int]($inactiveUsers * 0.8)   # Inaktive Konten
             
-            # Risiko-Level bestimmen
-            $riskLevel = switch ($riskScore) {
-                {$_ -ge 20} { "Critical" }
-                {$_ -ge 10} { "High" }
-                {$_ -ge 5} { "Medium" }
-                {$_ -gt 0} { "Low" }
+            # Normalisierung auf Benutzerzahl für faire Vergleichbarkeit
+            $normalizedRiskScore = if ($totalUsers -gt 0) {
+                [math]::Round(($riskScore / $totalUsers) * 10, 1)
+            } else {
+                0
+            }
+            
+            # Risiko-Level bestimmen (String für GUI-Anzeige)
+            [string]$riskLevel = switch ($normalizedRiskScore) {
+                {$_ -ge 30} { "Critical" }
+                {$_ -ge 20} { "High" }
+                {$_ -ge 10} { "Medium" }
+                {$_ -gt 2} { "Low" }
                 default { "Minimal" }
             }
             
-            # Füge Risiken zum Array hinzu
-            $null = $DepartmentRisks.Add([PSCustomObject]@{
-                Department = $deptName
-                TotalUsers = ($deptUsers | Measure-Object).Count
-                AdminUsers = $adminUsers
-                ServiceAccounts = $serviceAccounts
-                Kerberoastable = $kerberoastable
-                ASREPRoastable = $asrepRoastable
-                DelegationEnabled = $delegationEnabled
-                ReversiblePasswords = $reversiblePwd
-                PasswordNeverExpires = $neverExpire
-                OldPasswords = $oldPasswords
-                RiskScore = $riskScore
-                RiskLevel = $riskLevel
-            })
+            # Sicherheitsempfehlungen generieren
+            $recommendations = [System.Collections.ArrayList]@()
+            if ($adminUsers -gt 0) {
+                $null = $recommendations.Add("Review privileged account usage")
+            }
+            if ($kerberoastable -gt 0) {
+                $null = $recommendations.Add("Audit service accounts with SPNs")
+            }
+            if ($asrepRoastable -gt 0) {
+                $null = $recommendations.Add("Enable Kerberos pre-authentication")
+            }
+            if ($reversiblePwd -gt 0) {
+                $null = $recommendations.Add("Disable reversible password encryption")
+            }
+            if ($oldPasswords -gt ($totalUsers * 0.3)) {
+                $null = $recommendations.Add("Enforce password rotation policy")
+            }
+            if ($inactiveUsers -gt ($totalUsers * 0.2)) {
+                $null = $recommendations.Add("Review and disable inactive accounts")
+            }
+            
+            $recommendationString = if ($recommendations.Count -gt 0) {
+                [string]($recommendations -join "; ")
+            } else {
+                [string]"Continue monitoring security posture"
+            }
+            
+            # Security Impact Assessment
+            $securityImpact = [string]"Medium"
+            if ($normalizedRiskScore -ge 30) {
+                $securityImpact = "Critical - Immediate action required"
+            } elseif ($normalizedRiskScore -ge 20) {
+                $securityImpact = "High - Priority remediation needed"
+            } elseif ($normalizedRiskScore -ge 10) {
+                $securityImpact = "Medium - Monitor and improve"
+            } else {
+                $securityImpact = "Low - Standard monitoring sufficient"
+            }
+            
+            # Füge Risiken zum Array hinzu mit expliziter Typisierung
+            $deptRiskObject = [PSCustomObject]@{
+                Department = [string]$deptName
+                TotalUsers = [int]$totalUsers
+                AdminUsers = [int]$adminUsers
+                ServiceAccounts = [int]$serviceAccounts
+                Kerberoastable = [int]$kerberoastable
+                ASREPRoastable = [int]$asrepRoastable
+                DelegationEnabled = [int]$delegationEnabled
+                ReversiblePasswords = [int]$reversiblePwd
+                PasswordNeverExpires = [int]$neverExpire
+                OldPasswords = [int]$oldPasswords
+                InactiveUsers = [int]$inactiveUsers
+                DisabledUsers = [int]$disabledUsers
+                LockedUsers = [int]$lockedUsers
+                RiskScore = [double]$normalizedRiskScore
+                RiskLevel = [string]$riskLevel
+                SecurityImpact = [string]$securityImpact
+                Recommendations = [string]$recommendationString
+            }
+            
+            $null = $DepartmentRisks.Add($deptRiskObject)
         }
         
-        Write-ADReportLog -Message "Department security risk analysis completed." -Type Info -Terminal
+        # Statistiken für Logging
+        $totalDepartments = $DepartmentRisks.Count
+        $criticalDepts = ($DepartmentRisks | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+        $highRiskDepts = ($DepartmentRisks | Where-Object { $_.RiskLevel -eq "High" }).Count
+        $mediumRiskDepts = ($DepartmentRisks | Where-Object { $_.RiskLevel -eq "Medium" }).Count
+        
+        Write-ADReportLog -Message "Department security risk analysis completed. $totalDepartments departments analyzed." -Type Info -Terminal
+        Write-ADReportLog -Message "Risk distribution - Critical: $criticalDepts, High: $highRiskDepts, Medium: $mediumRiskDepts" -Type Info -Terminal
+        
+        if ($criticalDepts -gt 0) {
+            Write-ADReportLog -Message "WARNING: $criticalDepts departments with critical security risks require immediate attention!" -Type Warning -Terminal
+        }
+        
         return $DepartmentRisks | Sort-Object RiskScore -Descending
         
     } catch {
         Write-ADReportLog -Message "Error analyzing department security risks: $($_.Exception.Message)" -Type Error
-        return $null
+        return @()
     }
 }
 
@@ -2675,29 +2896,30 @@ Function Get-ASREPRoastableAccounts {
         $ASREPRoastableAccounts = [System.Collections.ArrayList]@()
         foreach ($user in $ASREPUsers) {
             # Risiko-Bewertung
-            [System.Collections.ArrayList]$riskFactors = @()
+            $riskFactors = @()
             [int]$riskLevel = 5  # Basis-Risiko für ASREP Roastable ist hoch
             
             if ($user.AdminCount -eq 1) {
-                $riskFactors.Add("Privileged Account") | Out-Null
+                $riskFactors += "Privileged Account"
                 $riskLevel += 3
             }
             
             if ($user.Enabled -eq $true) {
-                $riskFactors.Add("Account Enabled") | Out-Null
+                $riskFactors += "Account Enabled"
                 $riskLevel += 1
             }
             
             if ($user.PasswordNeverExpires) {
-                $riskFactors.Add("Password Never Expires") | Out-Null
+                $riskFactors += "Password Never Expires"
                 $riskLevel += 2
             }
             
             if ($user.LastLogonDate -and $user.LastLogonDate -gt (Get-Date).AddDays(-30)) {
-                $riskFactors.Add("Recently Active") | Out-Null
+                $riskFactors += "Recently Active"
                 $riskLevel += 1
             }
             
+            # Risiko-Level als String für GUI-Anzeige
             $overallRisk = switch ($riskLevel) {
                 {$_ -ge 8} { "Critical" }
                 {$_ -ge 6} { "High" }
@@ -2705,31 +2927,63 @@ Function Get-ASREPRoastableAccounts {
                 default { "Low" }
             }
             
-            $ASREPRoastableAccounts.Add([PSCustomObject]@{
-                DisplayName = $user.DisplayName
+            # Risiko-Faktoren als String zusammenfassen
+            $riskFactorsString = if ($riskFactors.Count -gt 0) {
+                $riskFactors -join "; "
+            } else {
+                "Basic ASREP vulnerability"
+            }
+            
+            $null = $ASREPRoastableAccounts.Add([PSCustomObject]@{
+                DisplayName = if ([string]::IsNullOrWhiteSpace($user.DisplayName)) { $user.SamAccountName } else { $user.DisplayName }
                 SamAccountName = $user.SamAccountName
-                Department = $user.Department
+                Department = if ([string]::IsNullOrWhiteSpace($user.Department)) { "Not Specified" } else { $user.Department }
                 Enabled = $user.Enabled
                 DoesNotRequirePreAuth = $true
-                PasswordLastSet = $user.PasswordLastSet
+                PasswordLastSet = if ($user.PasswordLastSet) { $user.PasswordLastSet } else { "Never" }
                 PasswordNeverExpires = $user.PasswordNeverExpires
-                LastLogonDate = $user.LastLogonDate
+                LastLogonDate = if ($user.LastLogonDate) { $user.LastLogonDate } else { "Never" }
                 AdminAccount = ($user.AdminCount -eq 1)
-                AccountAge = if ($user.whenCreated) { [math]::Round((New-TimeSpan -Start $user.whenCreated -End (Get-Date)).TotalDays) } else { "Unknown" }
-                RiskFactors = $riskFactors -join "; "
+                AccountAge = if ($user.whenCreated) { 
+                    [math]::Round((New-TimeSpan -Start $user.whenCreated -End (Get-Date)).TotalDays) 
+                } else { 
+                    0 
+                }
+                RiskFactors = $riskFactorsString
                 RiskLevel = $overallRisk
+                RiskScore = $riskLevel
                 Remediation = "Enable Kerberos pre-authentication immediately"
-                Description = $user.Description
-            }) | Out-Null
+                SecurityImpact = "Account vulnerable to ASREPRoast attacks - password hash can be extracted offline"
+                Description = if ([string]::IsNullOrWhiteSpace($user.Description)) { "No description available" } else { $user.Description }
+            })
+        }
+        
+        # Status-Update für GUI
+        try {
+            if ($Global:TextBlockStatus) {
+                $Global:TextBlockStatus.Text = "ASREPRoastable accounts analysis completed. $($ASREPRoastableAccounts.Count) vulnerable accounts found."
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI status: $($_.Exception.Message)" -Type Warning
         }
         
         Write-ADReportLog -Message "ASREPRoastable accounts analysis completed. $($ASREPRoastableAccounts.Count) accounts found." -Type Info -Terminal
-        return $ASREPRoastableAccounts | Sort-Object RiskLevel, AdminAccount -Descending
+        return $ASREPRoastableAccounts | Sort-Object RiskScore -Descending
         
     } catch {
         $ErrorMessage = "Error analyzing ASREPRoastable accounts: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
-        return $null
+        
+        # Fehler-Status für GUI
+        try {
+            if ($Global:TextBlockStatus) {
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI error status: $($_.Exception.Message)" -Type Warning
+        }
+        
+        return @()
     }
 }
 
@@ -2740,70 +2994,179 @@ Function Get-DelegationAnalysis {
     try {
         Write-ADReportLog -Message "Analyzing delegation settings..." -Type Info -Terminal
         
-        # Lade alle Objekte mit Delegierung
         $DelegatedObjects = @()
         
-        # Unconstrained Delegation (sehr gefÃ¤hrlich)
-        $UnconstrainedDelegation = Get-ADObject -Filter "TrustedForDelegation -eq `$true -and TrustedToAuthForDelegation -eq `$false" `
-                                                -Properties Name, ObjectClass, DistinguishedName, whenCreated, whenChanged -ErrorAction SilentlyContinue
+        # Unconstrained Delegation Analysis (Critical Risk)
+        Write-ADReportLog -Message "Scanning for unconstrained delegation..." -Type Info
+        $UnconstrainedDelegation = Get-ADObject -Filter {TrustedForDelegation -eq $true -and TrustedToAuthForDelegation -eq $false} `
+                                                -Properties Name, ObjectClass, DistinguishedName, whenCreated, whenChanged, Description, ObjectSid -ErrorAction SilentlyContinue
         
         foreach ($obj in $UnconstrainedDelegation) {
-            $DelegatedObjects += [PSCustomObject]@{
-                Name = $obj.Name
-                ObjectType = $obj.ObjectClass
-                DelegationType = "Unconstrained Delegation"
-                DistinguishedName = $obj.DistinguishedName
-                Risk = "Critical"
-                Created = $obj.whenCreated
-                LastModified = $obj.whenChanged
-                Remediation = "Remove unconstrained delegation or convert to constrained delegation"
+            $pathParts = $obj.DistinguishedName -split ','
+            $containerPath = ""
+            for ($i = 1; $i -lt $pathParts.Count; $i++) {
+                $containerPath += ($pathParts[$i] -replace '^(CN=|OU=|DC=)', '') + " → "
             }
-        }
-        
-        # Constrained Delegation
-        $ConstrainedDelegation = Get-ADObject -Filter "TrustedToAuthForDelegation -eq `$true" `
-                                             -Properties Name, ObjectClass, DistinguishedName, msDS-AllowedToDelegateTo, whenCreated, whenChanged -ErrorAction SilentlyContinue
-        
-        foreach ($obj in $ConstrainedDelegation) {
-            $allowedServices = if ($obj.'msDS-AllowedToDelegateTo') { $obj.'msDS-AllowedToDelegateTo' -join "; " } else { "None specified" }
+            $containerPath = $containerPath.TrimEnd(" → ")
+            
+            $ageInDays = 0
+            if ($obj.whenCreated) {
+                $ageInDays = [math]::Round((New-TimeSpan -Start $obj.whenCreated -End (Get-Date)).TotalDays)
+            }
             
             $DelegatedObjects += [PSCustomObject]@{
-                Name = $obj.Name
-                ObjectType = $obj.ObjectClass
-                DelegationType = "Constrained Delegation"
-                AllowedServices = $allowedServices
-                DistinguishedName = $obj.DistinguishedName
-                Risk = "Medium"
-                Created = $obj.whenCreated
-                LastModified = $obj.whenChanged
-                Remediation = "Review allowed services and minimize delegation scope"
+                TreeStructure = "🔴 UNCONSTRAINED DELEGATION"
+                ObjectName = [string]$obj.Name
+                ObjectType = [string]$obj.ObjectClass
+                DelegationType = [string]"Unconstrained Delegation"
+                ContainerPath = [string]$containerPath
+                AllowedServices = [string]"ALL SERVICES (No Restrictions)"
+                RiskLevel = [string]"Critical"
+                SecurityImpact = [string]"Can impersonate any user to any service - Golden Ticket equivalent"
+                Created = if ($obj.whenCreated) { $obj.whenCreated.ToString("dd.MM.yyyy HH:mm") } else { "Unknown" }
+                LastModified = if ($obj.whenChanged) { $obj.whenChanged.ToString("dd.MM.yyyy HH:mm") } else { "Never"  }
+                AccountAge = [int]$ageInDays
+                Description = if ([string]::IsNullOrWhiteSpace($obj.Description)) { "No description" } else { [string]$obj.Description }
+                Recommendation = [string]"IMMEDIATE: Remove unconstrained delegation or convert to constrained delegation"
+                ComplianceNote = [string]"Violates security best practices - enables privilege escalation"
             }
         }
         
-        # Resource-based Constrained Delegation
-        $ResourceBasedDelegation = Get-ADObject -Filter "msDS-AllowedToActOnBehalfOfOtherIdentity -like '*'" `
-                                               -Properties Name, ObjectClass, DistinguishedName, msDS-AllowedToActOnBehalfOfOtherIdentity, whenCreated, whenChanged -ErrorAction SilentlyContinue
+        # Constrained Delegation Analysis (Medium Risk)
+        Write-ADReportLog -Message "Scanning for constrained delegation..." -Type Info
+        $ConstrainedDelegation = Get-ADObject -Filter {TrustedToAuthForDelegation -eq $true} `
+                                             -Properties Name, ObjectClass, DistinguishedName, "msDS-AllowedToDelegateTo", whenCreated, whenChanged, Description -ErrorAction SilentlyContinue
+        
+        foreach ($obj in $ConstrainedDelegation) {
+            $pathParts = $obj.DistinguishedName -split ','
+            $containerPath = ""
+            for ($i = 1; $i -lt $pathParts.Count; $i++) {
+                $containerPath += ($pathParts[$i] -replace '^(CN=|OU=|DC=)', '') + " → "
+            }
+            $containerPath = $containerPath.TrimEnd(" → ")
+            
+            $allowedServices = ""
+            if ($obj.'msDS-AllowedToDelegateTo' -and $obj.'msDS-AllowedToDelegateTo'.Count -gt 0) {
+                $allowedServices = ($obj.'msDS-AllowedToDelegateTo' | ForEach-Object { "  ├─ $_" }) -join "`n"
+            } else {
+                $allowedServices = "  └─ No services specified"
+            }
+            
+            $serviceCount = if ($obj.'msDS-AllowedToDelegateTo') { $obj.'msDS-AllowedToDelegateTo'.Count } else { 0 }
+            $riskLevel = if ($serviceCount -gt 5) { "High" } elseif ($serviceCount -gt 2) { "Medium" } else { "Low" }
+            
+            $ageInDays = 0
+            if ($obj.whenCreated) {
+                $ageInDays = [math]::Round((New-TimeSpan -Start $obj.whenCreated -End (Get-Date)).TotalDays)
+            }
+            
+            $DelegatedObjects += [PSCustomObject]@{
+                TreeStructure = "🟡 CONSTRAINED DELEGATION`n$allowedServices"
+                ObjectName = [string]$obj.Name
+                ObjectType = [string]$obj.ObjectClass
+                DelegationType = [string]"Constrained Delegation"
+                ContainerPath = [string]$containerPath
+                AllowedServices = [string]"$serviceCount service(s) specified"
+                RiskLevel = [string]$riskLevel
+                SecurityImpact = [string]"Limited impersonation to specified services only"
+                Created = if ($obj.whenCreated) { $obj.whenCreated.ToString("dd.MM.yyyy HH:mm") } else { "Unknown" }
+                LastModified = if ($obj.whenChanged) { $obj.whenChanged.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                AccountAge = [int]$ageInDays
+                Description = if ([string]::IsNullOrWhiteSpace($obj.Description)) { "No description" } else { [string]$obj.Description }
+                Recommendation = [string]"Review allowed services and minimize delegation scope"
+                ComplianceNote = [string]"Monitor for service enumeration and lateral movement"
+            }
+        }
+        
+        # Resource-Based Constrained Delegation Analysis (High Risk)
+        Write-ADReportLog -Message "Scanning for resource-based constrained delegation..." -Type Info
+        $ResourceBasedDelegation = Get-ADObject -Filter {msDS-AllowedToActOnBehalfOfOtherIdentity -like "*"} `
+                                               -Properties Name, ObjectClass, DistinguishedName, "msDS-AllowedToActOnBehalfOfOtherIdentity", whenCreated, whenChanged, Description -ErrorAction SilentlyContinue
         
         foreach ($obj in $ResourceBasedDelegation) {
-            $DelegatedObjects += [PSCustomObject]@{
-                Name = $obj.Name
-                ObjectType = $obj.ObjectClass
-                DelegationType = "Resource-based Constrained Delegation"
-                DistinguishedName = $obj.DistinguishedName
-                Risk = "High"
-                Created = $obj.whenCreated
-                LastModified = $obj.whenChanged
-                Remediation = "Audit resource-based delegation permissions"
+            $pathParts = $obj.DistinguishedName -split ','
+            $containerPath = ""
+            for ($i = 1; $i -lt $pathParts.Count; $i++) {
+                $containerPath += ($pathParts[$i] -replace '^(CN=|OU=|DC=)', '') + " → "
             }
+            $containerPath = $containerPath.TrimEnd(" → ")
+            
+            # Parse the security descriptor to get allowed principals
+            $allowedPrincipals = "  └─ Security descriptor configured"
+            try {
+                if ($obj.'msDS-AllowedToActOnBehalfOfOtherIdentity') {
+                    $allowedPrincipals = "  ├─ Resource-based delegation active`n  └─ Check security descriptor for details"
+                }
+            } catch {
+                $allowedPrincipals = "  └─ Could not parse security descriptor"
+            }
+            
+            $ageInDays = 0
+            if ($obj.whenCreated) {
+                $ageInDays = [math]::Round((New-TimeSpan -Start $obj.whenCreated -End (Get-Date)).TotalDays)
+            }
+            
+            $DelegatedObjects += [PSCustomObject]@{
+                TreeStructure = "🟠 RESOURCE-BASED DELEGATION`n$allowedPrincipals"
+                ObjectName = [string]$obj.Name
+                ObjectType = [string]$obj.ObjectClass
+                DelegationType = [string]"Resource-Based Constrained Delegation"
+                ContainerPath = [string]$containerPath
+                AllowedServices = [string]"Resource-controlled delegation"
+                RiskLevel = [string]"High"
+                SecurityImpact = [string]"Target resource controls which principals can delegate"
+                Created = if ($obj.whenCreated) { $obj.whenCreated.ToString("dd.MM.yyyy HH:mm") } else { "Unknown" }
+                LastModified = if ($obj.whenChanged) { $obj.whenChanged.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                AccountAge = [int]$ageInDays
+                Description = if ([string]::IsNullOrWhiteSpace($obj.Description)) { "No description" } else { [string]$obj.Description }
+                Recommendation = [string]"Audit resource-based delegation permissions and principals"
+                ComplianceNote = [string]"Modern delegation method - review configuration regularly"
+            }
+        }
+        
+        # Sortierung nach Risiko und dann nach Namen
+        $SortedResults = $DelegatedObjects | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    default { 5 }
+                }
+            }
+        }, ObjectName
+        
+        # Status-Update für GUI
+        try {
+            if ($Global:TextBlockStatus) {
+                $criticalCount = ($DelegatedObjects | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+                $highCount = ($DelegatedObjects | Where-Object { $_.RiskLevel -eq "High" }).Count
+                $mediumCount = ($DelegatedObjects | Where-Object { $_.RiskLevel -eq "Medium" }).Count
+                
+                $Global:TextBlockStatus.Text = "Delegation analysis completed. $($DelegatedObjects.Count) delegated objects found. Critical: $criticalCount, High: $highCount, Medium: $mediumCount"
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI status: $($_.Exception.Message)" -Type Warning
         }
         
         Write-ADReportLog -Message "Delegation analysis completed. $($DelegatedObjects.Count) delegated objects found." -Type Info -Terminal
-        return $DelegatedObjects | Sort-Object Risk, DelegationType
+        return $SortedResults
         
     } catch {
         $ErrorMessage = "Error analyzing delegation settings: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
-        return $null
+        
+        # Fehler-Status für GUI
+        try {
+            if ($Global:TextBlockStatus) {
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI error status: $($_.Exception.Message)" -Type Warning
+        }
+        
+        return @()
     }
 }
 
@@ -2817,111 +3180,264 @@ Function Get-DCSyncRights {
         
         $Domain = Get-ADDomain
         $DomainDN = $Domain.DistinguishedName
-        $DCSyncRights = @()
+        $Results = @()
         
         # Get ACL for domain object
         try {
             $DomainACL = Get-Acl "AD:\$DomainDN" -ErrorAction Stop
         } catch {
             Write-ADReportLog -Message "Could not access domain ACL. Requires appropriate permissions." -Type Warning -Terminal
-            return @([PSCustomObject]@{
-                Identity = "N/A"
-                ObjectType = "Error"
-                Permissions = "Could not read ACL"
-                Risk = "Unknown"
-                Remediation = "Run with Domain Admin privileges"
-            })
+            $Results += [PSCustomObject]@{
+                TreeStructure = [string]"🔐 DCSync Rights Analysis"
+                Identity = [string]"Access Error"
+                ObjectType = [string]"Permission Error"
+                Permissions = [string]"Could not read domain ACL"
+                IsPrivileged = [string]"Unknown"
+                HasFullDCSync = [string]"False"
+                RiskLevel = [string]"Critical"
+                SecurityImpact = [string]"Cannot verify DCSync permissions - potential security blind spot"
+                Remediation = [string]"Run analysis with Domain Admin privileges to access domain ACL"
+                LastModified = [string]"Unknown"
+                ComplianceNote = [string]"ACL access required for proper security assessment"
+            }
+            return $Results
         }
         
-        # DCSync requires DS-Replication-Get-Changes and DS-Replication-Get-Changes-All
+        Write-ADReportLog -Message "Domain ACL accessed successfully. Analyzing replication permissions..." -Type Info
+        
+        # DCSync requires specific replication permissions
         $ReplicationGUIDs = @{
             "DS-Replication-Get-Changes" = "1131f6aa-9c07-11d1-f79f-00c04fc2dcd2"
             "DS-Replication-Get-Changes-All" = "1131f6ad-9c07-11d1-f79f-00c04fc2dcd2"
             "DS-Replication-Get-Changes-In-Filtered-Set" = "89e95b76-444d-4c62-991a-0facbeda640c"
         }
         
-        # Analyze each ACE
+        # Define expected/safe principals (English and German names)
+        $ExpectedPrincipals = @(
+            'Domain Controllers',
+            'Domänencontroller',
+            'Enterprise Domain Controllers',
+            'Organisations-Domänencontroller',
+            'Administrators',
+            'Administratoren',
+            'Domain Admins',
+            'Domänen-Admins',
+            'Enterprise Admins',
+            'Organisations-Admins',
+            'SYSTEM',
+            'NT AUTHORITY\SYSTEM'
+        )
+        
+        # Collect all replication permissions
+        $ReplicationPermissions = @()
+        
         foreach ($ace in $DomainACL.Access) {
             if ($ace.AccessControlType -eq "Allow" -and $ace.ObjectType) {
                 $aceObjectType = $ace.ObjectType.ToString()
                 
                 foreach ($guid in $ReplicationGUIDs.GetEnumerator()) {
                     if ($aceObjectType -eq $guid.Value) {
-                        # Resolve the identity
                         $identity = $ace.IdentityReference.Value
+                        
+                        # Resolve identity details
                         try {
-                            $adObject = Get-ADObject -Filter "SamAccountName -eq '$($identity.Split('\')[1])'" -Properties ObjectClass, AdminCount -ErrorAction SilentlyContinue
-                            $objectType = if ($adObject) { $adObject.ObjectClass } else { "Unknown" }
-                            $isAdmin = if ($adObject -and $adObject.AdminCount -eq 1) { $true } else { $false }
+                            $identityName = if ($identity.Contains('\')) { $identity.Split('\')[1] } else { $identity }
+                            $adObject = Get-ADObject -Filter "SamAccountName -eq '$identityName'" -Properties ObjectClass, AdminCount, whenChanged, Description -ErrorAction SilentlyContinue
+                            
+                            if (-not $adObject) {
+                                # Try to find by name if SamAccountName failed
+                                $adObject = Get-ADObject -Filter "Name -eq '$identityName'" -Properties ObjectClass, AdminCount, whenChanged, Description -ErrorAction SilentlyContinue
+                            }
+                            
+                            $objectType = if ($adObject) { 
+                                if ($adObject.ObjectClass -is [array]) { $adObject.ObjectClass[-1] } else { $adObject.ObjectClass }
+                            } else { "Unknown" }
+                            $isAdmin = if ($adObject -and $adObject.AdminCount -eq 1) { "Yes" } else { "No" }
+                            $lastModified = if ($adObject -and $adObject.whenChanged) { $adObject.whenChanged.ToString("yyyy-MM-dd HH:mm:ss") } else { "Unknown" }
+                            $description = if ($adObject -and $adObject.Description) { $adObject.Description } else { "No description" }
                         } catch {
                             $objectType = "Unknown"
-                            $isAdmin = $false
+                            $isAdmin = "Unknown"
+                            $lastModified = "Unknown"
+                            $description = "Could not resolve identity"
                         }
                         
-                        # Check if identity is a known privileged group
-                        $isExpectedGroup = $false
-                        $allExpectedGroups = @()
-                        $allExpectedGroups += $Global:ADGroupNames.DomainControllers
-                        $allExpectedGroups += $Global:ADGroupNames.EnterpriseDomainControllers  
-                        $allExpectedGroups += $Global:ADGroupNames.Administrators
-                        
-                        foreach ($expectedGroup in $allExpectedGroups) {
-                            if ($identity -like "*$expectedGroup*") {
-                                $isExpectedGroup = $true
+                        # Check if identity is expected/safe
+                        $isExpected = $false
+                        foreach ($expectedPrincipal in $ExpectedPrincipals) {
+                            if ($identity -like "*$expectedPrincipal*") {
+                                $isExpected = $true
                                 break
                             }
                         }
                         
-                        $DCSyncRights += [PSCustomObject]@{
+                        $ReplicationPermissions += [PSCustomObject]@{
                             Identity = $identity
                             Permission = $guid.Key
                             ObjectType = $objectType
                             IsPrivileged = $isAdmin
-                            Risk = if (-not $isExpectedGroup) { "High" } else { "Expected" }
-                            Remediation = if (-not $isExpectedGroup) { 
-                                "Review and remove DCSync rights from this identity" 
-                            } else { 
-                                "Standard DCSync permission - monitor for changes" 
-                            }
+                            IsExpected = $isExpected
+                            LastModified = $lastModified
+                            Description = $description
                         }
                     }
                 }
             }
         }
         
-        # Group by identity to show complete DCSync capability
-        $DCSyncCapable = $DCSyncRights | Group-Object Identity | Where-Object {
-            ($_.Group.Permission -contains "DS-Replication-Get-Changes") -and 
-            ($_.Group.Permission -contains "DS-Replication-Get-Changes-All")
-        }
+        Write-ADReportLog -Message "Found $($ReplicationPermissions.Count) replication permissions. Analyzing DCSync capabilities..." -Type Info
         
-        $FinalReport = foreach ($capable in $DCSyncCapable) {
-            $permissions = $capable.Group.Permission -join ", "
-            $firstEntry = $capable.Group[0]
+        # Group by identity and analyze DCSync capability
+        $IdentityGroups = $ReplicationPermissions | Group-Object Identity
+        
+        foreach ($group in $IdentityGroups) {
+            $identity = $group.Name
+            $permissions = $group.Group
+            $firstPerm = $permissions[0]
             
-            [PSCustomObject]@{
-                Identity = $capable.Name
-                ObjectType = $firstEntry.ObjectType
-                IsPrivileged = $firstEntry.IsPrivileged
-                Permissions = $permissions
-                HasFullDCSync = $true
-                Risk = $firstEntry.Risk
-                Remediation = $firstEntry.Remediation
+            # Check for full DCSync capability
+            $hasGetChanges = $permissions | Where-Object { $_.Permission -eq "DS-Replication-Get-Changes" }
+            $hasGetChangesAll = $permissions | Where-Object { $_.Permission -eq "DS-Replication-Get-Changes-All" }
+            $hasGetChangesFiltered = $permissions | Where-Object { $_.Permission -eq "DS-Replication-Get-Changes-In-Filtered-Set" }
+            
+            $hasFullDCSync = ($hasGetChanges -and $hasGetChangesAll)
+            $permissionsList = ($permissions.Permission | Sort-Object -Unique) -join ", "
+            
+            # Determine risk level
+            $riskLevel = "Low"
+            $securityImpact = "Standard replication permission"
+            $recommendation = "Monitor for unauthorized changes"
+            
+            if ($hasFullDCSync) {
+                if (-not $firstPerm.IsExpected) {
+                    $riskLevel = "Critical"
+                    $securityImpact = "Full DCSync capability - can extract all domain credentials including KRBTGT"
+                    $recommendation = "IMMEDIATE ACTION: Remove DCSync rights from this identity unless explicitly required"
+                } else {
+                    $riskLevel = "Medium"
+                    $securityImpact = "Expected DCSync capability for system account"
+                    $recommendation = "Monitor for unauthorized usage and ensure account security"
+                }
+            } elseif ($hasGetChanges) {
+                if (-not $firstPerm.IsExpected) {
+                    $riskLevel = "High"
+                    $securityImpact = "Partial replication rights - potential for credential extraction"
+                    $recommendation = "Review necessity and remove if not required"
+                } else {
+                    $riskLevel = "Low"
+                    $securityImpact = "Expected partial replication permission"
+                    $recommendation = "Standard monitoring"
+                }
+            }
+            
+            # Create tree structure for GUI display
+            $treeStructure = if ($hasFullDCSync) {
+                "🔥 DCSync Rights > Full Capability > $identity"
+            } elseif ($hasGetChanges) {
+                "⚠️ DCSync Rights > Partial Rights > $identity"
+            } else {
+                "ℹ️ DCSync Rights > Other Replication > $identity"
+            }
+            
+            $Results += [PSCustomObject]@{
+                TreeStructure = [string]$treeStructure
+                Identity = [string]$identity
+                ObjectType = [string]$firstPerm.ObjectType
+                Permissions = [string]$permissionsList
+                IsPrivileged = [string]$firstPerm.IsPrivileged
+                HasFullDCSync = [string]$(if ($hasFullDCSync) { "Yes" } else { "No" })
+                RiskLevel = [string]$riskLevel
+                SecurityImpact = [string]$securityImpact
+                Remediation = [string]$recommendation
+                LastModified = [string]$firstPerm.LastModified
+                ComplianceNote = [string]$(if ($firstPerm.IsExpected) { "Expected system permission" } else { "Requires security review" })
+                Description = [string]$firstPerm.Description
             }
         }
         
-        if ($FinalReport.Count -eq 0) {
-            Write-ADReportLog -Message "No explicit DCSync rights found. This might be normal if only default permissions exist." -Type Info -Terminal
+        # Add summary information
+        if ($Results.Count -eq 0) {
+            $Results += [PSCustomObject]@{
+                TreeStructure = [string]"ℹ️ DCSync Rights Analysis > Summary"
+                Identity = [string]"No DCSync Rights Found"
+                ObjectType = [string]"Analysis Result"
+                Permissions = [string]"None detected"
+                IsPrivileged = [string]"N/A"
+                HasFullDCSync = [string]"No"
+                RiskLevel = [string]"Info"
+                SecurityImpact = [string]"No explicit DCSync permissions found - using default permissions only"
+                Remediation = [string]"Continue monitoring for new permissions"
+                LastModified = [string]"N/A"
+                ComplianceNote = [string]"Normal state - DCSync typically restricted to system accounts"
+                Description = [string]"Analysis completed successfully"
+            }
         } else {
-            Write-ADReportLog -Message "DCSync rights analysis completed. $($FinalReport.Count) identities with DCSync capabilities found." -Type Info -Terminal
+            # Add statistics
+            $criticalCount = ($Results | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+            $highCount = ($Results | Where-Object { $_.RiskLevel -eq "High" }).Count
+            $fullDCSyncCount = ($Results | Where-Object { $_.HasFullDCSync -eq "Yes" }).Count
+            
+            $Results += [PSCustomObject]@{
+                TreeStructure = [string]"📊 DCSync Rights Analysis > Statistics"
+                Identity = [string]"Analysis Summary"
+                ObjectType = [string]"Summary"
+                Permissions = [string]"$($Results.Count) identities analyzed"
+                IsPrivileged = [string]"$($Results | Where-Object { $_.IsPrivileged -eq 'Yes' }).Count privileged"
+                HasFullDCSync = [string]"$fullDCSyncCount with full capability"
+                RiskLevel = [string]$(if ($criticalCount -gt 0) { "Critical" } elseif ($highCount -gt 0) { "High" } else { "Medium" })
+                SecurityImpact = [string]"Critical: $criticalCount, High: $highCount, Full DCSync: $fullDCSyncCount"
+                Remediation = [string]"Review all non-expected identities with DCSync rights"
+                LastModified = [string]$(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                ComplianceNote = [string]"Regular monitoring required for DCSync permissions"
+                Description = [string]"Complete analysis of domain replication permissions"
+            }
         }
         
-        return $FinalReport
+        # Sort results for tree display
+        $SortedResults = $Results | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    "Info" { 5 }
+                    default { 6 }
+                }
+            }
+        }, TreeStructure
+        
+        Write-ADReportLog -Message "DCSync rights analysis completed. Found $($Results.Count-1) identities with replication permissions." -Type Info -Terminal
+        
+        # Log security findings
+        if ($Results.Count -gt 1) {
+            $securityFindings = $Results | Where-Object { $_.RiskLevel -in @("Critical", "High") }
+            if ($securityFindings.Count -gt 0) {
+                Write-ADReportLog -Message "SECURITY ALERT: $($securityFindings.Count) high-risk DCSync permissions found" -Type Warning -Terminal
+            }
+        }
+        
+        return $SortedResults
         
     } catch {
         $ErrorMessage = "Error analyzing DCSync rights: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
-        return $null
+        
+        # Return error result
+        return @([PSCustomObject]@{
+            TreeStructure = [string]"❌ DCSync Rights Analysis > Error"
+            Identity = [string]"Analysis Failed"
+            ObjectType = [string]"Error"
+            Permissions = [string]"Could not analyze"
+            IsPrivileged = [string]"Unknown"
+            HasFullDCSync = [string]"Unknown"
+            RiskLevel = [string]"Critical"
+            SecurityImpact = [string]"Analysis failed - security status unknown"
+            Remediation = [string]"Retry analysis with appropriate permissions"
+            LastModified = [string]$(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+            ComplianceNote = [string]"Analysis failure requires investigation"
+            Description = [string]$ErrorMessage
+        })
     }
 }
 
@@ -2932,7 +3448,7 @@ Function Get-SchemaAdminPaths {
     try {
         Write-ADReportLog -Message "Analyzing Schema Admin access paths..." -Type Info -Terminal
         
-        $SchemaAdminPaths = @()
+        $Results = @()
         
         # Get Schema Admins group members - try both English and German names
         $SchemaAdmins = $null
@@ -2940,80 +3456,283 @@ Function Get-SchemaAdminPaths {
         
         if ($SchemaAdminsGroup) {
             Write-ADReportLog -Message "Found Schema Admins group as: $($SchemaAdminsGroup.Name)" -Type Info -Terminal
-            $SchemaAdmins = Get-ADGroupMember -Identity $SchemaAdminsGroup -Recursive -ErrorAction SilentlyContinue
-        }
-        
-        if (-not $SchemaAdmins) {
-            Write-ADReportLog -Message "Schema Admins group not found. This might be normal if the group doesn't exist." -Type Info -Terminal
-            return @([PSCustomObject]@{
-                Name = "N/A"
-                SamAccountName = "N/A"
-                ObjectType = "Information"
-                Status = "Schema Admins group not found"
-                Details = "The Schema Admins group might not exist or has a different name"
-                Remediation = "Verify Schema Admins group existence"
-            })
-        }
-        
-        foreach ($admin in $SchemaAdmins) {
-            $userDetails = Get-ADUser -Identity $admin.SamAccountName -Properties Enabled, LastLogonDate, PasswordLastSet, AdminCount, whenCreated -ErrorAction SilentlyContinue
-            
-            if ($userDetails) {
-                $SchemaAdminPaths += [PSCustomObject]@{
-                    Name = $admin.Name
-                    SamAccountName = $admin.SamAccountName
-                    ObjectType = $admin.ObjectClass
-                    Enabled = $userDetails.Enabled
-                    LastLogonDate = $userDetails.LastLogonDate
-                    PasswordLastSet = $userDetails.PasswordLastSet
-                    AccountAge = if ($userDetails.whenCreated) { [math]::Round((New-TimeSpan -Start $userDetails.whenCreated -End (Get-Date)).TotalDays) } else { "Unknown" }
-                    Risk = if ($userDetails.Enabled -and $userDetails.LastLogonDate -gt (Get-Date).AddDays(-90)) { "Active Schema Admin" } else { "Inactive Schema Admin" }
-                    Remediation = "Schema Admins should be empty except during schema modifications"
-                }
+            try {
+                $SchemaAdmins = Get-ADGroupMember -Identity $SchemaAdminsGroup -Recursive -ErrorAction SilentlyContinue
+            } catch {
+                Write-ADReportLog -Message "Could not enumerate Schema Admins members: $($_.Exception.Message)" -Type Warning
             }
         }
         
-        # Check for users who can add themselves to Schema Admins
+        if (-not $SchemaAdminsGroup) {
+            Write-ADReportLog -Message "Schema Admins group not found in domain." -Type Warning -Terminal
+            $Results += [PSCustomObject]@{
+                TreeStructure = [string]"🔍 Schema Admins Analysis"
+                PathType = [string]"Group Status"
+                ObjectName = [string]"Schema Admins Group"
+                ObjectType = [string]"Security Group"
+                Status = [string]"Not Found"
+                RiskLevel = [string]"Medium"
+                SecurityImpact = [string]"Cannot verify Schema Admin membership - group might not exist or be renamed"
+                LastActivity = [string]"Unknown"
+                AccountAge = [string]"Unknown"
+                PathDetails = [string]"Schema Admins group not found in domain structure"
+                Recommendation = [string]"Verify Schema Admins group existence and naming conventions"
+                ComplianceNote = [string]"Schema Admins group should exist but remain empty except during schema modifications"
+            }
+            return $Results
+        }
+        
+        # Analyze current Schema Admins members
+        if ($SchemaAdmins -and $SchemaAdmins.Count -gt 0) {
+            Write-ADReportLog -Message "Found $($SchemaAdmins.Count) Schema Admin(s). Analyzing members..." -Type Info
+            
+            foreach ($admin in $SchemaAdmins) {
+                try {
+                    $userDetails = Get-ADUser -Identity $admin.SamAccountName -Properties Enabled, LastLogonDate, PasswordLastSet, AdminCount, whenCreated, Description, Department -ErrorAction SilentlyContinue
+                    
+                    if ($userDetails) {
+                        # Calculate account age
+                        $ageInDays = 0
+                        if ($userDetails.whenCreated) {
+                            $ageInDays = [math]::Round((New-TimeSpan -Start $userDetails.whenCreated -End (Get-Date)).TotalDays)
+                        }
+                        
+                        # Determine risk level based on activity and status
+                        $riskLevel = "Critical"
+                        $securityImpact = ""
+                        $recommendation = ""
+                        
+                        if ($userDetails.Enabled) {
+                            if ($userDetails.LastLogonDate -and $userDetails.LastLogonDate -gt (Get-Date).AddDays(-30)) {
+                                $riskLevel = "Critical"
+                                $securityImpact = "Active Schema Admin with recent logon activity - full schema modification privileges"
+                                $recommendation = "URGENT: Remove from Schema Admins immediately unless actively performing schema modifications"
+                            } elseif ($userDetails.LastLogonDate -and $userDetails.LastLogonDate -gt (Get-Date).AddDays(-90)) {
+                                $riskLevel = "High"
+                                $securityImpact = "Active Schema Admin with moderate activity - potential security risk"
+                                $recommendation = "Remove from Schema Admins group - account should only be added during schema changes"
+                            } else {
+                                $riskLevel = "High"
+                                $securityImpact = "Enabled Schema Admin with minimal activity - unnecessary privilege retention"
+                                $recommendation = "Remove from Schema Admins group and monitor for legitimate schema modification needs"
+                            }
+                        } else {
+                            $riskLevel = "Medium"
+                            $securityImpact = "Disabled Schema Admin account - reduced immediate risk but still holds privileged group membership"
+                            $recommendation = "Remove disabled account from Schema Admins group"
+                        }
+                        
+                        $Results += [PSCustomObject]@{
+                            TreeStructure = [string]"🔴 CURRENT SCHEMA ADMIN"
+                            PathType = [string]"Direct Member"
+                            ObjectName = [string]$admin.Name
+                            ObjectType = [string]$admin.ObjectClass
+                            Status = if ($userDetails.Enabled) { [string]"Enabled" } else { [string]"Disabled" }
+                            RiskLevel = [string]$riskLevel
+                            SecurityImpact = [string]$securityImpact
+                            LastActivity = if ($userDetails.LastLogonDate) { [string]$userDetails.LastLogonDate.ToString("MM/dd/yyyy HH:mm") } else { [string]"Never" }
+                            AccountAge = [string]"$ageInDays days"
+                            PathDetails = [string]"Direct member of Schema Admins group with full schema modification privileges"
+                            Recommendation = [string]$recommendation
+                            ComplianceNote = [string]"Schema Admins should be empty except during active schema modifications"
+                        }
+                    }
+                } catch {
+                    Write-ADReportLog -Message "Error analyzing Schema Admin member $($admin.SamAccountName): $($_.Exception.Message)" -Type Warning
+                    
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = [string]"🔴 SCHEMA ADMIN (ERROR)"
+                        PathType = [string]"Direct Member"
+                        ObjectName = [string]$admin.Name
+                        ObjectType = [string]$admin.ObjectClass
+                        Status = [string]"Analysis Failed"
+                        RiskLevel = [string]"Unknown"
+                        SecurityImpact = [string]"Cannot analyze account details - potential orphaned or corrupted member"
+                        LastActivity = [string]"Unknown"
+                        AccountAge = [string]"Unknown"
+                        PathDetails = [string]"Schema Admin member with analysis errors - investigate manually"
+                        Recommendation = [string]"Investigate account status and remove if orphaned"
+                        ComplianceNote = [string]"Failed analysis indicates potential security issue"
+                    }
+                }
+            }
+        } else {
+            # Schema Admins group exists but is empty (best practice)
+            $Results += [PSCustomObject]@{
+                TreeStructure = [string]"✅ SCHEMA ADMINS COMPLIANCE"
+                PathType = [string]"Empty Group"
+                ObjectName = [string]$SchemaAdminsGroup.Name
+                ObjectType = [string]"Security Group"
+                Status = [string]"Empty (Compliant)"
+                RiskLevel = [string]"Low"
+                SecurityImpact = [string]"Schema Admins group is empty - follows security best practices"
+                LastActivity = [string]"N/A"
+                AccountAge = [string]"N/A"
+                PathDetails = [string]"Schema Admins group exists but contains no members"
+                Recommendation = [string]"Maintain empty state - only add members during active schema modifications"
+                ComplianceNote = [string]"COMPLIANT: Schema Admins should remain empty except during schema changes"
+            }
+        }
+        
+        # Analyze Enterprise Admins as potential elevation path
+        Write-ADReportLog -Message "Analyzing Enterprise Admin elevation paths to Schema Admin..." -Type Info
         $EnterpriseAdmins = $null
         $EnterpriseAdminsGroup = Get-ADGroupByNames -GroupNames $Global:ADGroupNames.EnterpriseAdmins
         
         if ($EnterpriseAdminsGroup) {
-            $EnterpriseAdmins = Get-ADGroupMember -Identity $EnterpriseAdminsGroup -Recursive -ErrorAction SilentlyContinue
+            try {
+                $EnterpriseAdmins = Get-ADGroupMember -Identity $EnterpriseAdminsGroup -Recursive -ErrorAction SilentlyContinue
+            } catch {
+                Write-ADReportLog -Message "Could not enumerate Enterprise Admins members: $($_.Exception.Message)" -Type Warning
+            }
         }
         
         if ($EnterpriseAdmins) {
+            Write-ADReportLog -Message "Found $($EnterpriseAdmins.Count) Enterprise Admin(s). Checking elevation potential..." -Type Info
+            
             foreach ($ea in $EnterpriseAdmins) {
-                # Check if not already in Schema Admins (if Schema Admins exists)
+                # Check if not already in Schema Admins
                 $isAlreadySchemaAdmin = $false
                 if ($SchemaAdmins) {
                     $isAlreadySchemaAdmin = $SchemaAdmins.SamAccountName -contains $ea.SamAccountName
                 }
                 
                 if (-not $isAlreadySchemaAdmin) {
-                    $userDetails = Get-ADUser -Identity $ea.SamAccountName -Properties Enabled, LastLogonDate -ErrorAction SilentlyContinue
-                    
-                    if ($userDetails) {
-                        $SchemaAdminPaths += [PSCustomObject]@{
-                            Name = $ea.Name
-                            SamAccountName = $ea.SamAccountName
-                            ObjectType = "Potential Path"
-                            Enabled = $userDetails.Enabled
-                            LastLogonDate = $userDetails.LastLogonDate
-                            Risk = "Can elevate to Schema Admin"
-                            Remediation = "Monitor Enterprise Admin membership"
+                    try {
+                        $userDetails = Get-ADUser -Identity $ea.SamAccountName -Properties Enabled, LastLogonDate, whenCreated, Description -ErrorAction SilentlyContinue
+                        
+                        if ($userDetails) {
+                            # Calculate account age
+                            $ageInDays = 0
+                            if ($userDetails.whenCreated) {
+                                $ageInDays = [math]::Round((New-TimeSpan -Start $userDetails.whenCreated -End (Get-Date)).TotalDays)
+                            }
+                            
+                            # Determine risk level for elevation potential
+                            $riskLevel = "High"
+                            $securityImpact = ""
+                            
+                            if ($userDetails.Enabled) {
+                                if ($userDetails.LastLogonDate -and $userDetails.LastLogonDate -gt (Get-Date).AddDays(-30)) {
+                                    $riskLevel = "High"
+                                    $securityImpact = "Active Enterprise Admin can elevate to Schema Admin privileges at any time"
+                                } else {
+                                    $riskLevel = "Medium"
+                                    $securityImpact = "Enterprise Admin with elevation potential but minimal recent activity"
+                                }
+                            } else {
+                                $riskLevel = "Low"
+                                $securityImpact = "Disabled Enterprise Admin - reduced elevation risk"
+                            }
+                            
+                            $Results += [PSCustomObject]@{
+                                TreeStructure = [string]"🟡 ELEVATION PATH"
+                                PathType = [string]"Enterprise Admin"
+                                ObjectName = [string]$ea.Name
+                                ObjectType = [string]$ea.ObjectClass
+                                Status = if ($userDetails.Enabled) { [string]"Enabled" } else { [string]"Disabled" }
+                                RiskLevel = [string]$riskLevel
+                                SecurityImpact = [string]$securityImpact
+                                LastActivity = if ($userDetails.LastLogonDate) { [string]$userDetails.LastLogonDate.ToString("MM/dd/yyyy HH:mm") } else { [string]"Never" }
+                                AccountAge = [string]"$ageInDays days"
+                                PathDetails = [string]"Enterprise Admin can add themselves to Schema Admins group"
+                                Recommendation = [string]"Monitor Enterprise Admin activities and restrict membership"
+                                ComplianceNote = [string]"Enterprise Admins have inherent ability to elevate to Schema Admin"
+                            }
                         }
+                    } catch {
+                        Write-ADReportLog -Message "Error analyzing Enterprise Admin member $($ea.SamAccountName): $($_.Exception.Message)" -Type Warning
                     }
                 }
             }
         }
         
-        Write-ADReportLog -Message "Schema Admin paths analysis completed. $($SchemaAdminPaths.Count) paths found." -Type Info -Terminal
-        return $SchemaAdminPaths
+        # Check for users with explicit permissions to modify Schema Admins group
+        Write-ADReportLog -Message "Checking for explicit permissions to modify Schema Admins group..." -Type Info
+        try {
+            $SchemaAdminsACL = Get-ACL -Path "AD:\$($SchemaAdminsGroup.DistinguishedName)" -ErrorAction SilentlyContinue
+            
+            if ($SchemaAdminsACL) {
+                $ExplicitPermissions = $SchemaAdminsACL.Access | Where-Object {
+                    $_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|WriteDacl|WriteOwner" -and
+                    $_.AccessControlType -eq "Allow" -and
+                    $_.IdentityReference -notmatch "SYSTEM|Administrators|Enterprise Admins|Schema Admins"
+                }
+                
+                foreach ($perm in $ExplicitPermissions) {
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = [string]"🔶 EXPLICIT PERMISSION"
+                        PathType = [string]"ACL Permission"
+                        ObjectName = [string]$perm.IdentityReference
+                        ObjectType = [string]"Security Principal"
+                        Status = [string]"Has Permissions"
+                        RiskLevel = [string]"High"
+                        SecurityImpact = [string]"Has explicit permissions to modify Schema Admins group membership"
+                        LastActivity = [string]"Unknown"
+                        AccountAge = [string]"Unknown"
+                        PathDetails = [string]"Permission: $($perm.ActiveDirectoryRights) on Schema Admins group"
+                        Recommendation = [string]"Review and remove unnecessary explicit permissions"
+                        ComplianceNote = [string]"Non-standard permissions detected on Schema Admins group"
+                    }
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not analyze Schema Admins ACL: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # Add summary information
+        $totalDirectMembers = ($Results | Where-Object { $_.PathType -eq "Direct Member" }).Count
+        $totalElevationPaths = ($Results | Where-Object { $_.PathType -eq "Enterprise Admin" }).Count
+        $totalExplicitPerms = ($Results | Where-Object { $_.PathType -eq "ACL Permission" }).Count
+        
+        $Results += [PSCustomObject]@{
+            TreeStructure = [string]"📊 ANALYSIS SUMMARY"
+            PathType = [string]"Summary"
+            ObjectName = [string]"Schema Admin Security Assessment"
+            ObjectType = [string]"Report Summary"
+            Status = [string]"Analysis Complete"
+            RiskLevel = if ($totalDirectMembers -gt 0) { [string]"Critical" } elseif ($totalElevationPaths -gt 0) { [string]"High" } else { [string]"Low" }
+            SecurityImpact = [string]"Direct Members: $totalDirectMembers | Elevation Paths: $totalElevationPaths | Explicit Permissions: $totalExplicitPerms"
+            LastActivity = [string](Get-Date).ToString("MM/dd/yyyy HH:mm")
+            AccountAge = [string]"N/A"
+            PathDetails = [string]"Complete analysis of Schema Admin access paths and security risks"
+            Recommendation = if ($totalDirectMembers -gt 0) { 
+                [string]"CRITICAL: Remove all direct Schema Admin members immediately" 
+            } else { 
+                [string]"Monitor Enterprise Admin activities and maintain Schema Admins as empty group" 
+            }
+            ComplianceNote = [string]"Schema Admins should only contain members during active schema modification periods"
+        }
+        
+        Write-ADReportLog -Message "Schema Admin paths analysis completed. $($Results.Count) findings generated." -Type Info -Terminal
+        return $Results | Sort-Object @{Expression={
+            switch($_.RiskLevel) {
+                "Critical" { 1 }
+                "High" { 2 }
+                "Medium" { 3 }
+                "Low" { 4 }
+                default { 5 }
+            }
+        }}, TreeStructure
         
     } catch {
         $ErrorMessage = "Error analyzing Schema Admin paths: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
-        return $null
+        
+        return @([PSCustomObject]@{
+            TreeStructure = [string]"❌ ANALYSIS ERROR"
+            PathType = [string]"Error"
+            ObjectName = [string]"Schema Admin Analysis"
+            ObjectType = [string]"Error Report"
+            Status = [string]"Failed"
+            RiskLevel = [string]"Unknown"
+            SecurityImpact = [string]"Analysis failed - cannot assess Schema Admin security"
+            LastActivity = [string](Get-Date).ToString("MM/dd/yyyy HH:mm")
+            AccountAge = [string]"N/A"
+            PathDetails = [string]"Error: $ErrorMessage"
+            Recommendation = [string]"Retry analysis or investigate manually"
+            ComplianceNote = [string]"Failed security analysis requires immediate attention"
+        })
     }
 }
 
@@ -3421,7 +4140,7 @@ Function Get-SchemaAnalysis {
         # Get schema version and details
         $Schema = Get-ADObject -Identity $SchemaNC -Properties objectVersion, msDS-Behavior-Version
         
-        # Alle möglichen Schema-Versionen definieren
+        # Define all possible schema versions
         $AllSchemaVersions = @{
             30 = @{
                 Name = "Windows Server 2003"
@@ -3461,12 +4180,12 @@ Function Get-SchemaAnalysis {
             }
         }
 
-        # Nur die aktive Schema-Version anzeigen
+        # Only display the active schema version
         if ($AllSchemaVersions.ContainsKey($Schema.objectVersion)) {
             $SchemaAnalysis += [PSCustomObject]@{
                 Name = $AllSchemaVersions[$Schema.objectVersion].Name
                 Details = $AllSchemaVersions[$Schema.objectVersion].Details
-                Status = "Aktiv"
+                Status = "Active"
                 IsCurrent = $true
             }
         }
@@ -3480,8 +4199,8 @@ Function Get-SchemaAnalysis {
         }
         
         $SchemaAnalysis += [PSCustomObject]@{
-            Name = "Benutzerdefinierte Erweiterungen"
-            Details = "$($CustomSchema.Count) benutzerdefinierte Schema-Objekte gefunden"
+            Name = "Custom Extensions"
+            Details = "$($CustomSchema.Count) custom schema objects found"
             Status = "Info"
             IsCurrent = $true
         }
@@ -3494,8 +4213,8 @@ Function Get-SchemaAnalysis {
         if ($RecentChanges) {
             foreach ($change in $RecentChanges) {
                 $SchemaAnalysis += [PSCustomObject]@{
-                    Name = "Kürzliche Änderung: $($change.Name)"
-                    Details = "Schema-Änderung am $($change.whenCreated.ToString('dd.MM.yyyy'))"
+                    Name = "Recent Change: $($change.Name)"
+                    Details = "Schema change on $($change.whenCreated.ToString('MM/dd/yyyy'))"
                     Status = "Info"
                     IsCurrent = $true
                 }
@@ -3597,8 +4316,10 @@ Function Get-QuotasAndLimits {
         $Domain = Get-ADDomain
         $Forest = Get-ADForest
         
-        # RID Pool check
+        # RID Pool Analysis - Critical for Domain Controllers
+        Write-ADReportLog -Message "Analyzing RID Pool..." -Type Info -Terminal
         $DomainControllers = Get-ADDomainController -Filter *
+        
         foreach ($DC in $DomainControllers) {
             try {
                 $RIDInfo = Get-ADObject -Identity "CN=RID Manager$,CN=System,$($Domain.DistinguishedName)" -Properties rIDAvailablePool -Server $DC.HostName -ErrorAction SilentlyContinue
@@ -3623,12 +4344,13 @@ Function Get-QuotasAndLimits {
                         } else { 0 }
                         
                         $QuotaAnalysis += [PSCustomObject]@{
-                            Component = "RID Pool"
-                            DomainController = $DC.Name
-                            TotalRIDs = $totalRIDS
-                            RemainingRIDs = $currentRIDPoolCount
-                            PercentUsed = "$percentUsed%"
+                            Category = "1. RID Pool Management"
+                            Subcategory = "1.1 Domain Controllers"
+                            Component = "DC $($DC.Name) → RID Pool Status"
+                            CurrentValue = "$totalRIDS Total, $currentRIDPoolCount Remaining ($percentUsed% Used)"
+                            RecommendedValue = "< 80% Usage"
                             Status = if ($percentUsed -gt 80) { "Critical" } elseif ($percentUsed -gt 60) { "Warning" } else { "Healthy" }
+                            Description = "RID pool exhaustion can prevent new object creation"
                             Remediation = if ($percentUsed -gt 80) { "RID pool nearly exhausted - plan RID recovery" } else { "Monitor RID usage" }
                         }
                     } catch {
@@ -3641,94 +4363,608 @@ Function Get-QuotasAndLimits {
             }
         }
 
-        # LDAP Query Limits
-        $DefaultPolicy = Get-ADObject -Identity "CN=Default Query Policy,CN=Query-Policies,CN=Directory Service,CN=Windows NT,CN=Services,CN=Configuration,$($Domain.DistinguishedName)" -Properties * -ErrorAction SilentlyContinue
+        # LDAP Query Limits and Performance Restrictions
+        Write-ADReportLog -Message "Analyzing LDAP Query Policies..." -Type Info -Terminal
+        
+        $DefaultPolicy = $null
+        
+        # Try to find Default Query Policy with error handling
+        try {
+            $ConfigPath = "CN=Configuration,$($Forest.RootDomain)"
+            $QueryPolicyPath = "CN=Default Query Policy,CN=Query-Policies,CN=Directory Service,CN=Windows NT,CN=Services,$ConfigPath"
+            $DefaultPolicy = Get-ADObject -Identity $QueryPolicyPath -Properties * -ErrorAction SilentlyContinue
+        } catch {
+            Write-ADReportLog -Message "Default Query Policy not found in standard location. Trying alternative search..." -Type Warning
+            
+            # Alternative search method
+            try {
+                $QueryPolicies = Get-ADObject -Filter "objectClass -eq 'queryPolicy'" -SearchBase "CN=Configuration,$($Forest.RootDomain)" -Properties * -ErrorAction SilentlyContinue
+                $DefaultPolicy = $QueryPolicies | Where-Object { $_.Name -eq "Default Query Policy" } | Select-Object -First 1
+            } catch {
+                Write-ADReportLog -Message "Could not locate Default Query Policy through alternative search" -Type Warning
+            }
+        }
         
         if ($DefaultPolicy) {
+            Write-ADReportLog -Message "Found Default Query Policy at: $($DefaultPolicy.DistinguishedName)" -Type Info
+            
             $MaxPageSize = ($DefaultPolicy.lDAPAdminLimits | Where-Object { $_ -like "MaxPageSize=*" } | ForEach-Object { $_.Split('=')[1] }) -as [int]
             $MaxQueryDuration = ($DefaultPolicy.lDAPAdminLimits | Where-Object { $_ -like "MaxQueryDuration=*" } | ForEach-Object { $_.Split('=')[1] }) -as [int]
             $MaxResults = ($DefaultPolicy.lDAPAdminLimits | Where-Object { $_ -like "MaxResultSetSize=*" } | ForEach-Object { $_.Split('=')[1] }) -as [int]
+            $MaxTempTableSize = ($DefaultPolicy.lDAPAdminLimits | Where-Object { $_ -like "MaxTempTableSize=*" } | ForEach-Object { $_.Split('=')[1] }) -as [int]
+            $MaxPoolThreads = ($DefaultPolicy.lDAPAdminLimits | Where-Object { $_ -like "MaxPoolThreads=*" } | ForEach-Object { $_.Split('=')[1] }) -as [int]
+            $MaxDatagramRecv = ($DefaultPolicy.lDAPAdminLimits | Where-Object { $_ -like "MaxDatagramRecv=*" } | ForEach-Object { $_.Split('=')[1] }) -as [int]
+            
+            # LDAP MaxPageSize
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.1 MaxPageSize → Objects per Query Page"
+                CurrentValue = if ($MaxPageSize) { $MaxPageSize } else { "1000 (Default)" }
+                RecommendedValue = "1000-5000"
+                Status = if ($MaxPageSize -and $MaxPageSize -lt 100) { "Low" } elseif ($MaxPageSize -and $MaxPageSize -gt 10000) { "High" } else { "OK" }
+                Description = "Maximum objects returned per LDAP query page"
+                Remediation = if ($MaxPageSize -and ($MaxPageSize -lt 100 -or $MaxPageSize -gt 10000)) { "Adjust MaxPageSize to optimize query performance" } else { "Current setting is appropriate" }
+            }
+            
+            # LDAP MaxQueryDuration
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.2 MaxQueryDuration → Query Timeout"
+                CurrentValue = if ($MaxQueryDuration) { "$MaxQueryDuration seconds" } else { "120 seconds (Default)" }
+                RecommendedValue = "120-600 seconds"
+                Status = if ($MaxQueryDuration -and $MaxQueryDuration -lt 60) { "Low" } elseif ($MaxQueryDuration -and $MaxQueryDuration -gt 3600) { "High" } else { "OK" }
+                Description = "Maximum execution time for LDAP queries"
+                Remediation = if ($MaxQueryDuration -and ($MaxQueryDuration -lt 60 -or $MaxQueryDuration -gt 3600)) { "Adjust query duration to balance performance and timeout prevention" } else { "Current setting is appropriate" }
+            }
+            
+            # LDAP MaxResultSetSize
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.3 MaxResultSetSize → Result Limit"
+                CurrentValue = if ($MaxResults) { $MaxResults } else { "262144 (Default)" }
+                RecommendedValue = "10000-1000000"
+                Status = if ($MaxResults -and $MaxResults -lt 1000) { "Low" } elseif ($MaxResults -and $MaxResults -gt 2000000) { "High" } else { "OK" }
+                Description = "Maximum objects returned in single LDAP query"
+                Remediation = if ($MaxResults -and ($MaxResults -lt 1000 -or $MaxResults -gt 2000000)) { "Review result set size limits for query optimization" } else { "Current setting is appropriate" }
+            }
+            
+            # LDAP MaxTempTableSize
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.4 MaxTempTableSize → Temporary Table"
+                CurrentValue = if ($MaxTempTableSize) { "$MaxTempTableSize rows" } else { "10000 rows (Default)" }
+                RecommendedValue = "10000-100000 rows"
+                Status = if ($MaxTempTableSize -and $MaxTempTableSize -lt 5000) { "Low" } elseif ($MaxTempTableSize -and $MaxTempTableSize -gt 500000) { "High" } else { "OK" }
+                Description = "Maximum temporary table size for complex queries"
+                Remediation = if ($MaxTempTableSize -and ($MaxTempTableSize -lt 5000 -or $MaxTempTableSize -gt 500000)) { "Adjust temp table size for complex query performance" } else { "Current setting is appropriate" }
+            }
+            
+            # LDAP MaxPoolThreads
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.5 MaxPoolThreads → Thread Pool"
+                CurrentValue = if ($MaxPoolThreads) { $MaxPoolThreads } else { "4 (Default)" }
+                RecommendedValue = "4-20"
+                Status = if ($MaxPoolThreads -and $MaxPoolThreads -lt 2) { "Low" } elseif ($MaxPoolThreads -and $MaxPoolThreads -gt 50) { "High" } else { "OK" }
+                Description = "Maximum threads for LDAP operations"
+                Remediation = if ($MaxPoolThreads -and ($MaxPoolThreads -lt 2 -or $MaxPoolThreads -gt 50)) { "Adjust thread pool size based on server capacity" } else { "Current setting is appropriate" }
+            }
+            
+            # LDAP MaxDatagramRecv
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.6 MaxDatagramRecv → UDP Datagram Size"
+                CurrentValue = if ($MaxDatagramRecv) { "$MaxDatagramRecv bytes" } else { "4096 bytes (Default)" }
+                RecommendedValue = "4096-65536 bytes"
+                Status = if ($MaxDatagramRecv -and $MaxDatagramRecv -lt 1024) { "Low" } elseif ($MaxDatagramRecv -and $MaxDatagramRecv -gt 131072) { "High" } else { "OK" }
+                Description = "Maximum UDP datagram size for LDAP"
+                Remediation = if ($MaxDatagramRecv -and ($MaxDatagramRecv -lt 1024 -or $MaxDatagramRecv -gt 131072)) { "Adjust datagram size for network optimization" } else { "Current setting is appropriate" }
+            }
+        } else {
+            Write-ADReportLog -Message "Default Query Policy not found or accessible. Using standard defaults for analysis." -Type Warning
             
             $QuotaAnalysis += [PSCustomObject]@{
-                Component = "LDAP Query Limits"
-                MaxPageSize = $MaxPageSize
-                MaxQueryDuration = "$MaxQueryDuration seconds"
-                MaxResults = $MaxResults
-                Status = if ($MaxPageSize -lt 1000 -or $MaxQueryDuration -lt 120) { "Review" } else { "OK" }
-                Remediation = "Adjust LDAP limits if performance issues occur"
+                Category = "2. LDAP Query Policies"
+                Subcategory = "2.1 Query Performance Settings"
+                Component = "2.1.0 Policy Access → Access Status"
+                CurrentValue = "Not Accessible"
+                RecommendedValue = "Accessible"
+                Status = "Warning"
+                Description = "Default Query Policy could not be retrieved"
+                Remediation = "Check access permissions to configuration partition"
             }
         }
 
-        # Kerberos Token Size
-        $LargeTokenUsers = Get-ADUser -Filter * -Properties MemberOf | Where-Object { $_.MemberOf.Count -gt 100 }
-        $MaxTokenSize = 65535 # Maximum token size in bytes
+        # Default Domain Password Policy
+        Write-ADReportLog -Message "Analyzing Password Policies..." -Type Info -Terminal
         
-        if ($LargeTokenUsers) {
+        $PasswordPolicy = Get-ADDefaultDomainPasswordPolicy -ErrorAction SilentlyContinue
+        
+        if ($PasswordPolicy) {
+            # Minimum Password Length
             $QuotaAnalysis += [PSCustomObject]@{
-                Component = "Kerberos Token Size"
-                UsersAtRisk = $LargeTokenUsers.Count
-                MaxTokenSize = "$MaxTokenSize bytes"
-                Status = if ($LargeTokenUsers.Count -gt 10) { "Warning" } else { "Review" }
-                Remediation = "Review group memberships for users with many groups"
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.1 MinPasswordLength → Minimum Length"
+                CurrentValue = "$($PasswordPolicy.MinPasswordLength) characters"
+                RecommendedValue = "12+ characters"
+                Status = if ($PasswordPolicy.MinPasswordLength -lt 8) { "Weak" } elseif ($PasswordPolicy.MinPasswordLength -lt 12) { "Fair" } else { "Strong" }
+                Description = "Minimum required password length"
+                Remediation = if ($PasswordPolicy.MinPasswordLength -lt 12) { "Increase minimum password length to 12+ characters" } else { "Current setting meets security recommendations" }
             }
+            
+            # Maximum Password Age
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.2 MaxPasswordAge → Password Expiration"
+                CurrentValue = "$($PasswordPolicy.MaxPasswordAge.Days) days"
+                RecommendedValue = "60-365 days"
+                Status = if ($PasswordPolicy.MaxPasswordAge.Days -lt 30 -or $PasswordPolicy.MaxPasswordAge.Days -eq 0) { "Review" } elseif ($PasswordPolicy.MaxPasswordAge.Days -gt 365) { "Long" } else { "OK" }
+                Description = "Maximum time before password must be changed"
+                Remediation = if ($PasswordPolicy.MaxPasswordAge.Days -lt 30) { "Consider longer password age for user convenience" } elseif ($PasswordPolicy.MaxPasswordAge.Days -gt 365) { "Consider shorter password age for security" } else { "Current setting is balanced" }
+            }
+            
+            # Minimum Password Age
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.3 MinPasswordAge → Minimum Age"
+                CurrentValue = "$($PasswordPolicy.MinPasswordAge.Days) days"
+                RecommendedValue = "1-7 days"
+                Status = if ($PasswordPolicy.MinPasswordAge.Days -eq 0) { "Disabled" } elseif ($PasswordPolicy.MinPasswordAge.Days -gt 7) { "High" } else { "OK" }
+                Description = "Minimum time before password can be changed again"
+                Remediation = if ($PasswordPolicy.MinPasswordAge.Days -eq 0) { "Enable minimum password age to prevent rapid password cycling" } elseif ($PasswordPolicy.MinPasswordAge.Days -gt 7) { "Consider reducing minimum age for user flexibility" } else { "Current setting is appropriate" }
+            }
+            
+            # Password History Count
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.4 PasswordHistoryCount → Password History"
+                CurrentValue = "$($PasswordPolicy.PasswordHistoryCount) passwords"
+                RecommendedValue = "12-24 passwords"
+                Status = if ($PasswordPolicy.PasswordHistoryCount -lt 12) { "Low" } elseif ($PasswordPolicy.PasswordHistoryCount -gt 50) { "High" } else { "OK" }
+                Description = "Number of previous passwords that cannot be reused"
+                Remediation = if ($PasswordPolicy.PasswordHistoryCount -lt 12) { "Increase password history to prevent password reuse" } elseif ($PasswordPolicy.PasswordHistoryCount -gt 50) { "Consider reducing history count for practicality" } else { "Current setting is appropriate" }
+            }
+            
+            # Account Lockout Duration
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.5 LockoutDuration → Lockout Duration"
+                CurrentValue = if ($PasswordPolicy.LockoutDuration.TotalMinutes -gt 0) { "$($PasswordPolicy.LockoutDuration.TotalMinutes) minutes" } else { "Until admin unlocks" }
+                RecommendedValue = "15-60 minutes"
+                Status = if ($PasswordPolicy.LockoutDuration.TotalMinutes -eq 0) { "Manual" } elseif ($PasswordPolicy.LockoutDuration.TotalMinutes -lt 5) { "Short" } elseif ($PasswordPolicy.LockoutDuration.TotalMinutes -gt 180) { "Long" } else { "OK" }
+                Description = "Time account remains locked after failed attempts"
+                Remediation = if ($PasswordPolicy.LockoutDuration.TotalMinutes -eq 0) { "Consider automatic unlock to reduce admin overhead" } elseif ($PasswordPolicy.LockoutDuration.TotalMinutes -lt 5) { "Increase lockout duration for better security" } elseif ($PasswordPolicy.LockoutDuration.TotalMinutes -gt 180) { "Consider shorter duration for user convenience" } else { "Current setting is balanced" }
+            }
+            
+            # Account Lockout Threshold
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.6 LockoutThreshold → Lockout Threshold"
+                CurrentValue = if ($PasswordPolicy.LockoutThreshold -gt 0) { "$($PasswordPolicy.LockoutThreshold) attempts" } else { "Disabled" }
+                RecommendedValue = "3-10 attempts"
+                Status = if ($PasswordPolicy.LockoutThreshold -eq 0) { "Disabled" } elseif ($PasswordPolicy.LockoutThreshold -lt 3) { "Strict" } elseif ($PasswordPolicy.LockoutThreshold -gt 20) { "Lenient" } else { "OK" }
+                Description = "Failed logon attempts before lockout"
+                Remediation = if ($PasswordPolicy.LockoutThreshold -eq 0) { "Enable account lockout to prevent brute force attacks" } elseif ($PasswordPolicy.LockoutThreshold -lt 3) { "Consider higher threshold to reduce false lockouts" } elseif ($PasswordPolicy.LockoutThreshold -gt 20) { "Consider lower threshold for better security" } else { "Current setting is appropriate" }
+            }
+            
+            # Password Complexity
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.7 ComplexityEnabled → Password Complexity"
+                CurrentValue = if ($PasswordPolicy.ComplexityEnabled) { "Enabled" } else { "Disabled" }
+                RecommendedValue = "Enabled"
+                Status = if ($PasswordPolicy.ComplexityEnabled) { "OK" } else { "Weak" }
+                Description = "Requires complex password requirements"
+                Remediation = if (-not $PasswordPolicy.ComplexityEnabled) { "Enable password complexity for stronger passwords" } else { "Current setting follows security best practices" }
+            }
+            
+            # Reversible Encryption
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.8 ReversibleEncryption → Reversible Encryption"
+                CurrentValue = if ($PasswordPolicy.ReversibleEncryptionEnabled) { "Enabled" } else { "Disabled" }
+                RecommendedValue = "Disabled"
+                Status = if ($PasswordPolicy.ReversibleEncryptionEnabled) { "Risk" } else { "Secure" }
+                Description = "Stores passwords using reversible encryption"
+                Remediation = if ($PasswordPolicy.ReversibleEncryptionEnabled) { "Disable reversible encryption unless required by legacy applications" } else { "Current setting follows security best practices" }
+            }
+        } else {
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.1 Default Domain Policy"
+                Component = "3.1.0 Policy Access → Access Status"
+                CurrentValue = "Not Available"
+                RecommendedValue = "Available"
+                Status = "Error"
+                Description = "Could not retrieve default domain password policy"
+                Remediation = "Check domain controller connectivity and permissions"
+            }
+        }
+
+        # Fine-Grained Password Policies (FGPP)
+        Write-ADReportLog -Message "Analyzing Fine-Grained Password Policies..." -Type Info -Terminal
+        $FGPPs = Get-ADFineGrainedPasswordPolicy -Filter * -ErrorAction SilentlyContinue
+        
+        if ($FGPPs) {
+            foreach ($fgpp in $FGPPs) {
+                $QuotaAnalysis += [PSCustomObject]@{
+                    Category = "3. Password Policies"
+                    Subcategory = "3.2 Fine-Grained Password Policies"
+                    Component = "3.2.1 FGPP → $($fgpp.Name)"
+                    CurrentValue = "Precedence: $($fgpp.Precedence), MinLength: $($fgpp.MinPasswordLength), MaxAge: $($fgpp.MaxPasswordAge.Days) days"
+                    RecommendedValue = "MinLength: 12+, Review precedence"
+                    Status = if ($fgpp.MinPasswordLength -lt 12) { "Review" } else { "OK" }
+                    Description = "Custom password policy with higher precedence"
+                    Remediation = if ($fgpp.MinPasswordLength -lt 12) { "Review FGPP settings for compliance with security standards" } else { "Policy configuration meets recommendations" }
+                }
+            }
+        } else {
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "3. Password Policies"
+                Subcategory = "3.2 Fine-Grained Password Policies"
+                Component = "3.2.0 FGPP Count → Policy Count"
+                CurrentValue = "0 policies"
+                RecommendedValue = "Consider for privileged accounts"
+                Status = "Not Configured"
+                Description = "No FGPP found - only default domain policy active"
+                Remediation = "Consider implementing FGPP for privileged accounts"
+            }
+        }
+
+        # Kerberos Settings
+        Write-ADReportLog -Message "Analyzing Kerberos Configuration..." -Type Info -Terminal
+        
+        $LargeTokenUsers = Get-ADUser -Filter * -Properties MemberOf -ErrorAction SilentlyContinue | Where-Object { $_.MemberOf.Count -gt 100 }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "4. Kerberos Configuration"
+            Subcategory = "4.1 Ticket Lifetimes"
+            Component = "4.1.1 MaxTicketAge → Max Ticket Age"
+            CurrentValue = "10 hours (Standard)"
+            RecommendedValue = "8-24 hours"
+            Status = "Standard"
+            Description = "Maximum lifetime of Kerberos service tickets"
+            Remediation = "Monitor for authentication issues if modified"
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "4. Kerberos Configuration"
+            Subcategory = "4.1 Ticket Lifetimes"
+            Component = "4.1.2 MaxRenewalAge → Max Renewal Age"
+            CurrentValue = "7 days (Standard)"
+            RecommendedValue = "7-30 days"
+            Status = "Standard"
+            Description = "Maximum time a ticket can be renewed"
+            Remediation = "Standard configuration is appropriate"
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "4. Kerberos Configuration"
+            Subcategory = "4.2 Token Management"
+            Component = "4.2.1 LargeTokenUsers → Users with Large Token"
+            CurrentValue = if ($LargeTokenUsers) { "$($LargeTokenUsers.Count) users" } else { "0 users" }
+            RecommendedValue = "< 10 users"
+            Status = if ($LargeTokenUsers -and $LargeTokenUsers.Count -gt 10) { "Warning" } else { "OK" }
+            Description = "Users with 100+ group memberships"
+            Remediation = if ($LargeTokenUsers -and $LargeTokenUsers.Count -gt 10) { "Review group memberships for users with excessive assignments" } else { "Token sizes are within normal ranges" }
         }
 
         # Tombstone Lifetime
-        $TombstoneLifetime = Get-ADObject -Identity "CN=Directory Service,CN=Windows NT,CN=Services,CN=Configuration,$($Domain.DistinguishedName)" -Properties tombstoneLifetime
-        $TombstoneValue = if ($TombstoneLifetime.tombstoneLifetime) { $TombstoneLifetime.tombstoneLifetime } else { 60 }
+        Write-ADReportLog -Message "Analyzing Tombstone Lifetime..." -Type Info -Terminal
         
-        $QuotaAnalysis += [PSCustomObject]@{
-            Component = "Tombstone Lifetime"
-            Value = "$TombstoneValue days"
-            Status = if ($TombstoneValue -lt 60) { "Warning" } else { "OK" }
-            Remediation = if ($TombstoneValue -lt 60) { "Increase tombstone lifetime to at least 60 days" } else { "No action required" }
+        $TombstoneLifetime = $null
+        try {
+            $TombstoneLifetime = Get-ADObject -Identity "CN=Directory Service,CN=Windows NT,CN=Services,CN=Configuration,$($Forest.RootDomain)" -Properties tombstoneLifetime -ErrorAction SilentlyContinue
+        } catch {
+            Write-ADReportLog -Message "Could not retrieve tombstone lifetime from forest configuration" -Type Warning
         }
-
-        # Replication Limits
-        $SiteLinks = Get-ADReplicationSiteLink -Filter *
-        $AverageInterval = 0
         
-        if ($SiteLinks.Count -gt 0) {
-            $AverageInterval = ($SiteLinks | Measure-Object -Property ReplicationInterval -Average).Average
+        $TombstoneValue = if ($TombstoneLifetime -and $TombstoneLifetime.tombstoneLifetime) { 
+            $TombstoneLifetime.tombstoneLifetime 
+        } else { 
+            60 
         }
         
         $QuotaAnalysis += [PSCustomObject]@{
-            Component = "Replication Configuration"
-            TotalLinks = $SiteLinks.Count
-            AvgReplicationInterval = "$([math]::Round($AverageInterval, 2)) minutes"
-            Status = if ($AverageInterval -gt 180) { "Review" } else { "OK" }
-            Remediation = if ($AverageInterval -gt 180) { "Long replication intervals may cause inconsistencies" } else { "No action required" }
+            Category = "5. Backup and Recovery"
+            Subcategory = "5.1 Object Recovery"
+            Component = "5.1.1 TombstoneLifetime → Tombstone Lifetime"
+            CurrentValue = "$TombstoneValue days"
+            RecommendedValue = "180+ days"
+            Status = if ($TombstoneValue -lt 60) { "Critical" } elseif ($TombstoneValue -lt 180) { "Warning" } else { "Good" }
+            Description = "Time deleted objects remain recoverable"
+            Remediation = if ($TombstoneValue -lt 60) { "Increase tombstone lifetime to at least 60 days" } elseif ($TombstoneValue -lt 180) { "Consider increasing to 180+ days for better backup safety" } else { "Configuration provides good backup recovery window" }
         }
 
-        # Domain Limits
-        $QuotaAnalysis += [PSCustomObject]@{
-            Component = "Domain Structure"
-            ForestDomains = $Forest.Domains.Count
-            GlobalCatalogs = $Forest.GlobalCatalogs.Count
-            Sites = $Forest.Sites.Count
-            Status = if ($Forest.Domains.Count -gt 5) { "Complex" } else { "Standard" }
-            Remediation = if ($Forest.Domains.Count -gt 5) { "Complex forest structure requires careful management" } else { "No action required" }
+        # Replication Configuration
+        Write-ADReportLog -Message "Analyzing Replication Configuration..." -Type Info -Terminal
+        
+        $SiteLinks = Get-ADReplicationSiteLink -Filter * -ErrorAction SilentlyContinue
+        if ($SiteLinks) {
+            # Safe average calculation for ReplicationInterval
+            $NumericIntervals = @()
+            foreach ($link in $SiteLinks) {
+                if ($link.ReplicationInterval -is [System.Int32] -or $link.ReplicationInterval -is [System.Int64]) {
+                    $NumericIntervals += $link.ReplicationInterval
+                } elseif ($link.ReplicationInterval -is [Microsoft.ActiveDirectory.Management.ADPropertyValueCollection]) {
+                    foreach ($interval in $link.ReplicationInterval) {
+                        if ($interval -is [System.Int32] -or $interval -is [System.Int64]) {
+                            $NumericIntervals += $interval
+                        }
+                    }
+                }
+            }
+            
+            if ($NumericIntervals.Count -gt 0) {
+                $AverageInterval = ($NumericIntervals | Measure-Object -Average).Average
+                $MinInterval = ($NumericIntervals | Measure-Object -Minimum).Minimum
+                $MaxInterval = ($NumericIntervals | Measure-Object -Maximum).Maximum
+            } else {
+                $AverageInterval = 180
+                $MinInterval = 15
+                $MaxInterval = 180
+            }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "6. Replication Topology"
+                Subcategory = "6.1 Site Links"
+                Component = "6.1.1 SiteLinkCount → Site Link Count"
+                CurrentValue = "$($SiteLinks.Count) links"
+                RecommendedValue = "Minimize complexity"
+                Status = if ($SiteLinks.Count -gt 20) { "Complex" } else { "Standard" }
+                Description = "Total replication site links configured"
+                Remediation = if ($SiteLinks.Count -gt 20) { "Review site topology for optimization" } else { "Site link configuration is manageable" }
+            }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "6. Replication Topology"
+                Subcategory = "6.1 Site Links"
+                Component = "6.1.2 AvgReplicationInterval → Average Replication Interval"
+                CurrentValue = "$([math]::Round($AverageInterval, 2)) minutes"
+                RecommendedValue = "15-180 minutes"
+                Status = if ($AverageInterval -gt 360) { "Slow" } elseif ($AverageInterval -lt 15) { "Fast" } else { "OK" }
+                Description = "Average replication frequency across links"
+                Remediation = if ($AverageInterval -gt 360) { "Long intervals may cause replication delays" } elseif ($AverageInterval -lt 15) { "Very short intervals may increase network load" } else { "Replication timing is appropriate" }
+            }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "6. Replication Topology"
+                Subcategory = "6.1 Site Links"
+                Component = "6.1.3 IntervalRange → Fastest/Slowest Interval"
+                CurrentValue = "$MinInterval min / $MaxInterval min"
+                RecommendedValue = "15+ min / < 1440 min"
+                Status = if ($MinInterval -lt 15 -or $MaxInterval -gt 1440) { "Review" } else { "OK" }
+                Description = "Range of replication intervals"
+                Remediation = if ($MinInterval -lt 15) { "Very frequent replication may impact performance" } elseif ($MaxInterval -gt 1440) { "Very long intervals may cause delays" } else { "Interval range is acceptable" }
+            }
         }
 
-        # Password Policies
-        $PasswordPolicy = Get-ADDefaultDomainPasswordPolicy
+        # Forest and Domain Structure
+        Write-ADReportLog -Message "Analyzing Forest Structure..." -Type Info -Terminal
         
         $QuotaAnalysis += [PSCustomObject]@{
-            Component = "Password Policies"
-            MaxPasswordAge = "$($PasswordPolicy.MaxPasswordAge.Days) days"
-            MinPasswordLength = $PasswordPolicy.MinPasswordLength
-            PasswordHistory = $PasswordPolicy.PasswordHistoryCount
-            Status = if ($PasswordPolicy.MinPasswordLength -lt 12) { "Review" } else { "OK" }
-            Remediation = if ($PasswordPolicy.MinPasswordLength -lt 12) { "Increase minimum password length for better security" } else { "No action required" }
+            Category = "7. Forest Structure"
+            Subcategory = "7.1 Functional Levels"
+            Component = "7.1.1 ForestMode → Forest Functional Level"
+            CurrentValue = "$($Forest.ForestMode)"
+            RecommendedValue = "Latest supported level"
+            Status = "Informational"
+            Description = "Forest-wide feature availability"
+            Remediation = "Ensure level supports required features"
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "7. Forest Structure"
+            Subcategory = "7.1 Functional Levels"
+            Component = "7.1.2 DomainMode → Domain Functional Level"
+            CurrentValue = "$($Domain.DomainMode)"
+            RecommendedValue = "Latest supported level"
+            Status = "Informational"
+            Description = "Domain-specific feature availability"
+            Remediation = "Ensure level supports required features"
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "7. Forest Structure"
+            Subcategory = "7.2 Topology Metrics"
+            Component = "7.2.1 DomainCount → Domain Count"
+            CurrentValue = "$($Forest.Domains.Count) domains"
+            RecommendedValue = "Minimize complexity"
+            Status = if ($Forest.Domains.Count -gt 5) { "Complex" } elseif ($Forest.Domains.Count -gt 1) { "Multi-Domain" } else { "Single-Domain" }
+            Description = "Total domains in forest"
+            Remediation = if ($Forest.Domains.Count -gt 5) { "Complex structure requires careful management" } else { "Domain structure is manageable" }
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "7. Forest Structure"
+            Subcategory = "7.2 Topology Metrics"
+            Component = "7.2.2 GlobalCatalogCount → Global Catalog Count"
+            CurrentValue = "$($Forest.GlobalCatalogs.Count) servers"
+            RecommendedValue = "At least 1 per site"
+            Status = if ($Forest.GlobalCatalogs.Count -lt $Forest.Sites.Count) { "Insufficient" } else { "Adequate" }
+            Description = "Global Catalog servers in forest"
+            Remediation = if ($Forest.GlobalCatalogs.Count -lt $Forest.Sites.Count) { "Consider adding Global Catalogs for better performance" } else { "Global Catalog distribution is adequate" }
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "7. Forest Structure"
+            Subcategory = "7.2 Topology Metrics"
+            Component = "7.2.3 SiteCount → Site Count"
+            CurrentValue = "$($Forest.Sites.Count) sites"
+            RecommendedValue = "Match physical topology"
+            Status = if ($Forest.Sites.Count -gt 50) { "Many Sites" } else { "Standard" }
+            Description = "Active Directory sites configured"
+            Remediation = if ($Forest.Sites.Count -gt 50) { "Large number of sites requires careful replication management" } else { "Site count is manageable" }
         }
 
-        Write-ADReportLog -Message "Quota and limit analysis completed." -Type Info -Terminal
+        # Database and Object Limits
+        Write-ADReportLog -Message "Analyzing Database Limits..." -Type Info -Terminal
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "8. Database Limits"
+            Subcategory = "8.1 Theoretical Maximums"
+            Component = "8.1.1 MaxDatabaseSize → Maximum Database Size"
+            CurrentValue = "16 TB (theoretical)"
+            RecommendedValue = "< 100 GB for optimal performance"
+            Status = "Informational"
+            Description = "Maximum NTDS.dit database size"
+            Remediation = "Monitor database growth and defragmentation"
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "8. Database Limits"
+            Subcategory = "8.1 Theoretical Maximums"
+            Component = "8.1.2 MaxObjectsPerDomain → Maximum Objects Per Domain"
+            CurrentValue = "~2.1 billion objects (theoretical)"
+            RecommendedValue = "Monitor growth patterns"
+            Status = "Informational"
+            Description = "Theoretical object limit per domain"
+            Remediation = "Monitor object growth and plan scalability"
+        }
+        
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "8. Database Limits"
+            Subcategory = "8.1 Theoretical Maximums"
+            Component = "8.1.3 MaxAttributesPerObject → Maximum Attributes Per Object"
+            CurrentValue = "1024 attributes"
+            RecommendedValue = "Use standard attributes"
+            Status = "Informational"
+            Description = "Attribute limit per AD object"
+            Remediation = "Avoid excessive custom attributes"
+        }
+
+        # Group Policy Analysis
+        Write-ADReportLog -Message "Analyzing Group Policy Limits..." -Type Info -Terminal
+        
+        $AllGPOs = Get-GPO -All -ErrorAction SilentlyContinue
+        if ($AllGPOs) {
+            $GPOCount = $AllGPOs.Count
+            $LargeGPOs = $AllGPOs | Where-Object { $_.Description -and $_.Description.Length -gt 500 }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "9. Group Policy Objects"
+                Subcategory = "9.1 GPO Statistics"
+                Component = "9.1.1 TotalGPOCount → Total GPO Count"
+                CurrentValue = "$GPOCount GPOs"
+                RecommendedValue = "< 999 GPOs per domain"
+                Status = if ($GPOCount -gt 800) { "High" } elseif ($GPOCount -gt 500) { "Review" } else { "OK" }
+                Description = "Total Group Policy Objects in domain"
+                Remediation = if ($GPOCount -gt 500) { "Review GPO structure for consolidation" } else { "GPO count is within reasonable limits" }
+            }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "9. Group Policy Objects"
+                Subcategory = "9.1 GPO Statistics"
+                Component = "9.1.2 LargeDescriptionGPOs → GPOs with Long Descriptions"
+                CurrentValue = if ($LargeGPOs) { "$($LargeGPOs.Count) GPOs" } else { "0 GPOs" }
+                RecommendedValue = "Keep descriptions concise"
+                Status = if ($LargeGPOs -and $LargeGPOs.Count -gt 10) { "Review" } else { "OK" }
+                Description = "GPOs with descriptions > 500 characters"
+                Remediation = if ($LargeGPOs -and $LargeGPOs.Count -gt 10) { "Review GPO descriptions for clarity" } else { "GPO descriptions are reasonably sized" }
+            }
+        }
+
+        # Schema Analysis
+        Write-ADReportLog -Message "Analyzing Schema Extensions..." -Type Info -Terminal
+        
+        $Schema = Get-ADObject -SearchBase ((Get-ADRootDSE).schemaNamingContext) -Filter "objectClass -eq 'attributeSchema'" -ErrorAction SilentlyContinue
+        if ($Schema) {
+            $CustomAttributes = $Schema | Where-Object { $_.Name -notmatch '^ms-' -and $_.Name -notmatch '^ou' -and $_.Name -notmatch '^system' }
+            $SchemaVersion = (Get-ADObject -Identity ((Get-ADRootDSE).schemaNamingContext) -Properties objectVersion -ErrorAction SilentlyContinue).objectVersion
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "10. Schema Extensions"
+                Subcategory = "10.1 Schema Metrics"
+                Component = "10.1.1 TotalAttributes → Total Schema Attributes"
+                CurrentValue = "$($Schema.Count) attributes"
+                RecommendedValue = "Monitor extensions"
+                Status = "Informational"
+                Description = "Total attributes in schema"
+                Remediation = "Track schema changes for impact assessment"
+            }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "10. Schema Extensions"
+                Subcategory = "10.1 Schema Metrics"
+                Component = "10.1.2 CustomAttributes → Custom Schema Attributes"
+                CurrentValue = if ($CustomAttributes) { "$($CustomAttributes.Count) attributes" } else { "0 attributes" }
+                RecommendedValue = "Minimize custom extensions"
+                Status = if ($CustomAttributes -and $CustomAttributes.Count -gt 100) { "Review" } elseif ($CustomAttributes -and $CustomAttributes.Count -gt 50) { "Monitor" } else { "OK" }
+                Description = "Non-Microsoft schema attributes"
+                Remediation = if ($CustomAttributes -and $CustomAttributes.Count -gt 100) { "Review custom schema extensions for necessity" } else { "Custom extensions are within reasonable limits" }
+            }
+            
+            $QuotaAnalysis += [PSCustomObject]@{
+                Category = "10. Schema Extensions"
+                Subcategory = "10.1 Schema Metrics"
+                Component = "10.1.3 SchemaVersion → Schema Version"
+                CurrentValue = if ($SchemaVersion) { "Version $SchemaVersion" } else { "Unknown" }
+                RecommendedValue = "Track version changes"
+                Status = "Informational"
+                Description = "Current AD schema version"
+                Remediation = "Document schema version for change tracking"
+            }
+        }
+
+        # External Integrations
+        Write-ADReportLog -Message "Checking External Integrations..." -Type Info -Terminal
+        
+        # Exchange Integration
+        $ExchangeObjects = Get-ADObject -Filter "objectClass -eq 'msExchOrganizationContainer'" -ErrorAction SilentlyContinue
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "11. External Integrations"
+            Subcategory = "11.1 Exchange Integration"
+            Component = "11.1.1 ExchangeOrganization → Exchange Organization"
+            CurrentValue = if ($ExchangeObjects) { "Detected" } else { "Not Present" }
+            RecommendedValue = if ($ExchangeObjects) { "Monitor Exchange objects" } else { "No action required" }
+            Status = if ($ExchangeObjects) { "Present" } else { "Not Detected" }
+            Description = "Microsoft Exchange organization in AD"
+            Remediation = if ($ExchangeObjects) { "Monitor Exchange-specific AD objects" } else { "No Exchange-specific monitoring required" }
+        }
+        
+        # DNS Integration
+        $DNSZones = Get-ADObject -Filter "objectClass -eq 'dnsZone'" -SearchBase "CN=MicrosoftDNS,DC=DomainDnsZones,$($Domain.DistinguishedName)" -ErrorAction SilentlyContinue
+        $QuotaAnalysis += [PSCustomObject]@{
+            Category = "11. External Integrations"
+            Subcategory = "11.2 DNS Integration"
+            Component = "11.2.1 ADIntegratedZones → AD-Integrated DNS Zones"
+            CurrentValue = if ($DNSZones) { "$($DNSZones.Count) zones" } else { "0 zones" }
+            RecommendedValue = "Minimize complexity"
+            Status = if ($DNSZones -and $DNSZones.Count -gt 100) { "Many Zones" } else { "Standard" }
+            Description = "DNS zones integrated with AD"
+            Remediation = if ($DNSZones -and $DNSZones.Count -gt 100) { "Review DNS zone structure" } else { "DNS zone count is manageable" }
+        }
+
+        Write-ADReportLog -Message "Comprehensive quota and limits analysis completed. $($QuotaAnalysis.Count) components analyzed." -Type Info -Terminal
         return $QuotaAnalysis
         
     } catch {
         $ErrorMessage = "Error analyzing quotas and limits: $($_.Exception.Message)"
         Write-ADReportLog -Message $ErrorMessage -Type Error
-        return $null
+        return @([PSCustomObject]@{
+            Category = "0. Analysis Error"
+            Subcategory = "0.1 System Error"
+            Component = "0.1.1 AnalysisFailure → Analysis Failure"
+            CurrentValue = "Failed"
+            RecommendedValue = "Successful completion"
+            Status = "Failed"
+            Description = "Could not complete quota and limits analysis"
+            Remediation = "Check domain connectivity and permissions. Verify LDAP access to configuration containers."
+        })
     }
 }
 
@@ -3756,13 +4992,6 @@ Function Get-FSMORoles {
 '@
         }
 
-        # Import localized data if available
-        try {
-            Import-LocalizedData -BindingVariable msgTable
-        } catch {
-            Write-ADReportLog -Message "Using default English messages - no localization found" -Type Info
-        }
-        
         $Forest = Get-ADForest
         $Domain = Get-ADDomain
         
@@ -4497,27 +5726,20 @@ Function Get-ADSitesAndSubnetsReport {
 '@
     }
 
-    # Import localized data if available
-    try {
-        Import-LocalizedData -BindingVariable msgTable
-    } catch {
-        Write-ADReportLog -Message "Using default English messages - localization file not found." -Type Info
-    }
-
     Write-ADReportLog -Message $msgTable.GatheringInfo -Type Info -Terminal
     Initialize-ResultCounters
 
     try {
-        $Report = @()
+        $Report = [System.Collections.ArrayList]@()
 
         # Get Sites
-        $Sites = Get-ADReplicationSite -Filter * -Properties Description, Options, InterSiteTopologyGenerator -ErrorAction SilentlyContinue
-        if ($Sites) {
+        $Sites = Get-ADReplicationSite -Filter * -Properties Description, Options, InterSiteTopologyGenerator -ErrorAction Stop
+        if ($Sites -and $Sites.Count -gt 0) {
             foreach ($Site in $Sites) {
                 # Get servers for this site separately
                 $ServersCount = 0
                 try {
-                    $Servers = Get-ADDomainController -Filter { Site -eq $Site.Name } -ErrorAction SilentlyContinue
+                    $Servers = Get-ADDomainController -Filter { Site -eq $Site.Name } -ErrorAction Stop
                     $ServersCount = if ($Servers) { @($Servers).Count } else { 0 }
                 } catch {
                     Write-ADReportLog -Message ($msgTable.NoServersFound -f $Site.Name, $_.Exception.Message) -Type Warning
@@ -4526,24 +5748,24 @@ Function Get-ADSitesAndSubnetsReport {
                 # Get Site Links separately
                 $SiteLinksText = ""
                 try {
-                    $SiteLinks = Get-ADReplicationSiteLink -Filter "(Sites -eq '$($Site.DistinguishedName)')" -ErrorAction SilentlyContinue
+                    $SiteLinks = Get-ADReplicationSiteLink -Filter "Sites -eq '$($Site.DistinguishedName)'" -ErrorAction Stop
                     $SiteLinksText = if ($SiteLinks) { ($SiteLinks | ForEach-Object { $_.Name }) -join ", " }
                 } catch {
                     Write-ADReportLog -Message ($msgTable.NoSiteLinksFound -f $Site.Name, $_.Exception.Message) -Type Warning
                 }
 
-                $Report += [PSCustomObject]@{
+                [void]$Report.Add([PSCustomObject]@{
                     Type = "Site"
                     Name = $Site.Name
                     DistinguishedName = $Site.DistinguishedName
                     Description = $Site.Description
                     ServersInSiteCount = $ServersCount
-                    InterSiteTopologyGenerator = $Site.InterSiteTopologyGenerator
-                    Options = $Site.Options
-                    SiteLinks = $SiteLinksText
-                    Location = $null
-                    AssociatedSite = $null
-                }
+                    InterSiteTopologyGenerator = if ($Site.InterSiteTopologyGenerator) { $Site.InterSiteTopologyGenerator } else { "N/A" }
+                    Options = if ($Site.Options) { $Site.Options } else { "None" }
+                    SiteLinks = if ($SiteLinksText) { $SiteLinksText } else { "None" }
+                    Location = "N/A"
+                    AssociatedSite = "N/A"
+                })
             }
             Write-ADReportLog -Message ($msgTable.SitesRetrieved -f $Sites.Count) -Type Info -Terminal
         } else {
@@ -4551,25 +5773,27 @@ Function Get-ADSitesAndSubnetsReport {
         }
 
         # Get Subnets
-        $Subnets = Get-ADReplicationSubnet -Filter * -Properties Description, Location, Site -ErrorAction SilentlyContinue
-        if ($Subnets) {
+        $Subnets = Get-ADReplicationSubnet -Filter * -Properties Description, Location, Site -ErrorAction Stop
+        if ($Subnets -and $Subnets.Count -gt 0) {
             foreach ($Subnet in $Subnets) {
-                $Report += [PSCustomObject]@{
+                [void]$Report.Add([PSCustomObject]@{
                     Type = "Subnet"
                     Name = $Subnet.Name
                     DistinguishedName = $Subnet.DistinguishedName
-                    Description = $Subnet.Description
-                    ServersInSiteCount = $null 
-                    InterSiteTopologyGenerator = $null
-                    Options = $null
-                    SiteLinks = $null
-                    Location = $Subnet.Location
-                    AssociatedSite = try { 
-                        (Get-ADReplicationSite -Identity $Subnet.Site -ErrorAction SilentlyContinue).Name 
-                    } catch { 
-                        $Subnet.Site 
-                    }
-                }
+                    Description = if ($Subnet.Description) { $Subnet.Description } else { "N/A" }
+                    ServersInSiteCount = "N/A"
+                    InterSiteTopologyGenerator = "N/A"
+                    Options = "N/A"
+                    SiteLinks = "N/A"
+                    Location = if ($Subnet.Location) { $Subnet.Location } else { "N/A" }
+                    AssociatedSite = if ($Subnet.Site) {
+                        try { 
+                            (Get-ADReplicationSite -Identity $Subnet.Site -ErrorAction Stop).Name 
+                        } catch { 
+                            $Subnet.Site 
+                        }
+                    } else { "N/A" }
+                })
             }
             Write-ADReportLog -Message ($msgTable.SubnetsRetrieved -f $Subnets.Count) -Type Info -Terminal
         } else {
@@ -4733,34 +5957,384 @@ Function Get-KerberosDESUsers {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing users with Kerberos DES encryption..." -Type Info -Terminal
-        $Users = Get-ADUser -Filter "Enabled -eq `$true" -Properties UserAccountControl, DisplayName, SamAccountName, Department -ErrorAction Stop
-        $DESUsers = $Users | Where-Object { ($_.UserAccountControl -band 0x200000) -ne 0 }
+        Write-ADReportLog -Message "Analyzing all users with Kerberos DES encryption (enabled, disabled, and system accounts)..." -Type Info -Terminal
         
-        $Results = $DESUsers | Select-Object DisplayName, SamAccountName, Department,
-            @{Name="UsesDESEncryption";Expression={"True"}}
+        # Get ALL users (enabled, disabled, system accounts)
+        $AllUsers = Get-ADUser -Filter * -Properties UserAccountControl, DisplayName, SamAccountName, Department, Enabled, Description, ObjectClass, LastLogonDate, PasswordLastSet -ErrorAction Stop
         
-        return $Results
+        # Filter users with DES encryption flag (0x200000)
+        $DESUsers = $AllUsers | Where-Object { ($_.UserAccountControl -band 0x200000) -ne 0 }
+        
+        $Results = foreach ($user in $DESUsers) {
+            try {
+                # Determine account type
+                $accountType = "Regular User"
+                $riskLevel = "High"
+                
+                # Check if it's a system/service account
+                if ($user.SamAccountName -match '^\$' -or 
+                    $user.SamAccountName -like "*svc*" -or 
+                    $user.SamAccountName -like "*service*" -or
+                    $user.Description -match "(service|system|computer)" -or
+                    $user.SamAccountName -like "*krbtgt*") {
+                    $accountType = "System/Service Account"
+                    $riskLevel = "Medium"  # System accounts with DES are less critical but still risky
+                }
+                
+                # Check if it's a computer account
+                if ($user.SamAccountName -match '\$$' -and $user.ObjectClass -eq "user") {
+                    $accountType = "Computer Account"
+                    $riskLevel = "Low"  # Computer accounts with DES are legacy but lower risk
+                }
+                
+                # Special handling for krbtgt account
+                if ($user.SamAccountName -eq "krbtgt") {
+                    $accountType = "Domain Controller Service Account"
+                    $riskLevel = "Critical"  # krbtgt with DES is very dangerous
+                }
+                
+                # Adjust risk based on enabled status
+                $statusNote = ""
+                if (-not $user.Enabled) {
+                    $statusNote = " (Disabled)"
+                    # Reduce risk for disabled accounts but keep some level
+                    if ($riskLevel -eq "Critical") { $riskLevel = "High" }
+                    elseif ($riskLevel -eq "High") { $riskLevel = "Medium" }
+                    elseif ($riskLevel -eq "Medium") { $riskLevel = "Low" }
+                }
+                
+                # Create recommendation
+                $recommendation = switch ($riskLevel) {
+                    "Critical" { "URGENT: Disable DES encryption immediately for this critical account" }
+                    "High" { "High Priority: Remove DES encryption support and use AES encryption" }
+                    "Medium" { "Medium Priority: Upgrade encryption to AES when possible" }
+                    "Low" { "Low Priority: Consider upgrading to modern encryption methods" }
+                }
+                
+                [PSCustomObject]@{
+                    DisplayName = if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName }
+                    SamAccountName = $user.SamAccountName
+                    Department = if ($user.Department) { $user.Department } else { "Not Specified" }
+                    AccountType = $accountType + $statusNote
+                    Enabled = $user.Enabled
+                    UsesDESEncryption = "Yes"
+                    RiskLevel = $riskLevel
+                    Recommendation = $recommendation
+                    LastLogonDate = if ($user.LastLogonDate) { $user.LastLogonDate.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                    PasswordLastSet = if ($user.PasswordLastSet) { $user.PasswordLastSet.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                }
+                
+            } catch {
+                Write-ADReportLog -Message "Error processing DES user $($user.SamAccountName): $($_.Exception.Message)" -Type Warning
+                
+                # Return error entry
+                [PSCustomObject]@{
+                    DisplayName = if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName }
+                    SamAccountName = $user.SamAccountName
+                    Department = "Error"
+                    AccountType = "Error Processing"
+                    Enabled = "Unknown"
+                    UsesDESEncryption = "Error"
+                    RiskLevel = "Critical"
+                    Recommendation = "Error analyzing account - manual review required"
+                    LastLogonDate = "Error"
+                    PasswordLastSet = "Error"
+                    Description = "Error during analysis"
+                }
+            }
+        }
+        
+        # Sort by risk level and then by account type
+        $SortedResults = $Results | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    default { 5 }
+                }
+            }
+        }, SamAccountName
+        
+        Write-ADReportLog -Message "Kerberos DES encryption analysis completed. Found $($SortedResults.Count) accounts with DES encryption." -Type Info -Terminal
+        
+        # Log statistics
+        if ($SortedResults.Count -gt 0) {
+            $criticalCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+            $highCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "High" }).Count
+            $enabledCount = ($SortedResults | Where-Object { $_.Enabled -eq $true }).Count
+            $systemCount = ($SortedResults | Where-Object { $_.AccountType -match "System|Service|Computer" }).Count
+            
+            Write-ADReportLog -Message "DES Statistics - Critical: $criticalCount, High: $highCount, Enabled: $enabledCount, System/Service Accounts: $systemCount" -Type Info -Terminal
+        }
+        
+        return $SortedResults
+        
     } catch {
         Write-ADReportLog -Message "Error analyzing Kerberos DES users: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
 
+Function Get-KerberoastableAccounts {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing Kerberoastable accounts..." -Type Info -Terminal
+        
+        # Get domain for language detection
+        $domain = Get-ADDomain
+        $isGermanDomain = $domain.DNSRoot -match "\.de$" -or $domain.NetBIOSName -match "DE$"
+
+        # Define privileged groups in both languages
+        $privilegedGroups = @(
+            if($isGermanDomain) {
+                "Domänen-Admins", "Schema-Admins", "Organisations-Admins", "Administratoren"
+            }
+            "Domain Admins", "Schema Admins", "Enterprise Admins", "Administrators"
+        )
+
+        # Get accounts with SPNs
+        $kerberoastableAccounts = Get-ADUser -Filter {ServicePrincipalName -like "*" -and Enabled -eq $true} -Properties ServicePrincipalName, LastLogonDate, PasswordLastSet, MemberOf, Department, Description -ErrorAction Stop
+
+        $Results = foreach($account in $kerberoastableAccounts) {
+            # Calculate password age
+            $passwordAge = if($account.PasswordLastSet) {
+                [math]::Round((New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days, 0)
+            } else { 999 }
+
+            # Check privileged group membership
+            $isPrivileged = $false
+            foreach($group in $account.MemberOf) {
+                $groupName = (Get-ADGroup $group).Name
+                if($privilegedGroups -contains $groupName) {
+                    $isPrivileged = $true
+                    break
+                }
+            }
+
+            # Determine risk level
+            $riskLevel = switch($true) {
+                { $isPrivileged -and $passwordAge -gt 30 } { "Critical" }
+                { $isPrivileged } { "High" }
+                { $passwordAge -gt 180 } { "High" }
+                { $passwordAge -gt 90 } { "Medium" }
+                default { "Low" }
+            }
+
+            # Create recommendation based on findings
+            $recommendation = switch($true) {
+                { $isPrivileged -and $passwordAge -gt 30 } { 
+                    "Critical: Privileged account with SPN - Change password immediately and review necessity"
+                }
+                { $isPrivileged } {
+                    "High Risk: Privileged account with SPN - Review if SPN is required"
+                }
+                { $passwordAge -gt 180 } {
+                    "Change password (not changed for >180 days)"
+                }
+                { $passwordAge -gt 90 } {
+                    "Consider password change (not changed for >90 days)"
+                }
+                default {
+                    "Monitor account regularly"
+                }
+            }
+
+            [PSCustomObject]@{
+                Name = $account.Name
+                SamAccountName = $account.SamAccountName
+                Department = if($account.Department) { $account.Department } else { "Not specified" }
+                SPNCount = ($account.ServicePrincipalName | Measure-Object).Count
+                PasswordAge = $passwordAge
+                LastLogon = if($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
+                IsPrivileged = $isPrivileged
+                RiskLevel = $riskLevel
+                Description = $account.Description
+                Recommendation = $recommendation
+            }
+        }
+
+        Write-ADReportLog -Message "Found $($Results.Count) Kerberoastable accounts" -Type Info -Terminal
+        return $Results | Sort-Object RiskLevel, PasswordAge -Descending
+
+    } catch {
+        Write-ADReportLog -Message "Error analyzing Kerberoastable accounts: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+
 Function Get-UsersWithSPN {
     [CmdletBinding()]
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing users with Service Principal Names..." -Type Info -Terminal
-        $Users = Get-ADUser -Filter "Enabled -eq `$true -and ServicePrincipalName -like '*'" -Properties ServicePrincipalName, DisplayName, SamAccountName, Department -ErrorAction Stop
-        
-        $Results = $Users | Select-Object DisplayName, SamAccountName, Department,
-            @{Name="ServicePrincipalNames";Expression={$_.ServicePrincipalName -join "; "}}
-        
-        return $Results
+        Write-ADReportLog -Message "Starting comprehensive SPN security analysis..." -Type Info -Terminal
+
+        # Get domain for language detection
+        $domain = Get-ADDomain
+        $isGermanDomain = $domain.DNSRoot -match "\.de$" -or $domain.NetBIOSName -match "DE$"
+
+        # Define privileged groups in both languages
+        $privilegedGroups = @(
+            if($isGermanDomain) {
+                "Domänen-Admins", "Schema-Admins", "Organisations-Admins", "Administratoren"
+            }
+            "Domain Admins", "Schema Admins", "Enterprise Admins", "Administrators" 
+        )
+
+        Write-ADReportLog -Message "Searching for service accounts and accounts with SPNs..." -Type Info -Terminal
+
+        # Build filter string for service accounts
+        $filterString = @"
+            (Enabled -eq `$true) -and (
+                (ServicePrincipalName -like '*') -or
+                (SamAccountName -like '*svc*') -or
+                (SamAccountName -like '*service*') -or
+                (SamAccountName -like '*srv*') -or
+                (SamAccountName -like '*dienst*') -or
+                (SamAccountName -like '*konto*') -or
+                (SamAccountName -like '*automated*') -or
+                (SamAccountName -like '*automation*') -or
+                (SamAccountName -like '*auto*') -or
+                (SamAccountName -like '*batch*') -or
+                (SamAccountName -like '*task*') -or
+                (SamAccountName -like '*job*') -or
+                (SamAccountName -like '*admin*') -or
+                (SamAccountName -like '*system*') -or
+                (SamAccountName -like '*backup*') -or
+                (SamAccountName -like '*report*') -or
+                (SamAccountName -like '*account*') -or
+                (Description -like '*service*') -or
+                (Description -like '*dienst*') -or
+                (Description -like '*konto*') -or
+                (Description -like '*automated*') -or
+                (Description -like '*automation*') -or
+                (Description -like '*auto*') -or
+                (Description -like '*batch*') -or
+                (Description -like '*task*') -or
+                (Description -like '*job*') -or
+                (Description -like '*admin*') -or
+                (Description -like '*system*') -or
+                (Description -like '*backup*') -or
+                (Description -like '*report*') -or
+                (Description -like '*account*') -or
+                (SamAccountName -like '*skript*') -or
+                (Description -like '*skript*') -or
+                (SamAccountName -like '*prozess*') -or
+                (Description -like '*prozess*')
+            )
+"@
+
+        # Get all user accounts that could be service accounts
+        $Users = Get-ADUser -Filter $filterString -Properties @(
+            'ServicePrincipalName',
+            'DisplayName',
+            'SamAccountName',
+            'Department',
+            'Description',
+            'Enabled',
+            'LastLogonDate',
+            'PasswordLastSet',
+            'memberOf',
+            'userAccountControl',
+            'msDS-SupportedEncryptionTypes'
+        ) -ErrorAction Stop
+
+        Write-ADReportLog -Message "Found $($Users.Count) potential service accounts for analysis" -Type Info -Terminal
+
+        $Results = foreach ($user in $Users) {
+            # Initialize risk tracking
+            $riskFactors = [System.Collections.ArrayList]@()
+            $riskLevel = "Low"
+            $detectionReason = [System.Collections.ArrayList]@()
+
+            # Check why this account was detected as service account
+            if ($user.ServicePrincipalName) {
+                $detectionReason.Add("Has Service Principal Name (SPN) configuration") | Out-Null
+            }
+            if ($user.SamAccountName -match "(svc|service|srv|dienst|konto|automated|automation|auto|batch|task|job|admin|system|backup|report|account|skript|prozess)") {
+                $detectionReason.Add("Username indicates service account") | Out-Null
+            }
+            if ($user.Description -match "(service|dienst|konto|automated|automation|auto|batch|task|job|admin|system|backup|report|account|skript|prozess)") {
+                $detectionReason.Add("Description indicates service account") | Out-Null
+            }
+
+            # Check SPN configuration
+            if ($user.ServicePrincipalName) {
+                $riskFactors.Add("Has active SPN configuration") | Out-Null
+                $riskLevel = "Medium"
+
+                # Check for weak encryption
+                if (-not $user.'msDS-SupportedEncryptionTypes' -or 
+                    ($user.'msDS-SupportedEncryptionTypes' -band 0x3) -eq 0) {
+                    $riskFactors.Add("Weak Kerberos encryption") | Out-Null
+                    $riskLevel = "High"
+                }
+            }
+
+            # Check account status and privileges
+            if (-not $user.Enabled -and $user.ServicePrincipalName) {
+                $riskFactors.Add("Disabled account with active SPN") | Out-Null
+                $riskLevel = "High"
+            }
+
+            # Check privileged group memberships
+            foreach ($group in $privilegedGroups) {
+                if ($user.memberOf -match $group) {
+                    $riskFactors.Add("Member of privileged group: $group") | Out-Null
+                    $riskLevel = "Critical"
+                    break
+                }
+            }
+
+            # Check password age
+            if ($user.PasswordLastSet) {
+                $passwordAge = (Get-Date) - $user.PasswordLastSet
+                if ($passwordAge.Days -gt 365) {
+                    $riskFactors.Add("Password older than 1 year") | Out-Null
+                    if ($riskLevel -eq "Low") { $riskLevel = "Medium" }
+                }
+            }
+
+            # Create result object
+            [PSCustomObject]@{
+                DisplayName = $user.DisplayName
+                SamAccountName = $user.SamAccountName
+                Department = if ($user.Department) { $user.Department } else { "Not specified" }
+                SPNCount = if ($user.ServicePrincipalName) { @($user.ServicePrincipalName).Count } else { 0 }
+                ServicePrincipalNames = if ($user.ServicePrincipalName) { @($user.ServicePrincipalName) -join "; " } else { "None" }
+                AccountEnabled = $user.Enabled
+                LastLogon = if ($user.LastLogonDate) { $user.LastLogonDate } else { "Never" }
+                PasswordLastSet = if ($user.PasswordLastSet) { $user.PasswordLastSet } else { "Never" }
+                RiskLevel = $riskLevel
+                RiskFactors = if ($riskFactors.Count -gt 0) { $riskFactors -join " | " } else { "None" }
+                DetectionReason = if ($detectionReason.Count -gt 0) { $detectionReason -join " | " } else { "Unknown" }
+                SecurityRecommendation = switch ($riskLevel) {
+                    "Critical" { "URGENT: Review privileged access and SPN configuration immediately" }
+                    "High" { "High Priority: Verify account status and update security settings" }
+                    "Medium" { "Review SPN configuration and account permissions" }
+                    default { "Monitor account for security changes" }
+                }
+            }
+        }
+
+        Write-ADReportLog -Message "SPN security analysis completed. Found $($Results.Count) accounts requiring attention." -Type Info -Terminal
+        return $Results | Sort-Object { 
+            switch ($_.RiskLevel) {
+                "Critical" { 0 }
+                "High" { 1 }
+                "Medium" { 2 }
+                "Low" { 3 }
+                default { 4 }
+            }
+        }
+
     } catch {
-        Write-ADReportLog -Message "Error analyzing users with SPN: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error in SPN security analysis: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
@@ -5125,48 +6699,102 @@ Function Get-CircularNestedGroups {
     
     try {
         Write-ADReportLog -Message "Analyzing nested group memberships..." -Type Info -Terminal
-        $Groups = Get-ADGroup -Filter * -Properties MemberOf, Name, GroupCategory -ErrorAction Stop
+        
+        # Verschachtelte Gruppenmitgliedschaften analysieren
+        # Nested Groups können Sicherheitsrisiken darstellen:
+        # - Komplexität der Berechtigung wird schwer überschaubar
+        # - Potentielle zirkuläre Abhängigkeiten (Gruppe A in B, B in A)
+        # - Schwierige Nachverfolgung von Berechtigungen für Compliance
+        # - Performance-Probleme bei der Gruppenerweiterung
+        # - Erschwerte Fehlerbehebung bei Zugriffsproblemen
+        
+        $Groups = Get-ADGroup -Filter * -Properties MemberOf, Name, GroupCategory, Description -ErrorAction Stop
         $NestedGroups = $Groups | Where-Object { $_.MemberOf.Count -gt 0 }
         
-        $Results = $NestedGroups | Select-Object Name, GroupCategory,
-            @{Name="MemberOfGroups";Expression={$_.MemberOf.Count}},
-            @{Name="ParentGroups";Expression={($_.MemberOf | ForEach-Object { (Get-ADGroup $_).Name }) -join "; "}}
-        
-        return $Results
-    } catch {
-        Write-ADReportLog -Message "Error analyzing nested groups: $($_.Exception.Message)" -Type Error
-        return @()
-    }
-}
-Function Get-GroupsByTypeAndScope {
-    [CmdletBinding()]
-    param()
-    
-    try {
-        Write-ADReportLog -Message "Analyzing groups by type and scope..." -Type Info -Terminal
-        
-        $Groups = Get-ADGroup -Filter * -Properties Name, GroupCategory, GroupScope, whenCreated, whenChanged, MemberOf, Members -ErrorAction Stop
-        
-        $Results = foreach ($group in $Groups) {
+        $Results = foreach ($group in $NestedGroups) {
+            # Analyse der Verschachtelungstiefe
+            $nestingLevel = 0
+            $currentGroups = @($group.MemberOf)
+            $allParentGroups = @()
+            
+            while ($currentGroups.Count -gt 0 -and $nestingLevel -lt 10) {
+                $nestingLevel++
+                $nextLevelGroups = @()
+                
+                foreach ($parentDN in $currentGroups) {
+                    try {
+                        $parentGroup = Get-ADGroup -Identity $parentDN -Properties MemberOf -ErrorAction SilentlyContinue
+                        if ($parentGroup) {
+                            $allParentGroups += $parentGroup.Name
+                            if ($parentGroup.MemberOf.Count -gt 0) {
+                                $nextLevelGroups += $parentGroup.MemberOf
+                            }
+                        }
+                    } catch {
+                        Write-ADReportLog -Message "Warning: Could not analyze parent group $parentDN" -Type Warning
+                    }
+                }
+                
+                $currentGroups = $nextLevelGroups | Select-Object -Unique
+            }
+            
+            # Risikobewertung
+            $riskLevel = switch ($true) {
+                ($nestingLevel -ge 5) { "High - Deep nesting detected" }
+                ($nestingLevel -ge 3) { "Medium - Multiple nesting levels" }
+                ($nestingLevel -eq 2) { "Low - Standard nesting" }
+                default { "Minimal" }
+            }
+            
             [PSCustomObject]@{
                 Name = $group.Name
+                GroupCategory = $group.GroupCategory
                 Description = $group.Description
-                GroupCategory = $group.GroupCategory # Security oder Distribution
-                GroupScope = $group.GroupScope # DomainLocal, Global oder Universal
-                WhenCreated = $group.whenCreated
-                WhenChanged = $group.whenChanged
-                MemberCount = if ($group.Members) { $group.Members.Count } else { 0 }
-                MemberOfCount = if ($group.MemberOf) { $group.MemberOf.Count } else { 0 }
-                AgeInDays = if ($group.whenCreated) { 
-                    [math]::Round((New-TimeSpan -Start $group.whenCreated -End (Get-Date)).TotalDays, 0)
-                } else { 0 }
+                MemberOfGroups = $group.MemberOf.Count
+                NestingLevel = $nestingLevel
+                RiskLevel = $riskLevel
+                ParentGroups = ($group.MemberOf | ForEach-Object { 
+                    try { (Get-ADGroup $_ -ErrorAction SilentlyContinue).Name } catch { "Unknown" }
+                }) -join "; "
+                AllParentHierarchy = ($allParentGroups | Select-Object -Unique) -join " → "
+                SecurityConcerns = if ($nestingLevel -ge 3) { 
+                    "Complex permission inheritance, difficult troubleshooting, potential circular dependencies" 
+                } else { 
+                    "Standard nesting structure" 
+                }
+                Recommendations = switch ($true) {
+                    ($nestingLevel -ge 5) { "Review and flatten group structure immediately" }
+                    ($nestingLevel -ge 3) { "Consider simplifying group hierarchy" }
+                    default { "Monitor for changes" }
+                }
             }
         }
         
-        Write-ADReportLog -Message "Groups by type and scope analysis completed. $($Results.Count) groups found." -Type Info -Terminal
-        return $Results | Sort-Object GroupCategory, GroupScope
+        # Statistiken für Logging
+        $totalNested = $Results.Count
+        $highRisk = ($Results | Where-Object { $_.RiskLevel -like "High*" }).Count
+        $mediumRisk = ($Results | Where-Object { $_.RiskLevel -like "Medium*" }).Count
+        $deepestNesting = if ($Results) { ($Results | Measure-Object NestingLevel -Maximum).Maximum } else { 0 }
+        
+        Write-ADReportLog -Message "Nested group analysis completed:" -Type Info -Terminal
+        Write-ADReportLog -Message "  Total nested groups: $totalNested" -Type Info -Terminal
+        Write-ADReportLog -Message "  High risk (deep nesting): $highRisk" -Type Info -Terminal
+        Write-ADReportLog -Message "  Medium risk: $mediumRisk" -Type Info -Terminal
+        Write-ADReportLog -Message "  Deepest nesting level found: $deepestNesting" -Type Info -Terminal
+        
+        # Zusätzlich Zusammenfassung für GUI anzeigen
+        try {
+            if ($Global:TextBlockStatus) {
+                $Global:TextBlockStatus.Text = "Nested group analysis completed. $totalNested groups analyzed - High risk: $highRisk, Medium risk: $mediumRisk, Deepest nesting: $deepestNesting levels."
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI status: $($_.Exception.Message)" -Type Warning
+        }
+        
+        return $Results | Sort-Object NestingLevel -Descending
+        
     } catch {
-        Write-ADReportLog -Message "Error analyzing groups by type and scope: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error analyzing nested groups: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
@@ -5230,21 +6858,229 @@ Function Get-NestedGroups {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing nested group memberships..." -Type Info -Terminal
-        $Groups = Get-ADGroup -Filter * -Properties MemberOf, Name, GroupCategory -ErrorAction Stop
-        $NestedGroups = $Groups | Where-Object { $_.MemberOf.Count -gt 0 }
+        Write-ADReportLog -Message "Analyzing nested group structure and hierarchy..." -Type Info -Terminal
+        $Groups = Get-ADGroup -Filter * -Properties MemberOf, Members, Name, GroupCategory, Description, whenCreated -ErrorAction Stop
         
-        $Results = $NestedGroups | Select-Object Name, GroupCategory,
-            @{Name="MemberOfGroups";Expression={$_.MemberOf.Count}},
-            @{Name="ParentGroups";Expression={($_.MemberOf | ForEach-Object { (Get-ADGroup $_).Name }) -join "; "}}
+        # Build group hierarchy tree structure
+        $GroupHierarchy = @{}
+        $NestedGroupResults = [System.Collections.ArrayList]@()
         
-        return $Results
+        # Initialize hierarchy tracking
+        foreach ($group in $Groups) {
+            $GroupHierarchy[$group.Name] = @{
+                Group = $group
+                Parents = @()
+                Children = @()
+                Level = 0
+                Path = ""
+                Interconnections = 0
+            }
+        }
+        
+        # Map parent-child relationships
+        foreach ($group in $Groups) {
+            if ($group.MemberOf) {
+                foreach ($parentDN in $group.MemberOf) {
+                    try {
+                        $parentGroup = Get-ADGroup $parentDN -ErrorAction SilentlyContinue
+                        if ($parentGroup) {
+                            $GroupHierarchy[$group.Name].Parents += $parentGroup.Name
+                            if ($GroupHierarchy.ContainsKey($parentGroup.Name)) {
+                                $GroupHierarchy[$parentGroup.Name].Children += $group.Name
+                            }
+                        }
+                    } catch {
+                        Write-ADReportLog -Message "Warning: Could not resolve parent group for $($group.Name)" -Type Warning
+                    }
+                }
+            }
+        }
+        
+        # Calculate nesting levels and tree structure
+        function Get-GroupLevel($groupName, $visited = @()) {
+            if ($visited -contains $groupName) {
+                return 999  # Circular reference detected
+            }
+            
+            $visited += $groupName
+            $parents = $GroupHierarchy[$groupName].Parents
+            
+            if ($parents.Count -eq 0) {
+                return 0  # Root level
+            }
+            
+            $maxParentLevel = 0
+            foreach ($parent in $parents) {
+                if ($GroupHierarchy.ContainsKey($parent)) {
+                    $parentLevel = Get-GroupLevel $parent $visited
+                    if ($parentLevel -gt $maxParentLevel) {
+                        $maxParentLevel = $parentLevel
+                    }
+                }
+            }
+            
+            return $maxParentLevel + 1
+        }
+        
+        # Generate tree path visualization
+        function Get-TreePath($groupName, $level = 0, $prefix = "", $isLast = $true) {
+            $connector = ""
+            if ($level -eq 0) { 
+                $connector = "├─ " 
+            } elseif ($isLast) { 
+                $connector = "└─ " 
+            } else { 
+                $connector = "├─ " 
+            }
+            $treePath = $prefix + $connector + $groupName
+            
+            $children = $GroupHierarchy[$groupName].Children
+            if ($children.Count -gt 0) {
+                $childPrefix = ""
+                if ($isLast) {
+                    $childPrefix = $prefix + "   "
+                } else {
+                    $childPrefix = $prefix + "│  "
+                }
+                
+                for ($i = 0; $i -lt $children.Count; $i++) {
+                    $childIsLast = ($i -eq $children.Count - 1)
+                    $childPath = Get-TreePath $children[$i] ($level + 1) $childPrefix $childIsLast
+                    $treePath += "`n" + $childPath
+                }
+            }
+            
+            return $treePath
+        }
+        
+        # Analyze each group's nesting characteristics
+        foreach ($group in $Groups) {
+            if ($group.MemberOf.Count -gt 0 -or $GroupHierarchy[$group.Name].Children.Count -gt 0) {
+                
+                # Calculate nesting metrics
+                $nestingLevel = Get-GroupLevel $group.Name
+                $totalConnections = $group.MemberOf.Count + $GroupHierarchy[$group.Name].Children.Count
+                $GroupHierarchy[$group.Name].Level = $nestingLevel
+                $GroupHierarchy[$group.Name].Interconnections = $totalConnections
+                
+                # Risk assessment based on complexity
+                $riskLevel = ""
+                if ($nestingLevel -eq 999) { 
+                    $riskLevel = "Critical - Circular Reference" 
+                } elseif ($nestingLevel -gt 5 -or $totalConnections -gt 15) { 
+                    $riskLevel = "High" 
+                } elseif ($nestingLevel -gt 3 -or $totalConnections -gt 8) { 
+                    $riskLevel = "Medium" 
+                } elseif ($nestingLevel -gt 1 -or $totalConnections -gt 3) { 
+                    $riskLevel = "Low" 
+                } else { 
+                    $riskLevel = "Minimal" 
+                }
+                
+                # Generate tree visualization for this group's hierarchy
+                $treeStructure = ""
+                if ($GroupHierarchy[$group.Name].Parents.Count -eq 0) {
+                    $treeStructure = Get-TreePath $group.Name
+                } else {
+                    $treeStructure = "Child of: " + ($GroupHierarchy[$group.Name].Parents -join ", ")
+                }
+                
+                # Security and management recommendations
+                $recommendation = ""
+                if ($nestingLevel -eq 999) { 
+                    $recommendation = "IMMEDIATE ACTION: Resolve circular group membership to prevent authentication issues" 
+                } elseif ($nestingLevel -gt 5) { 
+                    $recommendation = "Review deep nesting structure - exceeds recommended depth of 5 levels" 
+                } elseif ($totalConnections -gt 15) { 
+                    $recommendation = "Simplify group interconnections - high complexity affects performance and auditing" 
+                } elseif ($nestingLevel -gt 3) { 
+                    $recommendation = "Consider flattening group structure for better management" 
+                } else { 
+                    $recommendation = "Monitor for permission inheritance complexity" 
+                }
+                
+                # Determine management complexity
+                $managementComplexity = ""
+                if ($totalConnections -gt 10) { 
+                    $managementComplexity = "High - Difficult to manage" 
+                } elseif ($totalConnections -gt 5) { 
+                    $managementComplexity = "Medium - Requires attention" 
+                } else { 
+                    $managementComplexity = "Low - Manageable" 
+                }
+                
+                # Calculate age in days
+                $ageInDays = 0
+                if ($group.whenCreated) { 
+                    $ageInDays = [int][math]::Round((New-TimeSpan -Start $group.whenCreated -End (Get-Date)).TotalDays)
+                }
+                
+                # Format when created
+                $whenCreatedFormatted = ""
+                if ($group.whenCreated) { 
+                    $whenCreatedFormatted = $group.whenCreated.ToString("dd.MM.yyyy HH:mm") 
+                } else { 
+                    $whenCreatedFormatted = "Unknown" 
+                }
+                
+                # Build comprehensive result object
+                $groupResult = [PSCustomObject]@{
+                    TreeStructure = [string]$treeStructure
+                    GroupName = [string]$group.Name
+                    GroupCategory = [string]$group.GroupCategory
+                    NestingLevel = [int]$nestingLevel
+                    ParentGroups = [int]$group.MemberOf.Count
+                    ChildGroups = [int]$GroupHierarchy[$group.Name].Children.Count
+                    TotalInterconnections = [int]$totalConnections
+                    ParentGroupNames = [string](($GroupHierarchy[$group.Name].Parents | Select-Object -First 5) -join "; ")
+                    ChildGroupNames = [string](($GroupHierarchy[$group.Name].Children | Select-Object -First 5) -join "; ")
+                    RiskLevel = [string]$riskLevel
+                    SecurityImpact = [string]"Complex nesting creates inheritance chains affecting access control and audit trails"
+                    ManagementComplexity = [string]$managementComplexity
+                    Recommendation = [string]$recommendation
+                    WhenCreated = $whenCreatedFormatted
+                    AgeInDays = $ageInDays
+                }
+                
+                $null = $NestedGroupResults.Add($groupResult)
+            }
+        }
+        
+        # Sort results by complexity (nesting level, then total connections)
+        $SortedResults = $NestedGroupResults | Sort-Object @{
+            Expression = { 
+                if ($_.NestingLevel -eq 999) { 
+                    1000 
+                } else { 
+                    $_.NestingLevel 
+                } 
+            }
+        }, TotalInterconnections -Descending
+        
+        # Generate summary statistics
+        $totalNested = $SortedResults.Count
+        $criticalCount = ($SortedResults | Where-Object { $_.RiskLevel -like "Critical*" }).Count
+        $highRiskCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "High" }).Count
+        $maxNestingLevel = 0
+        $maxNestingLevelResult = $SortedResults | Where-Object { $_.NestingLevel -ne 999 } | Measure-Object NestingLevel -Maximum
+        if ($maxNestingLevelResult.Maximum) {
+            $maxNestingLevel = $maxNestingLevelResult.Maximum
+        }
+        $circularRefs = ($SortedResults | Where-Object { $_.NestingLevel -eq 999 }).Count
+        
+        Write-ADReportLog -Message "Nested group analysis completed. Found $totalNested groups with nesting relationships." -Type Info -Terminal
+        Write-ADReportLog -Message "Complexity Analysis - Maximum nesting depth: $maxNestingLevel levels, Critical issues: $criticalCount, High risk: $highRiskCount" -Type Info -Terminal
+        if ($circularRefs -gt 0) {
+            Write-ADReportLog -Message "WARNING: $circularRefs circular group references detected - immediate attention required!" -Type Warning -Terminal
+        }
+        Write-ADReportLog -Message "Tree structure visualization included for hierarchy mapping and security audit trails." -Type Info -Terminal
+        
+        return $SortedResults
     } catch {
-        Write-ADReportLog -Message "Error analyzing nested groups: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error analyzing nested group structure: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
-
 # --- Neue Roadmap Features - Computer-Reports ---
 Function Get-OSSummary {
     [CmdletBinding()]
@@ -5267,7 +7103,7 @@ Function Get-OSSummary {
 }
 
 
-# --- Neue Roadmap Features - Service Account Reports ---
+# --- Service Account Reports ---
 Function Get-ServiceAccountsOverview {
     [CmdletBinding()]
     param()
@@ -5275,25 +7111,100 @@ Function Get-ServiceAccountsOverview {
     try {
         Write-ADReportLog -Message "Generating comprehensive Service Accounts overview..." -Type Info -Terminal
         
-        # Service Accounts identifizieren durch verschiedene Kriterien
+        # Identify service accounts through various criteria
         $PotentialServiceAccounts = @()
         
-        # 1. Accounts mit Service-Ã¤hnlichen Namen
-        $NameBasedSvcAccounts = Get-ADUser -Filter "(Name -like '*svc*') -or (Name -like '*service*') -or (Name -like '*sql*') -or (Name -like '*iis*') -or (Name -like '*app*') -or (Name -like '*web*')" -Properties Description, LastLogonDate, PasswordLastSet, ServicePrincipalName, PasswordNeverExpires, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
-        $PotentialServiceAccounts += $NameBasedSvcAccounts
+        # 1. Name-based identification (common service account naming patterns)
+        $NamePatterns = @(
+            '*svc*', '*service*', '*sql*', '*iis*', '*app*', '*web*', '*batch*', '*task*', 
+            '*auto*', '*sched*', '*daemon*', '*system*', '*admin*', '*db*', '*database*',
+            'Administrator', 'krbtgt', '*admin*' # Hinzugefügt: Standard Admin und Kerberos Ticket Granting Account
+        )
         
-        # 2. Accounts mit SPNs (Service Principal Names)
-        $SPNAccounts = Get-ADUser -Filter "ServicePrincipalName -like '*'" -Properties Description, LastLogonDate, PasswordLastSet, ServicePrincipalName, PasswordNeverExpires, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
-        $PotentialServiceAccounts += $SPNAccounts
+        # Get all users and filter afterwards to avoid multiple AD queries
+        $AllUsers = Get-ADUser -Filter * -Properties Description, LastLogonDate, 
+            PasswordLastSet, ServicePrincipalName, PasswordNeverExpires, Enabled, whenCreated, 
+            Department, AccountExpirationDate, LockedOut, BadLogonCount -ErrorAction Stop
+            
+        # Spezielle AD-Konten direkt hinzufügen
+        $SpecialAccounts = $AllUsers | Where-Object { 
+            $_.SamAccountName -eq "Administrator" -or 
+            $_.SamAccountName -eq "krbtgt" -or
+            $_.SamAccountName -like "*admin*"
+        }
+        foreach($specialAccount in $SpecialAccounts) {
+            if($specialAccount -notin $PotentialServiceAccounts) {
+                $PotentialServiceAccounts += $specialAccount
+                Write-ADReportLog -Message "Found special account: $($specialAccount.Name)" -Type Info
+            }
+        }
+            
+        # Name pattern matching
+        foreach($pattern in $NamePatterns) {
+            $matchedUsers = $AllUsers | Where-Object { $_.Name -like $pattern }
+            foreach($user in $matchedUsers) {
+                if($user -notin $PotentialServiceAccounts) {
+                    $PotentialServiceAccounts += $user
+                    Write-ADReportLog -Message "Account '$($user.Name)' matched name pattern '$pattern'" -Type Info
+                }
+            }
+        }
         
-        # 3. Accounts mit service-bezogenen Beschreibungen
-        $DescBasedSvcAccounts = Get-ADUser -Filter "Description -like '*service*' -or Description -like '*application*' -or Description -like '*sql*' -or Description -like '*database*'" -Properties Description, LastLogonDate, PasswordLastSet, ServicePrincipalName, PasswordNeverExpires, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
-        $PotentialServiceAccounts += $DescBasedSvcAccounts
+        # SPN check
+        $SPNAccounts = $AllUsers | Where-Object { $_.ServicePrincipalName.Count -gt 0 }
+        foreach($user in $SPNAccounts) {
+            if($user -notin $PotentialServiceAccounts) {
+                $PotentialServiceAccounts += $user
+                Write-ADReportLog -Message "Account '$($user.Name)' has $($user.ServicePrincipalName.Count) SPNs" -Type Info
+            }
+        }
         
-        # Duplikate entfernen
-        $UniqueServiceAccounts = $PotentialServiceAccounts | Sort-Object DistinguishedName | Get-Unique -AsString
+        # Description pattern matching
+        $DescriptionPatterns = @(
+            '*service*', '*application*', '*sql*', '*database*', '*automated*', '*system*',
+            '*batch*', '*scheduled*', '*task*', '*daemon*', '*process*', '*admin*'
+        )
         
-        $Results = foreach ($account in $UniqueServiceAccounts) {
+        foreach($pattern in $DescriptionPatterns) {
+            $matchedUsers = $AllUsers | Where-Object { $_.Description -like $pattern }
+            foreach($user in $matchedUsers) {
+                if($user -notin $PotentialServiceAccounts) {
+                    $PotentialServiceAccounts += $user
+                    Write-ADReportLog -Message "Account '$($user.Name)' matched description pattern '$pattern'" -Type Info
+                }
+            }
+        }
+
+        # Return template for no results
+        if ($PotentialServiceAccounts.Count -eq 0) {
+            Write-ADReportLog -Message "No service accounts found in the domain" -Type Info -Terminal
+            return @(
+                [PSCustomObject]@{
+                    Name = "No Service Accounts"
+                    SamAccountName = "N/A"
+                    Description = "No service accounts were found in the Active Directory domain"
+                    Department = "N/A"
+                    Enabled = $false
+                    LastLogonDate = "N/A"
+                    DaysSinceLastLogon = 0
+                    PasswordLastSet = "N/A"
+                    DaysSincePasswordChange = 0
+                    PasswordNeverExpires = $false
+                    HasSPN = $false
+                    SPNCount = 0
+                    RiskLevel = "N/A"
+                    RiskFactors = "No service accounts to analyze"
+                    WhenCreated = "N/A"
+                    DetectionReason = "No service accounts detected"
+                    AccountExpiration = "N/A"
+                    IsLocked = $false
+                    BadLogonCount = 0
+                }
+            )
+        }
+        
+        # Process each account
+        $Results = foreach ($account in $PotentialServiceAccounts) {
             $daysSincePasswordChange = if ($account.PasswordLastSet) { 
                 (New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days 
             } else { 9999 }
@@ -5302,21 +7213,85 @@ Function Get-ServiceAccountsOverview {
                 (New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).Days 
             } else { 9999 }
             
-            # Risk Assessment
+            # Enhanced risk assessment
             $riskScore = 0
-            $riskFactors = @()
+            $riskFactors = [System.Collections.ArrayList]@()
             
-            if ($daysSincePasswordChange -gt 365) { $riskScore += 3; $riskFactors += "Old Password" }
-            if ($account.PasswordNeverExpires) { $riskScore += 2; $riskFactors += "Password Never Expires" }
-            if ($daysSinceLastLogon -gt 90) { $riskScore += 2; $riskFactors += "Inactive" }
-            if ($account.ServicePrincipalName.Count -gt 0) { $riskScore += 1; $riskFactors += "Has SPN" }
-            if ($account.Enabled -eq $false) { $riskScore -= 2; $riskFactors += "Disabled" }
+            # Special account risks
+            if ($account.SamAccountName -eq "Administrator" -or $account.SamAccountName -eq "krbtgt") {
+                $riskScore += 4
+                [void]$riskFactors.Add("Built-in privileged account")
+            }
             
+            # Password-related risks
+            if ($daysSincePasswordChange -gt 365) { 
+                $riskScore += 3
+                [void]$riskFactors.Add("Password not changed for $daysSincePasswordChange days")
+            }
+            if ($account.PasswordNeverExpires) { 
+                $riskScore += 2
+                [void]$riskFactors.Add("Password never expires")
+            }
+            
+            # Activity-related risks
+            if ($daysSinceLastLogon -gt 90) { 
+                $riskScore += 2
+                [void]$riskFactors.Add("No logon for $daysSinceLastLogon days")
+            }
+            if ($account.BadLogonCount -gt 5) {
+                $riskScore += 2
+                [void]$riskFactors.Add("High failed login count: $($account.BadLogonCount)")
+            }
+            if ($account.LockedOut) {
+                $riskScore += 2
+                [void]$riskFactors.Add("Account is locked out")
+            }
+            
+            # SPN-related risks
+            if ($account.ServicePrincipalName.Count -gt 0) { 
+                $riskScore += 1
+                [void]$riskFactors.Add("Has $($account.ServicePrincipalName.Count) SPNs")
+            }
+            
+            # Account state risks
+            if (-not $account.Enabled) { 
+                $riskScore -= 2
+                [void]$riskFactors.Add("Account disabled")
+            }
+            
+            # Risk level classification
             $riskLevel = switch ($riskScore) {
-                {$_ -ge 5} { "High" }
-                {$_ -ge 3} { "Medium" }
-                {$_ -ge 1} { "Low" }
-                default { "Minimal" }
+                { $_ -ge 6 } { "Critical"; break }
+                { $_ -ge 4 } { "High"; break }
+                { $_ -ge 2 } { "Medium"; break }
+                default { "Low" }
+            }
+
+            # Detection reasoning with detailed patterns
+            $detectionReason = [System.Collections.ArrayList]@()
+            
+            # Special account detection
+            if ($account.SamAccountName -eq "Administrator" -or $account.SamAccountName -eq "krbtgt") {
+                [void]$detectionReason.Add("Built-in privileged account")
+            }
+            
+            # Name pattern matches
+            foreach($pattern in $NamePatterns) {
+                if($account.Name -like $pattern) {
+                    [void]$detectionReason.Add("Name matches pattern '$pattern'")
+                }
+            }
+            
+            # SPN check
+            if ($account.ServicePrincipalName.Count -gt 0) {
+                [void]$detectionReason.Add("Has $($account.ServicePrincipalName.Count) Service Principal Names")
+            }
+            
+            # Description pattern matches
+            foreach($pattern in $DescriptionPatterns) {
+                if($account.Description -like $pattern) {
+                    [void]$detectionReason.Add("Description matches pattern '$pattern'")
+                }
             }
             
             [PSCustomObject]@{
@@ -5333,16 +7308,49 @@ Function Get-ServiceAccountsOverview {
                 HasSPN = $account.ServicePrincipalName.Count -gt 0
                 SPNCount = $account.ServicePrincipalName.Count
                 RiskLevel = $riskLevel
-                RiskFactors = $riskFactors -join ", "
+                RiskFactors = ($riskFactors -join " | ")
                 WhenCreated = $account.whenCreated
+                DetectionReason = ($detectionReason -join " | ")
+                AccountExpiration = if ($account.AccountExpirationDate) { $account.AccountExpirationDate } else { "Never" }
+                IsLocked = $account.LockedOut
+                BadLogonCount = $account.BadLogonCount
             }
         }
         
-        Write-ADReportLog -Message "Service Accounts overview completed. $($Results.Count) accounts found." -Type Info -Terminal
-        return $Results | Sort-Object RiskLevel, DaysSincePasswordChange -Descending
+        Write-ADReportLog -Message "Service Accounts overview completed. Found $($Results.Count) potential service accounts." -Type Info -Terminal
+        return $Results | Sort-Object { switch ($_.RiskLevel) {
+            'Critical' { 4 }
+            'High' { 3 }
+            'Medium' { 2 }
+            'Low' { 1 }
+            default { 0 }
+        }} -Descending
+        
     } catch {
         Write-ADReportLog -Message "Error analyzing service accounts: $($_.Exception.Message)" -Type Error
-        return @()
+        return @(
+            [PSCustomObject]@{
+                Name = "Error"
+                SamAccountName = "N/A"
+                Description = "Error: $($_.Exception.Message)"
+                Department = "N/A"
+                Enabled = $false
+                LastLogonDate = "N/A"
+                DaysSinceLastLogon = 0
+                PasswordLastSet = "N/A"
+                DaysSincePasswordChange = 0
+                PasswordNeverExpires = $false
+                HasSPN = $false
+                SPNCount = 0
+                RiskLevel = "Error"
+                RiskFactors = "Analysis failed"
+                WhenCreated = "N/A"
+                DetectionReason = "Error during detection"
+                AccountExpiration = "N/A"
+                IsLocked = $false
+                BadLogonCount = 0
+            }
+        )
     }
 }
 
@@ -5376,125 +7384,1156 @@ Function Get-ManagedServiceAccounts {
     }
 }
 
+Function Get-CompromiseIndicators {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing compromise indicators..." -Type Info -Terminal
+        
+        $Results = @()
+        $ProcessedAccounts = @() # Track processed accounts to avoid duplicates
+        
+        # Header entry for tree structure
+        $Results += [PSCustomObject]@{
+            TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS"
+            AccountName = "Security Assessment Overview"
+            DisplayName = "Active Directory Compromise Detection"
+            IndicatorType = "Analysis Report"
+            Details = "Comprehensive security indicator analysis initiated"
+            Severity = "Info"
+            RiskLevel = "Info"
+            SecurityImpact = "Scanning for potential security compromises"
+            Recommendation = "Review all findings and investigate high-risk indicators immediately"
+            ComplianceNote = "Security monitoring and incident response procedures"
+            Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+        }
+        
+        # 1. After-hours login analysis
+        try {
+            Write-ADReportLog -Message "Analyzing unusual login times..." -Type Info
+            $AfterHoursLogons = Get-ADUser -Filter * -Properties LastLogonDate, BadLogonCount, LockedOut, PasswordLastSet, whenCreated, DisplayName, Department -ErrorAction SilentlyContinue | 
+                Where-Object { 
+                    $null -ne $_.LastLogonDate -and
+                    $_.LastLogonDate -is [datetime] -and
+                    ($_.LastLogonDate.Hour -lt 6 -or $_.LastLogonDate.Hour -gt 20) -and
+                    $_.LastLogonDate -gt (Get-Date).AddDays(-30) -and  # Only recent after-hours logins
+                    $_.SamAccountName -notin $ProcessedAccounts
+                }
+            
+            if ($AfterHoursLogons) {
+                foreach ($user in $AfterHoursLogons) {
+                    $ProcessedAccounts += $user.SamAccountName
+                    $lastLogonStr = if ($null -ne $user.LastLogonDate) { $user.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss") } else { "Unknown" }
+                    $riskLevel = if ($user.LastLogonDate.Hour -lt 3 -or $user.LastLogonDate.Hour -gt 23) { "High" } else { "Medium" }
+                    
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🕒 Unusual Login Times ► $($user.SamAccountName)"
+                        AccountName = $user.SamAccountName
+                        DisplayName = $(if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName })
+                        IndicatorType = "After-Hours Login Activity"
+                        Details = "Login at: $lastLogonStr (outside business hours 06:00-20:00)"
+                        Severity = $riskLevel
+                        RiskLevel = $riskLevel
+                        SecurityImpact = "Potential unauthorized access or compromised credentials"
+                        Recommendation = "Verify login legitimacy with user and review access logs for additional suspicious activity"
+                        ComplianceNote = "Monitor for patterns of after-hours access"
+                        Timestamp = $lastLogonStr
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🕒 Unusual Login Times"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No After-Hours Logins"
+                    IndicatorType = "Login Time Analysis"
+                    Details = "No after-hours login activity detected in the last 30 days"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "No security concerns identified"
+                    Recommendation = "Continue monitoring login patterns"
+                    ComplianceNote = "Good - No unusual login times detected"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing after-hours logins: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 2. Failed login attempts analysis
+        try {
+            Write-ADReportLog -Message "Analyzing failed login attempts..." -Type Info
+            $HighBadLogonCount = Get-ADUser -Filter "BadLogonCount -gt 5" -Properties BadLogonCount, LastLogonDate, LockedOut, DisplayName, Department, whenCreated -ErrorAction SilentlyContinue |
+                Where-Object { $_.SamAccountName -notin $ProcessedAccounts }
+            
+            if ($HighBadLogonCount) {
+                foreach ($user in $HighBadLogonCount) {
+                    $ProcessedAccounts += $user.SamAccountName
+                    $riskLevel = switch ($user.BadLogonCount) {
+                        {$_ -gt 20} { "Critical" }
+                        {$_ -gt 10} { "High" }
+                        default { "Medium" }
+                    }
+                    
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🚫 Failed Login Attempts ► $($user.SamAccountName)"
+                        AccountName = $user.SamAccountName
+                        DisplayName = $(if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName })
+                        IndicatorType = "Excessive Failed Login Attempts"
+                        Details = "Failed login attempts: $($user.BadLogonCount) | Account locked: $(if ($user.LockedOut) {'Yes'} else {'No'})"
+                        Severity = $riskLevel
+                        RiskLevel = $riskLevel
+                        SecurityImpact = "Possible brute force attack or password guessing attempt"
+                        Recommendation = "Investigate source of failed attempts, consider account lockout policies, and verify user identity"
+                        ComplianceNote = "Monitor for coordinated attacks across multiple accounts"
+                        Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🚫 Failed Login Attempts"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Excessive Failed Logins"
+                    IndicatorType = "Failed Login Analysis"
+                    Details = "No accounts with excessive failed login attempts (>5) detected"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "No brute force indicators identified"
+                    Recommendation = "Continue monitoring failed login patterns"
+                    ComplianceNote = "Good - No excessive failed login attempts"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing failed login attempts: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 3. Suspicious password changes
+        try {
+            Write-ADReportLog -Message "Analyzing suspicious password changes..." -Type Info
+            $SuspiciousPasswordChanges = Get-ADUser -Filter * -Properties PasswordLastSet, LastLogonDate, whenCreated, DisplayName, Department -ErrorAction SilentlyContinue |
+                Where-Object {
+                    $null -ne $_.PasswordLastSet -and 
+                    $null -ne $_.LastLogonDate -and
+                    $_.PasswordLastSet -gt (Get-Date).AddDays(-7) -and
+                    $_.LastLogonDate -lt (Get-Date).AddDays(-90) -and
+                    $_.SamAccountName -notin $ProcessedAccounts
+                }
+            
+            if ($SuspiciousPasswordChanges) {
+                foreach ($user in $SuspiciousPasswordChanges) {
+                    $ProcessedAccounts += $user.SamAccountName
+                    $daysSinceLastLogon = [math]::Round(((Get-Date) - $user.LastLogonDate).TotalDays)
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🔑 Suspicious Password Changes ► $($user.SamAccountName)"
+                        AccountName = $user.SamAccountName
+                        DisplayName = $(if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName })
+                        IndicatorType = "Password Change After Long Inactivity"
+                        Details = "Password changed recently but last login was $daysSinceLastLogon days ago"
+                        Severity = "High"
+                        RiskLevel = "High"
+                        SecurityImpact = "Possible account takeover or unauthorized password reset"
+                        Recommendation = "Verify password change legitimacy with user and check for unauthorized access"
+                        ComplianceNote = "Investigate password change authorization and method"
+                        Timestamp = $user.PasswordLastSet.ToString("yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🔑 Suspicious Password Changes"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Suspicious Password Changes"
+                    IndicatorType = "Password Change Analysis"
+                    Details = "No suspicious password change patterns detected"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "No unauthorized password changes identified"
+                    Recommendation = "Continue monitoring password change patterns"
+                    ComplianceNote = "Good - No suspicious password activity"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing password changes: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 4. Service account interactive logins
+        try {
+            Write-ADReportLog -Message "Analyzing service account activities..." -Type Info
+            $SuspiciousServiceAccounts = Get-ADUser -Filter "Name -like '*svc*' -or Name -like '*service*' -or Name -like '*srv*' -or Name -like '*dienst*'" -Properties LastLogonDate, PasswordLastSet, DisplayName, ServicePrincipalNames, UserAccountControl -ErrorAction SilentlyContinue |
+                Where-Object { 
+                    $null -ne $_.LastLogonDate -and 
+                    $_.LastLogonDate -gt (Get-Date).AddDays(-7) -and
+                    -not ($_.UserAccountControl -band 0x0200) -and  # Not a computer account
+                    $_.SamAccountName -notin $ProcessedAccounts
+                }
+            
+            if ($SuspiciousServiceAccounts) {
+                foreach ($user in $SuspiciousServiceAccounts) {
+                    $ProcessedAccounts += $user.SamAccountName
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🛠️ Service Account Activity ► $($user.SamAccountName)"
+                        AccountName = $user.SamAccountName
+                        DisplayName = $(if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName })
+                        IndicatorType = "Service Account Interactive Login"
+                        Details = "Service account logged in interactively on $($user.LastLogonDate.ToString('yyyy-MM-dd HH:mm:ss'))"
+                        Severity = "High"
+                        RiskLevel = "High"
+                        SecurityImpact = "Service accounts should not log in interactively - possible compromise"
+                        Recommendation = "Verify legitimacy of interactive login and review service account security"
+                        ComplianceNote = "Service accounts should only be used for automated processes"
+                        Timestamp = $user.LastLogonDate.ToString("yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🛠️ Service Account Activity"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Service Account Interactive Logins"
+                    IndicatorType = "Service Account Analysis"
+                    Details = "No interactive logins detected from service accounts"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "Service accounts are being used appropriately"
+                    Recommendation = "Continue monitoring service account usage"
+                    ComplianceNote = "Good - Service accounts not used interactively"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing service accounts: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 5. Recently created privileged accounts
+        try {
+            Write-ADReportLog -Message "Analyzing recently created privileged accounts..." -Type Info
+            $RecentPrivilegedAccounts = @()
+            
+            # Check for recently created accounts in privileged groups (German and English names)
+            $PrivilegedGroupNames = @(
+                "Domain Admins", "Domänen-Admins",
+                "Enterprise Admins", "Organisations-Admins", 
+                "Schema Admins", "Schema-Admins",
+                "Administrators", "Administratoren",
+                "Account Operators", "Konten-Operatoren",
+                "Backup Operators", "Sicherungs-Operatoren",
+                "Server Operators", "Server-Operatoren",
+                "Print Operators", "Druck-Operatoren"
+            )
+            
+            foreach ($groupName in $PrivilegedGroupNames) {
+                try {
+                    $group = Get-ADGroup -Filter "Name -eq '$groupName'" -ErrorAction SilentlyContinue
+                    if ($group) {
+                        $members = Get-ADGroupMember -Identity $group -ErrorAction SilentlyContinue | 
+                            Where-Object { $_.objectClass -eq "user" }
+                        
+                        foreach ($member in $members) {
+                            try {
+                                if ($member.SamAccountName -notin $ProcessedAccounts) {
+                                    $user = Get-ADUser -Identity $member.SamAccountName -Properties whenCreated, DisplayName -ErrorAction SilentlyContinue
+                                    if ($user -and $user.whenCreated -gt (Get-Date).AddDays(-30)) {
+                                        $ProcessedAccounts += $user.SamAccountName
+                                        $RecentPrivilegedAccounts += [PSCustomObject]@{
+                                            User = $user
+                                            Group = $group.Name
+                                            Created = $user.whenCreated
+                                        }
+                                    }
+                                }
+                            } catch {
+                                # Continue with next member
+                            }
+                        }
+                    }
+                } catch {
+                    # Continue with next group
+                }
+            }
+            
+            if ($RecentPrivilegedAccounts) {
+                foreach ($account in $RecentPrivilegedAccounts) {
+                    $daysOld = [math]::Round(((Get-Date) - $account.Created).TotalDays)
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 👑 Recent Privileged Accounts ► $($account.User.SamAccountName)"
+                        AccountName = $account.User.SamAccountName
+                        DisplayName = $(if ($account.User.DisplayName) { $account.User.DisplayName } else { $account.User.SamAccountName })
+                        IndicatorType = "Recently Created Privileged Account"
+                        Details = "Created $daysOld days ago and added to '$($account.Group)' group"
+                        Severity = "Medium"
+                        RiskLevel = "Medium"
+                        SecurityImpact = "New privileged accounts require verification and monitoring"
+                        Recommendation = "Verify business justification for privileged access and review approval process"
+                        ComplianceNote = "All privileged account creation should be documented and approved"
+                        Timestamp = $account.Created.ToString("yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 👑 Recent Privileged Accounts"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Recent Privileged Accounts"
+                    IndicatorType = "Privileged Account Analysis"
+                    Details = "No recently created privileged accounts detected in the last 30 days"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "No unexpected privileged account creation"
+                    Recommendation = "Continue monitoring privileged account creation"
+                    ComplianceNote = "Good - No unauthorized privileged account creation"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing recent privileged accounts: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 6. Dormant accounts with privileges (Trimarc recommendation)
+        try {
+            Write-ADReportLog -Message "Analyzing dormant privileged accounts..." -Type Info
+            $DormantPrivilegedAccounts = @()
+            
+            foreach ($groupName in $PrivilegedGroupNames) {
+                try {
+                    $group = Get-ADGroup -Filter "Name -eq '$groupName'" -ErrorAction SilentlyContinue
+                    if ($group) {
+                        $members = Get-ADGroupMember -Identity $group -ErrorAction SilentlyContinue | 
+                            Where-Object { $_.objectClass -eq "user" }
+                        
+                        foreach ($member in $members) {
+                            try {
+                                if ($member.SamAccountName -notin $ProcessedAccounts) {
+                                    $user = Get-ADUser -Identity $member.SamAccountName -Properties LastLogonDate, DisplayName, PasswordLastSet -ErrorAction SilentlyContinue
+                                    if ($user -and (($null -eq $user.LastLogonDate) -or ($user.LastLogonDate -lt (Get-Date).AddDays(-90)))) {
+                                        $ProcessedAccounts += $user.SamAccountName
+                                        $DormantPrivilegedAccounts += [PSCustomObject]@{
+                                            User = $user
+                                            Group = $group.Name
+                                            LastLogon = $user.LastLogonDate
+                                        }
+                                    }
+                                }
+                            } catch {
+                                # Continue with next member
+                            }
+                        }
+                    }
+                } catch {
+                    # Continue with next group
+                }
+            }
+            
+            if ($DormantPrivilegedAccounts) {
+                foreach ($account in $DormantPrivilegedAccounts) {
+                    $daysSinceLogon = if ($account.LastLogon) { [math]::Round(((Get-Date) - $account.LastLogon).TotalDays) } else { "Never" }
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 💤 Dormant Privileged Accounts ► $($account.User.SamAccountName)"
+                        AccountName = $account.User.SamAccountName
+                        DisplayName = $(if ($account.User.DisplayName) { $account.User.DisplayName } else { $account.User.SamAccountName })
+                        IndicatorType = "Dormant Privileged Account"
+                        Details = "Privileged account in '$($account.Group)' - Last logon: $daysSinceLogon days ago"
+                        Severity = "High"
+                        RiskLevel = "High"
+                        SecurityImpact = "Dormant privileged accounts pose security risks if compromised"
+                        Recommendation = "Disable or remove unused privileged accounts and review access regularly"
+                        ComplianceNote = "Privileged accounts should be actively monitored and unused accounts removed"
+                        Timestamp = $(if ($account.LastLogon) { $account.LastLogon.ToString("yyyy-MM-dd HH:mm:ss") } else { "Never" })
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 💤 Dormant Privileged Accounts"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Dormant Privileged Accounts"
+                    IndicatorType = "Dormant Account Analysis"
+                    Details = "All privileged accounts show recent activity"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "Privileged accounts are being actively used"
+                    Recommendation = "Continue monitoring privileged account usage"
+                    ComplianceNote = "Good - No dormant privileged accounts found"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing dormant privileged accounts: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 7. Users with old passwords (Trimarc recommendation)
+        try {
+            Write-ADReportLog -Message "Analyzing accounts with old passwords..." -Type Info
+            $OldPasswordAccounts = Get-ADUser -Filter * -Properties PasswordLastSet, DisplayName, LastLogonDate -ErrorAction SilentlyContinue |
+                Where-Object {
+                    $null -ne $_.PasswordLastSet -and
+                    $_.PasswordLastSet -lt (Get-Date).AddDays(-365) -and
+                    $_.Enabled -eq $true -and
+                    $_.SamAccountName -notin $ProcessedAccounts
+                }
+            
+            if ($OldPasswordAccounts) {
+                foreach ($user in $OldPasswordAccounts) {
+                    $ProcessedAccounts += $user.SamAccountName
+                    $daysOld = [math]::Round(((Get-Date) - $user.PasswordLastSet).TotalDays)
+                    $riskLevel = if ($daysOld -gt 730) { "Critical" } elseif ($daysOld -gt 365) { "High" } else { "Medium" }
+                    
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🗓️ Old Passwords ► $($user.SamAccountName)"
+                        AccountName = $user.SamAccountName
+                        DisplayName = $(if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName })
+                        IndicatorType = "Extremely Old Password"
+                        Details = "Password is $daysOld days old (last changed: $($user.PasswordLastSet.ToString('yyyy-MM-dd')))"
+                        Severity = $riskLevel
+                        RiskLevel = $riskLevel
+                        SecurityImpact = "Old passwords increase risk of compromise through various attack vectors"
+                        Recommendation = "Force password change and implement stronger password policies"
+                        ComplianceNote = "Passwords should be changed regularly according to security policies"
+                        Timestamp = $user.PasswordLastSet.ToString("yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🗓️ Old Passwords"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Extremely Old Passwords"
+                    IndicatorType = "Password Age Analysis"
+                    Details = "No passwords older than 1 year detected"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "Password policies appear to be working effectively"
+                    Recommendation = "Continue monitoring password ages and enforcing policies"
+                    ComplianceNote = "Good - No extremely old passwords found"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing old passwords: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # 8. Accounts with reversible encryption (Trimarc recommendation)
+        try {
+            Write-ADReportLog -Message "Analyzing accounts with reversible encryption..." -Type Info
+            $ReversibleEncryptionAccounts = Get-ADUser -Filter {UserAccountControl -band 0x0080} -Properties DisplayName, PasswordLastSet -ErrorAction SilentlyContinue |
+                Where-Object { $_.SamAccountName -notin $ProcessedAccounts }
+            
+            if ($ReversibleEncryptionAccounts) {
+                foreach ($user in $ReversibleEncryptionAccounts) {
+                    $ProcessedAccounts += $user.SamAccountName
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🔓 Reversible Encryption ► $($user.SamAccountName)"
+                        AccountName = $user.SamAccountName
+                        DisplayName = $(if ($user.DisplayName) { $user.DisplayName } else { $user.SamAccountName })
+                        IndicatorType = "Reversible Password Encryption"
+                        Details = "Account has reversible password encryption enabled - passwords stored in cleartext equivalent"
+                        Severity = "Critical"
+                        RiskLevel = "Critical"
+                        SecurityImpact = "Password can be easily retrieved in cleartext format"
+                        Recommendation = "Disable reversible encryption immediately and force password change"
+                        ComplianceNote = "Reversible encryption violates security best practices"
+                        Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            } else {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 🔓 Reversible Encryption"
+                    AccountName = "No Issues Found"
+                    DisplayName = "Clean - No Reversible Encryption"
+                    IndicatorType = "Encryption Analysis"
+                    Details = "No accounts with reversible password encryption detected"
+                    Severity = "Low"
+                    RiskLevel = "Low"
+                    SecurityImpact = "Password storage security is appropriate"
+                    Recommendation = "Continue monitoring for reversible encryption settings"
+                    ComplianceNote = "Good - No reversible encryption found"
+                    Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error analyzing reversible encryption: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # Summary statistics
+        $criticalCount = ($Results | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+        $highCount = ($Results | Where-Object { $_.RiskLevel -eq "High" }).Count
+        $mediumCount = ($Results | Where-Object { $_.RiskLevel -eq "Medium" }).Count
+        $lowCount = ($Results | Where-Object { $_.RiskLevel -eq "Low" }).Count
+        
+        Write-ADReportLog -Message "Compromise indicators analysis completed. Found $criticalCount critical, $highCount high, $mediumCount medium, and $lowCount low risk indicators." -Type Info -Terminal
+        
+        # Add summary entry
+        $Results += [PSCustomObject]@{
+            TreeStructure = "🔍 COMPROMISE INDICATORS ANALYSIS ► 📊 Summary"
+            AccountName = "Analysis Summary"
+            DisplayName = "Security Assessment Results"
+            IndicatorType = "Summary Report"
+            Details = "Critical: $criticalCount | High: $highCount | Medium: $mediumCount | Low: $lowCount"
+            Severity = $(if ($criticalCount -gt 0) { "Critical" } elseif ($highCount -gt 0) { "High" } elseif ($mediumCount -gt 0) { "Medium" } else { "Low" })
+            RiskLevel = $(if ($criticalCount -gt 0) { "Critical" } elseif ($highCount -gt 0) { "High" } elseif ($mediumCount -gt 0) { "Medium" } else { "Low" })
+            SecurityImpact = "Overall security posture assessment based on compromise indicators"
+            Recommendation = $(if ($criticalCount -gt 0 -or $highCount -gt 0) { "Immediate attention required for high-risk findings" } else { "Continue monitoring and maintaining current security practices" })
+            ComplianceNote = "Regular security assessments help maintain AD security posture"
+            Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+        }
+        
+        return $Results | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    "Info" { 5 }
+                    default { 6 }
+                }
+            }
+        }, TreeStructure
+        
+    } catch {
+        $ErrorMessage = "Error during compromise indicators analysis: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
+        
+        return @([PSCustomObject]@{
+            TreeStructure = "❌ COMPROMISE INDICATORS ANALYSIS ► Error"
+            AccountName = "Analysis Failed"
+            DisplayName = "Error during security analysis"
+            IndicatorType = "System Error"
+            Details = $ErrorMessage
+            Severity = "Critical"
+            RiskLevel = "Critical"
+            SecurityImpact = "Unable to assess compromise indicators - security status unknown"
+            Recommendation = "Retry analysis with appropriate permissions and check system connectivity"
+            ComplianceNote = "Security analysis failure requires immediate attention"
+            Timestamp = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+        })
+    }
+}
+
+Function Get-SecurityDashboard {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Creating security assessment dashboard..." -Type Info -Terminal
+        
+        $SecurityMetrics = [System.Collections.ArrayList]::new()
+        
+        # 1. Password Security
+        $TotalUsers = (Get-ADUser -Filter * -ErrorAction SilentlyContinue | Measure-Object).Count
+        $PasswordNeverExpires = (Get-ADUser -Filter "PasswordNeverExpires -eq 'True'" -ErrorAction SilentlyContinue | Measure-Object).Count
+        $ExpiredPasswords = (Get-ADUser -Filter "PasswordExpired -eq 'True'" -ErrorAction SilentlyContinue | Measure-Object).Count
+        $ReversibleEncryption = (Get-ADUser -Filter {UserAccountControl -band 0x0080} -ErrorAction SilentlyContinue | Measure-Object).Count
+        $PasswordNotRequired = (Get-ADUser -Filter {UserAccountControl -band 0x0020} -ErrorAction SilentlyContinue | Measure-Object).Count
+        
+        # Fix for PasswordLastSet filter syntax
+        $cutoffDate = (Get-Date).AddDays(-90)
+        $WeakPasswords = (Get-ADUser -Filter * -Properties PasswordLastSet -ErrorAction SilentlyContinue | 
+            Where-Object { $_.PasswordLastSet -lt $cutoffDate } | 
+            Measure-Object).Count
+        
+        $PasswordScore = 100
+        if ($TotalUsers -gt 0) {
+            $PasswordScore -= [math]::Round(($PasswordNeverExpires / $TotalUsers) * 25)
+            $PasswordScore -= [math]::Round(($ExpiredPasswords / $TotalUsers) * 15)
+            $PasswordScore -= [math]::Round(($ReversibleEncryption / $TotalUsers) * 30)
+            $PasswordScore -= [math]::Round(($PasswordNotRequired / $TotalUsers) * 30)
+            $PasswordScore -= [math]::Round(($WeakPasswords / $TotalUsers) * 20)
+        }
+        
+        $null = $SecurityMetrics.Add([PSCustomObject]@{
+            Category = "Password Security"
+            Score = [math]::Max(0, $PasswordScore)
+            Status = if ($PasswordScore -ge 80) { "Good" } elseif ($PasswordScore -ge 60) { "Fair" } else { "Critical" }
+            Details = "Issues found: $PasswordNeverExpires non-expiring, $ExpiredPasswords expired, $ReversibleEncryption reversible encryption, $PasswordNotRequired not required, $WeakPasswords weak passwords"
+            Recommendation = if ($PasswordScore -lt 80) { 
+                "Review password policies and implement stronger requirements. Consider enabling password complexity and expiration." 
+            } else { 
+                "Password policies are adequate" 
+            }
+            ChartData = @{
+                Labels = @("Non-expiring", "Expired", "Reversible", "Not Required", "Weak")
+                Values = @($PasswordNeverExpires, $ExpiredPasswords, $ReversibleEncryption, $PasswordNotRequired, $WeakPasswords)
+                Colors = @("#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF9F40")
+            }
+        })
+        
+        # 2. Account Security
+        $DisabledUsers = (Get-ADUser -Filter "Enabled -eq 'False'" -ErrorAction SilentlyContinue | Measure-Object).Count
+        $LockedUsers = (Search-ADAccount -LockedOut -UsersOnly -ErrorAction SilentlyContinue | Measure-Object).Count
+        $InactiveUsers = (Get-ADUser -Filter * -Properties LastLogonDate -ErrorAction SilentlyContinue | 
+            Where-Object { $_.LastLogonDate -and $_.LastLogonDate -lt (Get-Date).AddDays(-90) } | Measure-Object).Count
+        $KerberosDESUsers = (Get-ADUser -Filter {UserAccountControl -band 0x200000} -ErrorAction SilentlyContinue | Measure-Object).Count
+        $SmartcardNotRequired = (Get-ADUser -Filter {-not(UserAccountControl -band 0x40000)} -ErrorAction SilentlyContinue | Measure-Object).Count
+        
+        $AccountScore = 100
+        if ($TotalUsers -gt 0) {
+            $AccountScore -= [math]::Round(($InactiveUsers / $TotalUsers) * 30)
+            $AccountScore -= [math]::Round(($KerberosDESUsers / $TotalUsers) * 20)
+            $AccountScore -= [math]::Round(($SmartcardNotRequired / $TotalUsers) * 15)
+            if ($LockedUsers -gt 5) { $AccountScore -= 15 }
+        }
+        
+        $null = $SecurityMetrics.Add([PSCustomObject]@{
+            Category = "Account Management"
+            Score = [math]::Max(0, $AccountScore)
+            Status = if ($AccountScore -ge 80) { "Good" } elseif ($AccountScore -ge 60) { "Fair" } else { "Critical" }
+            Details = "$InactiveUsers inactive (>90 days), $LockedUsers locked, $KerberosDESUsers using DES encryption, $SmartcardNotRequired without smartcard"
+            Recommendation = if ($AccountScore -lt 80) { 
+                "Clean up inactive accounts, review security settings, and consider enforcing smartcard authentication" 
+            } else { 
+                "Account management is effective" 
+            }
+            ChartData = @{
+                Labels = @("Inactive", "Locked", "DES Encryption", "No Smartcard")
+                Values = @($InactiveUsers, $LockedUsers, $KerberosDESUsers, $SmartcardNotRequired)
+                Colors = @("#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0")
+            }
+        })
+        
+        # 3. Privileged Accounts with MFA Check
+        $AdminGroups = @(
+            $Global:ADGroupNames.DomainAdmins,
+            $Global:ADGroupNames.EnterpriseAdmins,
+            $Global:ADGroupNames.SchemaAdmins,
+            $Global:ADGroupNames.Administrators
+        )
+        
+        $PrivilegedUsers = 0
+        $ProtectedAdmins = 0
+        $AdminsWithoutMFA = 0
+        $AdminsWithWeakAuth = 0
+        
+        foreach ($groupName in $AdminGroups) {
+            try {
+                $group = Get-ADGroup -Filter "Name -eq '$groupName'" -ErrorAction SilentlyContinue
+                if ($group) {
+                    $members = Get-ADGroupMember -Identity $group -ErrorAction SilentlyContinue
+                    if ($members) { 
+                        $PrivilegedUsers += $members.Count
+                        
+                        foreach ($member in $members) {
+                            $user = Get-ADUser $member.SamAccountName -Properties UserAccountControl, msDS-AuthNPolicySiloMembersBL -ErrorAction SilentlyContinue
+                            
+                            # Check for Protected Admin status
+                            if ($user.UserAccountControl -band 0x1000000) {
+                                $ProtectedAdmins++
+                            }
+                            
+                            # Check for MFA enforcement
+                            if (-not ($user.UserAccountControl -band 0x40000) -and -not $user.'msDS-AuthNPolicySiloMembersBL') {
+                                $AdminsWithoutMFA++
+                            }
+                            
+                            # Check for weak authentication methods
+                            if ($user.UserAccountControl -band 0x80000) { # DONT_REQ_PREAUTH
+                                $AdminsWithWeakAuth++
+                            }
+                        }
+                    }
+                }
+            } catch { 
+                Write-ADReportLog -Message "Error checking admin group $groupName : $($_.Exception.Message)" -Type Warning
+            }
+        }
+        
+        $PrivilegeScore = 100
+        if ($PrivilegedUsers -gt 10) { $PrivilegeScore -= 20 }
+        if ($PrivilegedUsers -gt 20) { $PrivilegeScore -= 30 }
+        if ($ProtectedAdmins -lt $PrivilegedUsers) { $PrivilegeScore -= 25 }
+        if ($AdminsWithoutMFA -gt 0) { $PrivilegeScore -= 25 }
+        if ($AdminsWithWeakAuth -gt 0) { $PrivilegeScore -= 20 }
+        
+        $null = $SecurityMetrics.Add([PSCustomObject]@{
+            Category = "Privileged Accounts"
+            Score = [math]::Max(0, $PrivilegeScore)
+            Status = if ($PrivilegeScore -ge 80) { "Good" } elseif ($PrivilegeScore -ge 60) { "Fair" } else { "Critical" }
+            Details = "$PrivilegedUsers admins total, $ProtectedAdmins protected, $AdminsWithoutMFA without MFA, $AdminsWithWeakAuth with weak auth"
+            Recommendation = if ($PrivilegeScore -lt 80) { 
+                "Configure AD FS additional authentication methods for admin accounts, enforce MFA, and protect all privileged accounts from delegation" 
+            } else { 
+                "Admin account security is well configured" 
+            }
+            ChartData = @{
+                Labels = @("Total Admins", "Protected", "Without MFA", "Weak Auth")
+                Values = @($PrivilegedUsers, $ProtectedAdmins, $AdminsWithoutMFA, $AdminsWithWeakAuth)
+                Colors = @("#36A2EB", "#4BC0C0", "#FF6384", "#FFCE56")
+            }
+        })
+        
+        # 4. Group Security
+        $TotalGroups = (Get-ADGroup -Filter * -ErrorAction SilentlyContinue | Measure-Object).Count
+        $EmptyGroups = 0
+        $NestedGroups = 0
+        $UnprotectedGroups = 0
+        
+        Get-ADGroup -Filter * -Properties adminCount -ErrorAction SilentlyContinue | ForEach-Object {
+            $members = Get-ADGroupMember -Identity $_ -ErrorAction SilentlyContinue
+            if (-not $members) { 
+                $EmptyGroups++ 
+            } else {
+                $NestedGroups += (@($members | Where-Object { $_.objectClass -eq 'group' })).Count
+            }
+            if ($_.adminCount -ne 1) { $UnprotectedGroups++ }
+        }
+        
+        $GroupScore = 100
+        if ($TotalGroups -gt 0) {
+            $GroupScore -= [math]::Round(($EmptyGroups / $TotalGroups) * 20)
+            if ($NestedGroups -gt 50) { $GroupScore -= 20 }
+            $GroupScore -= [math]::Round(($UnprotectedGroups / $TotalGroups) * 15)
+        }
+        
+        $null = $SecurityMetrics.Add([PSCustomObject]@{
+            Category = "Group Management"
+            Score = [math]::Max(0, $GroupScore)
+            Status = if ($GroupScore -ge 80) { "Good" } elseif ($GroupScore -ge 60) { "Fair" } else { "Critical" }
+            Details = "$EmptyGroups empty groups, $NestedGroups nested group memberships, $UnprotectedGroups unprotected groups"
+            Recommendation = if ($GroupScore -lt 80) { 
+                "Review empty groups, simplify group nesting, and ensure proper group protection" 
+            } else { 
+                "Group structure is clean" 
+            }
+            ChartData = @{
+                Labels = @("Empty Groups", "Nested Groups", "Unprotected")
+                Values = @($EmptyGroups, $NestedGroups, $UnprotectedGroups)
+                Colors = @("#FF6384", "#36A2EB", "#FFCE56")
+            }
+        })
+        
+        # Overall Score
+        $OverallScore = [math]::Round(($SecurityMetrics | Measure-Object -Property Score -Average).Average)
+        
+        $null = $SecurityMetrics.Add([PSCustomObject]@{
+            Category = "OVERALL SCORE"
+            Score = $OverallScore
+            Status = if ($OverallScore -ge 80) { "Good" } elseif ($OverallScore -ge 60) { "Fair" } else { "Critical" }
+            Details = "Comprehensive security assessment score"
+            Recommendation = if ($OverallScore -lt 80) { 
+                "Multiple security issues require immediate attention. Review detailed recommendations above." 
+            } else { 
+                "Security posture is strong. Continue monitoring and maintaining security controls." 
+            }
+            ChartData = @{
+                Labels = @("Overall Security Score")
+                Values = @($OverallScore)
+                Colors = @(if ($OverallScore -ge 80) { "#4BC0C0" } elseif ($OverallScore -ge 60) { "#FFCE56" } else { "#FF6384" })
+            }
+        })
+        
+        Write-ADReportLog -Message "Security assessment completed. Overall score: $OverallScore" -Type Info -Terminal
+        return $SecurityMetrics | Sort-Object Score
+        
+    } catch {
+        Write-ADReportLog -Message "Error during security assessment: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-AuthProtocolAnalysis {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing authentication protocols..." -Type Info -Terminal
+        
+        # Note: This analysis requires advanced logging configuration
+        # Simulating data for demonstration
+        
+        $AuthProtocols = @()
+        
+        # Analyze UserAccountControl for Kerberos settings
+        $KerberosUsers = Get-ADUser -Filter * -Properties UserAccountControl -ErrorAction SilentlyContinue | 
+            Where-Object { -not ($_.UserAccountControl -band 0x80000) } # DONT_REQ_PREAUTH not set
+        
+        $NTLMOnlyUsers = Get-ADUser -Filter * -Properties UserAccountControl -ErrorAction SilentlyContinue |
+            Where-Object { $_.UserAccountControl -band 0x20000 } # DONT_USE_KERBEROS set
+        
+        $TotalUsers = (Get-ADUser -Filter * -ErrorAction SilentlyContinue | Measure-Object).Count
+        
+        $AuthProtocols += [PSCustomObject]@{
+            Protocol = "Kerberos"
+            UserCount = $KerberosUsers.Count
+            Percentage = if ($TotalUsers -gt 0) { [math]::Round(($KerberosUsers.Count / $TotalUsers) * 100, 2) } else { 0 }
+            SecurityLevel = "High"
+            Status = "Recommended"
+            Details = "Modern, secure authentication"
+            Recommendation = "Continue using as standard"
+        }
+        
+        $AuthProtocols += [PSCustomObject]@{
+            Protocol = "NTLM (forced)"
+            UserCount = $NTLMOnlyUsers.Count
+            Percentage = if ($TotalUsers -gt 0) { [math]::Round(($NTLMOnlyUsers.Count / $TotalUsers) * 100, 2) } else { 0 }
+            SecurityLevel = "Low"
+            Status = if ($NTLMOnlyUsers.Count -gt 0) { "Risk" } else { "OK" }
+            Details = "Legacy protocol, vulnerable to attacks"
+            Recommendation = if ($NTLMOnlyUsers.Count -gt 0) { "Migration to Kerberos recommended" } else { "No NTLM-only users found" }
+        }
+        
+        # Analyze computer authentication
+        $ComputerAuth = Get-ADComputer -Filter * -Properties OperatingSystem -ErrorAction SilentlyContinue |
+            Group-Object -Property OperatingSystem
+        
+        foreach ($osGroup in $ComputerAuth) {
+            $AuthProtocols += [PSCustomObject]@{
+                Protocol = "Computer-Auth"
+                UserCount = $osGroup.Count
+                Percentage = "N/A"
+                SecurityLevel = "Variable"
+                Status = "Info"
+                Details = "$($osGroup.Name): $($osGroup.Count) computers"
+                Recommendation = "Ensure all systems support current authentication protocols"
+            }
+        }
+        
+        Write-ADReportLog -Message "Authentication protocol analysis completed." -Type Info -Terminal
+        return $AuthProtocols
+        
+    } catch {
+        Write-ADReportLog -Message "Error during authentication protocol analysis: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-FailedAuthPatterns {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing failed authentication patterns..." -Type Info -Terminal
+        
+        [System.Collections.Generic.List[PSObject]]$FailedAuthPatterns = @()
+        
+        # Analyze BadLogonCount
+        $UsersWithFailedLogons = Get-ADUser -Filter "BadLogonCount -gt 0" -Properties BadLogonCount, LastLogonDate, LockedOut, DisplayName, Department -ErrorAction SilentlyContinue
+        
+        # Group by BadLogonCount ranges
+        $FailureRanges = @{
+            "1-3 Failed Attempts" = $UsersWithFailedLogons | Where-Object { $_.BadLogonCount -ge 1 -and $_.BadLogonCount -le 3 }
+            "4-5 Failed Attempts" = $UsersWithFailedLogons | Where-Object { $_.BadLogonCount -ge 4 -and $_.BadLogonCount -le 5 }
+            "6-10 Failed Attempts" = $UsersWithFailedLogons | Where-Object { $_.BadLogonCount -ge 6 -and $_.BadLogonCount -le 10 }
+            "Over 10 Failed Attempts" = $UsersWithFailedLogons | Where-Object { $_.BadLogonCount -gt 10 }
+        }
+        
+        # Analyze patterns
+        foreach ($range in $FailureRanges.GetEnumerator()) {
+            if ($range.Value.Count -gt 0) {
+                $topFailures = $range.Value | Sort-Object BadLogonCount -Descending | Select-Object -First 5
+                
+                foreach ($user in $topFailures) {
+                    $pattern = "Normal"
+                    $risk = "Low"
+                    
+                    if ($user.BadLogonCount -gt 10) {
+                        $pattern = "Possible Brute Force Attack"
+                        $risk = "High"
+                    } elseif ($user.BadLogonCount -gt 5) {
+                        $pattern = "Suspicious Activity"
+                        $risk = "Medium"
+                    } elseif ($user.LockedOut) {
+                        $pattern = "Account Locked"
+                        $risk = "Medium"
+                    }
+                    
+                    $FailedAuthPatterns.Add([PSCustomObject]@{
+                        AccountName = $user.SamAccountName
+                        DisplayName = $user.DisplayName
+                        Department = if ($user.Department) { $user.Department } else { "N/A" }
+                        FailedAttempts = $user.BadLogonCount
+                        Pattern = $pattern
+                        Risk = $risk
+                        LockedOut = $user.LockedOut
+                        LastLogon = if ($user.LastLogonDate) { $user.LastLogonDate } else { "Never" }
+                        Recommendation = switch ($risk) {
+                            "High" { "Immediate investigation required - possible attack" }
+                            "Medium" { "Check account and consider password reset" }
+                            default { "Inform user about secure passwords" }
+                        }
+                    })
+                }
+            }
+        }
+        
+        # Add summary
+        $summary = [PSCustomObject]@{
+            AccountName = "SUMMARY"
+            DisplayName = "Overview"
+            Department = "All"
+            FailedAttempts = ($UsersWithFailedLogons | Measure-Object -Property BadLogonCount -Sum).Sum
+            Pattern = "Statistics"
+            Risk = if ($FailureRanges["Over 10 Failed Attempts"].Count -gt 0) { "High" } elseif ($FailureRanges["6-10 Failed Attempts"].Count -gt 0) { "Medium" } else { "Low" }
+            LockedOut = ($UsersWithFailedLogons | Where-Object { $_.LockedOut }).Count
+            LastLogon = "N/A"
+            Recommendation = "$($UsersWithFailedLogons.Count) users with failed login attempts"
+        }
+        
+        $FailedAuthPatterns.Insert(0, $summary)
+        
+        if ($FailedAuthPatterns.Count -eq 1) {
+            return @([PSCustomObject]@{
+                AccountName = "None found"
+                DisplayName = "N/A"
+                Department = "N/A"
+                FailedAttempts = 0
+                Pattern = "No suspicious patterns"
+                Risk = "None"
+                LockedOut = $false
+                LastLogon = "N/A"
+                Recommendation = "No failed authentication patterns detected"
+            })
+        }
+        
+        Write-ADReportLog -Message "Failed authentication analysis completed. $($FailedAuthPatterns.Count - 1) patterns found." -Type Info -Terminal
+        return $FailedAuthPatterns | Sort-Object -Property Risk, FailedAttempts -Descending
+        
+    } catch {
+        Write-ADReportLog -Message "Error during failed authentication analysis: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
+Function Get-ConditionalAccessPolicies {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing conditional access policies..." -Type Info -Terminal
+        
+        # Note: Conditional Access Policies are primarily an Azure AD/Entra ID feature
+        # For local AD we can analyze similar concepts
+        
+        [System.Collections.Generic.List[PSObject]]$ConditionalPolicies = @()
+        
+        # 1. Analyze account restrictions
+        # First check which properties are available
+        $availableProps = @('LogonWorkstations', 'AccountExpirationDate')
+        
+        # Check if AllowedToDelegateTo is available
+        $testUser = Get-ADUser -Filter * -ResultSetSize 1 -ErrorAction SilentlyContinue
+        if ($testUser) {
+            try {
+                $null = Get-ADUser -Identity $testUser.SamAccountName -Properties AllowedToDelegateTo -ErrorAction Stop
+                $availableProps += 'AllowedToDelegateTo'
+            } catch {
+                # Property not available
+            }
+        }
+        
+        $RestrictedUsers = Get-ADUser -Filter * -Properties $availableProps -ErrorAction SilentlyContinue |
+            Where-Object { 
+                $_.LogonWorkstations -or 
+                ($availableProps -contains 'AllowedToDelegateTo' -and $_.AllowedToDelegateTo) -or 
+                $_.AccountExpirationDate 
+            }
+        
+        foreach ($user in $RestrictedUsers) {
+            $restrictions = @()
+            
+            if ($user.LogonWorkstations) {
+                $restrictions += "Workstation Restriction"
+            }
+            if ($availableProps -contains 'AllowedToDelegateTo' -and $user.PSObject.Properties['AllowedToDelegateTo'] -and $user.AllowedToDelegateTo) {
+                $restrictions += "Delegation Allowed"
+            }
+            if ($user.AccountExpirationDate) {
+                $restrictions += "Account Expiration Set"
+            }
+            
+            $ConditionalPolicies.Add([PSCustomObject]@{
+                ObjectName = $user.SamAccountName
+                ObjectType = "User"
+                PolicyType = "Account Restrictions"
+                Conditions = $restrictions -join ", "
+                Status = "Active"
+                Details = if ($user.LogonWorkstations) { "Allowed Workstations: $($user.LogonWorkstations)" } else { "Various Restrictions" }
+                Recommendation = "Review if these restrictions are still required"
+            })
+        }
+        
+        # 2. Analyze group-based policies
+        $AdminGroups = Get-ADGroup -Filter "Name -like '*admin*'" -Properties ManagedBy, Description -ErrorAction SilentlyContinue
+        
+        foreach ($group in $AdminGroups) {
+            $ConditionalPolicies.Add([PSCustomObject]@{
+                ObjectName = $group.Name
+                ObjectType = "Group"
+                PolicyType = "Administrative Group"
+                Conditions = "Membership requires elevated rights"
+                Status = if ($group.ManagedBy) { "Managed" } else { "Unmanaged" }
+                Details = if ($group.Description) { $group.Description } else { "No Description" }
+                Recommendation = if (-not $group.ManagedBy) { "Assign a manager" } else { "Regular member review" }
+            })
+        }
+        
+        # 3. Fine-Grained Password Policies as conditional access control
+        try {
+            $FGPPs = Get-ADFineGrainedPasswordPolicy -Filter * -ErrorAction SilentlyContinue
+            foreach ($fgpp in $FGPPs) {
+                $ConditionalPolicies.Add([PSCustomObject]@{
+                    ObjectName = $fgpp.Name
+                    ObjectType = "Password Policy"
+                    PolicyType = "Fine-Grained Password Policy"
+                    Conditions = "Precedence: $($fgpp.Precedence)"
+                    Status = "Active"
+                    Details = "Min. Password Length: $($fgpp.MinPasswordLength), Max. Age: $($fgpp.MaxPasswordAge.Days) days"
+                    Recommendation = "Ensure policy meets current security standards"
+                })
+            }
+        } catch {
+            Write-ADReportLog -Message "Fine-Grained Password Policies not available" -Type Warning -Terminal
+        }
+        
+        if ($ConditionalPolicies.Count -eq 0) {
+            return @([PSCustomObject]@{
+                ObjectName = "None found"
+                ObjectType = "N/A"
+                PolicyType = "None"
+                Conditions = "No conditional policies configured"
+                Status = "N/A"
+                Details = "No local conditional access policies found"
+                Recommendation = "Consider implementing access controls"
+            })
+        }
+        
+        Write-ADReportLog -Message "Conditional access policy analysis completed. $($ConditionalPolicies.Count) policy(ies) found." -Type Info -Terminal
+        return $ConditionalPolicies | Sort-Object PolicyType, ObjectName
+        
+    } catch {
+        Write-ADReportLog -Message "Error during conditional access policy analysis: $($_.Exception.Message)" -Type Error
+        return @()
+    }
+}
+
 Function Get-HoneyTokens {
     [CmdletBinding()]
     param()
     
     try {
-        Write-ADReportLog -Message "Analysiere potenzielle Honey Token Accounts und verdächtige Aktivitäten..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analyzing potential honey token accounts and suspicious activities..." -Type Info -Terminal
         
-        # Honey Tokens sind oft spezielle Accounts die zur Angriffserkennung verwendet werden
-        # Wir suchen nach Accounts mit verdächtigen Eigenschaften oder Namensmustern
+        # Initialize empty results list
+        [System.Collections.Generic.List[PSObject]]$PotentialHoneyTokens = [System.Collections.Generic.List[PSObject]]::new()
         
+        # Define suspicious patterns
         $SuspiciousPatterns = @(
             "*honey*", "*canary*", "*trap*", "*decoy*", "*bait*", 
-            "*test*", "*dummy*", "*fake*", "*monitor*", "*audit*"
+            "*test*", "*dummy*", "*fake*", "*monitor*", "*audit*",
+            "*detect*", "*alert*", "*sensor*", "*probe*", "*track*",
+            "*watch*", "*guard*", "*check*", "*scan*", "*suspicious*"
         )
         
-        [System.Collections.Generic.List[PSObject]]$PotentialHoneyTokens = @()
-        
-        # 1. Accounts mit verdächtigen Namen
+        # 1. Check accounts with suspicious names
         foreach ($pattern in $SuspiciousPatterns) {
-            $accounts = Get-ADUser -Filter "Name -like '$pattern'" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
+            $accounts = Get-ADUser -Filter "Name -like '$pattern' -or SamAccountName -like '$pattern'" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department, LogonCount, BadLogonCount, PasswordLastSet, AccountExpirationDate, userAccountControl -ErrorAction SilentlyContinue
+            
             if ($null -ne $accounts) {
-                $PotentialHoneyTokens.AddRange($accounts)
+                foreach ($account in $accounts) {
+                    if ($null -ne $account) {
+                        $PotentialHoneyTokens.Add($account)
+                    }
+                }
             }
         }
         
-        # 2. Accounts mit verdächtigen Beschreibungen
-        $DescriptionBasedAccounts = Get-ADUser -Filter "Description -like '*honey*' -or Description -like '*canary*' -or Description -like '*monitoring*' -or Description -like '*security*'" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction SilentlyContinue
+        # 2. Check accounts with suspicious descriptions
+        $DescriptionBasedAccounts = Get-ADUser -Filter {
+            Description -like "*honey*" -or 
+            Description -like "*canary*" -or 
+            Description -like "*monitoring*" -or 
+            Description -like "*security*" -or 
+            Description -like "*test*" -or 
+            Description -like "*trap*" -or 
+            Description -like "*decoy*" -or 
+            Description -like "*detect*" -or 
+            Description -like "*alert*"
+        } -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department, LogonCount, BadLogonCount, PasswordLastSet, AccountExpirationDate, userAccountControl -ErrorAction SilentlyContinue
+        
         if ($null -ne $DescriptionBasedAccounts) {
-            $PotentialHoneyTokens.AddRange($DescriptionBasedAccounts)
+            foreach ($account in $DescriptionBasedAccounts) {
+                if ($null -ne $account) {
+                    $PotentialHoneyTokens.Add($account)
+                }
+            }
         }
         
-        # 3. Niemals verwendete Admin-ähnliche Accounts (verdächtig)
-        $UnusedAdminAccounts = Get-ADUser -Filter "Name -like '*admin*' -and Enabled -eq 'True'" -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction SilentlyContinue | Where-Object { $_.LastLogonDate -eq $null }
-        if ($null -ne $UnusedAdminAccounts) {
-            $PotentialHoneyTokens.AddRange($UnusedAdminAccounts)
-        }
+        # Remove duplicates and null entries
+        $UniqueAccounts = $PotentialHoneyTokens | Where-Object {$null -ne $_} | Sort-Object DistinguishedName -Unique
         
-        # Duplikate entfernen
-        $UniqueAccounts = $PotentialHoneyTokens | Sort-Object DistinguishedName -Unique
-        
+        # Return default object if no results found
         if ($null -eq $UniqueAccounts -or $UniqueAccounts.Count -eq 0) {
-            Write-ADReportLog -Message "Keine potenziellen Honey Token Accounts gefunden." -Type Info -Terminal
+            Write-ADReportLog -Message "No potential honey token accounts found." -Type Info -Terminal
             return @([PSCustomObject]@{
-                Name = "Keine Ergebnisse"
-                SamAccountName = "N/A"
-                Description = "Keine potenziellen Honey Token Accounts in der aktuellen Umgebung gefunden"
-                PotentialHoneyToken = "Keine gefunden"
+                Name = "No Results"
+                SamAccountName = "N/A" 
+                Description = "No potential honey token accounts found"
+                PotentialHoneyToken = "None"
                 SuspicionLevel = "N/A"
-                Indicators = "Analyse abgeschlossen - keine verdächtigen Muster erkannt"
+                Indicators = "No suspicious patterns detected"
             })
         }
         
+        # Process results
         $Results = foreach ($account in $UniqueAccounts) {
-            $ageInDays = if ($null -ne $account.whenCreated) { 
+            if ($null -eq $account) { continue }
+            
+            # Calculate dates
+            $ageInDays = if ($null -ne $account.whenCreated) {
                 [math]::Round((New-TimeSpan -Start $account.whenCreated -End (Get-Date)).TotalDays, 0)
-            } else { 
-                0 
+            } else {
+                0
             }
             
-            $daysSinceLastLogon = if ($null -ne $account.LastLogonDate) { 
+            $daysSinceLastLogon = if ($null -ne $account.LastLogonDate) {
                 [math]::Round((New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).TotalDays, 0)
-            } else { 
-                9999 
+            } else {
+                9999
             }
             
-            # Verdächtigkeits-Score
+            # Calculate suspicion score
             [int]$suspicionScore = 0
-            [System.Collections.Generic.List[string]]$indicators = @()
+            [System.Collections.Generic.List[string]]$indicators = [System.Collections.Generic.List[string]]::new()
             
-            # Name-basierte Indikatoren
-            if ($account.Name -match "(honey|canary|trap|decoy|bait)") { $suspicionScore += 5; $indicators.Add("Verdächtiges Namensmuster") }
-            if ($account.Name -match "(test|dummy|fake)") { $suspicionScore += 3; $indicators.Add("Test-Account Muster") }
-            if ($account.Name -match "(monitor|audit)") { $suspicionScore += 4; $indicators.Add("Monitoring-Muster") }
-            
-            # Verhalten-basierte Indikatoren
-            if ($null -eq $account.LastLogonDate -and $ageInDays -gt 30) { $suspicionScore += 3; $indicators.Add("Nie verwendet") }
-            if ($account.Enabled -and $daysSinceLastLogon -gt 180) { $suspicionScore += 2; $indicators.Add("Lang inaktiv") }
-            if ([string]::IsNullOrWhiteSpace($account.Department)) { $suspicionScore += 1; $indicators.Add("Keine Abteilung") }
-            
-            # Beschreibung-basierte Indikatoren
-            if ($null -ne $account.Description -and $account.Description -match "(honey|canary|monitoring|security)") { 
-                $suspicionScore += 4
-                $indicators.Add("Sicherheits-Beschreibung") 
+            # Add indicators based on patterns
+            if ($account.Name -match "(honey|canary|trap|decoy|bait)") { 
+                $suspicionScore += 5
+                $indicators.Add("Suspicious Name Pattern")
             }
             
-            $suspicionLevel = switch ($suspicionScore) {
-                {$_ -ge 7} { "Sehr Hoch" }
-                {$_ -ge 5} { "Hoch" }
-                {$_ -ge 3} { "Mittel" }
-                {$_ -ge 1} { "Niedrig" }
-                default { "Minimal" }
+            if ($account.PasswordNeverExpires) {
+                $suspicionScore += 2
+                $indicators.Add("Password Never Expires")
             }
             
+            if ($account.LogonCount -eq 0) {
+                $suspicionScore += 3
+                $indicators.Add("Never Logged On")
+            }
+            
+            # Create result object
             [PSCustomObject]@{
                 Name = $account.Name
                 SamAccountName = $account.SamAccountName
-                Description = $account.Description
-                Department = $account.Department
+                Description = if ($null -ne $account.Description) { $account.Description } else { "No Description" }
+                Department = if ($null -ne $account.Department) { $account.Department } else { "No Department" }
                 Enabled = $account.Enabled
-                WhenCreated = $account.whenCreated
-                LastLogonDate = if ($null -ne $account.LastLogonDate) { $account.LastLogonDate } else { "Nie" }
+                LastLogon = if ($null -ne $account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
                 DaysSinceLastLogon = $daysSinceLastLogon
                 AgeInDays = $ageInDays
-                SuspicionLevel = $suspicionLevel
-                SuspicionScore = $suspicionScore
-                Indicators = $indicators -join ", "
-                PotentialHoneyToken = if ($suspicionScore -ge 5) { "Wahrscheinlich" } elseif ($suspicionScore -ge 3) { "Möglich" } else { "Unwahrscheinlich" }
+                SuspicionLevel = switch ($suspicionScore) {
+                    {$_ -ge 8} { "High" }
+                    {$_ -ge 5} { "Medium" }
+                    default { "Low" }
+                }
+                Indicators = if ($indicators.Count -gt 0) { $indicators -join ", " } else { "None" }
+                PotentialHoneyToken = if ($suspicionScore -ge 5) { "Likely" } else { "Unlikely" }
             }
         }
         
-        Write-ADReportLog -Message "Honey Token Analyse abgeschlossen. $($Results.Count) potenzielle Accounts gefunden." -Type Info -Terminal
-        return $Results | Sort-Object SuspicionScore, SuspicionLevel -Descending
+        Write-ADReportLog -Message "Honey Token Analysis completed. Found $($Results.Count) potential accounts." -Type Info -Terminal
+        return $Results | Sort-Object SuspicionLevel -Descending
         
     } catch {
-        Write-ADReportLog -Message "Fehler bei der Honey Token Erkennung: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error analyzing honey tokens: $($_.Exception.Message)" -Type Error -Terminal
         return @()
     }
 }
-
 Function Get-GPOOverview {
     [CmdletBinding()]
     param()
@@ -5699,7 +8738,7 @@ Function Get-GroupsByTypeScope {
     try {
         Write-ADReportLog -Message "Analyzing groups by type and scope..." -Type Info -Terminal
         
-        $Groups = Get-ADGroup -Filter * -Properties GroupCategory, GroupScope, ManagedBy, whenCreated, whenChanged, Members -ErrorAction Stop
+        $Groups = Get-ADGroup -Filter * -Properties GroupCategory, GroupScope, ManagedBy, whenCreated, whenChanged, Members, MemberOf -ErrorAction Stop
         
         # Gruppiere nach Type und Scope
         $GroupStats = $Groups | Group-Object -Property GroupCategory, GroupScope
@@ -5708,11 +8747,19 @@ Function Get-GroupsByTypeScope {
             $category = $statGroup.Group[0].GroupCategory
             $scope = $statGroup.Group[0].GroupScope
             
+            # Konvertiere Enum-Werte zu String für ToUpper()
+            $categoryString = $category.ToString()
+            $scopeString = $scope.ToString()
+            
             # Berechne durchschnittliche Mitgliederzahl
             $memberCounts = @()
             foreach ($group in $statGroup.Group) {
-                $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
-                $memberCounts += $memberCount
+                try {
+                    $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
+                    $memberCounts += $memberCount
+                } catch {
+                    $memberCounts += 0
+                }
             }
             
             $avgMembers = if ($memberCounts.Count -gt 0) { 
@@ -5724,30 +8771,36 @@ Function Get-GroupsByTypeScope {
             } else { 0 }
             
             # Best Practice Empfehlungen
-            $recommendation = switch ("$category-$scope") {
-                "Security-Global" { "Standard for most security groups" }
-                "Security-DomainLocal" { "Good for resource permissions" }
-                "Security-Universal" { "Use for cross-forest scenarios" }
-                "Distribution-Global" { "Standard for email distribution" }
-                "Distribution-DomainLocal" { "Rarely used - review necessity" }
-                "Distribution-Universal" { "Good for cross-forest distribution" }
-                default { "Review group configuration" }
+            $recommendation = switch ("$categoryString-$scopeString") {
+                "Security-Global" { "Standard configuration for security groups - use for user assignments" }
+                "Security-DomainLocal" { "Good for resource permissions - assign to local resources" }
+                "Security-Universal" { "Appropriate for cross-forest scenarios - monitor replication load" }
+                "Distribution-Global" { "Standard for email distribution - maintain for organizational communication" }
+                "Distribution-DomainLocal" { "Rarely used configuration - consider converting to global scope" }
+                "Distribution-Universal" { "Suitable for cross-forest distribution - monitor mail flow" }
+                default { "Review group configuration and usage patterns" }
             }
             
+            # Erstelle strukturierte Gruppenliste im gewünschten Format
+            $groupListHeader = "$($categoryString.ToUpper())-$($scopeString.ToUpper())"
+            $separator = "-" * $groupListHeader.Length
+            $sortedGroupNames = ($statGroup.Group | Sort-Object Name | ForEach-Object { "  $($_.Name)" }) -join "`r`n"
+            $formattedGroupList = "$groupListHeader`r`n$separator`r`n$sortedGroupNames`r`n"
+            
             [PSCustomObject]@{
-                GroupCategory = $category
-                GroupScope = $scope
-                Count = $statGroup.Count
+                Type = "$categoryString-$scopeString"
+                TotalCount = $statGroup.Count
                 Percentage = [math]::Round(($statGroup.Count / $Groups.Count) * 100, 2)
                 AverageMemberCount = $avgMembers
                 MaxMemberCount = $maxMembers
+                GroupList = $formattedGroupList
                 Recommendation = $recommendation
-                Examples = ($statGroup.Group | Select-Object -First 3 | ForEach-Object { $_.Name }) -join ", "
             }
         }
         
-        Write-ADReportLog -Message "Groups by type/scope analysis completed. $($Results.Count) combinations found." -Type Info -Terminal
-        return $Results | Sort-Object GroupCategory, GroupScope
+        Write-ADReportLog -Message "Groups by type/scope analysis completed. $($Results.Count) category combinations found." -Type Info -Terminal
+        
+        return $Results | Sort-Object Type
         
     } catch {
         Write-ADReportLog -Message "Error analyzing groups by type and scope: $($_.Exception.Message)" -Type Error
@@ -5787,7 +8840,6 @@ Function Get-MailEnabledGroups {
     try {
         Write-ADReportLog -Message "Analyzing mail-enabled groups..." -Type Info -Terminal
         
-        # Suche nach Gruppen mit Mail-Attributen
         # Prüfe, ob Exchange-Attribute verfügbar sind
         $exchangeInstalled = $false
         try {
@@ -5809,7 +8861,9 @@ Function Get-MailEnabledGroups {
             $properties = $baseProperties
         }
         
-        $MailGroups = Get-ADGroup -Filter "mail -like '*'" -Properties $properties -ErrorAction Stop
+        # Erweiterte Filterung für Mail-aktivierte Gruppen
+        $filterString = "(mail -like '*') -or (proxyAddresses -like '*SMTP:*')"
+        $MailGroups = Get-ADGroup -Filter $filterString -Properties $properties -ErrorAction Stop
         
         if ($MailGroups.Count -eq 0) {
             Write-ADReportLog -Message "No mail-enabled groups found." -Type Info -Terminal
@@ -5827,8 +8881,17 @@ Function Get-MailEnabledGroups {
             $memberCount = @(Get-ADGroupMember -Identity $group.DistinguishedName -ErrorAction SilentlyContinue).Count
             
             # Analysiere Mail-Eigenschaften
-            $hasMultipleProxies = ($group.proxyAddresses -and $group.proxyAddresses.Count -gt 1)
-            $primarySMTP = $group.proxyAddresses | Where-Object { $_ -clike "SMTP:*" } | Select-Object -First 1
+            $primarySMTP = $null
+            if ($group.proxyAddresses) {
+                $primarySMTP = $group.proxyAddresses | Where-Object { $_ -clike "SMTP:*" } | Select-Object -First 1
+            }
+            $effectiveMailAddress = if ($primarySMTP) { 
+                $primarySMTP -replace "SMTP:", "" 
+            } elseif ($group.mail) { 
+                $group.mail 
+            } else {
+                "No valid email address"
+            }
             
             # Manager auflösen
             $managerName = "None"
@@ -5847,9 +8910,9 @@ Function Get-MailEnabledGroups {
             $status = "Active"
             $recommendations = @()
             
-            if ([string]::IsNullOrWhiteSpace($group.mail)) {
+            if (-not $effectiveMailAddress -or $effectiveMailAddress -eq "No valid email address") {
                 $status = "Incomplete"
-                $recommendations += "Mail attribute is empty"
+                $recommendations += "No valid email configuration found"
             }
             
             if ($memberCount -eq 0) {
@@ -5866,8 +8929,7 @@ Function Get-MailEnabledGroups {
             
             [PSCustomObject]@{
                 Name = $group.Name
-                Mail = $group.mail
-                PrimarySMTP = if ($primarySMTP) { $primarySMTP -replace "SMTP:", "" } else { $group.mail }
+                Mail = $effectiveMailAddress
                 GroupCategory = $group.GroupCategory
                 GroupScope = $group.GroupScope
                 MemberCount = $memberCount
@@ -6595,56 +9657,121 @@ Function Get-ServiceAccountsSPN {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing service accounts with SPNs..." -Type Info -Terminal
+        Write-ADReportLog -Message "Starting analysis of accounts with SPNs..." -Type Info -Terminal
         
-        # Service Accounts mit SPNs finden
-        $SPNAccounts = Get-ADUser -Filter {ServicePrincipalName -like "*"} -Properties ServicePrincipalName, Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction Stop
+        # Get ALL accounts with SPNs including system accounts and computer accounts
+        $allAccounts = Get-ADObject -Filter {ServicePrincipalName -like '*'} -Properties ServicePrincipalName, Description, ObjectClass, whenCreated, Name, DistinguishedName -ErrorAction Stop
         
-        $Results = foreach ($account in $SPNAccounts) {
-            $daysSincePasswordChange = if ($account.PasswordLastSet) { 
-                (New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days 
-            } else { 9999 }
+        if (-not $allAccounts -or $allAccounts.Count -eq 0) {
+            Write-ADReportLog -Message "No accounts with SPNs found - this is highly unusual and indicates a potential AD issue" -Type Warning -Terminal
+            return @(
+                [PSCustomObject]@{
+                    Name = "No SPN accounts found"
+                    ObjectType = "N/A" 
+                    Description = "No accounts with SPNs found. This is highly unusual as even standard AD accounts like 'krbtgt' should have SPNs."
+                    SPNCount = 0
+                    SPNs = "None"
+                    RiskLevel = "Critical"
+                    RiskFactors = "No SPNs found - possible AD configuration issue or query permission problem"
+                    Created = "N/A"
+                    Location = "N/A"
+                }
+            )
+        }
+
+        # Process each account type separately
+        $Results = foreach ($account in $allAccounts) {
             
-            $daysSinceLastLogon = if ($account.LastLogonDate) { 
-                (New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).Days 
-            } else { 9999 }
-            
-            # Risikobewertung
+            # Get additional properties based on object type
+            $additionalInfo = switch ($account.ObjectClass) {
+                "user" {
+                    $userObj = Get-ADUser -Identity $account.DistinguishedName -Properties LastLogonDate, PasswordLastSet, Enabled, Department -ErrorAction SilentlyContinue
+                    @{
+                        LastLogon = $userObj.LastLogonDate
+                        PasswordLastSet = $userObj.PasswordLastSet
+                        Enabled = $userObj.Enabled
+                        Department = $userObj.Department
+                    }
+                }
+                "computer" {
+                    $compObj = Get-ADComputer -Identity $account.DistinguishedName -Properties LastLogonDate, OperatingSystem -ErrorAction SilentlyContinue
+                    @{
+                        LastLogon = $compObj.LastLogonDate
+                        OperatingSystem = $compObj.OperatingSystem
+                        Enabled = $compObj.Enabled
+                    }
+                }
+                default { @{} }
+            }
+
+            # Risk assessment
+            $riskFactors = [System.Collections.Generic.List[string]]@()
             $riskScore = 0
-            $riskFactors = @()
-            
-            if ($daysSincePasswordChange -gt 180) { $riskScore += 2; $riskFactors += "Old Password" }
-            if ($daysSinceLastLogon -gt 90) { $riskScore += 2; $riskFactors += "Inactive" }
-            if ($account.ServicePrincipalName.Count -gt 5) { $riskScore += 1; $riskFactors += "Multiple SPNs" }
-            if ($account.Enabled -eq $false) { $riskScore -= 1; $riskFactors += "Disabled" }
-            
+
+            # Check SPN count
+            if ($account.ServicePrincipalName.Count -gt 10) {
+                $riskScore += 3
+                $riskFactors.Add("Unusually high number of SPNs ($($account.ServicePrincipalName.Count))")
+            }
+
+            # Check for known risky SPN patterns
+            $riskySpnPatterns = @('*MSSQL*', '*TERMSRV*', '*HTTP*', '*WSMAN*', '*ADMIN*')
+            foreach ($pattern in $riskySpnPatterns) {
+                if ($account.ServicePrincipalName -like $pattern) {
+                    $riskScore += 1
+                    $riskFactors.Add("Contains sensitive service type: $pattern")
+                }
+            }
+
+            # Additional user-specific checks
+            if ($account.ObjectClass -eq "user") {
+                if ($additionalInfo.LastLogon -and (New-TimeSpan -Start $additionalInfo.LastLogon -End (Get-Date)).Days -gt 90) {
+                    $riskScore += 2
+                    $riskFactors.Add("No logon in 90+ days")
+                }
+                if ($additionalInfo.PasswordLastSet -and (New-TimeSpan -Start $additionalInfo.PasswordLastSet -End (Get-Date)).Days -gt 180) {
+                    $riskScore += 2
+                    $riskFactors.Add("Password not changed in 180+ days")
+                }
+            }
+
+            # Calculate risk level as string
             $riskLevel = switch ($riskScore) {
-                {$_ -ge 4} { "High" }
-                {$_ -ge 2} { "Medium" }
+                { $_ -ge 5 } { "Critical"; break }
+                { $_ -ge 3 } { "High"; break }
+                { $_ -ge 1 } { "Medium"; break }
                 default { "Low" }
             }
-            
+
             [PSCustomObject]@{
                 Name = $account.Name
-                SamAccountName = $account.SamAccountName
-                Description = $account.Description
-                Department = $account.Department
-                Enabled = $account.Enabled
-                LastLogonDate = if ($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
-                PasswordLastSet = if ($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
+                ObjectType = $account.ObjectClass
+                Description = if ($account.Description) { $account.Description } else { "No description" }
                 SPNCount = $account.ServicePrincipalName.Count
-                SPNs = $account.ServicePrincipalName -join "; "
+                LastLogon = if ($additionalInfo.LastLogon) { $additionalInfo.LastLogon } else { "N/A" }
+                PasswordLastSet = if ($additionalInfo.PasswordLastSet) { $additionalInfo.PasswordLastSet } else { "N/A" }
+                Enabled = if ($null -ne $additionalInfo.Enabled) { $additionalInfo.Enabled } else { "N/A" }
                 RiskLevel = $riskLevel
-                RiskFactors = $riskFactors -join ", "
-                WhenCreated = $account.whenCreated
+                RiskFactors = if ($riskFactors) { $riskFactors -join ", " } else { "None" }
+                Created = $account.whenCreated
+                Location = ($account.DistinguishedName -split ',')[1..99] -join ','
+                SPNs = $account.ServicePrincipalName -join "; "
             }
         }
-        
-        Write-ADReportLog -Message "Service accounts with SPNs analysis completed. $($Results.Count) accounts found." -Type Info -Terminal
-        return $Results | Sort-Object RiskLevel, SPNCount -Descending
-        
+
+        Write-ADReportLog -Message "SPN analysis completed. Found $($Results.Count) accounts with SPNs." -Type Info -Terminal
+        return $Results | Sort-Object { 
+            switch ($_.RiskLevel) {
+                'Critical' { 4 }
+                'High' { 3 }
+                'Medium' { 2 }
+                'Low' { 1 }
+                default { 0 }
+            }
+        } -Descending
+
     } catch {
-        Write-ADReportLog -Message "Error analyzing service accounts with SPNs: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error analyzing SPN accounts: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
@@ -6654,91 +9781,174 @@ Function Get-HighPrivServiceAccounts {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing high privileged service accounts..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analyzing high privileged accounts and service accounts..." -Type Info -Terminal
         
-        # Define privileged groups in English and German
+        # Define privileged groups and accounts to check
         $PrivGroups = @(
-            # English groups
-            "Domain Admins",
-            "Enterprise Admins", 
-            "Schema Admins",
-            "Administrators",
-            "Account Operators",
-            "Backup Operators",
-            "Server Operators",
-            # German groups
-            "Domänen-Admins",
-            "Organisations-Admins",
-            "Schema-Admins",
-            "Administratoren",
-            "Konten-Operatoren", 
-            "Sicherungs-Operatoren",
-            "Server-Operatoren"
+            # Critical Built-in Groups
+            "Domain Admins", "Domänen-Admins",
+            "Enterprise Admins", "Organisations-Admins",
+            "Schema Admins", "Schema-Admins",
+            "Administrators", "Administratoren",
+            # High-Risk Built-in Groups  
+            "Account Operators", "Konten-Operatoren",
+            "Backup Operators", "Sicherungs-Operatoren",
+            "Server Operators", "Server-Operatoren",
+            "Print Operators", "Druck-Operatoren",
+            "Domain Controllers", "Domänencontroller"
         )
+
+        # Get all privileged accounts
+        $Results = [System.Collections.Generic.List[PSObject]]@()
         
-        $Results = @()
-        foreach ($group in $PrivGroups) {
-            try {
-                $groupMembers = Get-ADGroupMember -Identity $group -Recursive -ErrorAction SilentlyContinue |
-                    Where-Object {$_.objectClass -eq "user"} |
-                    Get-ADUser -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department, ServicePrincipalName
-                
-                foreach ($account in $groupMembers) {
-                    # Check for service accounts in both languages
-                    if ($account.SamAccountName -like "*svc*" -or 
-                        $account.SamAccountName -like "*service*" -or
-                        $account.SamAccountName -like "*dienst*" -or
-                        $account.Description -like "*service*" -or
-                        $account.Description -like "*dienst*") {
-                        
-                        $daysSincePasswordChange = if ($account.PasswordLastSet) { 
-                            (New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days 
-                        } else { 9999 }
-                        
-                        # Map German group names to English for consistent output
-                        $groupNameEn = switch ($group) {
-                            "Domänen-Admins" { "Domain Admins" }
-                            "Organisations-Admins" { "Enterprise Admins" }
-                            "Schema-Admins" { "Schema Admins" }
-                            "Administratoren" { "Administrators" }
-                            "Konten-Operatoren" { "Account Operators" }
-                            "Sicherungs-Operatoren" { "Backup Operators" }
-                            "Server-Operatoren" { "Server Operators" }
-                            default { $group }
-                        }
-                        
-                        $Results += [PSCustomObject]@{
-                            Name = $account.Name
-                            SamAccountName = $account.SamAccountName
-                            Description = $account.Description
-                            Department = $account.Department
-                            PrivilegedGroup = $groupNameEn
-                            Enabled = $account.Enabled
-                            LastLogonDate = if ($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
-                            PasswordLastSet = if ($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
-                            DaysSincePasswordChange = $daysSincePasswordChange
-                            HasSPN = $account.ServicePrincipalName.Count -gt 0
-                            RiskLevel = if ($daysSincePasswordChange -gt 180) { "High" } 
-                                      elseif ($daysSincePasswordChange -gt 90) { "Medium" }
-                                      else { "Low" }
-                            WhenCreated = $account.whenCreated
-                        }
-                    }
+        # First check built-in admin accounts
+        $builtInAccounts = Get-ADUser -Filter {
+            (SamAccountName -eq "Administrator") -or 
+            (SamAccountName -eq "krbtgt") -or
+            (Name -like "*admin*")
+        } -Properties Description, LastLogonDate, PasswordLastSet, Enabled, 
+            whenCreated, Department, ServicePrincipalName, MemberOf, 
+            PasswordNeverExpires, BadLogonCount -ErrorAction Stop
+
+        foreach($account in $builtInAccounts) {
+            $riskFactors = [System.Collections.Generic.List[string]]@()
+            $riskScore = 0
+
+            # Check risk factors
+            if($account.Enabled -eq $false) { 
+                $riskFactors.Add("Account disabled")
+            }
+            if($account.PasswordNeverExpires) {
+                $riskScore += 2
+                $riskFactors.Add("Password never expires") 
+            }
+            if($account.BadLogonCount -gt 5) {
+                $riskScore += 2
+                $riskFactors.Add("High number of bad logon attempts")
+            }
+            if($account.LastLogonDate -and (New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).Days -gt 90) {
+                $riskScore += 2
+                $riskFactors.Add("No logon in 90+ days")
+            }
+            if($account.PasswordLastSet -and (New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days -gt 180) {
+                $riskScore += 3
+                $riskFactors.Add("Password not changed in 180+ days")
+            }
+
+            $Results.Add([PSCustomObject]@{
+                Name = $account.Name
+                SamAccountName = $account.SamAccountName 
+                AccountType = "Built-in Admin Account"
+                Department = $account.Department
+                Enabled = $account.Enabled
+                LastLogonDate = if($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
+                PasswordLastSet = if($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
+                PasswordNeverExpires = $account.PasswordNeverExpires
+                HasSPN = $account.ServicePrincipalName.Count -gt 0
+                RiskLevel = switch($riskScore) {
+                    {$_ -ge 5} { "Critical" }
+                    {$_ -ge 3} { "High" }
+                    {$_ -ge 1} { "Medium" }
+                    default { "Low" }
                 }
-            } catch {
+                RiskFactors = if($riskFactors) { $riskFactors -join " | " } else { "None" }
+                WhenCreated = $account.whenCreated
+                MemberOfGroups = ($account.MemberOf | ForEach-Object { ($_ -split ',')[0] -replace 'CN=' }) -join ' | '
+            })
+        }
+
+        # Then check group memberships
+        foreach($group in $PrivGroups) {
+            try {
+                $groupMembers = Get-ADGroupMember -Identity $group -Recursive -ErrorAction Stop |
+                    Where-Object { $_.objectClass -eq "user" } |
+                    Get-ADUser -Properties Description, LastLogonDate, PasswordLastSet, Enabled,
+                        whenCreated, Department, ServicePrincipalName, MemberOf,
+                        PasswordNeverExpires, BadLogonCount
+
+                foreach($account in $groupMembers) {
+                    # Skip if already processed
+                    if($Results.SamAccountName -contains $account.SamAccountName) {
+                        continue
+                    }
+
+                    $riskFactors = [System.Collections.Generic.List[string]]@()
+                    $riskScore = 0
+
+                    # Service account indicators
+                    $isServiceAccount = $account.SamAccountName -match "(svc|service|dienst)" -or
+                                      $account.Description -match "(service|dienst)" -or
+                                      $account.ServicePrincipalName.Count -gt 0
+
+                    if($isServiceAccount) { 
+                        $riskScore += 2
+                        $riskFactors.Add("Service Account with high privileges")
+                    }
+
+                    # Additional risk checks
+                    if($account.Enabled -eq $false) {
+                        $riskFactors.Add("Account disabled")
+                    }
+                    if($account.PasswordNeverExpires) {
+                        $riskScore += 2
+                        $riskFactors.Add("Password never expires")
+                    }
+                    if($account.BadLogonCount -gt 5) {
+                        $riskScore += 2
+                        $riskFactors.Add("High number of bad logon attempts")
+                    }
+                    if($account.LastLogonDate -and (New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).Days -gt 90) {
+                        $riskScore += 2
+                        $riskFactors.Add("No logon in 90+ days")
+                    }
+                    if($account.PasswordLastSet -and (New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days -gt 180) {
+                        $riskScore += 3
+                        $riskFactors.Add("Password not changed in 180+ days")
+                    }
+
+                    $Results.Add([PSCustomObject]@{
+                        Name = $account.Name
+                        SamAccountName = $account.SamAccountName
+                        AccountType = if($isServiceAccount) { "Service Account" } else { "User Account" }
+                        Description = if($account.Description) { $account.Description } else { "No description" }
+                        Department = $account.Department
+                        Enabled = $account.Enabled
+                        LastLogonDate = if($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
+                        PasswordLastSet = if($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
+                        PasswordNeverExpires = $account.PasswordNeverExpires
+                        HasSPN = $account.ServicePrincipalName.Count -gt 0
+                        RiskLevel = switch($riskScore) {
+                            {$_ -ge 5} { "Critical" }
+                            {$_ -ge 3} { "High" }
+                            {$_ -ge 1} { "Medium" }
+                            default { "Low" }
+                        }
+                        RiskFactors = if($riskFactors) { $riskFactors -join " | " } else { "None" }
+                        WhenCreated = $account.whenCreated
+                        MemberOfGroups = ($account.MemberOf | ForEach-Object { ($_ -split ',')[0] -replace 'CN=' }) -join ' | '
+                    })
+                }
+            }
+            catch {
                 Write-ADReportLog -Message "Error processing group $group : $($_.Exception.Message)" -Type Warning
                 continue
             }
         }
-        
-        # Remove duplicates that might occur from checking both English and German groups
-        $Results = $Results | Sort-Object SamAccountName -Unique
-        
-        Write-ADReportLog -Message "High privileged service accounts analysis completed. $($Results.Count) accounts found." -Type Info -Terminal
-        return $Results | Sort-Object RiskLevel, DaysSincePasswordChange -Descending
-        
-    } catch {
-        Write-ADReportLog -Message "Error analyzing high privileged service accounts: $($_.Exception.Message)" -Type Error
+
+        Write-ADReportLog -Message "High privileged accounts analysis completed. Found $($Results.Count) accounts." -Type Info -Terminal
+        return $Results | Sort-Object { 
+            switch($_.RiskLevel) {
+                'Critical' { 4 }
+                'High' { 3 }
+                'Medium' { 2 }
+                'Low' { 1 }
+                default { 0 }
+            }
+        } -Descending
+
+    }
+    catch {
+        Write-ADReportLog -Message "Error analyzing high privileged accounts: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
@@ -6748,52 +9958,147 @@ Function Get-ServiceAccountPasswordAge {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing service account password ages..." -Type Info -Terminal
+        Write-ADReportLog -Message "Starting comprehensive service account password age analysis..." -Type Info -Terminal
         
-        # Service Accounts anhand von Namenskonventionen und Beschreibungen identifizieren
-        $ServiceAccounts = Get-ADUser -Filter {
-            (SamAccountName -like "*svc*") -or 
-            (SamAccountName -like "*service*") -or 
-            (Description -like "*service*")
-        } -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction Stop
+        # Separate filters for better error handling and multilingual support
+        $serviceFilters = @(
+            "SamAccountName -like '*svc*'",
+            "SamAccountName -like '*service*'", 
+            "SamAccountName -like '*srv*'",
+            "SamAccountName -like '*admin*'",
+            "SamAccountName -like '*dienst*'", # German
+            "SamAccountName -like '*system*'",
+            "SamAccountName -like '*backup*'",
+            "Description -like '*service*'",
+            "Description -like '*dienst*'" # German
+        )
         
+        $filterString = $serviceFilters -join " -or "
+        
+        # Get service accounts with extended properties
+        $ServiceAccounts = Get-ADUser -Filter $filterString -Properties @(
+            'Description',
+            'LastLogonDate',
+            'PasswordLastSet',
+            'Enabled',
+            'whenCreated',
+            'Department',
+            'ServicePrincipalName',
+            'PasswordNeverExpires',
+            'userAccountControl',
+            'memberOf'
+        ) -ErrorAction Stop
+
+        if (-not $ServiceAccounts) {
+            Write-ADReportLog -Message "No service accounts found with standard filters. Expanding search..." -Type Warning -Terminal
+            
+            # Fallback search for accounts with service indicators
+            $ServiceAccounts = Get-ADUser -Filter {
+                (Description -like '*automated*') -or
+                (Description -like '*automation*') -or
+                (Description -like '*batch*') -or
+                (Description -like '*task*') -or
+                (ServicePrincipalName -like '*') -or
+                (PasswordNeverExpires -eq $true)
+            } -Properties @(
+                'Description',
+                'LastLogonDate',
+                'PasswordLastSet',
+                'Enabled',
+                'whenCreated',
+                'Department',
+                'ServicePrincipalName',
+                'PasswordNeverExpires',
+                'userAccountControl',
+                'memberOf'
+            ) -ErrorAction Stop
+        }
+
         $Results = foreach ($account in $ServiceAccounts) {
+            # Calculate password age
             $daysSincePasswordChange = if ($account.PasswordLastSet) { 
-                (New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days 
+                [math]::Round((New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days, 0)
             } else { 9999 }
+
+            # Security risk assessment
+            $securityRisks = [System.Collections.Generic.List[string]]@()
             
-            $passwordStatus = switch ($daysSincePasswordChange) {
-                {$_ -gt 365} { "Critical" }
-                {$_ -gt 180} { "Warning" }
-                {$_ -gt 90} { "Review" }
-                default { "Good" }
+            if ($account.PasswordNeverExpires) {
+                $securityRisks.Add("Password never expires")
             }
-            
+            if ($daysSincePasswordChange -gt 365) {
+                $securityRisks.Add("Password not changed in >1 year")
+            }
+            if ($account.ServicePrincipalName.Count -gt 0) {
+                $securityRisks.Add("Kerberoasting risk (SPN)")
+            }
+            if (-not $account.Enabled) {
+                $securityRisks.Add("Account disabled but configured")
+            }
+            if ($account.memberOf -match "Domain Admins|Enterprise Admins|Schema Admins") {
+                $securityRisks.Add("High privileged group member")
+            }
+
+            # Risk assessment
+            $passwordStatus = if ($daysSincePasswordChange -gt 365) {
+                "Critical"
+            } elseif ($daysSincePasswordChange -gt 180) {
+                "Warning"
+            } elseif ($daysSincePasswordChange -gt 90) {
+                "Review"
+            } else {
+                "Good"
+            }
+
+            $securityRisk = if ($securityRisks.Count -ge 3) {
+                "Critical"
+            } elseif ($securityRisks.Count -ge 2) {
+                "High"
+            } elseif ($securityRisks.Count -ge 1) {
+                "Medium"
+            } else {
+                "Low"
+            }
+
             [PSCustomObject]@{
                 Name = $account.Name
                 SamAccountName = $account.SamAccountName
-                Description = $account.Description
-                Department = $account.Department
+                Department = if ($account.Department) { $account.Department } else { "Not specified" }
                 Enabled = $account.Enabled
                 PasswordLastSet = if ($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
                 DaysSincePasswordChange = $daysSincePasswordChange
-                PasswordStatus = $passwordStatus
+                PasswordStatus = $passwordStatus.ToString()
+                SecurityRisk = $securityRisk.ToString()
+                HasSPN = $account.ServicePrincipalName.Count -gt 0
+                PasswordNeverExpires = $account.PasswordNeverExpires
                 LastLogonDate = if ($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
-                WhenCreated = $account.whenCreated
-                Recommendation = switch ($passwordStatus) {
-                    "Critical" { "Immediate password change required" }
-                    "Warning" { "Plan password change soon" }
-                    "Review" { "Review password policy compliance" }
-                    default { "Password age within policy" }
+                Created = $account.whenCreated
+                SecurityIssues = if ($securityRisks) { $securityRisks -join " | " } else { "None" }
+                Recommendation = if ($passwordStatus -eq "Critical") {
+                    "Immediate password rotation required"
+                } elseif ($passwordStatus -eq "Warning") {
+                    "Schedule password change within 30 days"
+                } elseif ($passwordStatus -eq "Review") {
+                    "Review account usage and policy"
+                } else {
+                    "Monitor usage patterns"
                 }
             }
         }
         
-        Write-ADReportLog -Message "Service account password age analysis completed. $($Results.Count) accounts found." -Type Info -Terminal
-        return $Results | Sort-Object DaysSincePasswordChange -Descending
+        Write-ADReportLog -Message "Service account analysis completed. Found $($Results.Count) accounts with potential security implications." -Type Info -Terminal
+        return $Results | Sort-Object {
+            switch($_.SecurityRisk) {
+                'Critical' { 4 }
+                'High' { 3 }
+                'Medium' { 2 }
+                'Low' { 1 }
+                default { 0 }
+            }
+        } -Descending
         
     } catch {
-        Write-ADReportLog -Message "Error analyzing service account password ages: $($_.Exception.Message)" -Type Error
+        Write-ADReportLog -Message "Error in service account analysis: $($_.Exception.Message)" -Type Error
         return @()
     }
 }
@@ -6803,50 +10108,143 @@ Function Get-UnusedServiceAccounts {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing unused service accounts..." -Type Info -Terminal
-        
-        # Service Accounts mit langer Inaktivität finden
-        $ServiceAccounts = Get-ADUser -Filter {
-            (SamAccountName -like "*svc*") -or 
-            (SamAccountName -like "*service*") -or 
-            (Description -like "*service*")
-        } -Properties Description, LastLogonDate, PasswordLastSet, Enabled, whenCreated, Department -ErrorAction Stop
-        
+        Write-ADReportLog -Message "Starting comprehensive analysis of unused service accounts..." -Type Info -Terminal
+
+        # Get domain for language detection
+        $domain = Get-ADDomain
+        $isGermanDomain = $domain.DNSRoot -match "\.de$" -or $domain.NetBIOSName -match "DE$"
+
+        # Build comprehensive filter for service accounts in German and English
+        $filterString = @"
+            (Enabled -eq `$true) -and (
+                (SamAccountName -like '*svc*') -or
+                (SamAccountName -like '*service*') -or
+                (SamAccountName -like '*srv*') -or
+                (SamAccountName -like '*dienst*') -or
+                (SamAccountName -like '*konto*') -or
+                (SamAccountName -like '*automated*') -or
+                (SamAccountName -like '*automation*') -or
+                (SamAccountName -like '*auto*') -or
+                (SamAccountName -like '*batch*') -or
+                (SamAccountName -like '*task*') -or
+                (SamAccountName -like '*job*') -or
+                (SamAccountName -like '*admin*') -or
+                (SamAccountName -like '*adm*') -or
+                (SamAccountName -like '*system*') -or
+                (SamAccountName -like '*backup*') -or
+                (SamAccountName -like '*report*') -or
+                (Description -like '*service account*') -or
+                (Description -like '*dienstkonto*') -or
+                (Description -like '*system account*') -or
+                (Description -like '*automated*') -or
+                (Description -like '*automation*') -or
+                (Description -like '*admin*') -or
+                (ServicePrincipalName -like '*')
+            )
+"@
+
+        # Get all potential service accounts with extended properties
+        $ServiceAccounts = Get-ADUser -Filter $filterString -Properties @(
+            'Description',
+            'LastLogonDate',
+            'PasswordLastSet',
+            'Enabled',
+            'whenCreated',
+            'Department',
+            'ServicePrincipalName',
+            'LastLogonTimestamp',
+            'PasswordNeverExpires',
+            'userAccountControl'
+        ) -ErrorAction Stop
+
+        Write-ADReportLog -Message "Found $($ServiceAccounts.Count) potential service accounts for analysis" -Type Info -Terminal
+
         $Results = foreach ($account in $ServiceAccounts) {
-            $daysSinceLastLogon = if ($account.LastLogonDate) { 
-                (New-TimeSpan -Start $account.LastLogonDate -End (Get-Date)).Days 
-            } else { 9999 }
+            # Calculate days since last logon using both LastLogonDate and LastLogonTimestamp
+            $lastLogon = if ($account.LastLogonDate) { $account.LastLogonDate } `
+                        elseif ($account.LastLogonTimestamp) { [DateTime]::FromFileTime($account.LastLogonTimestamp) } `
+                        else { $null }
+
+            $daysSinceLastLogon = if ($lastLogon) { 
+                [Math]::Abs((New-TimeSpan -Start $lastLogon -End (Get-Date)).Days)
+            } else { 
+                9999  # High number for accounts that never logged on
+            }
+
+            # Calculate password age
+            $daysSincePasswordSet = if ($account.PasswordLastSet) {
+                [Math]::Abs((New-TimeSpan -Start $account.PasswordLastSet -End (Get-Date)).Days)
+            } else {
+                9999
+            }
+
+            # Determine risk level based on multiple factors
+            $riskFactors = [System.Collections.ArrayList]@()
             
-            if ($daysSinceLastLogon -gt 90 -or $null -eq $account.LastLogonDate) {
-                $unusedStatus = switch ($daysSinceLastLogon) {
-                    {$_ -gt 365} { "Critical" }
-                    {$_ -gt 180} { "Warning" }
-                    default { "Review" }
-                }
-                
-                [PSCustomObject]@{
-                    Name = $account.Name
-                    SamAccountName = $account.SamAccountName
-                    Description = $account.Description
-                    Department = $account.Department
-                    Enabled = $account.Enabled
-                    LastLogonDate = if ($account.LastLogonDate) { $account.LastLogonDate } else { "Never" }
-                    DaysSinceLastLogon = $daysSinceLastLogon
-                    UnusedStatus = $unusedStatus
-                    PasswordLastSet = if ($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
-                    WhenCreated = $account.whenCreated
-                    Recommendation = switch ($unusedStatus) {
-                        "Critical" { "Consider immediate deactivation" }
-                        "Warning" { "Verify if still needed" }
-                        default { "Review account usage" }
-                    }
+            if ($daysSinceLastLogon -gt 365) {
+                $riskFactors.Add("No logon for over 1 year") | Out-Null
+            } elseif ($daysSinceLastLogon -gt 180) {
+                $riskFactors.Add("No logon for over 6 months") | Out-Null
+            } elseif ($daysSinceLastLogon -gt 90) {
+                $riskFactors.Add("No logon for over 3 months") | Out-Null
+            }
+
+            if ($daysSincePasswordSet -gt 365) {
+                $riskFactors.Add("Password not changed for over 1 year") | Out-Null
+            }
+
+            if ($account.PasswordNeverExpires) {
+                $riskFactors.Add("Password never expires") | Out-Null
+            }
+
+            if ($account.ServicePrincipalName) {
+                $riskFactors.Add("Has SPN configuration") | Out-Null
+            }
+
+            # Determine overall risk level
+            $riskLevel = switch ($true) {
+                { $riskFactors.Count -ge 3 } { "Critical" }
+                { $riskFactors.Count -eq 2 } { "High" }
+                { $riskFactors.Count -eq 1 } { "Medium" }
+                default { "Low" }
+            }
+
+            # Create result object with clear English output
+            [PSCustomObject]@{
+                Name = $account.Name
+                SamAccountName = $account.SamAccountName
+                Description = if ($account.Description) { $account.Description } else { "Not specified" }
+                Department = if ($account.Department) { $account.Department } else { "Not specified" }
+                Enabled = $account.Enabled
+                LastLogon = if ($lastLogon) { $lastLogon } else { "Never" }
+                DaysSinceLastLogon = $daysSinceLastLogon
+                PasswordLastSet = if ($account.PasswordLastSet) { $account.PasswordLastSet } else { "Never" }
+                DaysSincePasswordChange = $daysSincePasswordSet
+                Created = $account.whenCreated
+                RiskLevel = $riskLevel  # Explicitly set as string
+                RiskFactors = if ($riskFactors.Count -gt 0) { $riskFactors -join " | " } else { "None" }
+                Recommendation = switch ($riskLevel) {
+                    "Critical" { "Immediate security review required - Consider deactivation" }
+                    "High" { "High priority review needed - Verify account necessity" }
+                    "Medium" { "Schedule security review - Check account usage" }
+                    "Low" { "Monitor account activity" }
                 }
             }
         }
+
+        Write-ADReportLog -Message "Unused service accounts analysis completed. Found $($Results.Count) accounts requiring attention." -Type Info -Terminal
         
-        Write-ADReportLog -Message "Unused service accounts analysis completed. $($Results.Count) accounts found." -Type Info -Terminal
-        return $Results | Sort-Object DaysSinceLastLogon -Descending
-        
+        # Sort by risk level and days since last logon
+        return $Results | Sort-Object {
+            switch ($_.RiskLevel) {
+                "Critical" { 4 }
+                "High" { 3 }
+                "Medium" { 2 }
+                "Low" { 1 }
+                default { 0 }
+            }
+        }, DaysSinceLastLogon -Descending
+
     } catch {
         Write-ADReportLog -Message "Error analyzing unused service accounts: $($_.Exception.Message)" -Type Error
         return @()
@@ -6964,40 +10362,278 @@ function Get-GPOPermissions {
 
 function Get-PasswordPolicySummary {
     try {
-        Write-ADReportLog -Message "Analyzing password policies..." -Type Info -Terminal
+        Write-ADReportLog -Message "Loading password policy summary..." -Type Info -Terminal
         
-        # Default Domain Policy abrufen
-        $defaultPolicy = Get-ADDefaultDomainPasswordPolicy -ErrorAction Stop
+        $Results = @()
         
-        $Results = @([PSCustomObject]@{
-            PolicyType = "Default Domain Policy"
-            MinPasswordLength = $defaultPolicy.MinPasswordLength
-            MaxPasswordAge = $defaultPolicy.MaxPasswordAge.Days
-            MinPasswordAge = $defaultPolicy.MinPasswordAge.Days
-            PasswordHistoryCount = $defaultPolicy.PasswordHistoryCount
-            ComplexityEnabled = $defaultPolicy.ComplexityEnabled
-            ReversibleEncryption = $defaultPolicy.ReversibleEncryptionEnabled
-            LockoutThreshold = $defaultPolicy.LockoutThreshold
-            LockoutDuration = if ($defaultPolicy.LockoutDuration) { $defaultPolicy.LockoutDuration.Minutes } else { 0 }
-            ResetCounterAfter = if ($defaultPolicy.LockoutObservationWindow) { $defaultPolicy.LockoutObservationWindow.Minutes } else { 0 }
-            RiskLevel = switch ($defaultPolicy.MinPasswordLength) {
-                {$_ -lt 8} { "High" }
-                {$_ -lt 12} { "Medium" }
-                default { "Low" }
+        # Get Default Domain Policy
+        try {
+            $defaultPolicy = Get-ADDefaultDomainPasswordPolicy -ErrorAction Stop
+            Write-ADReportLog -Message "Default domain policy successfully retrieved." -Type Info -Terminal
+        } catch {
+            Write-ADReportLog -Message "Error retrieving default domain policy: $($_.Exception.Message)" -Type Warning -Terminal
+            $defaultPolicy = $null
+        }
+        
+        # Analyze Default Domain Policy
+        if ($defaultPolicy) {
+            Write-ADReportLog -Message "Default domain policy found, analyzing..." -Type Info -Terminal
+            
+            # Debug-Ausgabe für alle verfügbaren Properties
+            Write-ADReportLog -Message "Default Policy Properties: MinPasswordLength=$($defaultPolicy.MinPasswordLength), MaxPasswordAge=$($defaultPolicy.MaxPasswordAge), ComplexityEnabled=$($defaultPolicy.ComplexityEnabled)" -Type Info -Terminal
+            
+            # Sichere Konvertierung der Werte zur Vermeidung von System.Object
+            $minPwdLength = if ($defaultPolicy.MinPasswordLength -is [int]) { $defaultPolicy.MinPasswordLength } else { 0 }
+            $maxPwdAge = if ($defaultPolicy.MaxPasswordAge -and $defaultPolicy.MaxPasswordAge.TotalDays -gt 0) { [int]$defaultPolicy.MaxPasswordAge.TotalDays } else { 0 }
+            $minPwdAge = if ($defaultPolicy.MinPasswordAge -and $defaultPolicy.MinPasswordAge.TotalDays -gt 0) { [int]$defaultPolicy.MinPasswordAge.TotalDays } else { 0 }
+            $pwdHistoryCount = if ($defaultPolicy.PasswordHistoryCount -is [int]) { $defaultPolicy.PasswordHistoryCount } else { 0 }
+            $complexityEnabled = if ($defaultPolicy.ComplexityEnabled -is [bool]) { $defaultPolicy.ComplexityEnabled } else { $false }
+            $reversibleEncryption = if ($defaultPolicy.ReversibleEncryptionEnabled -is [bool]) { $defaultPolicy.ReversibleEncryptionEnabled } else { $false }
+            $lockoutThreshold = if ($defaultPolicy.LockoutThreshold -is [int]) { $defaultPolicy.LockoutThreshold } else { 0 }
+            $lockoutDuration = if ($defaultPolicy.LockoutDuration -and $defaultPolicy.LockoutDuration.TotalMinutes -gt 0) { [int]$defaultPolicy.LockoutDuration.TotalMinutes } else { 0 }
+            $resetCounterAfter = if ($defaultPolicy.LockoutObservationWindow -and $defaultPolicy.LockoutObservationWindow.TotalMinutes -gt 0) { [int]$defaultPolicy.LockoutObservationWindow.TotalMinutes } else { 0 }
+            
+            # Explizite RiskLevel-Bestimmung
+            $riskLevel = "Low"
+            if ($minPwdLength -lt 8) {
+                $riskLevel = "High"
+            } elseif ($minPwdLength -lt 12) {
+                $riskLevel = "Medium"
             }
-            Recommendation = switch ($defaultPolicy.MinPasswordLength) {
-                {$_ -lt 8} { "Increase minimum password length to at least 12 characters" }
-                {$_ -lt 12} { "Consider increasing minimum password length" }
-                default { "Policy meets basic security requirements" }
+            
+            # Explizite Recommendation-Bestimmung
+            $recommendation = "Policy meets basic security requirements"
+            if ($minPwdLength -lt 8) {
+                $recommendation = "Increase minimum password length to at least 12 characters"
+            } elseif ($minPwdLength -lt 12) {
+                $recommendation = "Consider increasing minimum password length"
             }
-        })
+            
+            $Results += [PSCustomObject]@{
+                PolicyName = "Default Domain Policy"
+                PolicyType = "Domain Default"
+                Scope = "Domain-wide"
+                MinPasswordLength = if ($minPwdLength -gt 0) { $minPwdLength.ToString() } else { "Not Set" }
+                MaxPasswordAge = if ($maxPwdAge -gt 0) { $maxPwdAge.ToString() } else { "Not Set" }
+                MinPasswordAge = if ($minPwdAge -gt 0) { $minPwdAge.ToString() } else { "Not Set" }
+                PasswordHistoryCount = if ($pwdHistoryCount -gt 0) { $pwdHistoryCount.ToString() } else { "Not Set" }
+                ComplexityEnabled = $complexityEnabled.ToString()
+                ReversibleEncryption = $reversibleEncryption.ToString()
+                LockoutThreshold = if ($lockoutThreshold -eq 0) { "Not Set" } else { $lockoutThreshold.ToString() }
+                LockoutDuration = if ($lockoutDuration -gt 0) { $lockoutDuration.ToString() } else { "Not Set" }
+                ResetCounterAfter = if ($resetCounterAfter -gt 0) { $resetCounterAfter.ToString() } else { "Not Set" }
+                RiskLevel = $riskLevel
+                Recommendation = $recommendation
+            }
+        } else {
+            Write-ADReportLog -Message "No default domain policy found! Creating manual entry..." -Type Warning -Terminal
+            
+            # Fallback: Versuche direkt über Domain Controller GPO zu gehen
+            try {
+                $domain = Get-ADDomain -ErrorAction Stop
+                $domainDN = $domain.DistinguishedName
+                Write-ADReportLog -Message "Domain DN: $domainDN" -Type Info -Terminal
+                
+                # Default Domain Policy GPO direkt abfragen
+                $defaultGPO = Get-GPO -Name "Default Domain Policy" -ErrorAction SilentlyContinue
+                if ($defaultGPO) {
+                    Write-ADReportLog -Message "Found Default Domain Policy GPO: $($defaultGPO.DisplayName)" -Type Info -Terminal
+                    
+                    $Results += [PSCustomObject]@{
+                        PolicyName = "Default Domain Policy (via GPO)"
+                        PolicyType = "Domain Default"
+                        Scope = "Domain-wide"
+                        MinPasswordLength = "Check via GPO Report"
+                        MaxPasswordAge = "Check via GPO Report"
+                        MinPasswordAge = "Check via GPO Report"
+                        PasswordHistoryCount = "Check via GPO Report"
+                        ComplexityEnabled = "Check via GPO Report"
+                        ReversibleEncryption = "Check via GPO Report"
+                        LockoutThreshold = "Check via GPO Report"
+                        LockoutDuration = "Check via GPO Report"
+                        ResetCounterAfter = "Check via GPO Report"
+                        RiskLevel = "Review Required"
+                        Recommendation = "Manually review Default Domain Policy GPO settings"
+                    }
+                }
+            } catch {
+                Write-ADReportLog -Message "Error accessing domain information: $($_.Exception.Message)" -Type Error -Terminal
+            }
+        }
+
+        # Get Fine-Grained Password Policies
+        try {
+            $fgpps = Get-ADFineGrainedPasswordPolicy -Filter * -Properties * -ErrorAction Stop
+            if ($fgpps) {
+                Write-ADReportLog -Message "Found $($fgpps.Count) fine-grained password policies" -Type Info -Terminal
+                foreach ($fgpp in $fgpps) {
+                    try {
+                        $appliesTo = @()
+                        if ($fgpp.AppliesTo) {
+                            foreach ($dn in $fgpp.AppliesTo) {
+                                try {
+                                    $obj = Get-ADObject $dn -ErrorAction SilentlyContinue
+                                    if ($obj) {
+                                        $appliesTo += $obj.Name
+                                    } else {
+                                        $appliesTo += $dn
+                                    }
+                                } catch {
+                                    $appliesTo += $dn
+                                }
+                            }
+                        }
+                        
+                        # Sichere Konvertierung der FGPP-Werte
+                        $fgppMinPwdLength = if ($fgpp.MinPasswordLength -is [int]) { $fgpp.MinPasswordLength } else { 0 }
+                        $fgppMaxPwdAge = if ($fgpp.MaxPasswordAge -and $fgpp.MaxPasswordAge.TotalDays -gt 0) { [int]$fgpp.MaxPasswordAge.TotalDays } else { 0 }
+                        $fgppMinPwdAge = if ($fgpp.MinPasswordAge -and $fgpp.MinPasswordAge.TotalDays -gt 0) { [int]$fgpp.MinPasswordAge.TotalDays } else { 0 }
+                        $fgppPwdHistoryCount = if ($fgpp.PasswordHistoryCount -is [int]) { $fgpp.PasswordHistoryCount } else { 0 }
+                        $fgppComplexityEnabled = if ($fgpp.ComplexityEnabled -is [bool]) { $fgpp.ComplexityEnabled } else { $false }
+                        $fgppReversibleEncryption = if ($fgpp.ReversibleEncryptionEnabled -is [bool]) { $fgpp.ReversibleEncryptionEnabled } else { $false }
+                        $fgppLockoutThreshold = if ($fgpp.LockoutThreshold -is [int]) { $fgpp.LockoutThreshold } else { 0 }
+                        $fgppLockoutDuration = if ($fgpp.LockoutDuration -and $fgpp.LockoutDuration.TotalMinutes -gt 0) { [int]$fgpp.LockoutDuration.TotalMinutes } else { 0 }
+                        $fgppResetCounterAfter = if ($fgpp.LockoutObservationWindow -and $fgpp.LockoutObservationWindow.TotalMinutes -gt 0) { [int]$fgpp.LockoutObservationWindow.TotalMinutes } else { 0 }
+                        
+                        # Explizite RiskLevel-Bestimmung für FGPP
+                        $fgppRiskLevel = "Low"
+                        if ($fgppMinPwdLength -lt 8) {
+                            $fgppRiskLevel = "High"
+                        } elseif ($fgppMinPwdLength -lt 12) {
+                            $fgppRiskLevel = "Medium"
+                        }
+                        
+                        # Explizite Recommendation-Bestimmung für FGPP
+                        $fgppRecommendation = "Policy meets basic security requirements"
+                        if ($fgppMinPwdLength -lt 8) {
+                            $fgppRecommendation = "Increase minimum password length to at least 12 characters"
+                        } elseif ($fgppMinPwdLength -lt 12) {
+                            $fgppRecommendation = "Consider increasing minimum password length"
+                        }
+                        
+                        $Results += [PSCustomObject]@{
+                            PolicyName = $fgpp.Name
+                            PolicyType = "Fine-Grained"
+                            Scope = if ($appliesTo.Count -gt 0) { $appliesTo -join ", " } else { "Not Applied" }
+                            MinPasswordLength = if ($fgppMinPwdLength -gt 0) { $fgppMinPwdLength.ToString() } else { "Not Set" }
+                            MaxPasswordAge = if ($fgppMaxPwdAge -gt 0) { $fgppMaxPwdAge.ToString() } else { "Not Set" }
+                            MinPasswordAge = if ($fgppMinPwdAge -gt 0) { $fgppMinPwdAge.ToString() } else { "Not Set" }
+                            PasswordHistoryCount = if ($fgppPwdHistoryCount -gt 0) { $fgppPwdHistoryCount.ToString() } else { "Not Set" }
+                            ComplexityEnabled = $fgppComplexityEnabled.ToString()
+                            ReversibleEncryption = $fgppReversibleEncryption.ToString()
+                            LockoutThreshold = if ($fgppLockoutThreshold -eq 0) { "Not Set" } else { $fgppLockoutThreshold.ToString() }
+                            LockoutDuration = if ($fgppLockoutDuration -gt 0) { $fgppLockoutDuration.ToString() } else { "Not Set" }
+                            ResetCounterAfter = if ($fgppResetCounterAfter -gt 0) { $fgppResetCounterAfter.ToString() } else { "Not Set" }
+                            RiskLevel = $fgppRiskLevel
+                            Recommendation = $fgppRecommendation
+                        }
+                    } catch {
+                        Write-ADReportLog -Message "Error processing FGPP '$($fgpp.Name)': $($_.Exception.Message)" -Type Warning -Terminal
+                    }
+                }
+            } else {
+                Write-ADReportLog -Message "No fine-grained password policies found." -Type Info -Terminal
+            }
+        } catch {
+            Write-ADReportLog -Message "Error retrieving fine-grained password policies: $($_.Exception.Message)" -Type Warning -Terminal
+        }
+
+        # Get Password Policies from GPOs - erweiterte Suche
+        try {
+            Write-ADReportLog -Message "Searching for GPOs with password settings..." -Type Info -Terminal
+            $allGpos = Get-GPO -All -ErrorAction Stop
+            $passwordGpos = @()
+            
+            foreach ($gpo in $allGpos) {
+                try {
+                    $report = Get-GPOReport -Guid $gpo.Id -ReportType XML -ErrorAction SilentlyContinue
+                    if ($report -and ($report -match "Password" -or $report -match "Lockout")) {
+                        $passwordGpos += $gpo
+                    }
+                } catch {
+                    # Ignoriere Fehler bei einzelnen GPOs
+                    continue
+                }
+            }
+            
+            if ($passwordGpos.Count -gt 0) {
+                Write-ADReportLog -Message "Found $($passwordGpos.Count) GPOs with password/lockout settings" -Type Info -Terminal
+                foreach ($gpo in $passwordGpos) {
+                    try {
+                        $report = Get-GPOReport -Guid $gpo.Id -ReportType XML -ErrorAction SilentlyContinue
+                        if ($report) {
+                            $Results += [PSCustomObject]@{
+                                PolicyName = $gpo.DisplayName
+                                PolicyType = "GPO"
+                                Scope = "GPO-linked OUs/Sites"
+                                MinPasswordLength = if ($report -match "MinimumPasswordLength.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                MaxPasswordAge = if ($report -match "MaximumPasswordAge.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                MinPasswordAge = if ($report -match "MinimumPasswordAge.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                PasswordHistoryCount = if ($report -match "PasswordHistorySize.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                ComplexityEnabled = if ($report -match "PasswordComplexity.*?(\d+)") { if ($matches[1] -eq "1") { "True" } else { "False" } } else { "Not Set" }
+                                ReversibleEncryption = if ($report -match "ClearTextPassword.*?(\d+)") { if ($matches[1] -eq "1") { "True" } else { "False" } } else { "Not Set" }
+                                LockoutThreshold = if ($report -match "LockoutBadCount.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                LockoutDuration = if ($report -match "LockoutDuration.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                ResetCounterAfter = if ($report -match "ResetLockoutCount.*?(\d+)") { $matches[1] } else { "Not Set" }
+                                RiskLevel = "Review Required"
+                                Recommendation = "Review GPO settings and scope"
+                            }
+                        }
+                    } catch {
+                        Write-ADReportLog -Message "Error processing GPO '$($gpo.DisplayName)': $($_.Exception.Message)" -Type Warning -Terminal
+                    }
+                }
+            } else {
+                Write-ADReportLog -Message "No GPOs with password settings found." -Type Info -Terminal
+            }
+        } catch {
+            Write-ADReportLog -Message "Error searching GPOs for password settings: $($_.Exception.Message)" -Type Warning -Terminal
+        }
         
-        Write-ADReportLog -Message "Password policy analysis completed." -Type Info -Terminal
-        return $Results
+        # Fallback: Wenn immer noch keine Ergebnisse, erstelle eine Standardmeldung
+        if ($Results.Count -eq 0) {
+            Write-ADReportLog -Message "No password policies found via standard methods. Creating informational entry." -Type Warning -Terminal
+            $Results += [PSCustomObject]@{
+                PolicyName = "No Policies Found"
+                PolicyType = "Information"
+                Scope = "N/A"
+                MinPasswordLength = "Unknown"
+                MaxPasswordAge = "Unknown"
+                MinPasswordAge = "Unknown"
+                PasswordHistoryCount = "Unknown"
+                ComplexityEnabled = "Unknown"
+                ReversibleEncryption = "Unknown"
+                LockoutThreshold = "Unknown"
+                LockoutDuration = "Unknown"
+                ResetCounterAfter = "Unknown"
+                RiskLevel = "High"
+                Recommendation = "Manual review required - Standard AD queries failed to retrieve password policies"
+            }
+        } else {
+            Write-ADReportLog -Message "Password policy analysis completed. Found $($Results.Count) policies." -Type Info -Terminal
+        }
+        
+        return $Results | Sort-Object PolicyType, PolicyName
         
     } catch {
         Write-ADReportLog -Message "Error analyzing password policies: $($_.Exception.Message)" -Type Error
-        return @()
+        # Erstelle Fallback-Ergebnis auch bei Gesamtfehlern
+        return @([PSCustomObject]@{
+            PolicyName = "Error during analysis"
+            PolicyType = "Error"
+            Scope = "N/A"
+            MinPasswordLength = "Error"
+            MaxPasswordAge = "Error"
+            MinPasswordAge = "Error"
+            PasswordHistoryCount = "Error"
+            ComplexityEnabled = "Error"
+            ReversibleEncryption = "Error"
+            LockoutThreshold = "Error"
+            LockoutDuration = "Error"
+            ResetCounterAfter = "Error"
+            RiskLevel = "Critical"
+            Recommendation = "Function failed: $($_.Exception.Message)"
+        })
     }
 }
 
@@ -7083,94 +10719,254 @@ function Get-PrivilegeEscalationPaths {
     try {
         Write-ADReportLog -Message "Analyzing potential privilege escalation paths..." -Type Info -Terminal
         
-        # Define privileged groups in German and English to support both languages
-        $PrivGroups = @(
-            # German Groups
-            "Domänen-Admins",
-            "Organisations-Admins", 
-            "Schema-Admins",
-            "Administratoren",
-            "Konten-Operatoren",
-            "Sicherungs-Operatoren",
-            "Server-Operatoren",
-            "Druck-Operatoren",
-            # English Groups
-            "Domain Admins",
-            "Enterprise Admins",
-            "Schema Admins", 
-            "Administrators",
-            "Account Operators",
-            "Backup Operators",
-            "Server Operators",
-            "Print Operators"
-        )
-
-        # System accounts to exclude in both languages
-        $ExcludedAccounts = @(
-            # German
-            "SYSTEM", "Administratoren", "Domänen-Admins", "Organisations-Admins", 
-            "Jeder", "SELBST", "Terminalserver-Lizenzserver", "Zertifikatherausgeber",
-            # English
-            "Everyone", "SELF", "Terminal Server License Servers", "Certificate Publishers"
-        ) -join '|'
-        
         $Results = @()
         
-        # Check all users with dangerous rights on privileged groups
-        foreach ($group in $PrivGroups) {
-            try {
-                $groupObj = Get-ADGroup -Filter "Name -eq '$group'" -ErrorAction Stop
-                if ($groupObj) {
-                    $groupDN = $groupObj.DistinguishedName
-                    
-                    $acl = Get-Acl -Path "AD:\$groupDN" -ErrorAction Stop
-                    $dangerousRights = $acl.Access | Where-Object {
-                        ($_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|WriteDacl|WriteOwner|GenericAll|ExtendedRight") -and
-                        ($_.AccessControlType -eq "Allow") -and
-                        ($_.IdentityReference.Value -notmatch $ExcludedAccounts)
+        # Get all privileged groups (both German and English names)
+        $PrivilegedGroups = @()
+        foreach ($groupCategory in $Global:ADGroupNames.GetEnumerator()) {
+            foreach ($groupName in $groupCategory.Value) {
+                try {
+                    $groupObj = Get-ADGroup -Filter "Name -eq '$groupName'" -ErrorAction SilentlyContinue
+                    if ($groupObj) {
+                        $PrivilegedGroups += $groupObj
+                        Write-ADReportLog -Message "Found privileged group: $($groupObj.Name)" -Type Info
                     }
-                    
-                    foreach ($right in $dangerousRights) {
-                        $identity = $right.IdentityReference.Value.Split('\')[-1]
-                        try {
-                            $user = Get-ADUser -Filter "SamAccountName -eq '$identity' -or Name -eq '$identity'" -Properties Department,Description,LastLogonDate,whenCreated,memberOf -ErrorAction Stop
-                            if ($user) {
-                                $Results += [PSCustomObject]@{
-                                    Name = $user.Name
-                                    SamAccountName = $user.SamAccountName
-                                    Department = $user.Department
-                                    TargetGroup = $group
-                                    AccessRight = $right.ActiveDirectoryRights
-                                    RiskLevel = "High"
-                                    Description = $user.Description
-                                    LastLogon = if ($user.LastLogonDate) { $user.LastLogonDate } else { "Never" }
-                                    Created = $user.whenCreated
-                                    Recommendation = "Überprüfen und entfernen Sie gefährliche Zugriffsrechte / Review and remove dangerous access rights"
-                                    AdditionalInfo = "Benutzer hat direkte Schreibrechte auf privilegierte Gruppe / User has direct write permissions on privileged group"
-                                }
-                            }
-                        } catch {
-                            # Skip warning for filtered system accounts
-                            if ($identity -notmatch $ExcludedAccounts) {
-                                Write-ADReportLog -Message "Error processing user $identity : $($_.Exception.Message)" -Type Warning
-                            }
-                        }
-                    }
+                } catch {
+                    # Continue with next group name
                 }
-            } catch {
-                Write-ADReportLog -Message "Error accessing group $group : $($_.Exception.Message)" -Type Warning
             }
         }
         
-        Write-ADReportLog -Message "Privilege escalation analysis completed. $($Results.Count) paths found." -Type Info -Terminal
-        if ($Results.Count -eq 0) {
-            Write-ADReportLog -Message "No privilege escalation paths detected." -Type Info
+        if ($PrivilegedGroups.Count -eq 0) {
+            Write-ADReportLog -Message "No privileged groups found for analysis." -Type Warning -Terminal
+            return @([PSCustomObject]@{
+                TreeStructure = [string]"⚠️ PRIVILEGED GROUPS ANALYSIS"
+                PathType = [string]"Analysis Status"
+                ObjectName = [string]"No Privileged Groups Found"
+                ObjectType = [string]"Warning"
+                Status = [string]"Incomplete"
+                RiskLevel = [string]"Medium"
+                SecurityImpact = [string]"Cannot analyze privilege escalation paths - no privileged groups detected"
+                LastActivity = [string](Get-Date).ToString("MM/dd/yyyy HH:mm")
+                AccountAge = [string]"N/A"
+                PathDetails = [string]"Analysis requires access to privileged groups"
+                Recommendation = [string]"Verify domain connectivity and user permissions"
+                ComplianceNote = [string]"Privilege escalation analysis incomplete"
+            })
         }
-        return $Results | Sort-Object RiskLevel,TargetGroup
+        
+        # Analyze each privileged group for dangerous permissions
+        foreach ($group in $PrivilegedGroups) {
+            Write-ADReportLog -Message "Analyzing access rights for group: $($group.Name)" -Type Info
+            
+            try {
+                $acl = Get-Acl -Path "AD:\$($group.DistinguishedName)" -ErrorAction Stop
+                
+                # Find dangerous permissions
+                $dangerousPermissions = $acl.Access | Where-Object {
+                    ($_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|WriteDacl|WriteOwner|GenericAll|ExtendedRight") -and
+                    ($_.AccessControlType -eq "Allow") -and
+                    ($_.IdentityReference.Value -notmatch "SYSTEM|NT AUTHORITY|BUILTIN|S-1-5-32") -and
+                    ($_.IdentityReference.Value -notmatch "Domain Admins|Enterprise Admins|Schema Admins|Administrators") -and
+                    ($_.IdentityReference.Value -notmatch "Domänen-Admins|Organisations-Admins|Schema-Admins|Administratoren")
+                }
+                
+                foreach ($permission in $dangerousPermissions) {
+                    try {
+                        $identityName = $permission.IdentityReference.Value
+                        if ($identityName -like "*\*") {
+                            $identityName = $identityName.Split('\')[-1]
+                        }
+                        
+                        # Try to resolve the identity
+                        $identityObject = $null
+                        try {
+                            $identityObject = Get-ADUser -Filter "SamAccountName -eq '$identityName' -or Name -eq '$identityName'" -Properties Department, Description, LastLogonDate, whenCreated, memberOf, AdminCount -ErrorAction SilentlyContinue
+                        } catch {
+                            # Might be a group
+                            try {
+                                $identityObject = Get-ADGroup -Filter "SamAccountName -eq '$identityName' -or Name -eq '$identityName'" -Properties Description, whenCreated, memberOf -ErrorAction SilentlyContinue
+                            } catch {
+                                # Continue with unknown object
+                            }
+                        }
+                        
+                        if ($identityObject) {
+                            $objectType = if ($identityObject.ObjectClass -eq "user") { "User Account" } else { "Security Group" }
+                            $isPrivileged = if ($identityObject.AdminCount -eq 1) { "Yes" } else { "No" }
+                            
+                            # Calculate risk level
+                            $riskLevel = "High"
+                            if ($permission.ActiveDirectoryRights -match "GenericAll|WriteDacl|WriteOwner") {
+                                $riskLevel = "Critical"
+                            } elseif ($permission.ActiveDirectoryRights -match "WriteProperty|GenericWrite") {
+                                $riskLevel = "High"
+                            } else {
+                                $riskLevel = "Medium"
+                            }
+                            
+                            # Create security impact description
+                            $securityImpact = "Can modify $($group.Name) group membership or properties"
+                            if ($permission.ActiveDirectoryRights -match "GenericAll") {
+                                $securityImpact = "Has full control over $($group.Name) group - can add/remove members and modify all properties"
+                            } elseif ($permission.ActiveDirectoryRights -match "WriteDacl") {
+                                $securityImpact = "Can modify security permissions on $($group.Name) group"
+                            } elseif ($permission.ActiveDirectoryRights -match "WriteOwner") {
+                                $securityImpact = "Can take ownership of $($group.Name) group"
+                            }
+                            
+                            $Results += [PSCustomObject]@{
+                                TreeStructure = [string]"🚨 PRIVILEGE ESCALATION PATHS > $($group.Name) > $($identityObject.Name)"
+                                PathType = [string]"Dangerous Permission"
+                                ObjectName = [string]$identityObject.Name
+                                ObjectType = [string]$objectType
+                                Status = if ($identityObject.Enabled -eq $false) { [string]"Disabled" } else { [string]"Active" }
+                                RiskLevel = [string]$riskLevel
+                                SecurityImpact = [string]$securityImpact
+                                LastActivity = if ($identityObject.LastLogonDate) { [string]$identityObject.LastLogonDate.ToString("MM/dd/yyyy HH:mm") } else { [string]"Never" }
+                                AccountAge = if ($identityObject.whenCreated) { [string]"$([math]::Round((Get-Date - $identityObject.whenCreated).TotalDays)) days" } else { [string]"Unknown" }
+                                PathDetails = [string]"Permission: $($permission.ActiveDirectoryRights) | Target: $($group.Name) | Privileged Account: $isPrivileged"
+                                Recommendation = [string]"Remove dangerous permissions or justify business need with documentation"
+                                ComplianceNote = [string]"Non-standard permissions on privileged group require review and approval"
+                            }
+                        } else {
+                            # Unknown identity - still report it
+                            $Results += [PSCustomObject]@{
+                                TreeStructure = [string]"🚨 PRIVILEGE ESCALATION PATHS > $($group.Name) > Unknown Identity"
+                                PathType = [string]"Unknown Permission"
+                                ObjectName = [string]$identityName
+                                ObjectType = [string]"Unknown Object"
+                                Status = [string]"Unknown"
+                                RiskLevel = [string]"Medium"
+                                SecurityImpact = [string]"Unknown identity has permissions on privileged group $($group.Name)"
+                                LastActivity = [string]"Unknown"
+                                AccountAge = [string]"Unknown"
+                                PathDetails = [string]"Permission: $($permission.ActiveDirectoryRights) | Target: $($group.Name) | Identity could not be resolved"
+                                Recommendation = [string]"Investigate and remove unknown identity permissions"
+                                ComplianceNote = [string]"Unresolved security principals pose security risks"
+                            }
+                        }
+                    } catch {
+                        Write-ADReportLog -Message "Error processing permission for identity $($permission.IdentityReference.Value): $($_.Exception.Message)" -Type Warning
+                    }
+                }
+                
+            } catch {
+                Write-ADReportLog -Message "Error analyzing ACL for group $($group.Name): $($_.Exception.Message)" -Type Warning
+                
+                $Results += [PSCustomObject]@{
+                    TreeStructure = [string]"❌ PRIVILEGE ESCALATION PATHS > $($group.Name) > Analysis Error"
+                    PathType = [string]"Access Error"
+                    ObjectName = [string]$group.Name
+                    ObjectType = [string]"Privileged Group"
+                    Status = [string]"Analysis Failed"
+                    RiskLevel = [string]"Medium"
+                    SecurityImpact = [string]"Cannot analyze permissions on privileged group - security status unknown"
+                    LastActivity = [string](Get-Date).ToString("MM/dd/yyyy HH:mm")
+                    AccountAge = [string]"N/A"
+                    PathDetails = [string]"Error: $($_.Exception.Message)"
+                    Recommendation = [string]"Verify permissions and retry analysis"
+                    ComplianceNote = [string]"Failed security analysis requires investigation"
+                }
+            }
+        }
+        
+        # Check for orphaned SIDs with dangerous permissions
+        Write-ADReportLog -Message "Checking for orphaned SIDs with dangerous permissions..." -Type Info
+        try {
+            foreach ($group in $PrivilegedGroups) {
+                $acl = Get-Acl -Path "AD:\$($group.DistinguishedName)" -ErrorAction SilentlyContinue
+                if ($acl) {
+                    $orphanedSids = $acl.Access | Where-Object {
+                        $_.IdentityReference.Value -match "S-1-5-21-\d+-\d+-\d+-\d+" -and
+                        ($_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|WriteDacl|WriteOwner|GenericAll") -and
+                        ($_.AccessControlType -eq "Allow")
+                    }
+                    
+                    foreach ($orphan in $orphanedSids) {
+                        $Results += [PSCustomObject]@{
+                            TreeStructure = [string]"💀 PRIVILEGE ESCALATION PATHS > $($group.Name) > Orphaned SID"
+                            PathType = [string]"Orphaned Permission"
+                            ObjectName = [string]$orphan.IdentityReference.Value
+                            ObjectType = [string]"Orphaned SID"
+                            Status = [string]"Orphaned"
+                            RiskLevel = [string]"High"
+                            SecurityImpact = [string]"Orphaned SID with dangerous permissions on privileged group"
+                            LastActivity = [string]"Unknown"
+                            AccountAge = [string]"Unknown"
+                            PathDetails = [string]"Permission: $($orphan.ActiveDirectoryRights) | Target: $($group.Name) | SID no longer resolvable"
+                            Recommendation = [string]"Remove orphaned SID permissions immediately"
+                            ComplianceNote = [string]"Orphaned SIDs create security vulnerabilities and should be cleaned up"
+                        }
+                    }
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Error checking for orphaned SIDs: $($_.Exception.Message)" -Type Warning
+        }
+        
+        # Add summary information
+        $totalEscalationPaths = ($Results | Where-Object { $_.PathType -ne "Summary" }).Count
+        $criticalPaths = ($Results | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+        $highRiskPaths = ($Results | Where-Object { $_.RiskLevel -eq "High" }).Count
+        
+        $Results += [PSCustomObject]@{
+            TreeStructure = [string]"📊 PRIVILEGE ESCALATION ANALYSIS SUMMARY"
+            PathType = [string]"Summary"
+            ObjectName = [string]"Privilege Escalation Security Assessment"
+            ObjectType = [string]"Report Summary"
+            Status = [string]"Analysis Complete"
+            RiskLevel = if ($criticalPaths -gt 0) { [string]"Critical" } elseif ($highRiskPaths -gt 0) { [string]"High" } else { [string]"Low" }
+            SecurityImpact = [string]"Total Escalation Paths: $totalEscalationPaths | Critical: $criticalPaths | High Risk: $highRiskPaths"
+            LastActivity = [string](Get-Date).ToString("MM/dd/yyyy HH:mm")
+            AccountAge = [string]"N/A"
+            PathDetails = [string]"Analysis of $($PrivilegedGroups.Count) privileged groups completed"
+            Recommendation = if ($totalEscalationPaths -gt 0) { 
+                [string]"Review and remediate all identified privilege escalation paths" 
+            } else { 
+                [string]"No privilege escalation paths detected - maintain current security posture" 
+            }
+            ComplianceNote = [string]"Regular privilege escalation analysis is essential for maintaining security"
+        }
+        
+        Write-ADReportLog -Message "Privilege escalation paths analysis completed. $($Results.Count) findings generated." -Type Info -Terminal
+        
+        # Log security findings
+        if ($criticalPaths -gt 0) {
+            Write-ADReportLog -Message "SECURITY ALERT: $criticalPaths critical privilege escalation paths found" -Type Warning -Terminal
+        }
+        if ($highRiskPaths -gt 0) {
+            Write-ADReportLog -Message "SECURITY WARNING: $highRiskPaths high-risk privilege escalation paths found" -Type Warning -Terminal
+        }
+        
+        return $Results | Sort-Object @{Expression={
+            switch($_.RiskLevel) {
+                "Critical" { 1 }
+                "High" { 2 }
+                "Medium" { 3 }
+                "Low" { 4 }
+                default { 5 }
+            }
+        }}, TreeStructure
         
     } catch {
-        Write-ADReportLog -Message "Error analyzing privilege escalation paths: $($_.Exception.Message)" -Type Error
-        return @()
+        $ErrorMessage = "Error analyzing privilege escalation paths: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
+        
+        return @([PSCustomObject]@{
+            TreeStructure = [string]"❌ PRIVILEGE ESCALATION ANALYSIS ERROR"
+            PathType = [string]"Error"
+            ObjectName = [string]"Privilege Escalation Analysis"
+            ObjectType = [string]"Error Report"
+            Status = [string]"Failed"
+            RiskLevel = [string]"Unknown"
+            SecurityImpact = [string]"Analysis failed - cannot assess privilege escalation risks"
+            LastActivity = [string](Get-Date).ToString("MM/dd/yyyy HH:mm")
+            AccountAge = [string]"N/A"
+            PathDetails = [string]"Error: $ErrorMessage"
+            Recommendation = [string]"Retry analysis with appropriate permissions"
+            ComplianceNote = [string]"Failed security analysis requires immediate attention"
+        })
     }
 }
 # End of Selection
@@ -7349,31 +11145,119 @@ function Get-ACLAnalysis {
         Write-ADReportLog -Message "Analyzing ACL permissions..." -Type Info -Terminal
         
         $Results = @()
+        $DomainDN = (Get-ADDomain).DistinguishedName
         
-        # Alle AD-Objekte mit ACLs abrufen
-        $objects = Get-ADObject -Filter * -Properties nTSecurityDescriptor
+        # Get critical AD containers for tree structure
+        $CriticalContainers = @(
+            "CN=Configuration,$((Get-ADRootDSE).configurationNamingContext)",
+            "CN=Schema,$((Get-ADRootDSE).schemaNamingContext)",
+            "CN=System,$DomainDN",
+            "CN=AdminSDHolder,CN=System,$DomainDN",
+            "CN=Users,$DomainDN",
+            "CN=Computers,$DomainDN",
+            "OU=Domain Controllers,$DomainDN"
+        )
+        
+        # Get all AD objects with ACLs from critical containers
+        $objects = @()
+        foreach ($container in $CriticalContainers) {
+            try {
+                $containerObjects = Get-ADObject -SearchBase $container -Filter * -Properties nTSecurityDescriptor,distinguishedName -ErrorAction SilentlyContinue
+                $objects += $containerObjects
+            } catch {
+                # Continue if container doesn't exist
+            }
+        }
+        
+        # Group objects by their parent containers for tree structure
+        $ACLTree = @{}
+        
         foreach ($object in $objects) {
-            $acl = $object.nTSecurityDescriptor
-            
-            # Prüfe auf ungewöhnliche ACL-Einträge
-            foreach ($ace in $acl.Access) {
-                if ($ace.AccessControlType -eq "Allow" -and 
-                    ($ace.ActiveDirectoryRights -match "GenericAll|WriteDacl|WriteOwner")) {
-                    
-                    $Results += [PSCustomObject]@{
-                        ObjectName = $object.Name
-                        ObjectClass = $object.ObjectClass
-                        IdentityReference = $ace.IdentityReference
-                        AccessRights = $ace.ActiveDirectoryRights
-                        RiskLevel = "High"
-                        Recommendation = "Review high-risk permissions"
+            try {
+                $acl = $object.nTSecurityDescriptor
+                
+                # Skip if no ACL
+                if (-not $acl) { continue }
+                
+                # Determine the object's position in tree
+                $dn = $object.DistinguishedName
+                $pathParts = $dn -split ','
+                $containerPath = ""
+                
+                # Build hierarchical path
+                if ($dn -like "*CN=Configuration*") {
+                    $containerPath = "└── Configuration Container"
+                } elseif ($dn -like "*CN=Schema*") {
+                    $containerPath = "└── Schema Container"
+                } elseif ($dn -like "*CN=System*") {
+                    $containerPath = "└── System Container"
+                } elseif ($dn -like "*CN=Users*") {
+                    $containerPath = "└── Users Container"
+                } elseif ($dn -like "*CN=Computers*") {
+                    $containerPath = "└── Computers Container"
+                } elseif ($dn -like "*OU=Domain Controllers*") {
+                    $containerPath = "└── Domain Controllers OU"
+                } else {
+                    $containerPath = "└── Domain Root"
+                }
+                
+                # Check for unusual ACL entries
+                foreach ($ace in $acl.Access) {
+                    if ($ace.AccessControlType -eq "Allow" -and 
+                        ($ace.ActiveDirectoryRights -match "GenericAll|WriteDacl|WriteOwner|CreateChild|DeleteChild")) {
+                        
+                        # Determine risk level based on rights and object type
+                        $riskLevel = "Medium"
+                        if ($ace.ActiveDirectoryRights -match "GenericAll|WriteDacl|WriteOwner") {
+                            $riskLevel = "High"
+                        }
+                        if ($object.ObjectClass -eq "organizationalUnit" -or $object.ObjectClass -eq "container") {
+                            $riskLevel = "Critical"
+                        }
+                        
+                        # Build tree-like display name
+                        $treeDisplayName = ""
+                        if ($object.Name -eq $object.DistinguishedName.Split(',')[0].Replace('CN=','').Replace('OU=','')) {
+                            $treeDisplayName = "$containerPath"
+                        } else {
+                            $treeDisplayName = "$containerPath`n    ├── $($object.Name)"
+                        }
+                        
+                        # Enhanced recommendation based on context
+                        $recommendation = ""
+                        switch ($ace.ActiveDirectoryRights) {
+                            { $_ -match "GenericAll" } { $recommendation = "Full Control - Review necessity and scope" }
+                            { $_ -match "WriteDacl" } { $recommendation = "Can modify permissions - High security risk" }
+                            { $_ -match "WriteOwner" } { $recommendation = "Can take ownership - Critical security risk" }
+                            { $_ -match "CreateChild" } { $recommendation = "Can create objects - Monitor for abuse" }
+                            { $_ -match "DeleteChild" } { $recommendation = "Can delete objects - Review and restrict" }
+                            default { $recommendation = "Review permission necessity" }
+                        }
+                        
+                        $Results += [PSCustomObject]@{
+                            TreeStructure = [string]$treeDisplayName
+                            ObjectName = [string]$object.Name
+                            ObjectClass = [string]$object.ObjectClass
+                            ContainerPath = [string]$containerPath.Replace('└── ','')
+                            TrusteeName = [string]$ace.IdentityReference.ToString()
+                            PermissionType = [string]$ace.ActiveDirectoryRights.ToString()
+                            AccessType = [string]$ace.AccessControlType.ToString()
+                            InheritanceType = [string]$ace.InheritanceType.ToString()
+                            RiskLevel = [string]$riskLevel
+                            SecurityImpact = [string]"Elevated permissions may allow unauthorized modifications to AD structure"
+                            Recommendation = [string]$recommendation
+                            DistinguishedName = [string]$object.DistinguishedName
+                        }
                     }
                 }
+            } catch {
+                # Skip objects that can't be processed
+                continue
             }
         }
         
         Write-ADReportLog -Message "ACL analysis completed. $($Results.Count) suspicious entries found." -Type Info -Terminal
-        return $Results | Sort-Object RiskLevel
+        return $Results | Sort-Object RiskLevel,ContainerPath,ObjectName
         
     } catch {
         Write-ADReportLog -Message "Error analyzing ACLs: $($_.Exception.Message)" -Type Error
@@ -7389,30 +11273,150 @@ function Get-InheritanceBreaks {
         Write-ADReportLog -Message "Analyzing inheritance breaks..." -Type Info -Terminal
         
         $Results = @()
+        $ProcessedCount = 0
         
-        # Objekte mit deaktivierter Vererbung finden
-        $objects = Get-ADObject -Filter * -Properties nTSecurityDescriptor
-        foreach ($object in $objects) {
-            $acl = $object.nTSecurityDescriptor
-            
-            if (-not $acl.AreAccessRulesProtected) {
-                continue
+        # Get domain information for proper tree structure
+        $Domain = Get-ADDomain
+        $DomainDN = $Domain.DistinguishedName
+        
+        # Find objects with inheritance protection enabled
+        Write-ADReportLog -Message "Scanning AD objects for inheritance breaks..." -Type Info -Terminal
+        $Objects = Get-ADObject -Filter * -Properties nTSecurityDescriptor,distinguishedName,objectClass,whenCreated -ErrorAction SilentlyContinue
+        
+        foreach ($Object in $Objects) {
+            $ProcessedCount++
+            if ($ProcessedCount % 1000 -eq 0) {
+                Write-ADReportLog -Message "Processed $ProcessedCount objects..." -Type Info
             }
             
-            $Results += [PSCustomObject]@{
-                ObjectName = $object.Name
-                ObjectClass = $object.ObjectClass
-                Path = $object.DistinguishedName
-                RiskLevel = "Medium"
-                Recommendation = "Review inheritance settings"
+            try {
+                $ACL = $Object.nTSecurityDescriptor
+                
+                # Check if inheritance is broken (AreAccessRulesProtected = True means inheritance is disabled)
+                if ($ACL.AreAccessRulesProtected -eq $true) {
+                    
+                    # Build hierarchical path for tree structure
+                    $DNParts = $Object.DistinguishedName -split ','
+                    $ContainerPath = ""
+                    $TreeStructure = ""
+                    
+                    # Create tree-like visualization
+                    $PathElements = @()
+                    for ($i = $DNParts.Count - 1; $i -ge 0; $i--) {
+                        $Part = $DNParts[$i].Trim()
+                        if ($Part -match '^(CN|OU|DC)=(.+)') {
+                            $PathElements += $matches[2]
+                        }
+                    }
+                    
+                    # Build tree structure
+                    if ($PathElements.Count -gt 1) {
+                        $TreeStructure = $PathElements[0]
+                        for ($j = 1; $j -lt $PathElements.Count - 1; $j++) {
+                            $TreeStructure += "`n" + ("│  " * $j) + "├── " + $PathElements[$j]
+                        }
+                        $TreeStructure += "`n" + ("│  " * ($PathElements.Count - 1)) + "└── " + $PathElements[-1]
+                        $ContainerPath = ($PathElements[0..($PathElements.Count-2)] -join " → ")
+                    } else {
+                        $TreeStructure = $Object.Name
+                        $ContainerPath = "Root"
+                    }
+                    
+                    # Determine risk level based on object type and location
+                    $RiskLevel = ""
+                    $SecurityImpact = ""
+                    $Recommendation = ""
+                    
+                    switch ($Object.ObjectClass) {
+                        "organizationalUnit" {
+                            $RiskLevel = "High"
+                            $SecurityImpact = "OU inheritance break can affect all child objects and their security"
+                            $Recommendation = "Review OU inheritance settings - may block security policy propagation"
+                        }
+                        "container" {
+                            $RiskLevel = "Medium"
+                            $SecurityImpact = "Container inheritance break affects child object security inheritance"
+                            $Recommendation = "Verify container inheritance is intentionally disabled"
+                        }
+                        "user" {
+                            $RiskLevel = "Low"
+                            $SecurityImpact = "User object has custom security settings that override inheritance"
+                            $Recommendation = "Review custom permissions - ensure they follow security standards"
+                        }
+                        "group" {
+                            $RiskLevel = "Medium"
+                            $SecurityImpact = "Group object has non-inherited permissions that may affect access control"
+                            $Recommendation = "Validate group permissions are properly configured"
+                        }
+                        "computer" {
+                            $RiskLevel = "Low"
+                            $SecurityImpact = "Computer object has custom security configuration"
+                            $Recommendation = "Verify computer account permissions are appropriate"
+                        }
+                        default {
+                            $RiskLevel = "Medium"
+                            $SecurityImpact = "Object has inheritance disabled - custom security configuration active"
+                            $Recommendation = "Review inheritance break necessity and security implications"
+                        }
+                    }
+                    
+                    # Special high-risk cases
+                    if ($Object.DistinguishedName -match "CN=Users,DC=" -or 
+                        $Object.DistinguishedName -match "CN=Computers,DC=" -or
+                        $Object.DistinguishedName -match "OU=Domain Controllers,DC=") {
+                        $RiskLevel = "Critical"
+                        $SecurityImpact = "Inheritance break in critical system container affects domain security"
+                        $Recommendation = "URGENT: Review inheritance break in system container - may compromise domain security"
+                    }
+                    
+                    # Calculate age for additional context
+                    $ObjectAge = ""
+                    if ($Object.whenCreated) {
+                        $AgeInDays = [int][math]::Round((New-TimeSpan -Start $Object.whenCreated -End (Get-Date)).TotalDays)
+                        $ObjectAge = "$AgeInDays days old"
+                    } else {
+                        $ObjectAge = "Unknown age"
+                    }
+                    
+                    $Results += [PSCustomObject]@{
+                        TreeStructure = [string]$TreeStructure
+                        ObjectName = [string]$Object.Name
+                        ObjectClass = [string]$Object.ObjectClass
+                        ContainerPath = [string]$ContainerPath
+                        InheritanceStatus = [string]"Inheritance Disabled"
+                        RiskLevel = [string]$RiskLevel
+                        SecurityImpact = [string]$SecurityImpact
+                        Recommendation = [string]$Recommendation
+                        ObjectAge = [string]$ObjectAge
+                        DistinguishedName = [string]$Object.DistinguishedName
+                        WhenCreated = if ($Object.whenCreated) { [string]$Object.whenCreated.ToString("MM/dd/yyyy HH:mm") } else { [string]"Unknown" }
+                    }
+                }
+            } catch {
+                # Skip objects that can't be processed (access denied, etc.)
+                continue
             }
         }
         
-        Write-ADReportLog -Message "Inheritance break analysis completed. $($Results.Count) objects found." -Type Info -Terminal
-        return $Results
+        # Sort results by risk level and container path for better overview
+        $SortedResults = $Results | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    default { 5 }
+                }
+            }
+        }, ContainerPath, ObjectName
+        
+        Write-ADReportLog -Message "Inheritance break analysis completed. $($Results.Count) objects with inheritance breaks found." -Type Info -Terminal
+        return $SortedResults
         
     } catch {
-        Write-ADReportLog -Message "Error analyzing inheritance breaks: $($_.Exception.Message)" -Type Error
+        $ErrorMessage = "Error analyzing inheritance breaks: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
         return @()
     }
 }
@@ -7422,27 +11426,279 @@ function Get-AdminSDHolderObjects {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing AdminSDHolder objects..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analyzing AdminSDHolder protected objects..." -Type Info -Terminal
         
         $Results = @()
+        $Domain = Get-ADDomain
+        $DomainDN = $Domain.DistinguishedName
         
-        # AdminSDHolder geschützte Objekte finden
-        $protectedObjects = Get-ADObject -LDAPFilter "(adminCount=1)" -Properties adminCount,whenCreated
-        foreach ($object in $protectedObjects) {
+        # Get AdminSDHolder container for reference
+        $AdminSDHolderDN = "CN=AdminSDHolder,CN=System,$DomainDN"
+        
+        # Find all objects with adminCount=1 (AdminSDHolder protected)
+        try {
+            Write-ADReportLog -Message "Searching for AdminSDHolder protected objects (adminCount=1)..." -Type Info
+            $protectedObjects = Get-ADObject -LDAPFilter "(adminCount=1)" -Properties adminCount,whenCreated,whenChanged,ObjectClass,Description,CanonicalName -ErrorAction Stop
+            
+            Write-ADReportLog -Message "Found $($protectedObjects.Count) AdminSDHolder protected objects." -Type Info
+            
+            # Categorize objects for tree structure
+            $UserObjects = @()
+            $GroupObjects = @()
+            $ComputerObjects = @()
+            $OtherObjects = @()
+            
+            foreach ($object in $protectedObjects) {
+                try {
+                    # Determine object age
+                    $ObjectAge = "Unknown"
+                    if ($object.whenCreated) {
+                        $AgeInDays = [int][math]::Round((New-TimeSpan -Start $object.whenCreated -End (Get-Date)).TotalDays)
+                        $ObjectAge = "$AgeInDays days old"
+                    }
+                    
+                    # Determine last modified
+                    $LastModified = "Unknown"
+                    if ($object.whenChanged) {
+                        $LastModified = $object.whenChanged.ToString("MM/dd/yyyy HH:mm")
+                    }
+                    
+                    # Determine container path for context
+                    $ContainerPath = "Unknown"
+                    if ($object.CanonicalName) {
+                        $pathParts = $object.CanonicalName -split '/'
+                        if ($pathParts.Count -gt 1) {
+                            $ContainerPath = ($pathParts[0..($pathParts.Count-2)] -join '/')
+                        }
+                    }
+                    
+                    # Determine risk level based on object class and properties
+                    $RiskLevel = "Medium"
+                    $SecurityImpact = "Standard AdminSDHolder protection"
+                    $Recommendation = "Verify if AdminSDHolder protection is still required"
+                    
+                    # Higher risk for certain object types
+                    switch ($object.ObjectClass) {
+                        "user" {
+                            $RiskLevel = "High"
+                            $SecurityImpact = "User account with administrative privileges protection"
+                            $Recommendation = "Review user's administrative roles and necessity of protection"
+                        }
+                        "computer" {
+                            $RiskLevel = "Medium"
+                            $SecurityImpact = "Computer account with elevated privileges"
+                            $Recommendation = "Verify computer's role requires AdminSDHolder protection"
+                        }
+                        "group" {
+                            $RiskLevel = "Critical"
+                            $SecurityImpact = "Administrative group with inherited permissions control"
+                            $Recommendation = "Audit group membership and ensure proper administrative oversight"
+                        }
+                    }
+                    
+                    # Create object for categorization
+                    $ObjectInfo = [PSCustomObject]@{
+                        TreeStructure = [string]""  # Will be set below
+                        ObjectName = [string]$object.Name
+                        ObjectClass = [string]$object.ObjectClass
+                        ContainerPath = [string]$ContainerPath
+                        AdminCount = [string]"1 (Protected)"
+                        RiskLevel = [string]$RiskLevel
+                        SecurityImpact = [string]$SecurityImpact
+                        Recommendation = [string]$Recommendation
+                        ObjectAge = [string]$ObjectAge
+                        LastModified = [string]$LastModified
+                        DistinguishedName = [string]$object.DistinguishedName
+                        WhenCreated = [string]$(if ($object.whenCreated) { $object.whenCreated.ToString("MM/dd/yyyy HH:mm") } else { "Unknown" })
+                    }
+                    
+                    # Categorize for tree structure
+                    switch ($object.ObjectClass) {
+                        "user" { $UserObjects += $ObjectInfo }
+                        "group" { $GroupObjects += $ObjectInfo }
+                        "computer" { $ComputerObjects += $ObjectInfo }
+                        default { $OtherObjects += $ObjectInfo }
+                    }
+                    
+                } catch {
+                    Write-ADReportLog -Message "Error processing object $($object.Name): $($_.Exception.Message)" -Type Warning
+                    continue
+                }
+            }
+            
+            # Build tree structure results
+            if ($UserObjects.Count -gt 0) {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = [string]"🔐 AdminSDHolder Protected Objects"
+                    ObjectName = [string]"User Accounts ($($UserObjects.Count))"
+                    ObjectClass = [string]"Category"
+                    ContainerPath = [string]"Various Containers"
+                    AdminCount = [string]"Protected"
+                    RiskLevel = [string]"High"
+                    SecurityImpact = [string]"Administrative user accounts with inheritance protection"
+                    Recommendation = [string]"Review all protected user accounts for necessity"
+                    ObjectAge = [string]"Various"
+                    LastModified = [string]"Various"
+                    Description = [string]"User accounts protected by AdminSDHolder"
+                    DistinguishedName = [string]"Multiple Objects"
+                    WhenCreated = [string]"Various"
+                }
+                
+                foreach ($userObj in ($UserObjects | Sort-Object ObjectName)) {
+                    $userObj.TreeStructure = [string]"├── User Account"
+                    $Results += $userObj
+                }
+            }
+            
+            if ($GroupObjects.Count -gt 0) {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = [string]"🔐 AdminSDHolder Protected Objects"
+                    ObjectName = [string]"Administrative Groups ($($GroupObjects.Count))"
+                    ObjectClass = [string]"Category"
+                    ContainerPath = [string]"Various Containers"
+                    AdminCount = [string]"Protected"
+                    RiskLevel = [string]"Critical"
+                    SecurityImpact = [string]"Administrative groups with inheritance protection"
+                    Recommendation = [string]"Audit group memberships and permissions"
+                    ObjectAge = [string]"Various"
+                    LastModified = [string]"Various"
+                    Description = [string]"Administrative groups protected by AdminSDHolder"
+                    DistinguishedName = [string]"Multiple Objects"
+                    WhenCreated = [string]"Various"
+                }
+                
+                foreach ($groupObj in ($GroupObjects | Sort-Object ObjectName)) {
+                    $groupObj.TreeStructure = [string]"├── Administrative Group"
+                    $Results += $groupObj
+                }
+            }
+            
+            if ($ComputerObjects.Count -gt 0) {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = [string]"🔐 AdminSDHolder Protected Objects"
+                    ObjectName = [string]"Computer Accounts ($($ComputerObjects.Count))"
+                    ObjectClass = [string]"Category"
+                    ContainerPath = [string]"Various Containers"
+                    AdminCount = [string]"Protected"
+                    RiskLevel = [string]"Medium"
+                    SecurityImpact = [string]"Computer accounts with elevated privileges"
+                    Recommendation = [string]"Verify computer roles require protection"
+                    ObjectAge = [string]"Various"
+                    LastModified = [string]"Various"
+                    Description = [string]"Computer accounts protected by AdminSDHolder"
+                    DistinguishedName = [string]"Multiple Objects"
+                    WhenCreated = [string]"Various"
+                }
+                
+                foreach ($computerObj in ($ComputerObjects | Sort-Object ObjectName)) {
+                    $computerObj.TreeStructure = [string]"├── Computer Account"
+                    $Results += $computerObj
+                }
+            }
+            
+            if ($OtherObjects.Count -gt 0) {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = [string]"🔐 AdminSDHolder Protected Objects"
+                    ObjectName = [string]"Other Objects ($($OtherObjects.Count))"
+                    ObjectClass = [string]"Category"
+                    ContainerPath = [string]"Various Containers"
+                    AdminCount = [string]"Protected"
+                    RiskLevel = [string]"Medium"
+                    SecurityImpact = [string]"Miscellaneous objects with AdminSDHolder protection"
+                    Recommendation = [string]"Review necessity of protection for these objects"
+                    ObjectAge = [string]"Various"
+                    LastModified = [string]"Various"
+                    Description = [string]"Other object types protected by AdminSDHolder"
+                    DistinguishedName = [string]"Multiple Objects"
+                    WhenCreated = [string]"Various"
+                }
+                
+                foreach ($otherObj in ($OtherObjects | Sort-Object ObjectName)) {
+                    $otherObj.TreeStructure = [string]"├── Other Object"
+                    $Results += $otherObj
+                }
+            }
+            
+            # Add summary if no objects found
+            if ($Results.Count -eq 0) {
+                $Results += [PSCustomObject]@{
+                    TreeStructure = [string]"🔐 AdminSDHolder Protected Objects"
+                    ObjectName = [string]"No Protected Objects Found"
+                    ObjectClass = [string]"Information"
+                    ContainerPath = [string]"N/A"
+                    AdminCount = [string]"0"
+                    RiskLevel = [string]"Low"
+                    SecurityImpact = [string]"No objects currently protected by AdminSDHolder"
+                    Recommendation = [string]"This is normal for domains without administrative object protection"
+                    ObjectAge = [string]"N/A"
+                    LastModified = [string]"N/A"
+                    Description = [string]"No objects with adminCount=1 found"
+                    DistinguishedName = [string]"N/A"
+                    WhenCreated = [string]"N/A"
+                }
+            }
+            
+        } catch {
+            Write-ADReportLog -Message "Error querying AdminSDHolder protected objects: $($_.Exception.Message)" -Type Error
             $Results += [PSCustomObject]@{
-                Name = $object.Name
-                ObjectClass = $object.ObjectClass
-                Created = $object.whenCreated
-                RiskLevel = "Medium"
-                Recommendation = "Verify AdminSDHolder protection"
+                TreeStructure = [string]"🔐 AdminSDHolder Protected Objects"
+                ObjectName = [string]"Query Error"
+                ObjectClass = [string]"Error"
+                ContainerPath = [string]"N/A"
+                AdminCount = [string]"Unknown"
+                RiskLevel = [string]"Critical"
+                SecurityImpact = [string]"Cannot analyze AdminSDHolder protection status"
+                Recommendation = [string]"Verify Active Directory connectivity and permissions"
+                ObjectAge = [string]"N/A"
+                LastModified = [string]"N/A"
+                Description = [string]$_.Exception.Message
+                DistinguishedName = [string]"N/A"
+                WhenCreated = [string]"N/A"
             }
         }
         
-        Write-ADReportLog -Message "AdminSDHolder analysis completed. $($Results.Count) objects found." -Type Info -Terminal
-        return $Results
+        # Sort results to maintain tree structure
+        $SortedResults = $Results | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    default { 5 }
+                }
+            }
+        }, TreeStructure, ObjectName
+        
+        # Status update for GUI
+        try {
+            if ($Global:TextBlockStatus) {
+                $criticalCount = ($Results | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+                $highCount = ($Results | Where-Object { $_.RiskLevel -eq "High" }).Count
+                $mediumCount = ($Results | Where-Object { $_.RiskLevel -eq "Medium" }).Count
+                
+                $Global:TextBlockStatus.Text = "AdminSDHolder analysis completed. $($Results.Count) entries found. Critical: $criticalCount, High: $highCount, Medium: $mediumCount"
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI status: $($_.Exception.Message)" -Type Warning
+        }
+        
+        Write-ADReportLog -Message "AdminSDHolder analysis completed. $($Results.Count) entries found." -Type Info -Terminal
+        return $SortedResults
         
     } catch {
-        Write-ADReportLog -Message "Error analyzing AdminSDHolder objects: $($_.Exception.Message)" -Type Error
+        $ErrorMessage = "Error analyzing AdminSDHolder objects: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
+        
+        # Error status for GUI
+        try {
+            if ($Global:TextBlockStatus) {
+                $Global:TextBlockStatus.Text = "Error: $ErrorMessage"
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI error status: $($_.Exception.Message)" -Type Warning
+        }
+        
         return @()
     }
 }
@@ -7455,32 +11711,137 @@ function Get-AdvancedDelegations {
         Write-ADReportLog -Message "Analyzing advanced delegations..." -Type Info -Terminal
         
         $Results = @()
+        $DomainDN = (Get-ADDomain).DistinguishedName
         
-        # Delegierte Berechtigungen analysieren
-        $objects = Get-ADObject -Filter * -Properties nTSecurityDescriptor
-        foreach ($object in $objects) {
-            $acl = $object.nTSecurityDescriptor
-            
-            foreach ($ace in $acl.Access) {
-                if ($ace.IsInherited -eq $false -and 
-                    $ace.IdentityReference -notmatch "BUILTIN|NT AUTHORITY") {
-                    
-                    $Results += [PSCustomObject]@{
-                        ObjectName = $object.Name
-                        DelegatedTo = $ace.IdentityReference
-                        Permissions = $ace.ActiveDirectoryRights
-                        RiskLevel = "Medium"
-                        Recommendation = "Review custom delegations"
+        # Critical containers to analyze
+        $CriticalContainers = @(
+            "CN=AdminSDHolder,CN=System,$DomainDN",
+            "CN=Users,$DomainDN",
+            "CN=Computers,$DomainDN",
+            "OU=Domain Controllers,$DomainDN",
+            $((Get-ADRootDSE).configurationNamingContext)
+        )
+        
+        # Analyze delegations in critical containers
+        foreach ($container in $CriticalContainers) {
+            try {
+                $containerName = ($container -split ',')[0] -replace '^(CN=|OU=)', ''
+                Write-ADReportLog -Message "Analyzing delegations in container: $containerName" -Type Info
+                
+                $objects = Get-ADObject -SearchBase $container -Filter * -Properties nTSecurityDescriptor,distinguishedName -ErrorAction SilentlyContinue
+                
+                foreach ($object in $objects) {
+                    try {
+                        $acl = $object.nTSecurityDescriptor
+                        if (-not $acl) { continue }
+                        
+                        foreach ($ace in $acl.Access) {
+                            # Filter for explicit (non-inherited) permissions to non-system accounts
+                            $isNotInherited = $ace.IsInherited -eq $false
+                            $isNotSystemAccount = $ace.IdentityReference -notmatch "BUILTIN|NT AUTHORITY|SYSTEM|S-1-5-32|S-1-1-0|S-1-5-11"
+                            $isAllowPermission = $ace.AccessControlType -eq "Allow"
+                            
+                            if ($isNotInherited -and $isNotSystemAccount -and $isAllowPermission) {
+                                
+                                # Determine risk level based on permissions and location
+                                $riskLevel = "Low"
+                                $securityImpact = "Standard delegation"
+                                
+                                # High-risk permissions
+                                $activeDirectoryRights = $ace.ActiveDirectoryRights.ToString()
+                                if ($activeDirectoryRights -match "GenericAll|WriteDacl|WriteOwner|FullControl") {
+                                    $riskLevel = "Critical"
+                                    $securityImpact = "Full control delegation - can modify any attribute and permissions"
+                                }
+                                elseif ($activeDirectoryRights -match "WriteProperty.*userAccountControl|WriteProperty.*pwdLastSet") {
+                                    $riskLevel = "High" 
+                                    $securityImpact = "Can modify critical user account properties"
+                                }
+                                elseif ($activeDirectoryRights -match "WriteProperty|CreateChild|DeleteChild") {
+                                    $riskLevel = "Medium"
+                                    $securityImpact = "Can modify objects or create/delete child objects"
+                                }
+                                
+                                # Increase risk for critical containers
+                                if ($container -match "AdminSDHolder|Domain Controllers" -and $riskLevel -eq "Medium") {
+                                    $riskLevel = "High"
+                                    $securityImpact += " in critical container"
+                                }
+                                
+                                # Generate recommendation based on risk
+                                $recommendation = ""
+                                switch ($riskLevel) {
+                                    "Critical" { $recommendation = "IMMEDIATE REVIEW: Remove or restrict full control delegations" }
+                                    "High" { $recommendation = "Review and validate business justification for elevated permissions" }
+                                    "Medium" { $recommendation = "Verify delegation necessity and consider principle of least privilege" }
+                                    "Low" { $recommendation = "Monitor delegation usage and review periodically" }
+                                }
+                                
+                                # Build tree structure path
+                                $treePath = "└── $containerName"
+                                if ($object.DistinguishedName -ne $container) {
+                                    $objectPath = $object.DistinguishedName -replace ",$container$", ""
+                                    $pathParts = $objectPath -split ',' | ForEach-Object { $_ -replace '^(CN=|OU=)', '' }
+                                    [array]::Reverse($pathParts)
+                                    $treePath += " → " + ($pathParts -join " → ")
+                                }
+                                
+                                # Determine audit priority
+                                $auditPriority = ""
+                                switch ($riskLevel) {
+                                    "Critical" { $auditPriority = "Immediate" }
+                                    "High" { $auditPriority = "High" }
+                                    "Medium" { $auditPriority = "Medium" }
+                                    default { $auditPriority = "Standard" }
+                                }
+                                
+                                $Results += [PSCustomObject]@{
+                                    TreeStructure = [string]$treePath
+                                    ContainerName = [string]$containerName
+                                    ObjectName = [string]$object.Name
+                                    ObjectType = [string]$object.ObjectClass
+                                    DelegatedTo = [string]$ace.IdentityReference.ToString()
+                                    PermissionType = [string]$activeDirectoryRights
+                                    AccessType = [string]$ace.AccessControlType.ToString()
+                                    RiskLevel = [string]$riskLevel
+                                    SecurityImpact = [string]$securityImpact
+                                    Recommendation = [string]$recommendation
+                                    IsInherited = [bool]$ace.IsInherited
+                                    ObjectPath = [string]$object.DistinguishedName
+                                    AuditPriority = [string]$auditPriority
+                                }
+                            }
+                        }
+                    } catch {
+                        Write-ADReportLog -Message "Error processing object $($object.Name): $($_.Exception.Message)" -Type Warning
+                        continue
                     }
                 }
+            } catch {
+                Write-ADReportLog -Message "Error accessing container ${container}: $($_.Exception.Message)" -Type Warning
+                continue
             }
         }
         
-        Write-ADReportLog -Message "Advanced delegation analysis completed. $($Results.Count) delegations found." -Type Info -Terminal
-        return $Results
+        # Sort results by risk level and container for tree display
+        $SortedResults = $Results | Sort-Object @{
+            Expression = { 
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    default { 5 }
+                }
+            }
+        }, ContainerName, ObjectName
+        
+        Write-ADReportLog -Message "Advanced delegation analysis completed. $($SortedResults.Count) delegations found." -Type Info -Terminal
+        return $SortedResults
         
     } catch {
-        Write-ADReportLog -Message "Error analyzing advanced delegations: $($_.Exception.Message)" -Type Error
+        $ErrorMessage = "Error analyzing advanced delegations: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
         return @()
     }
 }
@@ -7490,64 +11851,553 @@ function Get-SchemaPermissions {
     param()
     
     try {
-        Write-ADReportLog -Message "Analyzing schema permissions..." -Type Info -Terminal
+        Write-ADReportLog -Message "Analyzing schema permissions for security assessment..." -Type Info -Terminal
         
         $Results = @()
         
-        # Schema-Berechtigungen prüfen
-        $schemaNC = (Get-ADRootDSE).schemaNamingContext
+        # Get Schema Naming Context
+        $SchemaNC = (Get-ADRootDSE).schemaNamingContext
         
-        # Standard-Filter "*" verwenden
-        $filter = "*"
+        if (-not $SchemaNC) {
+            Write-ADReportLog -Message "Could not access Schema Naming Context" -Type Error
+            return @()
+        }
         
-        $schemaObjects = Get-ADObject -SearchBase $schemaNC -SearchScope OneLevel -Filter "name -like '$filter'" -Properties nTSecurityDescriptor
+        Write-ADReportLog -Message "Scanning schema objects in: $SchemaNC" -Type Info -Terminal
         
-        foreach ($object in $schemaObjects) {
-            $acl = $object.nTSecurityDescriptor
+        # Get all schema objects with security descriptors
+        try {
+            $SchemaObjects = Get-ADObject -SearchBase $SchemaNC -SearchScope Subtree -Filter * -Properties nTSecurityDescriptor,objectClass,whenCreated,whenChanged,adminDescription -ErrorAction SilentlyContinue
+        } catch {
+            Write-ADReportLog -Message "Error accessing schema objects: $($_.Exception.Message)" -Type Error
+            return @()
+        }
+        
+        if (-not $SchemaObjects) {
+            Write-ADReportLog -Message "No schema objects found or insufficient permissions" -Type Warning
+            return @()
+        }
+        
+        Write-ADReportLog -Message "Analyzing $($SchemaObjects.Count) schema objects for security permissions..." -Type Info
+        
+        # Define critical schema permissions to check
+        $CriticalPermissions = @(
+            'WriteProperty',
+            'WriteDacl', 
+            'WriteOwner',
+            'DeleteChild',
+            'DeleteTree',
+            'GenericAll',
+            'ControlAccess'
+        )
+        
+        # Define expected/safe principals (English and German names)
+        $SafePrincipals = @(
+            'Domain Admins',
+            'Domänen-Admins',
+            'Enterprise Admins',
+            'Organisations-Admins',
+            'Schema Admins',
+            'Schema-Admins',
+            'SYSTEM',
+            'Administrators',
+            'Administratoren',
+            'CREATOR OWNER'
+        )
+        
+        $processedCount = 0
+        foreach ($object in $SchemaObjects) {
+            $processedCount++
             
-            foreach ($ace in $acl.Access) {
-                if ($ace.IsInherited -eq $false -and 
-                    $ace.ActiveDirectoryRights -match "WriteProperty|WriteDacl|WriteOwner") {
-                    
-                    $Results += [PSCustomObject]@{
-                        SchemaObject = $object.Name
-                        IdentityReference = $ace.IdentityReference
-                        Permissions = $ace.ActiveDirectoryRights
-                        RiskLevel = "High"
-                        Recommendation = "Review schema modifications"
+            if ($processedCount % 100 -eq 0) {
+                Write-ADReportLog -Message "Processed $processedCount of $($SchemaObjects.Count) schema objects..." -Type Info
+            }
+            
+            try {
+                if (-not $object.nTSecurityDescriptor) {
+                    continue
+                }
+                
+                $acl = $object.nTSecurityDescriptor
+                
+                # Determine object hierarchy for tree structure
+                $objectPath = $object.DistinguishedName
+                $pathParts = $objectPath -split ','
+                
+                # Build tree structure path
+                $treePath = "🔐 Schema Security Analysis"
+                if ($object.objectClass -contains "classSchema") {
+                    $treePath += " → 📋 Class Schemas"
+                } elseif ($object.objectClass -contains "attributeSchema") {
+                    $treePath += " → 🏷️ Attribute Schemas"
+                } elseif ($object.objectClass -contains "subSchema") {
+                    $treePath += " → ⚙️ Schema Configuration"
+                } else {
+                    $treePath += " → 📁 Other Schema Objects"
+                }
+                
+                # Calculate object age
+                $objectAge = 0
+                if ($object.whenCreated) {
+                    $objectAge = [math]::Round((New-TimeSpan -Start $object.whenCreated -End (Get-Date)).TotalDays)
+                }
+                
+                foreach ($ace in $acl.Access) {
+                    try {
+                        # Skip inherited permissions from parent containers
+                        if ($ace.IsInherited) {
+                            continue
+                        }
+                        
+                        # Check for critical permissions
+                        $hasRiskyPermission = $false
+                        $riskyPermissions = @()
+                        
+                        foreach ($permission in $CriticalPermissions) {
+                            if ($ace.ActiveDirectoryRights -match $permission) {
+                                $hasRiskyPermission = $true
+                                $riskyPermissions += $permission
+                            }
+                        }
+                        
+                        if (-not $hasRiskyPermission) {
+                            continue
+                        }
+                        
+                        # Determine if the principal is expected/safe
+                        $identity = $ace.IdentityReference.Value
+                        $isSafePrincipal = $false
+                        
+                        foreach ($safePrincipal in $SafePrincipals) {
+                            if ($identity -like "*$safePrincipal*") {
+                                $isSafePrincipal = $true
+                                break
+                            }
+                        }
+                        
+                        # Calculate risk level
+                        $riskLevel = "Low"
+                        $securityImpact = "Standard schema permission"
+                        $recommendation = "Monitor for changes"
+                        
+                        if (-not $isSafePrincipal) {
+                            if ($riskyPermissions -contains "GenericAll" -or $riskyPermissions -contains "WriteOwner") {
+                                $riskLevel = "Critical"
+                                $securityImpact = "Full control over schema object - can modify AD structure"
+                                $recommendation = "IMMEDIATE: Remove excessive permissions from non-administrative accounts"
+                            } elseif ($riskyPermissions -contains "WriteDacl" -or $riskyPermissions -contains "WriteProperty") {
+                                $riskLevel = "High"
+                                $securityImpact = "Can modify schema definitions or permissions"
+                                $recommendation = "Review and restrict schema modification rights"
+                            } else {
+                                $riskLevel = "Medium"
+                                $securityImpact = "Potential unauthorized schema access"
+                                $recommendation = "Verify necessity of schema permissions"
+                            }
+                        } else {
+                            if ($riskyPermissions -contains "GenericAll") {
+                                $riskLevel = "Medium"
+                                $securityImpact = "Administrative account with full schema control"
+                                $recommendation = "Monitor for unauthorized schema changes"
+                            }
+                        }
+                        
+                        # Create result object
+                        $Results += [PSCustomObject]@{
+                            TreeStructure = [string]$treePath
+                            SchemaObjectName = [string]$object.Name
+                            ObjectType = [string]($object.objectClass | Select-Object -Last 1)
+                            IdentityReference = [string]$identity
+                            PermissionsGranted = [string]($riskyPermissions -join ", ")
+                            AccessType = [string]$ace.AccessControlType.ToString()
+                            RiskLevel = [string]$riskLevel
+                            IsSafePrincipal = [bool]$isSafePrincipal
+                            SecurityImpact = [string]$securityImpact
+                            Recommendation = [string]$recommendation
+                            ObjectCreated = if ($object.whenCreated) { $object.whenCreated.ToString("dd.MM.yyyy HH:mm") } else { "Unknown" }
+                            ObjectAge = [int]$objectAge
+                            ObjectPath = [string]$object.DistinguishedName
+                            AdminDescription = if ([string]::IsNullOrWhiteSpace($object.adminDescription)) { "No description" } else { [string]$object.adminDescription }
+                            LastModified = if ($object.whenChanged) { $object.whenChanged.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                            ComplianceNote = [string]"Schema permissions should be restricted to administrative accounts only"
+                        }
+                        
+                    } catch {
+                        Write-ADReportLog -Message "Error processing ACE for object $($object.Name): $($_.Exception.Message)" -Type Warning
+                        continue
                     }
+                }
+                
+            } catch {
+                Write-ADReportLog -Message "Error processing schema object $($object.Name): $($_.Exception.Message)" -Type Warning
+                continue
+            }
+        }
+        
+        # Sort results by risk level and tree structure for optimal display
+        $SortedResults = $Results | Sort-Object @{
+            Expression = { 
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    default { 5 }
+                }
+            }
+        }, TreeStructure, SchemaObjectName
+        
+        Write-ADReportLog -Message "Schema permissions analysis completed. Found $($SortedResults.Count) permission entries across $($SchemaObjects.Count) schema objects" -Type Info -Terminal
+        
+        # Update GUI with results
+        try {
+            if ($SortedResults.Count -gt 0) {
+                # Update DataGrid with results
+                if ($Global:DataGridResults) {
+                    $Global:DataGridResults.ItemsSource = $SortedResults
+                }
+                
+                # Update status with risk summary
+                $criticalCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+                $highCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "High" }).Count
+                $mediumCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "Medium" }).Count
+                
+                if ($Global:TextBlockStatus) {
+                    $Global:TextBlockStatus.Text = "Schema permissions analysis completed. $($SortedResults.Count) permission(s) found. Critical: $criticalCount, High: $highCount, Medium: $mediumCount"
+                }
+                
+                # Set status indicator based on highest risk
+                if ($Global:StatusIndicator) {
+                    if ($criticalCount -gt 0) {
+                        $Global:StatusIndicator.Fill = "#FFFF0000"  # Red for critical
+                    } elseif ($highCount -gt 0) {
+                        $Global:StatusIndicator.Fill = "#FFFF8000"  # Orange for high
+                    } elseif ($mediumCount -gt 0) {
+                        $Global:StatusIndicator.Fill = "#FFFFFF00"  # Yellow for medium
+                    } else {
+                        $Global:StatusIndicator.Fill = "#FF00C800"  # Green for low/safe
+                    }
+                }
+            } else {
+                # No results found
+                if ($Global:DataGridResults) {
+                    $Global:DataGridResults.ItemsSource = @()
+                }
+                if ($Global:TextBlockStatus) {
+                    $Global:TextBlockStatus.Text = "Schema permissions analysis completed. No concerning permissions found."
+                }
+                if ($Global:StatusIndicator) {
+                    $Global:StatusIndicator.Fill = "#FF00C800"  # Green for safe
+                }
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI: $($_.Exception.Message)" -Type Warning
+        }
+        
+        return $SortedResults
+        
+    } catch {
+        $ErrorMessage = "Error analyzing schema permissions: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
+        
+        # Update GUI error state
+        try {
+            if ($Global:StatusIndicator) {
+                $Global:StatusIndicator.Fill = "#FFFF0000"  # Red for error
+            }
+            if ($Global:DataGridResults) {
+                $Global:DataGridResults.ItemsSource = @()
+            }
+            if ($Global:TextBlockStatus) {
+                $Global:TextBlockStatus.Text = "Error analyzing schema permissions: $ErrorMessage"
+            }
+        } catch {
+            Write-ADReportLog -Message "Could not update GUI error state: $($_.Exception.Message)" -Type Warning
+        }
+        
+        return @()
+    }
+}
+
+Function Get-ExpiredPasswordUsers {
+    [CmdletBinding()]
+    param()
+    
+    try {
+        Write-ADReportLog -Message "Analyzing all users for password expiration status..." -Type Info -Terminal
+        
+        # Properties for password expiration analysis
+        $Properties = @(
+            "DisplayName", "SamAccountName", "Enabled", "PasswordNeverExpires", 
+            "PasswordLastSet", "LastLogonDate", "PasswordNotRequired",
+            "AccountExpirationDate", "LockedOut", "BadLogonCount",
+            "UserPrincipalName", "DistinguishedName", "Description",
+            "whenCreated", "MemberOf"
+        )
+        
+        # Get Domain Password Policy
+        try {
+            $DomainPasswordPolicy = Get-ADDefaultDomainPasswordPolicy -ErrorAction Stop
+            $MaxPasswordAge = $DomainPasswordPolicy.MaxPasswordAge.Days
+            Write-ADReportLog -Message "Domain Password Policy - Max Password Age: $MaxPasswordAge days" -Type Info -Terminal
+        } catch {
+            Write-ADReportLog -Message "Could not retrieve domain password policy, using default 42 days" -Type Warning -Terminal
+            $MaxPasswordAge = 42  # Fallback value
+        }
+        
+        # Load ALL users (enabled and disabled)
+        $AllUsers = Get-ADUser -Filter * -Properties $Properties -ErrorAction SilentlyContinue
+        
+        if (-not $AllUsers) {
+            Write-ADReportLog -Message "No users found in the domain" -Type Warning -Terminal
+            return @()
+        }
+        
+        Write-ADReportLog -Message "$($AllUsers.Count) users loaded for password expiration analysis..." -Type Info -Terminal
+        
+        # Analyze ALL users for password status
+        $PasswordUsers = @()
+        $CurrentDate = Get-Date
+        
+        foreach ($user in $AllUsers) {
+            try {
+                $passwordStatus = "Active"
+                $daysUntilExpiration = 0
+                $passwordAge = "Unknown"
+                $expirationDate = "Never"
+                $expirationDateTime = $null
+                $riskLevel = "Low"
+                $statusDetails = ""
+                
+                # Check if password is required
+                if ($user.PasswordNotRequired -eq $true) {
+                    $passwordStatus = "Not Required"
+                    $passwordAge = "N/A"
+                    $riskLevel = "Critical"
+                    $statusDetails = "Password not required"
+                    $daysUntilExpiration = -9999  # Sort to top as critical
+                }
+                # Check if password never expires
+                elseif ($user.PasswordNeverExpires -eq $true) {
+                    $passwordStatus = "Never Expires"
+                    $riskLevel = "Medium"
+                    $statusDetails = "Password never expires"
+                    $daysUntilExpiration = 9999  # Sort to bottom
+                    $expirationDateTime = [DateTime]::MaxValue
+                    
+                    if ($user.PasswordLastSet -eq $null) {
+                        $passwordAge = "Never set"
+                        $riskLevel = "Critical"
+                        $statusDetails = "Password never set and never expires"
+                    } else {
+                        $passwordAgeTimeSpan = $CurrentDate - $user.PasswordLastSet
+                        $passwordAge = "$([Math]::Round($passwordAgeTimeSpan.TotalDays)) days"
+                    }
+                }
+                # Password has expiration policy
+                else {
+                    if ($user.PasswordLastSet -eq $null) {
+                        $passwordStatus = "Never Set"
+                        $passwordAge = "Never set"
+                        $riskLevel = "Critical"
+                        $statusDetails = "Password never set"
+                        $daysUntilExpiration = -9998  # Sort near top as critical
+                        $expirationDateTime = [DateTime]::MinValue
+                    } else {
+                        # Calculate password age and expiration
+                        $passwordAgeTimeSpan = $CurrentDate - $user.PasswordLastSet
+                        $passwordAge = "$([Math]::Round($passwordAgeTimeSpan.TotalDays)) days"
+                        
+                        # Calculate expiration date
+                        $calculatedExpirationDate = $user.PasswordLastSet.AddDays($MaxPasswordAge)
+                        $expirationDate = $calculatedExpirationDate.ToString("dd.MM.yyyy")
+                        $expirationDateTime = $calculatedExpirationDate
+                        
+                        # Calculate days until expiration (negative if expired)
+                        $daysUntilExpiration = [Math]::Round(($calculatedExpirationDate - $CurrentDate).TotalDays)
+                        
+                        # Determine status and risk level
+                        if ($daysUntilExpiration -lt 0) {
+                            $passwordStatus = "Expired"
+                            $riskLevel = "High"
+                            $statusDetails = "Expired $([Math]::Abs($daysUntilExpiration)) days ago"
+                            
+                            # Critical if expired more than 90 days
+                            if ([Math]::Abs($daysUntilExpiration) -gt 90) {
+                                $riskLevel = "Critical"
+                            }
+                        } elseif ($daysUntilExpiration -eq 0) {
+                            $passwordStatus = "Expires Today"
+                            $riskLevel = "High"
+                            $statusDetails = "Expires today"
+                        } elseif ($daysUntilExpiration -le 7) {
+                            $passwordStatus = "Expires Soon"
+                            $riskLevel = "Medium"
+                            $statusDetails = "Expires in $daysUntilExpiration days"
+                        } elseif ($daysUntilExpiration -le 30) {
+                            $passwordStatus = "Expires This Month"
+                            $riskLevel = "Low"
+                            $statusDetails = "Expires in $daysUntilExpiration days"
+                        } else {
+                            $passwordStatus = "Active"
+                            $riskLevel = "Info"
+                            $statusDetails = "Expires in $daysUntilExpiration days"
+                        }
+                    }
+                }
+                
+                # Check for privileged groups
+                $isPrivileged = $false
+                $privilegedGroups = @()
+                if ($user.MemberOf) {
+                    $privilegedGroupNames = @(
+                        "Domain Admins", "Enterprise Admins", "Schema Admins", 
+                        "Administrators", "Account Operators", "Backup Operators",
+                        "Server Operators", "Print Operators", "Domänen-Admins",
+                        "Organisations-Admins", "Schema-Admins", "Administratoren",
+                        "Konto-Operatoren", "Sicherungs-Operatoren", "Server-Operatoren",
+                        "Druck-Operatoren"
+                    )
+                    
+                    foreach ($groupDN in $user.MemberOf) {
+                        try {
+                            $group = Get-ADGroup -Identity $groupDN -ErrorAction SilentlyContinue
+                            if ($group -and $privilegedGroupNames -contains $group.Name) {
+                                $isPrivileged = $true
+                                $privilegedGroups += $group.Name
+                            }
+                        } catch {
+                            # Group could not be resolved - ignore
+                        }
+                    }
+                }
+                
+                # Increase risk if privileged account has issues
+                if ($isPrivileged -and ($passwordStatus -in @("Expired", "Never Set", "Not Required", "Expires Today", "Expires Soon"))) {
+                    if ($riskLevel -ne "Critical") {
+                        $riskLevel = "High"
+                    }
+                }
+                
+                # Add user to results (ALL users, not just problematic ones)
+                $PasswordUsers += [PSCustomObject]@{
+                    DisplayName = $user.DisplayName
+                    SamAccountName = $user.SamAccountName
+                    UserPrincipalName = $user.UserPrincipalName
+                    Enabled = $user.Enabled
+                    PasswordStatus = $passwordStatus
+                    PasswordLastSet = if ($user.PasswordLastSet) { $user.PasswordLastSet.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                    PasswordAge = $passwordAge
+                    ExpirationDate = $expirationDate
+                    ExpirationDateTime = $expirationDateTime
+                    DaysUntilExpiration = $daysUntilExpiration
+                    StatusDetails = $statusDetails
+                    RiskLevel = $riskLevel
+                    IsPrivileged = $isPrivileged
+                    PrivilegedGroups = if ($privilegedGroups.Count -gt 0) { $privilegedGroups -join ", " } else { "None" }
+                    LastLogonDate = if ($user.LastLogonDate) { $user.LastLogonDate.ToString("dd.MM.yyyy HH:mm") } else { "Never" }
+                    AccountExpirationDate = if ($user.AccountExpirationDate) { $user.AccountExpirationDate.ToString("dd.MM.yyyy") } else { "Never" }
+                    LockedOut = $user.LockedOut
+                    BadLogonCount = $user.BadLogonCount
+                    DistinguishedName = $user.DistinguishedName
+                    WhenCreated = if ($user.whenCreated) { $user.whenCreated.ToString("dd.MM.yyyy") } else { "Unknown" }
+                }
+                
+            } catch {
+                Write-ADReportLog -Message "Error processing user $($user.SamAccountName): $($_.Exception.Message)" -Type Warning
+                # Add user as error case
+                $PasswordUsers += [PSCustomObject]@{
+                    DisplayName = $user.DisplayName
+                    SamAccountName = $user.SamAccountName
+                    UserPrincipalName = $user.UserPrincipalName
+                    Enabled = $user.Enabled
+                    PasswordStatus = "Error"
+                    PasswordLastSet = "Error"
+                    PasswordAge = "Error"
+                    ExpirationDate = "Error"
+                    ExpirationDateTime = [DateTime]::MaxValue
+                    DaysUntilExpiration = -9997
+                    StatusDetails = "Error processing user"
+                    RiskLevel = "Critical"
+                    IsPrivileged = "Unknown"
+                    PrivilegedGroups = "Error"
+                    LastLogonDate = "Error"
+                    AccountExpirationDate = "Error"
+                    LockedOut = "Error"
+                    BadLogonCount = "Error"
+                    Description = "Error processing user"
+                    DistinguishedName = $user.DistinguishedName
+                    WhenCreated = "Error"
                 }
             }
         }
         
-        Write-ADReportLog -Message "Schema permissions analysis completed. Found $($Results.Count) entries for filter '$filter'" -Type Info -Terminal
-
-        if ($Results.Count -gt 0) {
-            # Ergebnisse in DataGrid anzeigen
-            $Global:DataGridResults.ItemsSource = $Results | Sort-Object RiskLevel
+        # Sort results: 
+        # 1. Critical issues first (by RiskLevel)
+        # 2. Then by expiration date (earliest expiration first)
+        # 3. Then by DaysUntilExpiration as fallback
+        $SortedResults = $PasswordUsers | Sort-Object @{
+            Expression = {
+                switch ($_.RiskLevel) {
+                    "Critical" { 1 }
+                    "High" { 2 }
+                    "Medium" { 3 }
+                    "Low" { 4 }
+                    "Info" { 5 }
+                    default { 6 }
+                }
+            }
+        }, @{
+            Expression = { $_.ExpirationDateTime }
+            Ascending = $true
+        }, DaysUntilExpiration
+        
+        Write-ADReportLog -Message "Password expiration analysis completed. Analyzed $($SortedResults.Count) users." -Type Info -Terminal
+        
+        # Log statistics
+        if ($SortedResults.Count -gt 0) {
+            $criticalCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "Critical" }).Count
+            $highCount = ($SortedResults | Where-Object { $_.RiskLevel -eq "High" }).Count
+            $expiredCount = ($SortedResults | Where-Object { $_.PasswordStatus -eq "Expired" }).Count
+            $privilegedCount = ($SortedResults | Where-Object { $_.IsPrivileged -eq $true }).Count
             
-            # Status aktualisieren
-            $Global:TextBlockSelectedRows.Text = "Gefundene Einträge: $($Results.Count)" 
-            $Global:TextBlockLastUpdate.Text = "Letzte Aktualisierung: $(Get-Date -Format 'dd.MM.yyyy HH:mm:ss')"
-            $Global:StatusIndicator.Fill = "#FF00C800"
-        } else {
-            # Keine Ergebnisse gefunden
-            $Global:DataGridResults.ItemsSource = @()
-            $Global:TextBlockSelectedRows.Text = "Keine Einträge gefunden"
-            $Global:TextBlockLastUpdate.Text = "Letzte Aktualisierung: $(Get-Date -Format 'dd.MM.yyyy HH:mm:ss')"
-            $Global:StatusIndicator.Fill = "#FFFFFF00" # Gelb für "keine Ergebnisse"
+            Write-ADReportLog -Message "Password Statistics - Critical: $criticalCount, High: $highCount, Expired: $expiredCount, Privileged Accounts: $privilegedCount" -Type Info -Terminal
         }
         
-        return $Results
+        return $SortedResults
         
     } catch {
-        Write-ADReportLog -Message "Error analyzing schema permissions: $($_.Exception.Message)" -Type Error
-        $Global:StatusIndicator.Fill = "#FFFF0000"
-        $Global:DataGridResults.ItemsSource = @()
-        $Global:TextBlockSelectedRows.Text = "Fehler bei der Analyse"
-        return @()
+        $ErrorMessage = "Error in Get-ExpiredPasswordUsers: $($_.Exception.Message)"
+        Write-ADReportLog -Message $ErrorMessage -Type Error
+        
+        # Fallback result on errors
+        return @([PSCustomObject]@{
+            DisplayName = "Error during analysis"
+            SamAccountName = "ERROR"
+            UserPrincipalName = "error@domain.local"
+            Enabled = "Error"
+            PasswordStatus = "Error"
+            PasswordLastSet = "Error"
+            PasswordAge = "Error"
+            ExpirationDate = "Error"
+            ExpirationDateTime = [DateTime]::MaxValue
+            DaysUntilExpiration = -9999
+            StatusDetails = "Function failed"
+            RiskLevel = "Critical"
+            IsPrivileged = "Unknown"
+            PrivilegedGroups = "Error"
+            LastLogonDate = "Error"
+            AccountExpirationDate = "Error"
+            LockedOut = "Error"
+            BadLogonCount = "Error"
+            Description = "Function failed: $($_.Exception.Message)"
+            DistinguishedName = "CN=ERROR,DC=domain,DC=local"
+            WhenCreated = "Error"
+        })
     }
 }
+
+
 
 # ===================================
 # NETWORK TOPOLOGY FUNCTIONS
@@ -8432,6 +13282,12 @@ Function Initialize-ADReportForm {
     $Global:ButtonQuickForeignSecurityPrincipals = $Window.FindName("ButtonQuickForeignSecurityPrincipals")
     $Global:ButtonQuickSIDHistoryAbuse = $Window.FindName("ButtonQuickSIDHistoryAbuse")
     
+    # Neue Security Analysis Buttons
+    $Global:ButtonQuickCompromiseIndicators = $Window.FindName("ButtonQuickCompromiseIndicators")
+    $Global:ButtonQuickSecurityDashboard = $Window.FindName("ButtonQuickSecurityDashboard")
+    $Global:ButtonQuickAuthProtocolAnalysis = $Window.FindName("ButtonQuickAuthProtocolAnalysis")
+    $Global:ButtonQuickFailedAuthPatterns = $Window.FindName("ButtonQuickFailedAuthPatterns")
+    
     # Service Account Buttons
     $Global:ButtonQuickServiceAccountsOverview = $Window.FindName("ButtonQuickServiceAccountsOverview")
     $Global:ButtonQuickManagedServiceAccounts = $Window.FindName("ButtonQuickManagedServiceAccounts")
@@ -8448,6 +13304,7 @@ Function Initialize-ADReportForm {
     $Global:ButtonQuickPasswordPolicySummary = $Window.FindName("ButtonQuickPasswordPolicySummary")
     $Global:ButtonQuickAccountLockoutPolicies = $Window.FindName("ButtonQuickAccountLockoutPolicies")
     $Global:ButtonQuickFineGrainedPasswordPolicies = $Window.FindName("ButtonQuickFineGrainedPasswordPolicies")
+    $Global:ButtonQuickConditionalAccessPolicies = $Window.FindName("ButtonQuickConditionalAccessPolicies")
         
     # Advanced Permissions Buttons
     $Global:ButtonQuickACLAnalysis = $Window.FindName("ButtonQuickACLAnalysis")
@@ -9364,35 +14221,19 @@ Function Initialize-ADReportForm {
                     $Global:TextBoxFilterValue1.Text = ""
                     $Global:TextBoxFilterValue2.Text = ""
 
-                    $QuickReportAttributes = @("DisplayName", "SamAccountName", "PasswordLastSet", "Enabled", "PasswordNeverExpires")
+                    $QuickReportAttributes = @("DisplayName", "SamAccountName", "PasswordLastSet", "Enabled", "PasswordNeverExpires", "AccountExpirationDate")
                     Select-AttributesInListBoxes -Attributes $QuickReportAttributes
 
-                    # Hole die Domain Password Policy
-                    $DomainPasswordPolicy = Get-ADDefaultDomainPasswordPolicy
-                    $MaxPasswordAge = $DomainPasswordPolicy.MaxPasswordAge.Days
-                    
-                    # Lade aktivierte Benutzer deren Passwort ablaufen kann
-                    $AllActiveUsers = Get-ADUser -Filter "PasswordNeverExpires -eq `$false -and Enabled -eq `$true" -Properties $QuickReportAttributes -ErrorAction SilentlyContinue
-                    
-                    if ($AllActiveUsers) {
-                        $ExpiredDate = (Get-Date).AddDays(-$MaxPasswordAge)
-                        $UsersPasswordExpired = $AllActiveUsers | Where-Object { 
-                            $_.PasswordLastSet -and $_.PasswordLastSet -lt $ExpiredDate 
-                        }
-                        
-                        if ($UsersPasswordExpired -and $UsersPasswordExpired.Count -gt 0) {
-                            Update-ADReportResults -Results $UsersPasswordExpired -StatusMessage "Users with expired passwords loaded."
-                            $Global:TextBlockStatus.Text = "Users with expired passwords loaded. $($UsersPasswordExpired.Count) record(s) found."
-                            Write-ADReportLog -Message "Users with expired passwords loaded. $($UsersPasswordExpired.Count) result(s) found." -Type Info
-                        } else {
-                            Update-ADReportResults -Results @() -StatusMessage "No users with expired passwords found."
-                            $Global:TextBlockStatus.Text = "No users with expired passwords found."
-                            Write-ADReportLog -Message "No users with expired passwords found." -Type Info
-                        }
+                    $ExpiredPasswordUsers = Get-ExpiredPasswordUsers
+                    if ($ExpiredPasswordUsers -and $ExpiredPasswordUsers.Count -gt 0) {
+                        Update-ADReportResults -Results $ExpiredPasswordUsers
+                        Write-ADReportLog -Message "Users with expired passwords loaded. $($ExpiredPasswordUsers.Count) result(s) found." -Type Info
+                        Update-ResultCounters -Results $ExpiredPasswordUsers
+                        $Global:TextBlockStatus.Text = "Users with expired passwords loaded. $($ExpiredPasswordUsers.Count) record(s) found."
                     } else {
-                        Update-ADReportResults -Results @() -StatusMessage "Failed to query users."
-                        $Global:TextBlockStatus.Text = "Failed to query users."
-                        Write-ADReportLog -Message "Failed to query users." -Type Warning
+                        $Global:DataGridResults.ItemsSource = $null
+                        Write-ADReportLog -Message "No users with expired passwords found." -Type Info
+                        $Global:TextBlockStatus.Text = "No users with expired passwords found."
                     }
                 } catch {
                     $ErrorMessage = "Error loading users with expired passwords: $($_.Exception.Message)"
@@ -10508,23 +15349,147 @@ Function Initialize-ADReportForm {
         if ($SaveFileDialog.ShowDialog() -eq "OK") {
             $FilePath = $SaveFileDialog.FileName
             try {
-                # Create a more attractive HTML header
+                # HTML Design optimiert für DIN A4 Querformat
                 $HtmlHead = @"
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Active Directory Report</title>
 <style>
-  body { font-family: Segoe UI, Arial, sans-serif; margin: 20px; }
-  table { border-collapse: collapse; width: 90%; margin: 20px auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-  th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-  th { background-color: #0078D4; color: white; }
-  tr:nth-child(even) { background-color: #f2f2f2; }
-  h1 { text-align: center; color: #333; }
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 2cm;
+    }
+    body {
+      width: 29.7cm;
+      height: 21cm;
+      margin: 0 auto;
+    }
+  }
+  
+  :root {
+    --primary-color: #0078D4;
+    --border-color: #E1E1E1;
+  }
+  
+  body { 
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 15px;
+    background: white;
+    color: #333;
+    line-height: 1.4;
+    font-size: 10pt;
+    max-width: 29.7cm;
+    min-height: 21cm;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  .container {
+    width: 100%;
+    min-height: calc(21cm - 4cm); /* A4 height minus margins */
+    margin: 0 auto;
+    background: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  table { 
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+    page-break-inside: auto;
+  }
+  
+  tr { 
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  
+  th, td { 
+    padding: 6px 8px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+    font-size: 9pt;
+    word-wrap: break-word;
+    max-width: 250px;
+  }
+  
+  th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+  }
+  
+  tr:nth-child(even) { 
+    background-color: #F8F9FA;
+  }
+  
+  h1 { 
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 16pt;
+    margin: 10px 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+  }
+  
+  .timestamp {
+    text-align: right;
+    color: #666;
+    font-size: 8pt;
+    margin: 10px 0;
+  }
+
+  .footer {
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    margin-top: auto;
+    font-size: 8pt;
+    color: #666;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+  }
+
+  @media print {
+    .container {
+      width: 100%;
+      max-width: none;
+    }
+    
+    table {
+      font-size: 9pt;
+    }
+    
+    th, td {
+      padding: 4px 6px;
+    }
+  }
 </style>
 "@
                 $DateTimeNow = Get-Date -Format "dd.MM.yyyy HH:mm:ss"
-                $ReportTitle = "Active Directory Report - Created on $DateTimeNow"
+                $ReportTitle = "Active Directory Report"
+                
+                $HtmlBody = @"
+<div class="container">
+    <h1>$ReportTitle</h1>
+    <div class="timestamp">Erstellt am $DateTimeNow mit easyADReport</div>
+"@
 
-                $Global:DataGridResults.ItemsSource | ConvertTo-Html -Head $HtmlHead -Body "<h1>$ReportTitle</h1>" | Out-File -FilePath $FilePath -Encoding UTF8
+                $HtmlFooter = @"
+</div>
+<div class="footer">
+    <p>Copyright © $(Get-Date -Format "yyyy") |  Autor: Andreas Hepp | Webseite: <a href="https://www.phinit.de">www.phinit.de</a> / <a href="https://www.psscripts.de">www.psscripts.de</a></p>
+</div>
+"@
+
+                $Global:DataGridResults.ItemsSource | ConvertTo-Html -Head $HtmlHead -Body $HtmlBody | ForEach-Object {
+                    $_ -replace '</body>', "$HtmlFooter</body>"
+                } | Out-File -FilePath $FilePath -Encoding UTF8
+                
                 $Global:TextBlockStatus.Text = "Daten erfolgreich nach $FilePath exportiert."
                 [System.Windows.Forms.MessageBox]::Show("Data successfully exported!", "HTML Export", "OK", "Information")
             } catch {
@@ -10883,7 +15848,7 @@ Function Initialize-ADReportForm {
             try {
                 $Global:RadioButtonGroup.IsChecked = $true
                 
-                $GroupsByTypeScope = Get-GroupsByTypeAndScope
+                $GroupsByTypeScope = Get-GroupsByTypeScope
                 if ($GroupsByTypeScope -and $GroupsByTypeScope.Count -gt 0) {
                     Update-ADReportResults -Results $GroupsByTypeScope
                     Write-ADReportLog -Message "Groups by type and scope loaded. $($GroupsByTypeScope.Count) result(s) found." -Type Info
@@ -11876,633 +16841,131 @@ Function Initialize-ADReportForm {
         })
     }
 
-    # Event Handler für Security Heat Tab
-    if ($null -ne $Global:BtnSecurityOverview) {
-        $BtnSecurityOverview.Add_Click({
-            Write-ADReportLog -Message "Führe vollständigen Security Check durch..." -Type Info
+    # Event Handler für ButtonQuickCompromiseIndicators
+    if ($null -ne $Global:ButtonQuickCompromiseIndicators) {
+        $ButtonQuickCompromiseIndicators.add_Click({
+            Write-ADReportLog -Message "Analysiere Kompromittierungsindikatoren..." -Type Info
             try {
-                $Global:TxtSecurityStatus.Text = "Security Check läuft..."
-                $Global:ProgressSecurityAnalysis.Visibility = "Visible"
+                $Global:RadioButtonUser.IsChecked = $true
                 
-                # Führe verschiedene Security Checks durch
-                $securityResults = @()
-                
-                # Password Policy Check
-                $passwordIssues = Get-WeakPasswordPolicyUsers
-                if ($passwordIssues) { $securityResults += $passwordIssues }
-                
-                # Privileged Accounts Check
-                $privAccounts = Get-PrivilegedAccounts
-                if ($privAccounts) { $securityResults += $privAccounts }
-                
-                # Inactive Accounts Check
-                $inactiveAccounts = Get-InactiveUsers -Days 90
-                if ($inactiveAccounts) { $securityResults += $inactiveAccounts }
-                
-                # Update Metrics
-                $criticalCount = ($securityResults | Where-Object { $_.RiskLevel -eq "Critical" }).Count
-                $warningCount = ($securityResults | Where-Object { $_.RiskLevel -eq "Warning" }).Count
-                $infoCount = ($securityResults | Where-Object { $_.RiskLevel -eq "Info" }).Count
-                
-                $Global:TxtCriticalFindings.Text = $criticalCount.ToString()
-                $Global:TxtWarnings.Text = $warningCount.ToString()
-                $Global:TxtInfos.Text = $infoCount.ToString()
-                
-                # Calculate security score
-                $totalIssues = $criticalCount + $warningCount + $infoCount
-                $securityScore = [Math]::Max(0, 100 - ($criticalCount * 10) - ($warningCount * 5) - ($infoCount * 2))
-                $Global:TxtSecure.Text = "$securityScore%"
-                $Global:ProgressSecure.Value = $securityScore
-                
-                # Display results
-                $Global:SecurityResultsGrid.ItemsSource = $securityResults
-                
-                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
-                $Global:TxtSecurityStatus.Text = "Security Check abgeschlossen"
+                $CompromiseIndicators = Get-CompromiseIndicators
+                if ($CompromiseIndicators -and $CompromiseIndicators.Count -gt 0) {
+                    Update-ADReportResults -Results $CompromiseIndicators
+                    Write-ADReportLog -Message "Kompromittierungsanalyse abgeschlossen. $($CompromiseIndicators.Count) Ergebnis(se) gefunden." -Type Info
+                    Update-ResultCounters -Results $CompromiseIndicators
+                    $Global:TextBlockStatus.Text = "Kompromittierungsanalyse abgeschlossen. $($CompromiseIndicators.Count) Datensatz/Datensätze gefunden."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "Keine Kompromittierungsindikatoren gefunden." -Type Info
+                    $Global:TextBlockStatus.Text = "Keine Kompromittierungsindikatoren gefunden."
+                }
             } catch {
-                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
-                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Security Check Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnPasswordAudit) {
-        $BtnPasswordAudit.Add_Click({
-            Write-ADReportLog -Message "Führe Password Policy Audit durch..." -Type Info
-            try {
-                $passwordAudit = Get-PasswordPolicySummary
-                $Global:SecurityResultsGrid.ItemsSource = $passwordAudit
-                $Global:TxtSecurityStatus.Text = "Password Audit abgeschlossen. $($passwordAudit.Count) Ergebnisse gefunden."
-            } catch {
-                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Password Audit Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnPrivilegedAccounts) {
-        $BtnPrivilegedAccounts.Add_Click({
-            Write-ADReportLog -Message "Lade privilegierte Accounts..." -Type Info
-            try {
-                $privAccounts = Get-PrivilegedAccounts
-                $Global:SecurityResultsGrid.ItemsSource = $privAccounts
-                $Global:TxtSecurityStatus.Text = "Privilegierte Accounts geladen. $($privAccounts.Count) gefunden."
-            } catch {
-                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Privileged Accounts Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnInactiveAccounts) {
-        $BtnInactiveAccounts.Add_Click({
-            Write-ADReportLog -Message "Suche inaktive Accounts..." -Type Info
-            try {
-                $inactiveAccounts = Get-InactiveUsers -Days 90
-                $Global:SecurityResultsGrid.ItemsSource = $inactiveAccounts
-                $Global:TxtSecurityStatus.Text = "Inaktive Accounts gefunden: $($inactiveAccounts.Count)"
-            } catch {
-                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Inactive Accounts Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnRunSelectedReports) {
-        $BtnRunSelectedReports.Add_Click({
-            Write-ADReportLog -Message "Führe ausgewählte Security Reports aus..." -Type Info
-            try {
-                $Global:TxtSecurityStatus.Text = "Reports werden ausgeführt..."
-                $Global:ProgressSecurityAnalysis.Visibility = "Visible"
-                
-                $allResults = @()
-                
-                # Prüfe welche Reports ausgewählt sind
-                if ($Global:ChkPasswordExpiry.IsChecked) {
-                    $results = Get-PasswordExpiringSoon -Days 30
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkAccountLockouts.IsChecked) {
-                    $results = Get-LockedOutAccounts
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkLoginFailures.IsChecked) {
-                    # Implementierung für fehlgeschlagene Logins
-                    # $results = Get-FailedLogins
-                    # if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkServiceAccounts.IsChecked) {
-                    $results = Get-ServiceAccountsOverview
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkDelegation.IsChecked) {
-                    $results = Get-DelegationAnalysis
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkGroupMembership.IsChecked) {
-                    $results = Get-RiskyGroupMemberships
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkPermissions.IsChecked) {
-                    $results = Get-ACLAnalysis
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkKerberos.IsChecked) {
-                    $results = Get-KerberoastableUsers
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkGPOSecurity.IsChecked) {
-                    $results = Get-GPOPermissions
-                    if ($results) { $allResults += $results }
-                }
-                
-                if ($Global:ChkReplication.IsChecked) {
-                    $results = Get-ReplicationStatus
-                    if ($results) { $allResults += $results }
-                }
-                
-                $Global:SecurityResultsGrid.ItemsSource = $allResults
-                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
-                $Global:TxtSecurityStatus.Text = "Reports abgeschlossen. $($allResults.Count) Ergebnisse gefunden."
-            } catch {
-                $Global:ProgressSecurityAnalysis.Visibility = "Collapsed"
-                $Global:TxtSecurityStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Selected Reports Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    # Event Handler für User Heat Tab
-    if ($null -ne $Global:BtnInactiveUsers) {
-        $BtnInactiveUsers.Add_Click({
-            Write-ADReportLog -Message "Suche inaktive Benutzer (90+ Tage)..." -Type Info
-            try {
-                $inactiveUsers = Get-InactiveUsers -Days 90
-                $Global:UserResultsGrid.ItemsSource = $inactiveUsers
-                $Global:TxtUserStatus.Text = "Inaktive Benutzer gefunden: $($inactiveUsers.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Inactive Users Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnExpiredPasswords) {
-        $BtnExpiredPasswords.Add_Click({
-            Write-ADReportLog -Message "Suche Benutzer mit abgelaufenen Passwörtern..." -Type Info
-            try {
-                $expiredPwd = Get-ExpiredPasswords
-                $Global:UserResultsGrid.ItemsSource = $expiredPwd
-                $Global:TxtUserStatus.Text = "Benutzer mit abgelaufenen Passwörtern: $($expiredPwd.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Expired Passwords Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnNeverExpiring) {
-        $BtnNeverExpiring.Add_Click({
-            Write-ADReportLog -Message "Suche Benutzer mit nie ablaufenden Passwörtern..." -Type Info
-            try {
-                $neverExpire = Get-UsersNeverExpirePassword
-                $Global:UserResultsGrid.ItemsSource = $neverExpire
-                $Global:TxtUserStatus.Text = "Benutzer mit nie ablaufenden Passwörtern: $($neverExpire.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Never Expiring Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnRecentlyCreated) {
-        $BtnRecentlyCreated.Add_Click({
-            Write-ADReportLog -Message "Suche neue Benutzer (30 Tage)..." -Type Info
-            try {
-                $recentUsers = Get-RecentlyCreatedUsers -Days 30
-                $Global:UserResultsGrid.ItemsSource = $recentUsers
-                $Global:TxtUserStatus.Text = "Neue Benutzer gefunden: $($recentUsers.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Recently Created Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-
-    
-    # Event Handler für Computer Heat Tab
-    if ($null -ne $Global:BtnInactiveComputers) {
-        $BtnInactiveComputers.Add_Click({
-            Write-ADReportLog -Message "Suche inaktive Computer..." -Type Info
-            try {
-                $inactiveComps = Get-InactiveComputers -Days 90
-                $Global:ComputerResultsGrid.ItemsSource = $inactiveComps
-                $Global:TxtComputerStatus.Text = "Inaktive Computer gefunden: $($inactiveComps.Count)"
-            } catch {
-                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Inactive Computers Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnOldOperatingSystems) {
-        $BtnOldOperatingSystems.Add_Click({
-            Write-ADReportLog -Message "Suche veraltete OS Versionen..." -Type Info
-            try {
-                $oldOS = Get-ComputersByOSVersion | Where-Object { $_.OperatingSystem -like "*Windows 7*" -or $_.OperatingSystem -like "*Windows 8*" -or $_.OperatingSystem -like "*Server 2008*" -or $_.OperatingSystem -like "*Server 2012*" }
-                $Global:ComputerResultsGrid.ItemsSource = $oldOS
-                $Global:TxtComputerStatus.Text = "Computer mit veralteten OS: $($oldOS.Count)"
-            } catch {
-                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Old OS Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-
-    
-    # Event Handler für Group Heat Tab
-    if ($null -ne $Global:BtnViewDomainAdmins) {
-        $BtnViewDomainAdmins.Add_Click({
-            Write-ADReportLog -Message "Lade Domain Admins..." -Type Info
-            try {
-                $domainAdmins = Get-ADGroupMember "Domain Admins" -Recursive | Get-ADUser -Properties DisplayName, EmailAddress, LastLogonDate
-                $Global:GroupResultsGrid.ItemsSource = $domainAdmins
-                $Global:TxtGroupStatus.Text = "Domain Admins geladen: $($domainAdmins.Count) Mitglieder"
-            } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Domain Admins Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnNestedGroups) {
-        $BtnNestedGroups.Add_Click({
-            Write-ADReportLog -Message "Analysiere verschachtelte Gruppen..." -Type Info
-            try {
-                $nestedGroups = Get-NestedGroups
-                $Global:GroupResultsGrid.ItemsSource = $nestedGroups
-                $Global:TxtGroupStatus.Text = "Verschachtelte Gruppen gefunden: $($nestedGroups.Count)"
-            } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Nested Groups Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnGenerateGroupReport) {
-        $BtnGenerateGroupReport.Add_Click({
-            Write-ADReportLog -Message "Generiere Gruppen Report..." -Type Info
-            try {
-                $Global:TxtGroupStatus.Text = "Report wird generiert..."
-                
-                $allGroups = Get-ADGroup -Filter * -Properties GroupCategory, GroupScope, ManagedBy, Members, Description
-                
-                # Update statistics
-                $securityGroups = ($allGroups | Where-Object { $_.GroupCategory -eq "Security" }).Count
-                $distributionGroups = ($allGroups | Where-Object { $_.GroupCategory -eq "Distribution" }).Count
-                $builtinGroups = ($allGroups | Where-Object { $_.DistinguishedName -like "*CN=Builtin,*" }).Count
-                $emptyGroups = ($allGroups | Where-Object { $_.Members.Count -eq 0 }).Count
-                
-                $Global:TxtSecurityGroups.Text = $securityGroups.ToString()
-                $Global:TxtDistributionGroups.Text = $distributionGroups.ToString()
-                $Global:TxtBuiltinGroups.Text = $builtinGroups.ToString()
-                $Global:TxtEmptyGroups.Text = $emptyGroups.ToString()
-                
-                # Update critical groups counts
-                $domainAdmins = (Get-ADGroupMember "Domain Admins" -Recursive).Count
-                $Global:TxtDomainAdminsCount.Text = "$domainAdmins Mitglieder"
-                
-                try {
-                    $enterpriseAdmins = (Get-ADGroupMember "Enterprise Admins" -Recursive).Count
-                    $Global:TxtEnterpriseAdminsCount.Text = "$enterpriseAdmins Mitglieder"
-                } catch {
-                    $Global:TxtEnterpriseAdminsCount.Text = "N/A"
-                }
-                
-                try {
-                    $schemaAdmins = (Get-ADGroupMember "Schema Admins" -Recursive).Count
-                    $Global:TxtSchemaAdminsCount.Text = "$schemaAdmins Mitglieder"
-                } catch {
-                    $Global:TxtSchemaAdminsCount.Text = "N/A"
-                }
-                
-                $Global:GroupResultsGrid.ItemsSource = $allGroups
-                $Global:TxtGroupStatus.Text = "Gruppen Report generiert. $($allGroups.Count) Gruppen gefunden."
-            } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Generate Group Report Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    # Event Handler für AD Health Tab
-    if ($null -ne $Global:BtnRunHealthChecks) {
-        $BtnRunHealthChecks.Add_Click({
-            Write-ADReportLog -Message "Führe AD Health Checks durch..." -Type Info
-            try {
-                $Global:TxtHealthStatus.Text = "Health Checks laufen..."
-                $Global:ProgressHealthCheck.Visibility = "Visible"
-                
-                # DC Status Check
-                $dcs = Get-ADDomainController -Filter *
-                $dcData = $dcs | ForEach-Object {
-                    [PSCustomObject]@{
-                        Name = $_.Name
-                        Site = $_.Site
-                        OSVersion = $_.OperatingSystem
-                        LastContact = (Get-Date) - $_.LastContactTime
-                        FSMORoles = ($_.OperationMasterRoles -join ", ")
-                        Status = if ((Test-Connection $_.Name -Count 1 -Quiet)) { "Online" } else { "Offline" }
-                    }
-                }
-                $Global:DCHealthGrid.ItemsSource = $dcData
-                
-                # Update status cards
-                $onlineDCs = ($dcData | Where-Object { $_.Status -eq "Online" }).Count
-                $totalDCs = $dcData.Count
-                $Global:TxtDCHealthStatus.Text = if ($onlineDCs -eq $totalDCs) { "Alle Online" } else { "$onlineDCs Online" }
-                $Global:TxtDCHealthDetails.Text = "$onlineDCs von $totalDCs DCs"
-                
-                # Replication Status
-                if ($Global:ChkReplicationHealth.IsChecked) {
-                    $replStatus = Get-ReplicationStatus
-                    if ($replStatus | Where-Object { $_.Status -ne "Success" }) {
-                        $Global:TxtReplicationStatus.Text = "Fehler"
-                        $Global:TxtReplicationDetails.Text = "Fehler gefunden"
-                    } else {
-                        $Global:TxtReplicationStatus.Text = "OK"
-                        $Global:TxtReplicationDetails.Text = "Keine Fehler"
-                    }
-                }
-                
-                # Sammle alle Health Check Ergebnisse
-                $healthResults = ""
-                
-                if ($Global:ChkDCDiagnostics.IsChecked) {
-                    $healthResults += "`n=== DC Diagnostics (DCDiag) ===`n"
-                    # Hier würde DCDiag ausgeführt werden
-                    $healthResults += "DCDiag Checks würden hier ausgeführt...`n"
-                }
-                
-                if ($Global:ChkDNSHealth.IsChecked) {
-                    $healthResults += "`n=== DNS Health Check ===`n"
-                    # DNS Health Check
-                    $healthResults += "DNS Health Checks würden hier ausgeführt...`n"
-                }
-                
-                if ($Global:ChkEventLogs.IsChecked) {
-                    $healthResults += "`n=== Event Log Analysis ===`n"
-                    # Event Log Analysis
-                    $healthResults += "Event Log Analyse würde hier ausgeführt...`n"
-                }
-                
-                # Zeige Ergebnisse
-                $Global:HealthCheckResults.Document.Blocks.Clear()
-                $paragraph = New-Object System.Windows.Documents.Paragraph
-                $paragraph.Inlines.Add($healthResults)
-                $Global:HealthCheckResults.Document.Blocks.Add($paragraph)
-                
-                # Recent Issues (Beispieldaten)
-                $recentIssues = @(
-                    [PSCustomObject]@{ Icon = "⚠️"; Description = "Replikationsfehler zwischen DC01 und DC02"; Time = "vor 2h" }
-                    [PSCustomObject]@{ Icon = "🔔"; Description = "5 fehlgeschlagene Anmeldeversuche für Admin-Account"; Time = "vor 4h" }
-                    [PSCustomObject]@{ Icon = "ℹ️"; Description = "Backup erfolgreich abgeschlossen"; Time = "vor 12h" }
-                )
-                $Global:RecentIssuesList.ItemsSource = $recentIssues
-                
-                $Global:ProgressHealthCheck.Visibility = "Collapsed"
-                $Global:TxtHealthStatus.Text = "Health Checks abgeschlossen"
-                $Global:TxtLastHealthCheck.Text = "Letzter Check: $(Get-Date -Format 'dd.MM.yyyy HH:mm')"
-            } catch {
-                $Global:ProgressHealthCheck.Visibility = "Collapsed"
-                $Global:TxtHealthStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Health Check Error: $($_.Exception.Message)" -Type Error
+                $ErrorMessage = "Fehler bei der Kompromittierungsanalyse: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Fehler: $ErrorMessage"
             }
         })
     }
 
-    # Event Handler für neue Security-fokussierte User Heat Buttons
-    if ($null -ne $Global:BtnSuspiciousAccounts) {
-        $BtnSuspiciousAccounts.Add_Click({
-            Write-ADReportLog -Message "Suche verdächtige Accounts..." -Type Info
+    # Event Handler für ButtonQuickSecurityDashboard
+    if ($null -ne $Global:ButtonQuickSecurityDashboard) {
+        $ButtonQuickSecurityDashboard.add_Click({
+            Write-ADReportLog -Message "Erstelle Sicherheitsbewertungs-Dashboard..." -Type Info
             try {
-                # Kombiniere verschiedene Verdachtskriterien
-                $suspiciousAccounts = @()
-                
-                # Accounts mit SID History
-                $sidHistory = Get-SIDHistoryAbuse
-                if ($sidHistory) { $suspiciousAccounts += $sidHistory }
-                
-                # Accounts ohne Passwort-Ablauf aber nicht Service Accounts
-                $neverExpire = Get-UsersNeverExpirePassword | Where-Object { $_.ServicePrincipalName -eq $null }
-                if ($neverExpire) { $suspiciousAccounts += $neverExpire }
-                
-                # Kürzlich erstellte privilegierte Accounts
-                $recentPriv = Get-RecentlyCreatedUsers -Days 7 | Where-Object { 
-                    $_.MemberOf -match "Admin|Operator"
+                $SecurityDashboard = Get-SecurityDashboard
+                if ($SecurityDashboard -and $SecurityDashboard.Count -gt 0) {
+                    Update-ADReportResults -Results $SecurityDashboard
+                    Write-ADReportLog -Message "Sicherheitsbewertung abgeschlossen. $($SecurityDashboard.Count) Ergebnis(se) gefunden." -Type Info
+                    Update-ResultCounters -Results $SecurityDashboard
+                    $Global:TextBlockStatus.Text = "Sicherheitsbewertung abgeschlossen. $($SecurityDashboard.Count) Bewertungskategorie(n) analysiert."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "Keine Sicherheitsbewertung verfügbar." -Type Info
+                    $Global:TextBlockStatus.Text = "Keine Sicherheitsbewertung verfügbar."
                 }
-                if ($recentPriv) { $suspiciousAccounts += $recentPriv }
-                
-                $Global:UserResultsGrid.ItemsSource = $suspiciousAccounts
-                $Global:TxtUserStatus.Text = "Verdächtige Accounts gefunden: $($suspiciousAccounts.Count)"
             } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Suspicious Accounts Error: $($_.Exception.Message)" -Type Error
+                $ErrorMessage = "Fehler bei der Sicherheitsbewertung: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Fehler: $ErrorMessage"
             }
         })
     }
-    
-    if ($null -ne $Global:BtnKerberoastable) {
-        $BtnKerberoastable.Add_Click({
-            Write-ADReportLog -Message "Suche Kerberoastable Users..." -Type Info
+
+    # Event Handler für ButtonQuickAuthProtocolAnalysis
+    if ($null -ne $Global:ButtonQuickAuthProtocolAnalysis) {
+        $ButtonQuickAuthProtocolAnalysis.add_Click({
+            Write-ADReportLog -Message "Analysiere Authentifizierungsprotokolle..." -Type Info
             try {
-                $kerberoastable = Get-KerberoastableUsers
-                $Global:UserResultsGrid.ItemsSource = $kerberoastable
-                $Global:TxtUserStatus.Text = "Kerberoastable Users gefunden: $($kerberoastable.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Kerberoastable Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnASREPRoastable) {
-        $BtnASREPRoastable.Add_Click({
-            Write-ADReportLog -Message "Suche ASREP Roastable Users..." -Type Info
-            try {
-                $asrepRoastable = Get-ASREPRoastableUsers
-                $Global:UserResultsGrid.ItemsSource = $asrepRoastable
-                $Global:TxtUserStatus.Text = "ASREP Roastable Users gefunden: $($asrepRoastable.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "ASREP Roastable Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnPrivilegedUsers) {
-        $BtnPrivilegedUsers.Add_Click({
-            Write-ADReportLog -Message "Lade privilegierte Benutzer..." -Type Info
-            try {
-                $privUsers = Get-PrivilegedAccounts
-                $Global:UserResultsGrid.ItemsSource = $privUsers
-                $Global:TxtUserStatus.Text = "Privilegierte Benutzer gefunden: $($privUsers.Count)"
-            } catch {
-                $Global:TxtUserStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Privileged Users Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    # Event Handler für neue Security-fokussierte Computer Heat Buttons
-    if ($null -ne $Global:BtnUnsupportedOS) {
-        $BtnUnsupportedOS.Add_Click({
-            Write-ADReportLog -Message "Suche Computer mit unsupported OS..." -Type Info
-            try {
-                $unsupportedOS = Get-ComputersByOSVersion | Where-Object { 
-                    $_.OperatingSystem -like "*Windows 7*" -or 
-                    $_.OperatingSystem -like "*Windows 8*" -or 
-                    $_.OperatingSystem -like "*Windows XP*" -or
-                    $_.OperatingSystem -like "*Server 2003*" -or
-                    $_.OperatingSystem -like "*Server 2008*" -or
-                    $_.OperatingSystem -like "*Server 2012*"
+                $AuthProtocolAnalysis = Get-AuthProtocolAnalysis
+                if ($AuthProtocolAnalysis -and $AuthProtocolAnalysis.Count -gt 0) {
+                    Update-ADReportResults -Results $AuthProtocolAnalysis
+                    Write-ADReportLog -Message "Authentifizierungsprotokoll-Analyse abgeschlossen. $($AuthProtocolAnalysis.Count) Ergebnis(se) gefunden." -Type Info
+                    Update-ResultCounters -Results $AuthProtocolAnalysis
+                    $Global:TextBlockStatus.Text = "Authentifizierungsprotokoll-Analyse abgeschlossen. $($AuthProtocolAnalysis.Count) Datensatz/Datensätze gefunden."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "Keine Authentifizierungsprotokolldaten gefunden." -Type Info
+                    $Global:TextBlockStatus.Text = "Keine Authentifizierungsprotokolldaten gefunden."
                 }
-                $Global:ComputerResultsGrid.ItemsSource = $unsupportedOS
-                $Global:TxtComputerStatus.Text = "Computer mit unsupported OS: $($unsupportedOS.Count)"
             } catch {
-                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Unsupported OS Error: $($_.Exception.Message)" -Type Error
+                $ErrorMessage = "Fehler bei der Authentifizierungsprotokoll-Analyse: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Fehler: $ErrorMessage"
             }
         })
     }
-    
-    if ($null -ne $Global:BtnUnencryptedComputers) {
-        $BtnUnencryptedComputers.Add_Click({
-            Write-ADReportLog -Message "Suche Computer ohne BitLocker..." -Type Info
+
+    # Event Handler für ButtonQuickFailedAuthPatterns
+    if ($null -ne $Global:ButtonQuickFailedAuthPatterns) {
+        $ButtonQuickFailedAuthPatterns.add_Click({
+            Write-ADReportLog -Message "Analysiere fehlgeschlagene Authentifizierungsmuster..." -Type Info
             try {
-                $unencrypted = Get-BitLockerStatus | Where-Object { $_.BitLockerEnabled -eq $false }
-                $Global:ComputerResultsGrid.ItemsSource = $unencrypted
-                $Global:TxtComputerStatus.Text = "Computer ohne BitLocker: $($unencrypted.Count)"
-            } catch {
-                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Unencrypted Computers Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnTrustedForDelegation) {
-        $BtnTrustedForDelegation.Add_Click({
-            Write-ADReportLog -Message "Suche Computer mit Delegation..." -Type Info
-            try {
-                $trustedDelegation = Get-ADComputer -Filter {TrustedForDelegation -eq $true} -Properties *
-                $Global:ComputerResultsGrid.ItemsSource = $trustedDelegation
-                $Global:TxtComputerStatus.Text = "Computer mit Delegation: $($trustedDelegation.Count)"
-            } catch {
-                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Trusted Delegation Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnMissingPatches) {
-        $BtnMissingPatches.Add_Click({
-            Write-ADReportLog -Message "Prüfe fehlende Patches..." -Type Info
-            try {
-                # Simuliere Patch-Status Check
-                $computers = Get-ADComputer -Filter * -Properties LastLogonDate, OperatingSystem | 
-                    Where-Object { $_.LastLogonDate -gt (Get-Date).AddDays(-30) }
+                $Global:RadioButtonUser.IsChecked = $true
                 
-                # Füge simulierte Patch-Informationen hinzu
-                $patchStatus = $computers | ForEach-Object {
-                    [PSCustomObject]@{
-                        Name = $_.Name
-                        OperatingSystem = $_.OperatingSystem
-                        LastLogonDate = $_.LastLogonDate
-                        PatchStatus = if ($_.LastLogonDate -lt (Get-Date).AddDays(-7)) { "Kritisch" } 
-                                     elseif ($_.LastLogonDate -lt (Get-Date).AddDays(-3)) { "Warnung" } 
-                                     else { "OK" }
-                        MissingPatches = if ($_.LastLogonDate -lt (Get-Date).AddDays(-7)) { "5+ kritische Updates" } 
-                                        elseif ($_.LastLogonDate -lt (Get-Date).AddDays(-3)) { "2-4 Updates" } 
-                                        else { "Aktuell" }
-                    }
+                $FailedAuthPatterns = Get-FailedAuthPatterns
+                if ($FailedAuthPatterns -and $FailedAuthPatterns.Count -gt 0) {
+                    Update-ADReportResults -Results $FailedAuthPatterns
+                    Write-ADReportLog -Message "Analyse fehlgeschlagener Authentifizierungen abgeschlossen. $($FailedAuthPatterns.Count) Ergebnis(se) gefunden." -Type Info
+                    Update-ResultCounters -Results $FailedAuthPatterns
+                    $Global:TextBlockStatus.Text = "Analyse fehlgeschlagener Authentifizierungen abgeschlossen. $($FailedAuthPatterns.Count) verdächtige Muster gefunden."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "Keine verdächtigen Authentifizierungsmuster gefunden." -Type Info
+                    $Global:TextBlockStatus.Text = "Keine verdächtigen Authentifizierungsmuster gefunden."
                 }
-                
-                $criticalCount = ($patchStatus | Where-Object { $_.PatchStatus -eq "Kritisch" }).Count
-                $Global:ComputerResultsGrid.ItemsSource = $patchStatus | Where-Object { $_.PatchStatus -ne "OK" }
-                $Global:TxtComputerStatus.Text = "Computer mit fehlenden Patches: $criticalCount kritisch"
             } catch {
-                $Global:TxtComputerStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Missing Patches Error: $($_.Exception.Message)" -Type Error
+                $ErrorMessage = "Fehler bei der Analyse fehlgeschlagener Authentifizierungen: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Fehler: $ErrorMessage"
             }
         })
     }
-    
-    # Event Handler für neue Security-fokussierte Group Heat Buttons
-    if ($null -ne $Global:BtnAdminSDHolder) {
-        $BtnAdminSDHolder.Add_Click({
-            Write-ADReportLog -Message "Prüfe AdminSDHolder Objekte..." -Type Info
+
+    # Event Handler für ButtonQuickConditionalAccessPolicies
+    if ($null -ne $Global:ButtonQuickConditionalAccessPolicies) {
+        $ButtonQuickConditionalAccessPolicies.add_Click({
+            Write-ADReportLog -Message "Analysiere bedingte Zugriffsrichtlinien..." -Type Info
             try {
-                $adminSDHolderObjects = Get-AdminSDHolderObjects
-                $Global:GroupResultsGrid.ItemsSource = $adminSDHolderObjects
-                $Global:TxtGroupStatus.Text = "AdminSDHolder Objekte gefunden: $($adminSDHolderObjects.Count)"
-            } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "AdminSDHolder Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnDCSync) {
-        $BtnDCSync.Add_Click({
-            Write-ADReportLog -Message "Prüfe DCSync Rechte..." -Type Info
-            try {
-                $dcSyncRights = Get-DCSyncRights
-                $Global:GroupResultsGrid.ItemsSource = $dcSyncRights
-                $Global:TxtGroupStatus.Text = "Objekte mit DCSync Rechten: $($dcSyncRights.Count)"
-            } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "DCSync Rights Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnForeignSecurityPrincipals) {
-        $BtnForeignSecurityPrincipals.Add_Click({
-            Write-ADReportLog -Message "Prüfe Foreign Security Principals..." -Type Info
-            try {
-                $foreignPrincipals = Get-ForeignSecurityPrincipals
-                $Global:GroupResultsGrid.ItemsSource = $foreignPrincipals
-                $Global:TxtGroupStatus.Text = "Foreign Security Principals: $($foreignPrincipals.Count)"
-            } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Foreign Principals Error: $($_.Exception.Message)" -Type Error
-            }
-        })
-    }
-    
-    if ($null -ne $Global:BtnRiskyPermissions) {
-        $BtnRiskyPermissions.Add_Click({
-            Write-ADReportLog -Message "Prüfe riskante Berechtigungen..." -Type Info
-            try {
-                $riskyPerms = Get-ACLAnalysis | Where-Object { 
-                    $_.Permission -match "GenericAll|WriteDacl|WriteOwner|GenericWrite"
+                $ConditionalAccessPolicies = Get-ConditionalAccessPolicies
+                if ($ConditionalAccessPolicies -and $ConditionalAccessPolicies.Count -gt 0) {
+                    Update-ADReportResults -Results $ConditionalAccessPolicies
+                    Write-ADReportLog -Message "Analyse bedingter Zugriffsrichtlinien abgeschlossen. $($ConditionalAccessPolicies.Count) Ergebnis(se) gefunden." -Type Info
+                    Update-ResultCounters -Results $ConditionalAccessPolicies
+                    $Global:TextBlockStatus.Text = "Analyse bedingter Zugriffsrichtlinien abgeschlossen. $($ConditionalAccessPolicies.Count) Richtlinie(n) gefunden."
+                } else {
+                    $Global:DataGridResults.ItemsSource = $null
+                    Write-ADReportLog -Message "Keine bedingten Zugriffsrichtlinien gefunden." -Type Info
+                    $Global:TextBlockStatus.Text = "Keine bedingten Zugriffsrichtlinien gefunden."
                 }
-                $Global:GroupResultsGrid.ItemsSource = $riskyPerms
-                $Global:TxtGroupStatus.Text = "Riskante Berechtigungen gefunden: $($riskyPerms.Count)"
             } catch {
-                $Global:TxtGroupStatus.Text = "Fehler: $($_.Exception.Message)"
-                Write-ADReportLog -Message "Risky Permissions Error: $($_.Exception.Message)" -Type Error
+                $ErrorMessage = "Fehler bei der Analyse bedingter Zugriffsrichtlinien: $($_.Exception.Message)"
+                Write-ADReportLog -Message $ErrorMessage -Type Error
+                Update-ADReportResults -Results @()
+                $Global:TextBlockStatus.Text = "Fehler: $ErrorMessage"
             }
         })
     }
@@ -12512,6 +16975,37 @@ Function Initialize-ADReportForm {
     
     # Fenster anzeigen
     $null = $Window.ShowDialog()
+}
+
+# Initialize Visualization Tabs wenn vorhanden
+if ($null -ne $Global:ButtonRefreshTopology) {
+    $ButtonRefreshTopology.Add_Click({
+        $viewType = $Global:ComboBoxTopologyView.SelectedItem.Content
+        $topology = Get-ADNetworkTopology -ViewType $viewType
+        Draw-TopologyOnCanvas -Canvas $Global:CanvasNetworkTopology -Topology $topology
+    })
+}
+
+if ($null -ne $Global:ButtonRefreshHeatMap) {
+    $ButtonRefreshHeatMap.Add_Click({
+        $metric = $Global:ComboBoxHeatMapMetric.SelectedItem.Content -replace ' Score', ''
+        $grouping = $Global:ComboBoxHeatMapGrouping.SelectedItem.Content -replace 'By ', ''
+        $heatMapData = Get-SecurityHeatMapData -MetricType $metric -GroupBy $grouping
+        Draw-SecurityHeatMap -Container $Global:HeatMapContainer -HeatMapData $heatMapData
+    })
+}
+
+if ($null -ne $Global:ListBoxAvailableFields) {
+    Initialize-ReportBuilder -AvailableFieldsList $Global:ListBoxAvailableFields `
+                            -ReportCanvas $Global:ReportBuilderCanvas
+}
+
+if ($null -ne $Global:ButtonPreviewReport) {
+    $ButtonPreviewReport.Add_Click({
+        $customReport = Build-CustomReport -ReportCanvas $Global:ReportBuilderCanvas
+        Update-ADReportResults -Results $customReport
+        $Global:MainTabControl.SelectedIndex = 0  # Wechsel zur Tabellenansicht
+    })
 }
 
 # Funktion zur Visualisierung der Ergebnisse (Placeholder fÃ¼r zukÃ¼nftige Implementierung)
@@ -12545,42 +17039,7 @@ Function Start-ADReportGUI {
                   "ButtonQuickComputers", "ButtonQuickInactiveComputers", 
                   "ButtonQuickWeakPasswordPolicy", "ButtonQuickRiskyGroupMemberships", "ButtonQuickPrivilegedAccounts",
                   "DataGridResults", "TextBlockStatus", "ButtonExportCSV", "ButtonExportHTML",
-                  "ResultCountGrid", "UserCountText", "ComputerCountText", "GroupCountText",
-                  "MainTabControl", "TabSecurityHeat", "TabUserHeat", "TabComputerHeat", 
-                  "TabGroupHeat", "TabADHealth",
-                  # Security Heat Tab Elements
-                  "BtnSecurityOverview", "BtnPasswordAudit", "BtnPrivilegedAccounts", "BtnInactiveAccounts",
-                  "TxtCriticalFindings", "TxtWarnings", "TxtInfos", "TxtSecure", "ProgressSecure",
-                  "BtnViewCritical", "BtnViewWarnings", "BtnViewInfos",
-                  "ChkPasswordExpiry", "ChkAccountLockouts", "ChkLoginFailures", "ChkServiceAccounts", "ChkDelegation",
-                  "ChkGroupMembership", "ChkPermissions", "ChkKerberos", "ChkGPOSecurity", "ChkReplication",
-                  "BtnRunSelectedReports", "BtnExportSecurityReport", "BtnSaveSecurityReport",
-                  "SecurityResultsGrid", "TxtSecurityStatus", "ProgressSecurityAnalysis",
-                  # User Heat Tab Elements
-                  "TxtTotalUsers", "TxtActiveUsers", "TxtDisabledUsers", "TxtLockedUsers",
-                  "BtnInactiveUsers", "BtnExpiredPasswords", "BtnNeverExpiring", "BtnRecentlyCreated",
-                  "BtnDuplicateNames", "BtnUserLogonHours",
-                  "BtnSuspiciousAccounts", "BtnPrivilegedUsers", "BtnKerberoastable", "BtnASREPRoastable",
-                  "BtnExportUserReport", "UserResultsGrid", "TxtUserStatus",
-                  # Computer Heat Tab Elements
-                  "TxtWorkstations", "TxtServers", "TxtDomainControllers", "TxtOfflineComputers",
-                  "BtnInactiveComputers", "BtnOldOperatingSystems", "BtnServerInventory", "BtnBitlockerStatus",
-                  "BtnUnsupportedOS", "BtnMissingPatches", "BtnUnencryptedComputers", "BtnTrustedForDelegation",
-                  "BtnExportComputerReport", "ComputerResultsGrid", "TxtComputerStatus",
-                  # Group Heat Tab Elements
-                  "TxtSecurityGroups", "TxtDistributionGroups", "TxtBuiltinGroups", "TxtEmptyGroups",
-                  "TxtDomainAdminsCount", "TxtEnterpriseAdminsCount", "TxtSchemaAdminsCount",
-                  "BtnViewDomainAdmins", "BtnViewEnterpriseAdmins", "BtnViewSchemaAdmins",
-                  "BtnNestedGroups", "BtnAdminSDHolder", "BtnDCSync", "BtnForeignSecurityPrincipals", "BtnRiskyPermissions",
-                  "BtnGenerateGroupReport", "BtnExportGroupReport", "BtnGroupMembershipMatrix", "GroupResultsGrid", "TxtGroupStatus",
-                  # AD Health Tab Elements
-                  "TxtDCHealthStatus", "TxtDCHealthDetails", "TxtReplicationStatus", "TxtReplicationDetails",
-                  "TxtPerformanceStatus", "TxtPerformanceDetails", "TxtSysvolStatus", "TxtSysvolDetails",
-                  "DCHealthGrid", "ChkDCDiagnostics", "ChkReplicationHealth", "ChkDNSHealth", "ChkFSMOCheck",
-                  "ChkTimeSync", "ChkGPOHealth", "ChkTrustRelationships", "ChkSiteTopology",
-                  "ChkDatabaseIntegrity", "ChkEventLogs", "ChkBackupStatus", "ChkSchemaVersion",
-                  "BtnRunHealthChecks", "RecentIssuesList", "BtnExportHealthReport", "BtnScheduleHealthCheck",
-                  "HealthCheckResults", "TxtHealthStatus", "ProgressHealthCheck", "TxtLastHealthCheck")
+                  "ResultCountGrid", "UserCountText", "ComputerCountText", "GroupCountText")
     
     foreach ($var in $UiVariables) {
         Remove-Variable -Name $var -Scope Global -ErrorAction SilentlyContinue
