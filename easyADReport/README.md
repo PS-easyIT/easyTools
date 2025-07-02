@@ -19,8 +19,8 @@
 - [📤 Export Options](#-export-options)
 - [🐛 Troubleshooting](#-troubleshooting)
 - [📸 Screenshots](#-screenshots)
-- [🚧 Limitations](#-limitations)
-- [📊 Report Reference](#-report-reference)
+- [🚧 Limitations](#-known-limitations--bekannte-einschränkungen)
+- [📊 Report Reference](#-quick-report-reference)
 
 ## 📊 Overview
 
@@ -236,8 +236,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - [📤 Exportoptionen](#-export-options)
 - [🐛 Fehlerbehebung](#-troubleshooting)
 - [📸 Screenshots](#-screenshots)
-- [🚧 Einschränkungen](#-limitations)
-- [📊 Berichtsreferenz](#-report-reference)
+- [🚧 Einschränkungen](#-known-limitations--bekannte-einschränkungen)
+- [📊 Berichtsreferenz](#-quick-report-reference)
 
 ### ✨ Hauptfunktionen
 
