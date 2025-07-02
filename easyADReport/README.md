@@ -219,26 +219,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 **easyADReport** ist ein umfassendes PowerShell-basiertes Active Directory Reporting-Tool mit moderner WPF-Oberfläche. Es bietet über 80 vorgefertigte Berichte für Auditing, Sicherheitsanalyse und Compliance-Überwachung Ihrer Active Directory-Umgebung.
 
-## 📑 Inhaltsverzeichnis
-
-- [🚀 Schnellstart](#-quick-start)
-  - [Voraussetzungen](#prerequisites)
-  - [Installation](#installation)
-  - [Erster Start](#first-run)
-- [📋 Berichtskategorien](#-report-categories)
-  - [👤 Benutzerberichte](#-user-reports)
-  - [👥 Gruppenberichte](#-group-reports)
-  - [💻 Computerberichte](#-computer-reports)
-  - [🔐 Sicherheitsanalyse](#-security-analysis)
-  - [📋 Infrastrukturberichte](#-infrastructure-reports)
-- [📈 Versionshistorie](#-version-history)
-- [🛠️ Verwendungsbeispiele](#️-usage-examples)
-- [📤 Exportoptionen](#-export-options)
-- [🐛 Fehlerbehebung](#-troubleshooting)
-- [📸 Screenshots](#-screenshots)
-- [🚧 Einschränkungen](#-known-limitations--bekannte-einschränkungen)
-- [📊 Berichtsreferenz](#-quick-report-reference)
-
 ### ✨ Hauptfunktionen
 
 - **80+ Vorgefertigte Berichte**: Umfassende Abdeckung von AD-Objekten und Sicherheitskonfigurationen
