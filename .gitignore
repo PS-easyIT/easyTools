@@ -2,3 +2,7 @@
 /easyPSInfo/Logs
 easyADReport/ComingFeatures.md
 Dummy Active Directoy/easyADDummyUserCreator_backup.ps1
+*.csv
+*.log
+*.txt
+Dummy Active Directoy/easyADDummyUserCreator.log
