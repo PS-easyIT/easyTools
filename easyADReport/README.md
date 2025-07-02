@@ -2,6 +2,26 @@
 
 ![Script Start](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_ScriptStart.jpg)
 
+## 📑 Table of Contents
+
+- [🚀 Quick Start](#-quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [First Run](#first-run)
+- [📋 Report Categories](#-report-categories)
+  - [👤 User Reports](#-user-reports)
+  - [👥 Group Reports](#-group-reports)
+  - [💻 Computer Reports](#-computer-reports)
+  - [🔐 Security Analysis](#-security-analysis)
+  - [📋 Infrastructure Reports](#-infrastructure-reports)
+- [📈 Version History](#-version-history)
+- [🛠️ Usage Examples](#️-usage-examples)
+- [📤 Export Options](#-export-options)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [📸 Screenshots](#-screenshots)
+- [🚧 Limitations](#-limitations)
+- [📊 Report Reference](#-report-reference)
+
 ## 📊 Overview
 
 **easyADReport** is a comprehensive PowerShell-based Active Directory reporting tool with a modern WPF GUI. It provides over 80 pre-built reports for auditing, security analysis, and compliance monitoring of your Active Directory environment.
@@ -199,6 +219,26 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 **easyADReport** ist ein umfassendes PowerShell-basiertes Active Directory Reporting-Tool mit moderner WPF-Oberfläche. Es bietet über 80 vorgefertigte Berichte für Auditing, Sicherheitsanalyse und Compliance-Überwachung Ihrer Active Directory-Umgebung.
 
+## 📑 Inhaltsverzeichnis
+
+- [🚀 Schnellstart](#-quick-start)
+  - [Voraussetzungen](#prerequisites)
+  - [Installation](#installation)
+  - [Erster Start](#first-run)
+- [📋 Berichtskategorien](#-report-categories)
+  - [👤 Benutzerberichte](#-user-reports)
+  - [👥 Gruppenberichte](#-group-reports)
+  - [💻 Computerberichte](#-computer-reports)
+  - [🔐 Sicherheitsanalyse](#-security-analysis)
+  - [📋 Infrastrukturberichte](#-infrastructure-reports)
+- [📈 Versionshistorie](#-version-history)
+- [🛠️ Verwendungsbeispiele](#️-usage-examples)
+- [📤 Exportoptionen](#-export-options)
+- [🐛 Fehlerbehebung](#-troubleshooting)
+- [📸 Screenshots](#-screenshots)
+- [🚧 Einschränkungen](#-limitations)
+- [📊 Berichtsreferenz](#-report-reference)
+
 ### ✨ Hauptfunktionen
 
 - **80+ Vorgefertigte Berichte**: Umfassende Abdeckung von AD-Objekten und Sicherheitskonfigurationen
@@ -385,7 +425,7 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe LICENSE-Datei für De
 
 ## 📸 Screenshots
 
-### Main Dashboard / Hauptübersicht
+### Dashboard / Übersicht
 ![OU Report](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_OUHierarchyReport.jpg)
 ![All User Report](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_AllUserReport.jpg)
 ![Compromise Indicators Report](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_CompromiseIndicators-Report.jpg)
@@ -415,6 +455,12 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe LICENSE-Datei für De
 
 | REPORT | ENG Description | DE Beschreibung |
 |--------|-----------------|-----------------|
+| **SECURITY DASHBOARD** | | |
+| Risk Overview | Comprehensive security risk assessment | Umfassende Sicherheitsrisikobewertung |
+| Security Score | Overall domain security score calculation | Berechnung des Gesamtsicherheitswerts der Domäne |
+| Critical Findings | Highlights critical security issues | Hebt kritische Sicherheitsprobleme hervor |
+| Remediation Priority | Prioritized list of security fixes | Priorisierte Liste von Sicherheitskorrekturen |
+| Compliance Status | Shows compliance with security standards | Zeigt Compliance mit Sicherheitsstandards |
 | **USER REPORTS** | | |
 | All Users | Lists all user accounts in the domain | Listet alle Benutzerkonten in der Domäne auf |
 | Disabled Users | Shows all disabled user accounts | Zeigt alle deaktivierten Benutzerkonten an |
@@ -464,12 +510,6 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe LICENSE-Datei für De
 | Trust Relationships | Shows domain trust configurations | Zeigt Domänen-Vertrauensstellungen |
 | Sites and Subnets | Lists AD sites and subnet configurations | Listet AD-Standorte und Subnetzkonfigurationen |
 | DNS Zones | Shows integrated DNS zones | Zeigt integrierte DNS-Zonen |
-| **SECURITY DASHBOARD** | | |
-| Risk Overview | Comprehensive security risk assessment | Umfassende Sicherheitsrisikobewertung |
-| Security Score | Overall domain security score calculation | Berechnung des Gesamtsicherheitswerts der Domäne |
-| Critical Findings | Highlights critical security issues | Hebt kritische Sicherheitsprobleme hervor |
-| Remediation Priority | Prioritized list of security fixes | Priorisierte Liste von Sicherheitskorrekturen |
-| Compliance Status | Shows compliance with security standards | Zeigt Compliance mit Sicherheitsstandards |
 
 ### Report Categories Legend / Berichtskategorien-Legende
 
