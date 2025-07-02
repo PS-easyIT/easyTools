@@ -1,4 +1,4 @@
-# ============================================ 
+﻿# ============================================ 
 # Version:     0.1.0 
 # Autor:       Andreas Hepp (unterstützt durch Cascade AI) 
 # ============================================ 
@@ -44,67 +44,221 @@ $Global:Window = $null
 $Global:GuiControls = @{} 
 $Global:CsvData = $null 
 $Global:CreatedUsers = [System.Collections.Generic.List[object]]::new() 
+
+# AD Attribute Mapping Konfiguration
+$Global:SelectableADAttributes = @(
+    @{Name="SamAccountName"; CsvHeader="SamAccountName"; Required=$true}
+    @{Name="GivenName"; CsvHeader="FirstName"; Required=$false}
+    @{Name="Surname"; CsvHeader="LastName"; Required=$false}
+    @{Name="DisplayName"; CsvHeader="DisplayName"; Required=$false}
+    @{Name="EmailAddress"; CsvHeader="Email"; Required=$false}
+    @{Name="UserPrincipalName"; CsvHeader="UserPrincipalName"; Required=$false}
+    @{Name="Department"; CsvHeader="Department"; Required=$false}
+    @{Name="Title"; CsvHeader="Title"; Required=$false}
+    @{Name="Company"; CsvHeader="Company"; Required=$false}
+    @{Name="Manager"; CsvHeader="Manager"; Required=$false}
+    @{Name="Description"; CsvHeader="Description"; Required=$false}
+    @{Name="Office"; CsvHeader="Office"; Required=$false}
+    @{Name="StreetAddress"; CsvHeader="StreetAddress"; Required=$false}
+    @{Name="City"; CsvHeader="City"; Required=$false}
+    @{Name="State"; CsvHeader="State"; Required=$false}
+    @{Name="PostalCode"; CsvHeader="PostalCode"; Required=$false}
+    @{Name="Country"; CsvHeader="Country"; Required=$false}
+    @{Name="OfficePhone"; CsvHeader="PhoneNumber"; Required=$false}
+    @{Name="MobilePhone"; CsvHeader="MobilePhone"; Required=$false}
+    @{Name="proxyAddresses"; CsvHeader="ProxyAddresses"; Required=$false}
+)
 #endregion 
  
 #region XAML Definition 
 $XAML = @" 
+
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" 
-        Title="$($Global:AppConfig.AppName) v$($Global:AppConfig.ScriptVersion)" Height="800" Width="1200" 
-        WindowStartupLocation="CenterScreen" FontFamily="Segoe UI"> 
-    <Window.Resources> 
-        <Style x:Key="ModernButton" TargetType="Button"> 
-            <Setter Property="Background" Value="#0078D4" /> 
-            <Setter Property="Foreground" Value="White" /> 
-            <Setter Property="BorderThickness" Value="0" /> 
-            <Setter Property="Padding" Value="10,5" /> 
-            <Setter Property="Margin" Value="5" /> 
-            <Setter Property="FontWeight" Value="SemiBold" /> 
-            <Setter Property="Cursor" Value="Hand" /> 
-            <Setter Property="MinWidth" Value="120" /> 
-            <Setter Property="Template"> 
-                <Setter.Value> 
-                    <ControlTemplate TargetType="Button"> 
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="4"> 
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" /> 
-                        </Border> 
-                        <ControlTemplate.Triggers> 
-                            <Trigger Property="IsMouseOver" Value="True"> 
-                                <Setter TargetName="border" Property="Background" Value="#106EBE" /> 
-                            </Trigger> 
-                            <Trigger Property="IsPressed" Value="True"> 
-                                <Setter TargetName="border" Property="Background" Value="#005A9E" /> 
-                            </Trigger> 
-                            <Trigger Property="IsEnabled" Value="False"> 
-                                <Setter TargetName="border" Property="Background" Value="#A0A0A0" /> 
-                                <Setter Property="Foreground" Value="#D0D0D0" /> 
-                            </Trigger> 
-                        </ControlTemplate.Triggers> 
-                    </ControlTemplate> 
-                </Setter.Value> 
-            </Setter> 
-        </Style> 
-        <Style TargetType="Label"> 
-            <Setter Property="Margin" Value="5,0,0,0"/> 
-            <Setter Property="VerticalAlignment" Value="Center"/> 
-        </Style> 
-        <Style TargetType="TextBox"> 
-            <Setter Property="Margin" Value="5"/> 
-            <Setter Property="Padding" Value="3"/> 
-            <Setter Property="VerticalAlignment" Value="Center"/> 
-        </Style> 
-        <Style TargetType="CheckBox"> 
-            <Setter Property="Margin" Value="5"/> 
-            <Setter Property="VerticalAlignment" Value="Center"/> 
-        </Style> 
-        <Style TargetType="ComboBox"> 
-            <Setter Property="Margin" Value="5"/> 
-            <Setter Property="Padding" Value="3"/> 
-            <Setter Property="VerticalAlignment" Value="Center"/> 
-        </Style> 
+        Title="$($Global:AppConfig.AppName) v$($Global:AppConfig.ScriptVersion)" Height="1000" Width="1800" 
+        WindowStartupLocation="CenterScreen" FontFamily="Segoe UI" 
+        Background="#F8F9FA" MinHeight="700" MinWidth="1000"> 
+    <Window.Resources>
+        <!-- Modern Color Palette -->
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#0078D4"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#106EBE"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#005A9E"/>
+        <SolidColorBrush x:Key="SecondaryBrush" Color="#6C757D"/>
+        <SolidColorBrush x:Key="SuccessBrush" Color="#28A745"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#DC3545"/>
+        <SolidColorBrush x:Key="WarningBrush" Color="#FFC107"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#F8F9FA"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#DEE2E6"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#212529"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#6C757D"/>
+
+        <!-- Modern Button Styles -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MinHeight" Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryHoverBrush}"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="2" Opacity="0.2" BlurRadius="6"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryPressedBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#A0A0A0"/>
+                                <Setter Property="Foreground" Value="#D0D0D0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+        </Style>
+
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource DangerBrush}"/>
+        </Style>
+
+        <Style x:Key="SuccessButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+        </Style>
+
+        <!-- Modern Input Styles -->
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0,0,0,3"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinHeight" Value="28"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinHeight" Value="28"/>
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,0,0,6"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        </Style>
+
+        <!-- Modern GroupBox Style -->
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="1,1,1,0" 
+                                    CornerRadius="6,6,0,0" 
+                                    Padding="8,6">
+                                <ContentPresenter ContentSource="Header"/>
+                            </Border>
+                            <Border Grid.Row="1" Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="1,0,1,1" 
+                                    CornerRadius="0,0,6,6" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern DataGrid Style -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="RowHeight" Value="24"/>
+            <Setter Property="ColumnHeaderHeight" Value="28"/>
+        </Style>
     </Window.Resources> 
     <Grid> 
         <Grid.RowDefinitions> 
@@ -114,35 +268,80 @@ $XAML = @"
         </Grid.RowDefinitions> 
  
         <!-- Header --> 
-        <Border Grid.Row="0" Background="#FF1C323C" Padding="10"> 
-            <TextBlock Text="$($Global:AppConfig.AppName)" Foreground="White" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/> 
+        <Border Grid.Row="0" Background="White" Padding="16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1"> 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="{StaticResource PrimaryBrush}" CornerRadius="6" Width="32" Height="32" Margin="0,0,10,0">
+                        <TextBlock Text="AD" Foreground="White" FontSize="14" FontWeight="Bold" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel>
+                        <TextBlock Text="$($Global:AppConfig.AppName)" Foreground="{StaticResource TextPrimaryBrush}" 
+                                   FontSize="16" FontWeight="SemiBold"/>
+                        <TextBlock Text="Dummy Active Directory User Management" Foreground="{StaticResource TextSecondaryBrush}" 
+                                   FontSize="11"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="{StaticResource SuccessBrush}" CornerRadius="10" Padding="6,3" Margin="0,0,6,0">
+                        <TextBlock Text="v$($Global:AppConfig.ScriptVersion)" Foreground="White" FontSize="10" FontWeight="Medium"/>
+                    </Border>
+                    <Border Background="{StaticResource SecondaryBrush}" CornerRadius="10" Padding="6,3">
+                        <TextBlock Text="TESTSYSTEM" Foreground="White" FontSize="10" FontWeight="Medium"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
         </Border> 
  
         <!-- Main Content --> 
-        <Grid Grid.Row="1" Margin="10"> 
+        <Grid Grid.Row="1" Margin="16"> 
             <Grid.ColumnDefinitions> 
                 <ColumnDefinition Width="3*"/> 
+                <ColumnDefinition Width="12"/> <!-- Spacer -->
                 <ColumnDefinition Width="2*"/> 
             </Grid.ColumnDefinitions> 
  
             <!-- Left Panel: CSV Data and User Creation --> 
-            <Grid Grid.Column="0" Margin="0,0,10,0"> 
+            <Grid Grid.Column="0"> 
                 <Grid.RowDefinitions> 
                     <RowDefinition Height="Auto"/> <!-- CSV Load --> 
-                    <RowDefinition Height="*"/>    <!-- CSV DataGrid --> 
-                    <RowDefinition Height="Auto"/> <!-- User Creation Controls --> 
+                    <RowDefinition Height="1.5*"/> <!-- CSV DataGrid --> 
+                    <RowDefinition Height="8"/>    <!-- Spacer -->
+                    <RowDefinition Height="2*"/>   <!-- User Creation Controls --> 
                 </Grid.RowDefinitions> 
  
-                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10"> 
-                    <Label Content="CSV-Datei Pfad:"/> 
-                    <TextBox x:Name="TextBoxCsvPath" Width="250" Text="$($Global:AppConfig.DefaultCsvPath)"/> 
-                    <Button x:Name="ButtonBrowseCsv" Content="Durchsuchen..." Style="{StaticResource ModernButton}" Margin="5,5,0,5"/>
-                    <Button x:Name="ButtonLoadCsv" Content="CSV laden" Style="{StaticResource ModernButton}"/> 
-                </StackPanel> 
+                <!-- CSV Load Section -->
+                <GroupBox Grid.Row="0" Header="📁 CSV-Daten laden">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Row="0" Grid.Column="0" Content="CSV-Datei Pfad:"/> 
+                        <TextBox x:Name="TextBoxCsvPath" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                 Text="$($Global:AppConfig.DefaultCsvPath)" Margin="0,0,6,0"/> 
+                        <Button x:Name="ButtonBrowseCsv" Grid.Row="1" Grid.Column="2" Content="📂 Durchsuchen" 
+                                Style="{StaticResource SecondaryButton}" Margin="0,0,6,0"/>
+                        <Button x:Name="ButtonLoadCsv" Grid.Row="1" Grid.Column="3" Content="📋 CSV laden" 
+                                Style="{StaticResource ModernButton}"/> 
+                    </Grid>
+                </GroupBox>
  
-                <DataGrid x:Name="DataGridCsvContent" Grid.Row="1" Margin="0,5,0,5" IsReadOnly="True" AutoGenerateColumns="True"/> 
+                <DataGrid x:Name="DataGridCsvContent" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="True"/> 
  
-                <GroupBox Grid.Row="2" Header="AD Benutzer erstellen" Padding="10" Margin="0,10,0,0"> 
+                <GroupBox Grid.Row="3" Header="👥 AD Benutzer erstellen"> 
                     <Grid> 
                         <Grid.RowDefinitions> 
                             <RowDefinition Height="Auto"/> 
@@ -152,81 +351,137 @@ $XAML = @"
                             <RowDefinition Height="Auto"/> 
                             <RowDefinition Height="Auto"/> 
                         </Grid.RowDefinitions> 
-                        <Grid.ColumnDefinitions> 
-                            <ColumnDefinition Width="Auto"/> 
-                            <ColumnDefinition Width="*"/> 
-                        </Grid.ColumnDefinitions> 
  
-                        <Label Grid.Row="0" Grid.Column="0" Content="Ziel OU (DN):"/> 
-                        <ComboBox x:Name="ComboBoxTargetOU" Grid.Row="0" Grid.Column="1" IsEditable="True" Text="OU=DummyUsers,DC=example,DC=com" ToolTip="Wählen Sie eine OU aus der Liste oder geben Sie einen benutzerdefinierten DN ein"/>  
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Ziel OU (DN):"/> 
+                            <ComboBox x:Name="ComboBoxTargetOU" Grid.Column="1" IsEditable="True" 
+                                      Text="OU=DummyUsers,DC=example,DC=com" 
+                                      ToolTip="Wählen Sie eine OU aus der Liste oder geben Sie einen benutzerdefinierten DN ein"/>  
+                        </Grid>
  
-                        <Label Grid.Row="1" Grid.Column="0" Content="Anzahl User (leer=alle):"/> 
-                        <TextBox x:Name="TextBoxNumUsersToCreate" Grid.Row="1" Grid.Column="1"/> 
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Anzahl User (leer=alle):"/> 
+                            <TextBox x:Name="TextBoxNumUsersToCreate" Grid.Column="1"/> 
+                        </Grid>
  
-                        <Label Grid.Row="2" Grid.Column="0" Content="Attribute für Neuanlage:" VerticalAlignment="Top" Margin="5,10,0,0"/> 
-                        <ScrollViewer Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" MaxHeight="150" VerticalScrollBarVisibility="Auto" Margin="5,5,0,5" BorderBrush="LightGray" BorderThickness="1"> 
-                            <StackPanel x:Name="StackPanelAttributeSelection" Orientation="Vertical"/> 
+                        <Label Grid.Row="2" Content="Attribute für Neuanlage:" VerticalAlignment="Top" Margin="0,6,0,3"/> 
+                        <ScrollViewer Grid.Row="3" MaxHeight="100" VerticalScrollBarVisibility="Auto" 
+                                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" 
+                                      Background="White" Margin="0,0,0,8"> 
+                            <StackPanel x:Name="StackPanelAttributeSelection" Orientation="Vertical" Margin="6"/> 
                         </ScrollViewer> 
  
-                        <Button x:Name="ButtonCreateADUsers" Grid.Row="4" Grid.ColumnSpan="2" Content="AD User erstellen" Style="{StaticResource ModernButton}" HorizontalAlignment="Right"/> 
+                        <Button x:Name="ButtonCreateADUsers" Grid.Row="4" Content="✨ AD User erstellen" 
+                                Style="{StaticResource SuccessButton}" HorizontalAlignment="Right" MinWidth="140"/> 
                         
                         <!-- Fortschrittsanzeige --> 
-                        <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="0,10,0,0" x:Name="GridProgressArea" Visibility="Collapsed"> 
+                        <Grid Grid.Row="5" Margin="0,6,0,0" x:Name="GridProgressArea" Visibility="Collapsed"> 
                             <Grid.RowDefinitions> 
                                 <RowDefinition Height="Auto"/> 
                                 <RowDefinition Height="Auto"/> 
                             </Grid.RowDefinitions> 
                             <Label Grid.Row="0" Content="Fortschritt:" x:Name="LabelProgress"/> 
-                            <ProgressBar Grid.Row="1" Height="20" x:Name="ProgressBarMain" Minimum="0" Maximum="100" Value="0"/> 
+                            <ProgressBar Grid.Row="1" Height="20" x:Name="ProgressBarMain" Minimum="0" Maximum="100" Value="0"
+                                         Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource SuccessBrush}"/> 
                         </Grid> 
                     </Grid> 
                 </GroupBox> 
             </Grid> 
  
             <!-- Right Panel: Additional Actions --> 
-            <GroupBox Grid.Column="1" Header="Weitere Aktionen (auf zuvor erstellte User)" Padding="10"> 
-                <StackPanel Orientation="Vertical"> 
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10"> 
-                        <Label Content="Anzahl User für Aktion:"/> 
-                        <TextBox x:Name="TextBoxNumUsersForAction" Width="50"/> 
+            <GroupBox Grid.Column="2" Header="⚡ Weitere Aktionen"> 
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical"> 
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Anzahl User:"/> 
+                            <TextBox x:Name="TextBoxNumUsersForAction" Grid.Column="1" MaxWidth="60" HorizontalAlignment="Left"/> 
+                        </Grid>
+ 
+                        <Separator Margin="0,0,0,8" Background="{StaticResource BorderBrush}"/>
+                        
+                        <TextBlock Text="Standard Aktionen" FontWeight="SemiBold" Margin="0,0,0,6" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                        
+                        <Button x:Name="ButtonFillAttributes" Content="📝 Attribute befüllen" 
+                                Style="{StaticResource ModernButton}" 
+                                ToolTip="Aktualisiert Attribute der erstellten Benutzer basierend auf CSV-Daten"/> 
+                        <Button x:Name="ButtonDisableUsers" Content="🚫 User deaktivieren" 
+                                Style="{StaticResource SecondaryButton}" 
+                                ToolTip="Deaktiviert die erstellten Benutzer"/>
+                        <Button x:Name="ButtonDeleteUsers" Content="🗑️ User löschen" 
+                                Style="{StaticResource DangerButton}" 
+                                ToolTip="Löscht die erstellten Benutzer (VORSICHT!)"/>
+                        <Button x:Name="ButtonExportCreatedUsers" Content="📤 User exportieren" 
+                                Style="{StaticResource SecondaryButton}" 
+                                ToolTip="Exportiert Liste der erstellten Benutzer in CSV"/> 
+                         
+                        <GroupBox Header="⚠️ Kritische Sicherheitseinstellungen" Margin="0,12,0,0"> 
+                            <StackPanel> 
+                                <CheckBox x:Name="CheckBoxPwdNotExpires" Content="Passwort läuft nicht ab"/> 
+                                <CheckBox x:Name="CheckBoxRevPwd" Content="Umgekehrte Verschlüsselung erlauben"/> 
+                                <Button x:Name="ButtonApplySecuritySettings" Content="⚠️ Einstellungen anwenden" 
+                                        Style="{StaticResource DangerButton}" 
+                                        ToolTip="WARNUNG: Kritische Sicherheitseinstellungen!"/> 
+                            </StackPanel> 
+                        </GroupBox> 
+ 
+                        <GroupBox Header="🔐 Kritische Gruppenzuweisungen" Margin="0,8,0,0"> 
+                            <StackPanel> 
+                                <ComboBox x:Name="ComboBoxCriticalGroups"> 
+                                    <ComboBoxItem Content="Domain Admins"/> 
+                                    <ComboBoxItem Content="Enterprise Admins"/> 
+                                    <ComboBoxItem Content="Schema Admins"/> 
+                                </ComboBox> 
+                                <Button x:Name="ButtonAssignToGroups" Content="🔐 Gruppenzuweisung" 
+                                        Style="{StaticResource DangerButton}" 
+                                        ToolTip="WARNUNG: Höchste Privilegien!"/> 
+                            </StackPanel> 
+                        </GroupBox> 
                     </StackPanel> 
- 
-                    <Button x:Name="ButtonFillAttributes" Content="Attribute befüllen" Style="{StaticResource ModernButton}" ToolTip="Aktualisiert Attribute der erstellten Benutzer basierend auf CSV-Daten"/> 
-                    <Button x:Name="ButtonDisableUsers" Content="User deaktivieren" Style="{StaticResource ModernButton}" ToolTip="Deaktiviert die erstellten Benutzer"/>
-                    <Button x:Name="ButtonDeleteUsers" Content="User löschen" Style="{StaticResource ModernButton}" ToolTip="Löscht die erstellten Benutzer (VORSICHT!)"/>
-                    <Button x:Name="ButtonExportCreatedUsers" Content="Erstellte User exportieren" Style="{StaticResource ModernButton}" ToolTip="Exportiert Liste der erstellten Benutzer in CSV"/> 
-                     
-                    <GroupBox Header="Kritische Sicherheitseinstellungen" Margin="0,10,0,0" Padding="5"> 
-                        <StackPanel> 
-                            <CheckBox x:Name="CheckBoxPwdNotExpires" Content="Passwort läuft nicht ab"/> 
-                            <CheckBox x:Name="CheckBoxRevPwd" Content="Umgekehrte Verschlüsselung erlauben"/> 
-                            <Button x:Name="ButtonApplySecuritySettings" Content="Sicherheitseinstellungen anwenden" Style="{StaticResource ModernButton}" ToolTip="WARNUNG: Kritische Sicherheitseinstellungen!"/> 
-                        </StackPanel> 
-                    </GroupBox> 
- 
-                    <GroupBox Header="In kritische Gruppen zuweisen" Margin="0,10,0,0" Padding="5"> 
-                        <StackPanel> 
-                            <ComboBox x:Name="ComboBoxCriticalGroups"> 
-                                <ComboBoxItem Content="Domain Admins"/> 
-                                <ComboBoxItem Content="Enterprise Admins"/> 
-                                <ComboBoxItem Content="Schema Admins"/> 
-                            </ComboBox> 
-                            <Button x:Name="ButtonAssignToGroups" Content="Gruppenzuweisung" Style="{StaticResource ModernButton}" ToolTip="WARNUNG: Höchste Privilegien!"/> 
-                        </StackPanel> 
-                    </GroupBox> 
-                </StackPanel> 
+                </ScrollViewer>
             </GroupBox> 
         </Grid> 
  
         <!-- Footer / Status --> 
-        <StatusBar Grid.Row="2"> 
-            <StatusBarItem> 
-                <TextBlock x:Name="TextBlockStatus" Text="Bereit."/> 
-            </StatusBarItem> 
-            <StatusBarItem HorizontalAlignment="Right"> 
-                <TextBlock Text="$($Global:AppConfig.Author)"/> 
-            </StatusBarItem> 
-        </StatusBar> 
+        <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Border Background="{StaticResource SuccessBrush}" CornerRadius="6" Width="12" Height="12" Margin="0,0,6,0">
+                        <Ellipse Fill="White" Width="4" Height="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock x:Name="TextBlockStatus" Text="Bereit." VerticalAlignment="Center" FontSize="12"
+                               Foreground="{StaticResource TextPrimaryBrush}" FontWeight="Medium"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0,0,12,0">
+                    <TextBlock Text="🕒 " VerticalAlignment="Center" FontSize="11"/>
+                    <TextBlock x:Name="TextBlockTimestamp" Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='HH:mm:ss'}" 
+                               VerticalAlignment="Center" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                </StackPanel>
+                
+                <TextBlock Grid.Column="3" Text="$($Global:AppConfig.Author)" VerticalAlignment="Center" 
+                           Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"/>
+            </Grid>
+        </Border> 
     </Grid> 
 </Window> 
 "@ 
@@ -310,7 +565,7 @@ function Normalize-SamAccountName {
         'ù' = 'u'; 'ú' = 'u'; 'û' = 'u'
         'ý' = 'y'; 'ÿ' = 'y'
         'ñ' = 'n'; 'ç' = 'c'
-        'ą' = 'a'; 'ć' = 'c'; 'ę' = 'e'; 'ł' = 'l'; 'ń' = 'n'; 'ó' = 'o'; 'ś' = 's'; 'ź' = 'z'; 'ż' = 'z'
+        'ą' = 'a'; 'ć' = 'c'; 'ę' = 'e'; 'ł' = 'l'; 'ń' = 'n'; 'ś' = 's'; 'ź' = 'z'; 'ż' = 'z'
     }
     
     foreach ($char in $replacements.Keys) {
@@ -379,6 +634,48 @@ function Normalize-SamAccountName {
     
     Write-Log "SamAccountName normalisiert: '$SamAccountName' → '$normalized'" -Level "DEBUG"
     return $normalized
+}
+
+function Get-GuiControls {
+    <#
+    .SYNOPSIS
+    Sammelt alle benannten GUI-Controls aus dem XAML-Window
+    
+    .DESCRIPTION
+    Diese Funktion durchsucht das XAML-Window nach allen benannten Controls
+    und speichert sie in der globalen GuiControls-Hashtable für einfachen Zugriff.
+    #>
+    try {
+        Write-Log "Sammle GUI-Controls..." -Level "INFO"
+        
+        # Liste der erwarteten Controls
+        $expectedControls = @(
+            'TextBoxCsvPath', 'ButtonBrowseCsv', 'ButtonLoadCsv', 'DataGridCsvContent',
+            'ComboBoxTargetOU', 'TextBoxNumUsersToCreate', 'StackPanelAttributeSelection',
+            'ButtonCreateADUsers', 'GridProgressArea', 'LabelProgress', 'ProgressBarMain',
+            'TextBoxNumUsersForAction', 'ButtonFillAttributes', 'ButtonDisableUsers',
+            'ButtonDeleteUsers', 'ButtonExportCreatedUsers', 'CheckBoxPwdNotExpires',
+            'CheckBoxRevPwd', 'ButtonApplySecuritySettings', 'ComboBoxCriticalGroups',
+            'ButtonAssignToGroups', 'TextBlockStatus'
+        )
+        
+        foreach ($controlName in $expectedControls) {
+            $control = $Global:Window.FindName($controlName)
+            if ($null -ne $control) {
+                $Global:GuiControls[$controlName] = $control
+                Write-Log "Control gefunden: $controlName" -Level "DEBUG"
+            } else {
+                Write-Log "Control nicht gefunden: $controlName" -Level "WARN"
+            }
+        }
+        
+        Write-Log "$(($Global:GuiControls.Keys).Count) Controls erfolgreich gesammelt" -Level "SUCCESS"
+        return $true
+        
+    } catch {
+        Write-Log "Fehler beim Sammeln der Controls: $($_.Exception.Message)" -Level "ERROR"
+        return $false
+    }
 }
 #endregion 
  

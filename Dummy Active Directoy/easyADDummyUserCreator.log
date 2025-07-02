@@ -1149,3 +1149,201 @@
 [2025-06-10 15:58:43] [ERROR] Fehler beim Erstellen des Benutzers 'lsouza': Ein Wert für das Attribut befindet sich nicht im zulässigen Bereich
 [2025-06-10 15:58:43] [INFO] Benutzererstellung abgeschlossen. 20 erfolgreich erstellt, 260 Fehler.
 [2025-06-10 15:59:59] [INFO] Anwendung beendet.
+[2025-07-02 17:58:41] [INFO] Initialisiere Anwendung...
+[2025-07-02 17:58:41] [INFO] XAML-Fenster erfolgreich geladen.
+[2025-07-02 17:58:41] [INFO] Sammle GUI-Controls...
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: TextBoxCsvPath
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: ButtonBrowseCsv
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: ButtonLoadCsv
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: DataGridCsvContent
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: ComboBoxTargetOU
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: TextBoxNumUsersToCreate
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: StackPanelAttributeSelection
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: ButtonCreateADUsers
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: GridProgressArea
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: LabelProgress
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: ProgressBarMain
+[2025-07-02 17:58:41] [DEBUG] Control gefunden: TextBoxNumUsersForAction
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ButtonFillAttributes
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ButtonDisableUsers
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ButtonDeleteUsers
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ButtonExportCreatedUsers
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: CheckBoxPwdNotExpires
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: CheckBoxRevPwd
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ButtonApplySecuritySettings
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ComboBoxCriticalGroups
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: ButtonAssignToGroups
+[2025-07-02 17:58:42] [DEBUG] Control gefunden: TextBlockStatus
+[2025-07-02 17:58:42] [SUCCESS] 22 Controls erfolgreich gesammelt
+[2025-07-02 17:58:42] [INFO] Event Handler registriert.
+[2025-07-02 17:58:42] [SUCCESS] CSV-Datei erfolgreich geladen: .\AD_DummyUserList.csv (280 Einträge)
+[2025-07-02 17:58:42] [INFO] Prüfe Active Directory Verbindung...
+[2025-07-02 17:58:42] [SUCCESS] AD-Verbindung erfolgreich. Domäne: phinit
+[2025-07-02 17:58:42] [INFO] Lade OUs aus Active Directory...
+[2025-07-02 17:58:42] [SUCCESS] 13 OUs gefunden
+[2025-07-02 17:58:42] [SUCCESS] OU-Dropdown initialisiert mit 14 Einträgen
+[2025-07-02 17:58:42] [SUCCESS] Anwendung erfolgreich initialisiert.
+[2025-07-02 17:58:42] [INFO] Starte GUI...
+[2025-07-02 18:07:00] [INFO] Anwendung beendet.
+[2025-07-02 18:07:04] [INFO] Initialisiere Anwendung...
+[2025-07-02 18:07:04] [ERROR] Fehler während der Anwendungsinitialisierung: System.Management.Automation.MethodInvocationException: Ausnahme beim Aufrufen von "Load" mit 1 Argument(en):  "Zeilennummer "9" und Zeilenposition "9" von "Die Angabe eines Werts für "System.Windows.StaticResourceExtension" führte zu einer Ausnahme."." ---> System.Windows.Markup.XamlParseException: Zeilennummer "9" und Zeilenposition "9" von "Die Angabe eines Werts für "System.Windows.StaticResourceExtension" führte zu einer Ausnahme.". ---> System.Exception: Die Ressource mit dem Namen "SurfaceBrush" kann nicht gefunden werden. Bei Ressourcennamen wird die Groß- und Kleinschreibung berücksichtigt.
+   bei System.Windows.StaticResourceExtension.ProvideValueInternal(IServiceProvider serviceProvider, Boolean allowDeferredReference)
+   bei MS.Internal.Xaml.Runtime.ClrObjectRuntime.CallProvideValue(MarkupExtension me, IServiceProvider serviceProvider)
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+   bei System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   bei System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, Boolean skipJournaledProperties, Uri baseUri)
+   bei System.Windows.Markup.XamlReader.Load(XamlReader xamlReader, ParserContext parserContext)
+   bei System.Windows.Markup.XamlReader.Load(XmlReader reader, ParserContext parserContext, XamlParseMode parseMode, Boolean useRestrictiveXamlReader, List`1 safeTypes)
+   bei System.Windows.Markup.XamlReader.Load(XmlReader reader)
+   bei CallSite.Target(Closure , CallSite , Type , Object )
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)
+   bei System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)
+   bei System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)
+   bei System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)
+[2025-07-02 18:07:04] [ERROR] Kritischer Fehler in der Anwendung: Ausnahme beim Aufrufen von "Load" mit 1 Argument(en):  "Zeilennummer "9" und Zeilenposition "9" von "Die Angabe eines Werts für "System.Windows.StaticResourceExtension" führte zu einer Ausnahme."."
+[2025-07-02 18:07:10] [INFO] Anwendung beendet.
+[2025-07-02 18:08:00] [INFO] Initialisiere Anwendung...
+[2025-07-02 18:08:00] [INFO] XAML-Fenster erfolgreich geladen.
+[2025-07-02 18:08:00] [INFO] Sammle GUI-Controls...
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: TextBoxCsvPath
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonBrowseCsv
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonLoadCsv
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: DataGridCsvContent
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ComboBoxTargetOU
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: TextBoxNumUsersToCreate
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: StackPanelAttributeSelection
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonCreateADUsers
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: GridProgressArea
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: LabelProgress
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ProgressBarMain
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: TextBoxNumUsersForAction
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonFillAttributes
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonDisableUsers
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonDeleteUsers
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonExportCreatedUsers
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: CheckBoxPwdNotExpires
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: CheckBoxRevPwd
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonApplySecuritySettings
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ComboBoxCriticalGroups
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: ButtonAssignToGroups
+[2025-07-02 18:08:00] [DEBUG] Control gefunden: TextBlockStatus
+[2025-07-02 18:08:00] [SUCCESS] 22 Controls erfolgreich gesammelt
+[2025-07-02 18:08:00] [INFO] Event Handler registriert.
+[2025-07-02 18:08:00] [SUCCESS] CSV-Datei erfolgreich geladen: .\AD_DummyUserList.csv (280 Einträge)
+[2025-07-02 18:08:00] [INFO] Prüfe Active Directory Verbindung...
+[2025-07-02 18:08:00] [SUCCESS] AD-Verbindung erfolgreich. Domäne: phinit
+[2025-07-02 18:08:00] [INFO] Lade OUs aus Active Directory...
+[2025-07-02 18:08:00] [SUCCESS] 13 OUs gefunden
+[2025-07-02 18:08:00] [SUCCESS] OU-Dropdown initialisiert mit 14 Einträgen
+[2025-07-02 18:08:00] [SUCCESS] Anwendung erfolgreich initialisiert.
+[2025-07-02 18:08:00] [INFO] Starte GUI...
+[2025-07-02 18:08:22] [INFO] Anwendung beendet.
+[2025-07-02 18:08:23] [INFO] Initialisiere Anwendung...
+[2025-07-02 18:08:23] [INFO] XAML-Fenster erfolgreich geladen.
+[2025-07-02 18:08:23] [INFO] Sammle GUI-Controls...
+[2025-07-02 18:08:23] [DEBUG] Control gefunden: TextBoxCsvPath
+[2025-07-02 18:08:23] [DEBUG] Control gefunden: ButtonBrowseCsv
+[2025-07-02 18:08:23] [DEBUG] Control gefunden: ButtonLoadCsv
+[2025-07-02 18:08:23] [DEBUG] Control gefunden: DataGridCsvContent
+[2025-07-02 18:08:23] [DEBUG] Control gefunden: ComboBoxTargetOU
+[2025-07-02 18:08:23] [DEBUG] Control gefunden: TextBoxNumUsersToCreate
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: StackPanelAttributeSelection
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonCreateADUsers
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: GridProgressArea
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: LabelProgress
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ProgressBarMain
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: TextBoxNumUsersForAction
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonFillAttributes
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonDisableUsers
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonDeleteUsers
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonExportCreatedUsers
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: CheckBoxPwdNotExpires
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: CheckBoxRevPwd
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonApplySecuritySettings
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ComboBoxCriticalGroups
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: ButtonAssignToGroups
+[2025-07-02 18:08:24] [DEBUG] Control gefunden: TextBlockStatus
+[2025-07-02 18:08:24] [SUCCESS] 22 Controls erfolgreich gesammelt
+[2025-07-02 18:08:24] [INFO] Event Handler registriert.
+[2025-07-02 18:08:24] [SUCCESS] CSV-Datei erfolgreich geladen: .\AD_DummyUserList.csv (280 Einträge)
+[2025-07-02 18:08:24] [INFO] Prüfe Active Directory Verbindung...
+[2025-07-02 18:08:24] [SUCCESS] AD-Verbindung erfolgreich. Domäne: phinit
+[2025-07-02 18:08:24] [INFO] Lade OUs aus Active Directory...
+[2025-07-02 18:08:24] [SUCCESS] 13 OUs gefunden
+[2025-07-02 18:08:24] [SUCCESS] OU-Dropdown initialisiert mit 14 Einträgen
+[2025-07-02 18:08:24] [SUCCESS] Anwendung erfolgreich initialisiert.
+[2025-07-02 18:08:24] [INFO] Starte GUI...
+[2025-07-02 18:08:32] [INFO] Anwendung beendet.
+[2025-07-02 18:08:36] [INFO] Initialisiere Anwendung...
+[2025-07-02 18:08:36] [INFO] XAML-Fenster erfolgreich geladen.
+[2025-07-02 18:08:36] [INFO] Sammle GUI-Controls...
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: TextBoxCsvPath
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonBrowseCsv
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonLoadCsv
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: DataGridCsvContent
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ComboBoxTargetOU
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: TextBoxNumUsersToCreate
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: StackPanelAttributeSelection
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonCreateADUsers
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: GridProgressArea
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: LabelProgress
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ProgressBarMain
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: TextBoxNumUsersForAction
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonFillAttributes
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonDisableUsers
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonDeleteUsers
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonExportCreatedUsers
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: CheckBoxPwdNotExpires
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: CheckBoxRevPwd
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonApplySecuritySettings
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ComboBoxCriticalGroups
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: ButtonAssignToGroups
+[2025-07-02 18:08:36] [DEBUG] Control gefunden: TextBlockStatus
+[2025-07-02 18:08:36] [SUCCESS] 22 Controls erfolgreich gesammelt
+[2025-07-02 18:08:36] [INFO] Event Handler registriert.
+[2025-07-02 18:08:36] [SUCCESS] CSV-Datei erfolgreich geladen: .\AD_DummyUserList.csv (280 Einträge)
+[2025-07-02 18:08:36] [INFO] Prüfe Active Directory Verbindung...
+[2025-07-02 18:08:36] [SUCCESS] AD-Verbindung erfolgreich. Domäne: phinit
+[2025-07-02 18:08:36] [INFO] Lade OUs aus Active Directory...
+[2025-07-02 18:08:36] [SUCCESS] 13 OUs gefunden
+[2025-07-02 18:08:36] [SUCCESS] OU-Dropdown initialisiert mit 14 Einträgen
+[2025-07-02 18:08:36] [SUCCESS] Anwendung erfolgreich initialisiert.
+[2025-07-02 18:08:36] [INFO] Starte GUI...
+[2025-07-02 18:08:53] [INFO] Anwendung beendet.
+[2025-07-02 18:12:20] [INFO] Initialisiere Anwendung...
+[2025-07-02 18:12:20] [INFO] XAML-Fenster erfolgreich geladen.
+[2025-07-02 18:12:20] [INFO] Sammle GUI-Controls...
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: TextBoxCsvPath
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonBrowseCsv
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonLoadCsv
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: DataGridCsvContent
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ComboBoxTargetOU
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: TextBoxNumUsersToCreate
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: StackPanelAttributeSelection
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonCreateADUsers
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: GridProgressArea
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: LabelProgress
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ProgressBarMain
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: TextBoxNumUsersForAction
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonFillAttributes
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonDisableUsers
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonDeleteUsers
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonExportCreatedUsers
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: CheckBoxPwdNotExpires
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: CheckBoxRevPwd
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonApplySecuritySettings
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ComboBoxCriticalGroups
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: ButtonAssignToGroups
+[2025-07-02 18:12:20] [DEBUG] Control gefunden: TextBlockStatus
+[2025-07-02 18:12:20] [SUCCESS] 22 Controls erfolgreich gesammelt
+[2025-07-02 18:12:20] [INFO] Event Handler registriert.
+[2025-07-02 18:12:20] [SUCCESS] CSV-Datei erfolgreich geladen: .\AD_DummyUserList.csv (280 Einträge)
+[2025-07-02 18:12:20] [INFO] Prüfe Active Directory Verbindung...
+[2025-07-02 18:12:20] [SUCCESS] AD-Verbindung erfolgreich. Domäne: phinit
+[2025-07-02 18:12:20] [INFO] Lade OUs aus Active Directory...
+[2025-07-02 18:12:20] [SUCCESS] 13 OUs gefunden
+[2025-07-02 18:12:20] [SUCCESS] OU-Dropdown initialisiert mit 14 Einträgen
+[2025-07-02 18:12:20] [SUCCESS] Anwendung erfolgreich initialisiert.
+[2025-07-02 18:12:20] [INFO] Starte GUI...
