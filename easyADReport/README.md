@@ -2,6 +2,9 @@
 
 ![Script Start](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_ScriptStart.jpg)
 
+[![Download Script](https://img.shields.io/badge/Download-easyADReport_v0.5.3--FINAL.ps1-blue?style=for-the-badge&logo=powershell)](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/easyADReport_v0.5.3-FINAL.ps1)
+
+
 ## 📑 Table of Contents
 
 - [🚀 Quick Start](#-quick-start)
