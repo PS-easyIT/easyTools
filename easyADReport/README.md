@@ -381,6 +381,87 @@ Das Tool unterstützt Mehrfachauswahl für:
 
 Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe LICENSE-Datei für Details.
 
+## 💡 Performance Tips / Leistungstipps
+
+### English
+- **Large Domains**: For domains with >10,000 objects, use OU-specific searches
+- **Report Caching**: Results are cached for 5 minutes to improve performance
+- **Parallel Processing**: Multiple reports can be generated simultaneously
+- **Memory Usage**: Monitor memory usage when generating large reports
+- **Network Load**: Schedule intensive reports during off-peak hours
+
+### Deutsch
+- **Große Domänen**: Bei Domänen mit >10.000 Objekten OU-spezifische Suchen verwenden
+- **Report-Caching**: Ergebnisse werden 5 Minuten gecacht für bessere Performance
+- **Parallele Verarbeitung**: Mehrere Reports können gleichzeitig generiert werden
+- **Speichernutzung**: Speicherverbrauch bei großen Reports überwachen
+- **Netzwerklast**: Intensive Reports außerhalb der Hauptzeiten planen
+
+## 📸 Screenshots
+
+### Main Dashboard / Hauptübersicht
+![Main Dashboard](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_Dashboard.jpg)
+
+### Security Analysis / Sicherheitsanalyse
+![Security Analysis](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_SecurityAnalysis.jpg)
+
+### Report Export / Report-Export
+![Report Export](https://github.com/PS-easyIT/easyTools/blob/main/easyADReport/%23%20Screenshots/Screenshot_V0.5.3_Export.jpg)
+
+## 🔧 Advanced Configuration / Erweiterte Konfiguration
+
+### Custom Report Parameters
+```powershell
+# English: Run with custom parameters
+.\easyADReport_v0.5.3-FINAL.ps1 `
+    -DomainController "DC01.domain.local" `
+    -MaxResults 1000 `
+    -ExportPath "C:\Reports" `
+    -Theme "Dark"
+
+# Deutsch: Mit benutzerdefinierten Parametern ausführen
+.\easyADReport_v0.5.3-FINAL.ps1 `
+    -DomainController "DC01.domain.local" `
+    -MaxResults 1000 `
+    -ExportPath "C:\Berichte" `
+    -Theme "Dark"
+```
+
+## 📚 API Integration
+
+The tool supports integration with external systems via PowerShell remoting:
+
+```powershell
+# Example: Remote execution
+Invoke-Command -ComputerName "ManagementServer" -ScriptBlock {
+    & "C:\Tools\easyADReport_v0.5.3-FINAL.ps1" -AutoExport
+}
+```
+
+## 🚧 Known Limitations / Bekannte Einschränkungen
+
+### English
+- Maximum 50,000 objects per report for performance reasons
+- Some reports require Domain Admin permissions
+- Export to PDF requires additional modules
+- Real-time monitoring not supported (use scheduled tasks)
+
+### Deutsch  
+- Maximal 50.000 Objekte pro Report aus Performance-Gründen
+- Einige Reports benötigen Domänen-Admin-Berechtigungen
+- PDF-Export benötigt zusätzliche Module
+- Echtzeit-Überwachung nicht unterstützt (geplante Tasks verwenden)
+
+## 🗺️ Roadmap / Entwicklungsplan
+
+### Planned Features / Geplante Features
+- ✅ v0.5.x - Security Dashboard (Completed/Abgeschlossen)
+- 🔄 v0.6.x - Real-time monitoring capabilities
+- 📊 v0.7.x - Advanced analytics and ML-based anomaly detection
+- 🌐 v0.8.x - Web interface and REST API
+- 📱 v0.9.x - Mobile companion app
+- 🎯 v1.0.x - Enterprise features and multi-forest support
+
 ## 🤝 Mitwirken
 
 Beiträge sind willkommen! Bitte zögern Sie nicht, einen Pull Request einzureichen.
